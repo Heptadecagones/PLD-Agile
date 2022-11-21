@@ -22,9 +22,9 @@ public class HeuristicForNodesWithXYCoordinates implements Function<NodeWithXYCo
     public HeuristicForNodesWithXYCoordinates(
             ValueGraph<NodeWithXYCoordinates, Double> graph, NodeWithXYCoordinates target) {
         // We need the maximum speed possible on any path in the graph for the heuristic
-        // function to
-        // calculate the cost for a euclidean distance
-        this.maxSpeed = calculateMaxSpeed(graph);
+        // function to calculate the cost for a euclidean distance
+        // Bike couriers only go at 15km/h
+        this.maxSpeed = 15.00; //calculateMaxSpeed(graph);
         this.target = target;
     }
 

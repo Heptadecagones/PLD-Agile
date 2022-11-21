@@ -1,7 +1,6 @@
 package com.hexa17.pldagile.astar;
 
 import com.google.common.graph.ValueGraph;
-import com.hexa17.pldagile.astar.Statistics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

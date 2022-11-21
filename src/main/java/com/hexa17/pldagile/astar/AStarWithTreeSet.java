@@ -48,6 +48,10 @@ public class AStarWithTreeSet {
 
             // Have we reached the target? --> Build and return the path
             if (node.equals(target)) {
+                // If the cost exceeds 240 minutes (12:00), the path is invalid
+                if (nodeWrapper.getTotalCostFromStart() > 240)
+                    return null; //TODO return code to warn of late end
+                // Else the path is valid and we can return it
                 return buildPath(nodeWrapper);
             }
 
