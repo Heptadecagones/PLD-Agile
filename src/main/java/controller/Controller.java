@@ -19,6 +19,5 @@ public class Controller implements ActionListener {
     
     public void actionPerformed(ActionEvent arg0){
         m.setValeur(field.getText());
-        label.setText(field.getText());
     }
 }
