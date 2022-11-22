@@ -1,5 +1,4 @@
 package com.hexa17.pldagile;
-
 /**
  * Hello world!
  *
