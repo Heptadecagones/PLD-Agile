@@ -1,6 +1,7 @@
 package view;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.*;
 
@@ -8,6 +9,29 @@ public class IHM {
     JFrame frame;
     JTextField field;
     JButton button;
+    JLabel label;
+    public void setLabel2(JLabel label2) {
+        this.label2 = label2;
+    }
+    public void setLabel3(JLabel label3) {
+        this.label3 = label3;
+    }
+
+    JLabel label2;
+    public JLabel getLabel2() {
+        return label2;
+    }
+    public JLabel getLabel3() {
+        return label3;
+    }
+
+    JLabel label3;
+    public void setLabel(JLabel label) {
+        this.label = label;
+    }
+    public JLabel getLabel() {
+        return label;
+    }
     public JFrame getFrame() {
         return frame;
     }
@@ -35,9 +59,15 @@ public class IHM {
         field = new JTextField();
         field.setColumns(10);
         button=new JButton("OK");
+        label=new JLabel("label 1");
+        label2=new JLabel("label 2");
+        label3=new JLabel("label 3");
         frame.setLayout(new FlowLayout());
         frame.getContentPane().add(field);
         frame.getContentPane().add(button);
+        frame.getContentPane().add(label);
+        frame.getContentPane().add(label2);
+        frame.getContentPane().add(label3);
         frame.setVisible(true);
         frame.pack();
     }

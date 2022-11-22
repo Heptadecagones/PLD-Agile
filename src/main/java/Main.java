@@ -11,7 +11,7 @@ public class Main {
         //model
         Map map=new Map();
 
-        Controller c=new Controller(map,view.getField());
+        Controller c=new Controller(map,view.getField(),view.getLabel());
         view.getButton().addActionListener(c);
 
     }
