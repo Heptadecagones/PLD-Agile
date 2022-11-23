@@ -73,9 +73,9 @@ public class TabuSearch {
             }
         }
 
-        // System.out.println("Search done! \nBest Solution cost found = " + bestCost +
-        // "\nBest Solution :");
-        // printSolution(bestSolution);
+        System.out.println("Search done! \nBest Solution cost found = " + bestCost +
+                "\nBest Solution :");
+        printSolution(bestSolution);
     }
 
     private void swap(int i, int k) {

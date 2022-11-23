@@ -20,9 +20,8 @@ public class Main {
             Long start = System.currentTimeMillis();
             tabuSearch.invoke();
             Long stop = System.currentTimeMillis() - start;
-            System.out.println(String.format("Rozmiar: %d\t czas: %d ", size, stop));
+            System.out.println(String.format("Size: %d\t Time in ms: %d ", size, stop));
             size += 10;
         }
-
     }
 }

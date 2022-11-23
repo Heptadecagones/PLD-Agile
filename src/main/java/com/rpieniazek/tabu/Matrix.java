@@ -8,12 +8,14 @@ public class Matrix {
 
     private int edgeCount;
 
+    // Constructeur à valeurs aléatoires
     public Matrix(int size) {
         edgeCount = size;
         matrix = new int[size][size];
         generateMatrix(size);
     }
 
+    // Constructeur par copie
     public Matrix(int[][] matrix) {
         edgeCount = matrix.length;
         this.matrix = matrix;
@@ -44,7 +46,7 @@ public class Matrix {
         }
     }
 
-    // funkcja objektywna
+    // Fonction objective
     public int calculateDistance(int solution[]) {
         int cost = 0;
         for (int i = 0; i < solution.length - 1; i++) {
@@ -53,6 +55,7 @@ public class Matrix {
         return cost;
     }
 
+    // Génère une matrice aléatoire
     private void generateMatrix(int size) {
         Random random = new Random();
         for (int row = 0; row < size; row++) {
