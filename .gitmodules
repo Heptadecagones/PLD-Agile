@@ -1,0 +1,3 @@
+[submodule "src/main/java/com/TSP-Tabu-search"]
+	path = src/main/java/com/TSP-Tabu-search
+	url = https://github.com/w4-pwr/TSP-Tabu-search
