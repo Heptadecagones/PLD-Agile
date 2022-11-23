@@ -34,6 +34,8 @@ public class Plan extends Observable
     private ArrayList<Segment> listeSegment;
     private long nombreIntersection;
     private long nombreSegment;
+    private ArrayList<Tournee> listeTournee;
+    private ArrayList<Livraison> listeLivraison;
 
     public Plan(String nomFichier) {
         try {
@@ -112,7 +114,8 @@ public class Plan extends Observable
                     }
                 }
             }
-
+            this.listeTournee = new ArrayList<Tournee>();
+            this.listeLivraison = new ArrayList<Livraison>();
         }
         catch(IOException e) {
             System.out.println(e);
@@ -152,6 +155,22 @@ public class Plan extends Observable
         return listeSegment;
     }
 
+    public ArrayList<Tournee> obtenirListeTournee() {
+        return listeTournee;
+    }
+
+    public ArrayList<Livraison> obtenirListeLivraison() {
+        return listeLivraison;
+    }
+
+    public void modifierListeTournee(ArrayList<Tournee> listeTournee) {
+        this.listeTournee = listeTournee;
+    }
+
+    public void modifierListeLivraison(ArrayList<Livraison> listeLivraison) {
+        this.listeLivraison = listeLivraison;
+    }
+
     public void modifierEntrepot(Intersection entrepot) {
         this.entrepot = entrepot;
     }
@@ -179,14 +198,24 @@ public class Plan extends Observable
         description +="\nNombre de segments : " + this.nombreSegment;
         description +="\nListe des intersections :\n";
         for(int i = 0 ; i < this.listeIntersection.size(); i++) {
-            description += listeIntersection.get(i).toString();
+            description += this.listeIntersection.get(i).toString();
             description += "\n";
         }
         description +="Liste des segments :\n";
         for(int i = 0 ; i < this.listeSegment.size(); i++) {
-            description += listeSegment.get(i).toString();
+            description += this.listeSegment.get(i).toString();
             description += "\n";
         }
         return description;
+    }
+
+    public void ajouterLivraison(Livraison liv)
+    {
+        this.listeLivraison.add(liv);
+    }
+
+    public void ajouterTournee(Livraison tournee)
+    {
+        this.listeLivraison.add(tournee);
     }
 }
