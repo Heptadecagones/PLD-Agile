@@ -1,24 +1,27 @@
 
 
-import java.util.Observer;
+// import java.util.Observer;
+// import view.IHM;
+// import controller.Controleur;
+import model.*;
 
-import controller.Controleur;
-import model.Plan;
-import view.IHM;
 
 public class Main {
     public static void main(String[] args) {
-        IHM view = new IHM();
-        view.init();
-        //model
-        Plan map=new Plan();
+        // IHM view = new IHM();
+        // view.init();
+        // //model
+        // Plan map=new Plan();
 
-        Controleur c=new Controleur(map,view.getField(),view.getLabel());
-        view.getButton().addActionListener(c);
+        // Controleur c=new Controleur(map,view.getField(),view.getLabel());
+        // view.getButton().addActionListener(c);
 
-        map.addObserver((Observer) view.getLabel());
-        map.addObserver((Observer) view.getLabel2());
-        map.addObserver((Observer) view.getLabel3());
+        // map.addObserver((Observer) view.getLabel());
+        // map.addObserver((Observer) view.getLabel2());
+        // map.addObserver((Observer) view.getLabel3());
 
+        Plan plan = new Plan("src/main/java/smallMap.xml");
+        System.out.println(plan.toString());
+        
     }
 }

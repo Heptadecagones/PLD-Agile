@@ -29,13 +29,13 @@ public class Plan extends Observable
     //     this.notifyObservers();
     // }
 
-    private String entrepot;
+    private Intersection entrepot;
     private ArrayList<Intersection> listeIntersection;
     private ArrayList<Segment> listeSegment;
-    private double nombreIntersection;
-    private double nombreSegment;
+    private long nombreIntersection;
+    private long nombreSegment;
 
-    Plan(String nomFichier) {
+    public Plan(String nomFichier) {
         try {
 
             File file = new File(nomFichier);
@@ -44,12 +44,12 @@ public class Plan extends Observable
             Document document = db.parse(file);
             document.getDocumentElement().normalize();
 
-            NodeList interList = document.getElementsByTagName("intersection");
-            this.nombreIntersection = interList.getLength();
-            this.intersectionList = new ArrayList();
+            NodeList listeInter = document.getElementsByTagName("intersection");
+            this.nombreIntersection = listeInter.getLength();
+            this.listeIntersection = new ArrayList<Intersection>();
 
-            for (int i = 0; i < this.intersectionCount; i++) {
-                Node nNode = interList.item(i);
+            for (int i = 0; i < this.nombreIntersection; i++) {
+                Node nNode = listeInter.item(i);
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
@@ -57,39 +57,136 @@ public class Plan extends Observable
                     double tempLong = Double.parseDouble(eElement.getAttribute("longitude"));
                     double tempLat = Double.parseDouble(eElement.getAttribute("latitude"));
                     Intersection tempInter = new Intersection(tempId,tempLong, tempLat);
-                    this.intersectionList.add(tempInter);
+                    this.listeIntersection.add(tempInter);
                 }
             }
 
-            NodeList rList = document.getElementsByTagName("segment");
-            this.roadCount = rList.getLength();
-            this.roadList = new ArrayList();
+            NodeList listeSeg = document.getElementsByTagName("segment");
+            this.nombreSegment = listeSeg.getLength();
+            this.listeSegment = new ArrayList<Segment>();
 
-            for (int i = 0; i < this.roadCount; i++) {
-                Node nNode = rList.item(i);
+            for (int i = 0; i < this.nombreSegment; i++) {
+                Node nNode = listeSeg.item(i);
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
-                    String tempName = eElement.getAttribute("name");
-                    String tempOrigin = eElement.getAttribute("origin");
-                    String tempDest = eElement.getAttribute("destination");
-                    double tempLength = Double.parseDouble(eElement.getAttribute("length"));
-                    Road tempRoad = new Road(tempName, tempOrigin, tempDest, tempLength);
-                    this.roadList.add(tempRoad);
+                    String tempNom = eElement.getAttribute("name");
+                    String tempOrigineId = eElement.getAttribute("origin");
+                    String tempDestId = eElement.getAttribute("destination");
+                    double tempLongueur = Double.parseDouble(eElement.getAttribute("length"));
+                    Intersection tempOrigine = null;
+                    Intersection tempDest = null;
+
+                    int compte = 0;
+                    for(int j = 0 ; j < this.listeIntersection.size(); j++) {
+                        if(this.listeIntersection.get(j).obtenirId().equals(tempOrigineId)) {
+                            tempOrigine = this.listeIntersection.get(j);
+                            compte++;
+                        }
+
+                        if(this.listeIntersection.get(j).obtenirId().equals(tempDestId)) {
+                            tempDest = this.listeIntersection.get(j);
+                            compte++;
+                        }
+
+                        if(compte == 2) break;
+                    }
+                    Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
+                    tempOrigine.ajouterSegment(tempSegment);
+                    this.listeSegment.add(tempSegment);
                 }
             }
 
-            NodeList wList = document.getElementsByTagName("warehouse");
-            Node nNode = wList.item(0);
+            NodeList listeEntrepot = document.getElementsByTagName("warehouse");
+            Node nNode = listeEntrepot.item(0);
 
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
-                this.warehouse = eElement.getAttribute("address");
+                String tempEntrepotId = eElement.getAttribute("address");
+                this.entrepot = null;
+
+                for(int j = 0 ; j < this.listeIntersection.size(); j++) {
+                    if(this.listeIntersection.get(j).obtenirId().equals(tempEntrepotId)) {
+                        this.entrepot = this.listeIntersection.get(j);
+                        break;
+                    }
+                }
             }
 
         }
         catch(IOException e) {
             System.out.println(e);
+        }
+        catch(SAXException e) {
+            System.out.println(e);
+        }
+        catch(ParserConfigurationException e) {
+            System.out.println(e);
         } 
+    }
+
+    public Plan()
+    {
+    }
+
+    public Intersection obtenirEntrepot()
+    {
+        return entrepot;
+    }
+
+    public long obtenirNombreIntersection()
+    {
+        return nombreIntersection;
+    }
+
+    public long obtenirNombreSegment()
+    {
+        return nombreSegment;
+    }
+
+    public ArrayList<Intersection> obtenirListeIntersection() {
+        return listeIntersection;
+    }
+
+    public ArrayList<Segment> obtenirListeSegment() {
+        return listeSegment;
+    }
+
+    public void modifierEntrepot(Intersection entrepot) {
+        this.entrepot = entrepot;
+    }
+
+    public void modifierListeIntersection(ArrayList<Intersection> listeIntersection) {
+        this.listeIntersection = listeIntersection;
+    }
+
+    public void modifierListeSegment(ArrayList<Segment> listeSegment) {
+        this.listeSegment = listeSegment;
+    }
+
+    public void modifierNombreIntersection(long nombreIntersection) {
+        this.nombreIntersection = nombreIntersection;
+    }
+
+    public void modifierNombreSegment(long nombreSegment) {
+        this.nombreSegment = nombreSegment;
+    }
+
+    public String toString() {
+        String description = "Entrepot\n";
+        description += this.entrepot.toString();
+        description +="\nNombre d'intserctions : " + this.nombreIntersection;
+        description +="\nNombre de segments : " + this.nombreSegment;
+        description +="\nListe des intersections :\n";
+        for(int i = 0 ; i < this.listeIntersection.size(); i++) {
+            description += listeIntersection.get(i).toString();
+            description += "\n";
+        }
+        description +="Liste des segments :\n";
+        for(int i = 0 ; i < this.listeSegment.size(); i++) {
+            description += listeSegment.get(i).toString();
+            description += "\n";
+        }
+        return description;
     }
 }

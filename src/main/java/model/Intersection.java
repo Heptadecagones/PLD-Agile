@@ -7,18 +7,18 @@ public class Intersection {
     private String id;
     private double longitude;
     private double latitude;
-    private ArrayList<Segment> listeCheminOrigine;
+    private ArrayList<Segment> listeSegmentOrigine;
 
-    Intersection()
+    public Intersection()
     {
     }
 
-    Intersection(String i, double longi, double lat)
+    public Intersection(String i, double longi, double lat)
     {
         this.id = i;
         this.longitude = longi;
         this.latitude = lat;
-        this.listeCheminOrigine = new ArrayList<>();
+        this.listeSegmentOrigine = new ArrayList<Segment>();
     }
 
     public double obtenirLongitude()
@@ -51,8 +51,14 @@ public class Intersection {
         this.latitude = lat;
     }
 
-    public void ajouterRoute(Segment chemin)
+    public void ajouterSegment(Segment segment)
     {
-        this.listeCheminOrigine.add(chemin);
+        this.listeSegmentOrigine.add(segment);
+    }
+
+    public String toString()
+    {
+        String description = "Id : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude;
+        return description;
     }
 }

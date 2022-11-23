@@ -7,11 +7,11 @@ public class Segment {
     private Intersection destination;
     private double longueur;
 
-    Segment()
+    public Segment()
     {
     }
 
-    Segment(String n, Intersection ori, Intersection dest, double l)
+    public Segment(String n, Intersection ori, Intersection dest, double l)
     {
         this.nom = n;
         this.origine = ori;
@@ -57,5 +57,11 @@ public class Segment {
     public void modifierNom(String n)
     {
         this.nom = n;
+    }
+
+    public String toString()
+    {
+        String description = "Nom : " + this.nom + " longueur : " + this.longueur + " origine : " + this.origine.obtenirId() + " destination : " + this.destination.obtenirId();
+        return description;
     }
 }
