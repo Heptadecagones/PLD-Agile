@@ -2,7 +2,7 @@ package model;
 
 import java.util.Observable;
 
-public class Map extends Observable{
+public class Plan extends Observable{
     String valeur;
 
     public String getValeur() {

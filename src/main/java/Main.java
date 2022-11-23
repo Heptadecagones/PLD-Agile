@@ -2,8 +2,8 @@
 
 import java.util.Observer;
 
-import controller.Controller;
-import model.Map;
+import controller.Controleur;
+import model.Plan;
 import view.IHM;
 
 public class Main {
@@ -11,9 +11,9 @@ public class Main {
         IHM view = new IHM();
         view.init();
         //model
-        Map map=new Map();
+        Plan map=new Plan();
 
-        Controller c=new Controller(map,view.getField(),view.getLabel());
+        Controleur c=new Controleur(map,view.getField(),view.getLabel());
         view.getButton().addActionListener(c);
 
         map.addObserver((Observer) view.getLabel());
