@@ -1,5 +1,5 @@
 package view;
-import model.Map;
+import model.Plan;
 import javax.swing.JLabel;
 import java.util.*;
 public class JLabelObserver extends JLabel implements Observer{
@@ -7,7 +7,7 @@ public class JLabelObserver extends JLabel implements Observer{
         super(l);
     }
     public void update(Observable arg0,Object arg1){
-        Map m=(Map) arg0;
+        Plan m=(Plan) arg0;
         setText(m.getValeur());
     }
 }
