@@ -8,14 +8,18 @@ public class Matrix {
 
     private int edgeCount;
 
-    // Constructeur à valeurs aléatoires
+    /** Constructeur à valeurs aléatoires
+     * @param taille
+     */
     public Matrix(int size) {
         edgeCount = size;
         matrix = new int[size][size];
         generateMatrix(size);
     }
 
-    // Constructeur par copie
+    /** Constructeur par copie
+     * @param matrice
+     */
     public Matrix(int[][] matrix) {
         edgeCount = matrix.length;
         this.matrix = matrix;
@@ -37,16 +41,10 @@ public class Matrix {
         return edgeCount;
     }
 
-    public void printMatrix() {
-        for (int i = 0; i < getSize(); i++) {
-            for (int j = 0; j < getSize(); j++) {
-                System.out.print(matrix[i][j] + "  ");
-            }
-            System.out.println("\n ");
-        }
-    }
-
-    // Fonction objective
+    /** Calcule la distance totale d'une solution
+     * @param solution
+     * @return la distance entière
+     */
     public int calculateDistance(int solution[]) {
         int cost = 0;
         for (int i = 0; i < solution.length - 1; i++) {
@@ -55,7 +53,9 @@ public class Matrix {
         return cost;
     }
 
-    // Génère une matrice aléatoire
+    /** Génère une matrice aléatoire
+     * @param taille
+     */
     private void generateMatrix(int size) {
         Random random = new Random();
         for (int row = 0; row < size; row++) {

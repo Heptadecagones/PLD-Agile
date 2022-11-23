@@ -5,12 +5,12 @@ package com.rpieniazek.tabu;
  */
 public class TabuSearch {
 
-    private TabuList tabuList;
-    private final Matrix matrix;
+    private TabuList tabuList; // Liste tabou
+    private final Matrix matrix; // Matrice d'adjacence
 
-    int[] currSolution;
-    int numberOfIterations;
-    int problemSize;
+    int[] currSolution; // Solution actuelle
+    int numberOfIterations; // Nombre maximal d'itérations
+    int problemSize; // Taille du problème
 
     private int[] bestSolution;
     private int bestCost;
@@ -18,7 +18,7 @@ public class TabuSearch {
     public TabuSearch(Matrix matrix) {
         this.matrix = matrix;
         problemSize = matrix.getEdgeCount();
-        numberOfIterations = problemSize * 10;
+        numberOfIterations = problemSize * 10; // ?
 
         tabuList = new TabuList(problemSize);
         setupCurrentSolution();
