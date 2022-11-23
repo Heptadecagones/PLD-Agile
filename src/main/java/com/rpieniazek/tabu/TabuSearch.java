@@ -1,3 +1,5 @@
+package com.rpieniazek.tabu;
+
 /**
  * Created by Rafal on 2015-12-02.
  */
@@ -22,7 +24,6 @@ public class TabuSearch {
         setupCurrentSolution();
         setupBestSolution();
 
-
     }
 
     private void setupBestSolution() {
@@ -37,7 +38,6 @@ public class TabuSearch {
             currSolution[i] = i;
         currSolution[problemSize] = 0;
     }
-
 
     private void printSolution(int[] solution) {
         for (int i = 0; i < solution.length; i++) {
@@ -67,15 +67,15 @@ public class TabuSearch {
                 }
             }
 
-
             if (city1 != 0) {
                 tabuList.decrementTabu();
                 tabuList.tabuMove(city1, city2);
             }
         }
 
-       // System.out.println("Search done! \nBest Solution cost found = " + bestCost + "\nBest Solution :");
-        //printSolution(bestSolution);
+        // System.out.println("Search done! \nBest Solution cost found = " + bestCost +
+        // "\nBest Solution :");
+        // printSolution(bestSolution);
     }
 
     private void swap(int i, int k) {

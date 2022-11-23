@@ -1,3 +1,5 @@
+package com.rpieniazek.tabu;
+
 import java.util.Random;
 
 public class Matrix {
@@ -7,29 +9,23 @@ public class Matrix {
     private int edgeCount;
 
     public Matrix(int size) {
-       edgeCount = size;
+        edgeCount = size;
         matrix = new int[size][size];
         generateMatrix(size);
     }
 
-
-
     public Matrix(int[][] matrix) {
         edgeCount = matrix.length;
-       this.matrix = matrix;
+        this.matrix = matrix;
     }
 
     public int getEdgeCount() {
         return edgeCount;
     }
 
-
-
     public int getWeight(int from, int to) {
         return matrix[from][to];
     }
-
-
 
     public int[][] getMatrix() {
         return matrix;
@@ -48,7 +44,7 @@ public class Matrix {
         }
     }
 
-    //funkcja objektywna
+    // funkcja objektywna
     public int calculateDistance(int solution[]) {
         int cost = 0;
         for (int i = 0; i < solution.length - 1; i++) {
