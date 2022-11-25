@@ -46,7 +46,7 @@ public class TabuSearch {
         System.out.println();
     }
 
-    public void invoke() {
+    public int[] invoke() {
 
         for (int i = 0; i < numberOfIterations; i++) {
             int city1 = 0;
@@ -76,6 +76,7 @@ public class TabuSearch {
         System.out.println("Search done! \nBest Solution cost found = " + bestCost +
                 "\nBest Solution :");
         printSolution(bestSolution);
+        return bestSolution;
     }
 
     private void swap(int i, int k) {

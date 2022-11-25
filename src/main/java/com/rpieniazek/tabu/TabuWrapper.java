@@ -12,5 +12,11 @@ public class TabuWrapper {
 
     //TODO: Changer le type de retour en une liste de segments
     public void RechercheContrainte() {
+        // On initialise une instance de la recherche tabu
+        TabuSearch ts = new TabuSearch(this.matrice);
+        // Puis on effectue la recherche
+        int[] solutions = ts.invoke();
+        // Enfin, on vérifie que la solution soit adaptée aux contraintes
+        //TODO
     }
 }
