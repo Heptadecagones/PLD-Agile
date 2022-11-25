@@ -18,6 +18,6 @@ public class Controleur implements ActionListener {
     }
     
     public void actionPerformed(ActionEvent arg0){
-        m.setValeur(field.getText());
+        //m.setValeur(field.getText());
     }
 }

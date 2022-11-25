@@ -8,6 +8,6 @@ public class JLabelObserver extends JLabel implements Observer{
     }
     public void update(Observable arg0,Object arg1){
         Plan m=(Plan) arg0;
-        setText(m.getValeur());
+        //setText(m.getValeur());
     }
 }
