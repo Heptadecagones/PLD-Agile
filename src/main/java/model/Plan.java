@@ -15,20 +15,6 @@ import org.xml.sax.SAXException;
 
 public class Plan extends Observable
 {
-
-    // String valeur;
-
-    // public String getValeur() {
-    //     return valeur;
-    // }
-
-    // public void setValeur(String valeur) {
-    //     this.valeur = valeur;
-    //     System.out.println("nouvelle valeur ="+valeur);
-    //     this.setChanged();
-    //     this.notifyObservers();
-    // }
-
     private Intersection entrepot;
     private ArrayList<Intersection> listeIntersection;
     private ArrayList<Segment> listeSegment;
@@ -36,8 +22,13 @@ public class Plan extends Observable
     private long nombreSegment;
     private ArrayList<Tournee> listeTournee;
     private ArrayList<Livraison> listeLivraison;
-
-    public Plan(String nomFichier) {
+    //TODO rentrer une vraie livraisons ici exemple pour test
+    public void nouvelleLivraison(int valeur) {
+        this.listeLivraison.add(new Livraison(5,null,2));
+        this.setChanged();
+        this.notifyObservers();
+    }
+    public void chargerXML(String nomFichier) {
         try {
 
             File file = new File(nomFichier);
@@ -126,6 +117,9 @@ public class Plan extends Observable
         catch(ParserConfigurationException e) {
             System.out.println(e);
         } 
+        this.setChanged();
+        this.notifyObservers();
+        System.out.println(this.toString());
     }
 
     public Plan()
@@ -194,6 +188,12 @@ public class Plan extends Observable
     public String toString() {
         String description = "Entrepot\n";
         description += this.entrepot.toString();
+        description +="\nNombre de Livraisons : " + this.listeLivraison.size()+"\n";
+        description+="\nListe des Livraisons :\n";
+        for(int i = 0 ; i < this.listeLivraison.size(); i++) {
+            description += this.listeLivraison.get(i).toString();
+            description += "\n";
+        }
         description +="\nNombre d'intserctions : " + this.nombreIntersection;
         description +="\nNombre de segments : " + this.nombreSegment;
         description +="\nListe des intersections :\n";

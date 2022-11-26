@@ -1,74 +1,70 @@
 package view;
-import javax.swing.JButton;
+
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import java.awt.*;
+import javax.swing.JPanel;
 
 public class IHM {
-    JFrame frame;
-    JTextField field;
-    JButton button;
-    JLabelObserver label;
-    public void setLabel2(JLabelObserver label2) {
-        this.label2 = label2;
-    }
-    public void setLabel3(JLabelObserver label3) {
-        this.label3 = label3;
+    // position of the top left corner of the application
+    final int LOCATION_X = 100;
+    final int LOCATION_Y = 80;
+
+    private Bar bar = new Bar();
+    private Description description = new Description();
+    private Map map = new Map();
+
+    public void setBar(Bar bar) {
+        this.bar = bar;
     }
 
-    JLabelObserver label2;
-    public JLabel getLabel2() {
-        return label2;
-    }
-    public JLabel getLabel3() {
-        return label3;
+    public void setDescription(Description description) {
+        this.description = description;
     }
 
-    JLabelObserver label3;
-    public void setLabel(JLabelObserver label) {
-        this.label = label;
-    }
-    public JLabel getLabel() {
-        return label;
-    }
-    public JFrame getFrame() {
-        return frame;
-    }
-    public JTextField getField() {
-        return field;
-    }
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
-    }
-    public void setField(JTextField field) {
-        this.field = field;
-    }
-    public void setButton(JButton button) {
-        this.button = button;
-    }
-    public JButton getButton() {
-        return button;
+    public void setMap(Map map) {
+        this.map = map;
     }
 
-    /**
-     * 
-     */
+    public Bar getBar() {
+        return bar;
+    }
+
+    public Description getDescription() {
+        return description;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
     public void init(){
-        frame=new JFrame("Exemple MVC");
-        field = new JTextField();
-        field.setColumns(10);
-        button=new JButton("OK");
-        label=new JLabelObserver("label 1");
-        label2=new JLabelObserver("label 2");
-        label3=new JLabelObserver("label 3");
-        frame.setLayout(new FlowLayout());
-        frame.getContentPane().add(field);
-        frame.getContentPane().add(button);
-        frame.getContentPane().add(label);
-        frame.getContentPane().add(label2);
-        frame.getContentPane().add(label3);
-        frame.setVisible(true);
-        frame.pack();
+            /*try {
+                    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }*/
+
+            JFrame f = new JFrame("IHM");
+            f.setLocation(LOCATION_X, LOCATION_Y);
+            f.add(bar, BorderLayout.NORTH);
+
+            JPanel southPanel = new JPanel();
+            southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.LINE_AXIS));
+            southPanel.add(description);
+            southPanel.add(map);
+            f.add(southPanel, BorderLayout.SOUTH);
+                    f.pack();
+                    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    f.setResizable(false);
+                    f.setVisible(true);
     }
+    
+
 }
+

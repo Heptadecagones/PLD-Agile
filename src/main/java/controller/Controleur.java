@@ -21,6 +21,11 @@ public class Controleur implements ActionListener {
     }
     
     public void actionPerformed(ActionEvent arg0){
-        System.out.println(p.toString());
+        String command = arg0.getActionCommand();
+        //System.out.println(command);
+        if ("Load".equals(command)) {
+            p.chargerXML("src/main/java/smallMap.xml");}
+        if ("Add".equals(command)) {
+            p.nouvelleLivraison(4);}
     }
 }
