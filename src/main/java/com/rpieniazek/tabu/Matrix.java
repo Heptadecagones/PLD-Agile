@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Matrix {
 
-    private int[][] matrix;
+    private double[][] matrix;
 
     private int edgeCount;
 
@@ -13,14 +13,14 @@ public class Matrix {
      */
     public Matrix(int size) {
         edgeCount = size;
-        matrix = new int[size][size];
+        matrix = new double[size][size];
         generateMatrix(size);
     }
 
     /** Constructeur par copie
      * @param matrice
      */
-    public Matrix(int[][] matrix) {
+    public Matrix(double[][] matrix) {
         edgeCount = matrix.length;
         this.matrix = matrix;
     }
@@ -29,11 +29,11 @@ public class Matrix {
         return edgeCount;
     }
 
-    public int getWeight(int from, int to) {
+    public double getWeight(int from, int to) {
         return matrix[from][to];
     }
 
-    public int[][] getMatrix() {
+    public double[][] getMatrix() {
         return matrix;
     }
 

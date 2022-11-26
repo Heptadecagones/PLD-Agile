@@ -55,7 +55,8 @@ public class Intersection {
     {
         this.listeSegmentOrigine.add(segment);
     }
-
+//TODO getTimeNeeded function taking in the current time and computing how long it
+// would take to get there
     public String toString()
     {
         String description = "Id : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude;
