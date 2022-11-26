@@ -26,7 +26,39 @@ public class Bar extends JPanel {
 
     private JButton openXML, addRoute, saveRoute, loadRoute;
 
-    public Bar() {
+    public void setOpenXML(JButton openXML) {
+        this.openXML = openXML;
+}
+
+public void setAddRoute(JButton addRoute) {
+        this.addRoute = addRoute;
+}
+
+public void setSaveRoute(JButton saveRoute) {
+        this.saveRoute = saveRoute;
+}
+
+public void setLoadRoute(JButton loadRoute) {
+        this.loadRoute = loadRoute;
+}
+
+public JButton getOpenXML() {
+        return openXML;
+}
+
+public JButton getAddRoute() {
+        return addRoute;
+}
+
+public JButton getSaveRoute() {
+        return saveRoute;
+}
+
+public JButton getLoadRoute() {
+        return loadRoute;
+}
+
+public Bar() {
             setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
             setOpaque(false);
             setBorder(new CompoundBorder(new TitledBorder("Bar"), new EmptyBorder(0, 0, 0, 0)));

@@ -7,17 +7,20 @@ import javax.swing.JTextField;
 import model.Plan;
 public class Controleur implements ActionListener {
     
-    Plan m;
+    Plan p;
     JTextField field;
     JLabel label;
 
-    public Controleur(Plan m,JTextField field,JLabel label){
-        this.m=m;
+    public Controleur(Plan p,JTextField field,JLabel label){
+        this.p=p;
         this.field=field;
         this.label=label;
     }
+    public Controleur(Plan p){
+        this.p=p;
+    }
     
     public void actionPerformed(ActionEvent arg0){
-        //m.setValeur(field.getText());
+        System.out.println(p.toString());
     }
 }

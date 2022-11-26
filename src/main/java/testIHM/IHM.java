@@ -20,13 +20,31 @@ public class IHM {
     private Description description = new Description();
     private Map map = new Map();
 
-    public static void main (String[] args) {
-            new IHM();
+    public void setBar(Bar bar) {
+        this.bar = bar;
     }
 
-    public IHM() {
-        EventQueue.invokeLater(new Runnable() {
-        public void run() {
+    public void setDescription(Description description) {
+        this.description = description;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public Bar getBar() {
+        return bar;
+    }
+
+    public Description getDescription() {
+        return description;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void init(){
             /*try {
                     for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if ("Nimbus".equals(info.getName())) {
@@ -51,9 +69,8 @@ public class IHM {
                     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     f.setResizable(false);
                     f.setVisible(true);
-        }
-    });
     }
+    
 
 }
 

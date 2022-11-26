@@ -3,7 +3,9 @@
 // import java.util.Observer;
 // import view.IHM;
 // import controller.Controleur;
+import controller.Controleur;
 import model.*;
+import testIHM.IHM;
 
 
 public class Main {
@@ -13,15 +15,18 @@ public class Main {
         // //model
         // Plan map=new Plan();
 
-        // Controleur c=new Controleur(map,view.getField(),view.getLabel());
-        // view.getButton().addActionListener(c);
+
 
         // map.addObserver((Observer) view.getLabel());
         // map.addObserver((Observer) view.getLabel2());
         // map.addObserver((Observer) view.getLabel3());
 
         Plan plan = new Plan("src/main/java/smallMap.xml");
-        System.out.println(plan.toString());
+        IHM view = new IHM();
+        view.init();
+
+        Controleur c=new Controleur(plan);
+        view.getBar().getLoadRoute().addActionListener(c);
         
     }
 }
