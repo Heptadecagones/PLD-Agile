@@ -2,6 +2,9 @@ package model;
 
 import java.util.Observable;
 import java.util.ArrayList;
+import javafx.util.Pair;
+import java.util.Map;
+import java.util.HashMap;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
@@ -36,6 +39,8 @@ public class Plan extends Observable
     private long nombreSegment;
     private ArrayList<Tournee> listeTournee;
     private ArrayList<Livraison> listeLivraison;
+    // Structure contenant le segment identifié par Pair<idOrigine, idDestination) 
+    private HashMap<Pair<String, String>, Segment> segmentsParIds;
 
     public Plan(String nomFichier) {
         try {
@@ -116,6 +121,10 @@ public class Plan extends Observable
             }
             this.listeTournee = new ArrayList<Tournee>();
             this.listeLivraison = new ArrayList<Livraison>();
+
+            // Création de segmentParIds
+            this.calculerSegmentsParIds();
+
         }
         catch(IOException e) {
             System.out.println(e);
@@ -217,5 +226,24 @@ public class Plan extends Observable
     public void ajouterTournee(Livraison tournee)
     {
         this.listeLivraison.add(tournee);
+    }
+
+    /*  On suppose qu'il n'y a que dans le cas de la création d'un plan qu'on
+        souhaite calculer segmentsParIds
+    */
+    private void calculerSegmentsParIds( )
+    {
+        segmentsParIds = new HashMap<Pair<String, String>, Segment>();
+        for(Segment seg : this.listeSegment)
+        {
+            segmentsParIds.put(new Pair<String, String>(seg.obtenirOrigine().obtenirId(),
+                                                        seg.obtenirDestination().obtenirId())
+                                                        , seg);
+        }
+    }
+
+    public HashMap<Pair<String, String>, Segment> obtenirSegmentsParIds()
+    {
+        return this.segmentsParIds;
     }
 }
