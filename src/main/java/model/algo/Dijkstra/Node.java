@@ -9,8 +9,8 @@ public class Node {
 
     private String nom;
     private List<Node> cheminPlusCourt;
-    private Integer distance;
-    private Map<Node, Integer> nodeAdjacentes;
+    private double distance;
+    private Map<Node, Double> nodeAdjacentes;
 
     public Node(String nom) {
         this.nom = nom;
@@ -19,7 +19,7 @@ public class Node {
         this.nodeAdjacentes = new HashMap<>();
     }
 
-    public void ajouterDestination(Node destination, int distance) {
+    public void ajouterDestination(Node destination, double distance) {
         this.nodeAdjacentes.put(destination, distance);
     }
 
@@ -39,19 +39,19 @@ public class Node {
         this.cheminPlusCourt = cheminPlusCourt;
     }
 
-    public Integer obtenirDistance() {
+    public double obtenirDistance() {
         return distance;
     }
 
-    public void modifierDistance(Integer distance) {
+    public void modifierDistance(double distance) {
         this.distance = distance;
     }
 
-    public Map<Node, Integer> obtenirNodeAdjacentes() {
+    public Map<Node, Double> obtenirNodeAdjacentes() {
         return nodeAdjacentes;
     }
 
-    public void modifierNodeAdjacentes(Map<Node, Integer> nodeAdjacentes) {
+    public void modifierNodeAdjacentes(Map<Node, Double> nodeAdjacentes) {
         this.nodeAdjacentes = nodeAdjacentes;
     }
 

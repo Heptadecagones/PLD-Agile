@@ -22,6 +22,7 @@ public class Plan extends Observable
     private long nombreSegment;
     private ArrayList<Tournee> listeTournee;
     private ArrayList<Livraison> listeLivraison;
+    private ArrayList<Livreur> listeLivreur;
     //TODO rentrer une vraie livraisons ici exemple pour test
     public void nouvelleLivraison(int valeur) {
         this.listeLivraison.add(new Livraison(5,null,2));
@@ -218,4 +219,12 @@ public class Plan extends Observable
     {
         this.listeLivraison.add(tournee);
     }
+    public ArrayList<Livreur> obtenirListeLivreur() {
+        return listeLivreur;
+    }
+    public void modifierListeLivreur(ArrayList<Livreur> listeLivreur) {
+        this.listeLivreur = listeLivreur;
+    }
+
+    
 }
