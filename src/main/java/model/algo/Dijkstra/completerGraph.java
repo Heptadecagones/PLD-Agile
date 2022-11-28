@@ -106,6 +106,8 @@ public class completerGraph {
                 node.modifierDistance(Integer.MAX_VALUE);
             }
         }
+
+        //ici grapheTSP est bon pour faire la tournée
         return tournee;
     }
 
