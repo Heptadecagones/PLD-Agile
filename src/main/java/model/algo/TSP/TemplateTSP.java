@@ -73,8 +73,7 @@ public abstract class TemplateTSP implements TSP {
 	    if (unvisited.size() == 0){ 
 			Node entrepot = visited.iterator().next();
 			// IMPORTANT : je laisse le code initial en commentaires, au cas où je me trompe sur l'interprétation
-			// TODO: changer le poids d'Integer à double
-			Map<Node, Integer> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
+			Map<Node, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
 			if (nodesAdjacentes.containsKey(entrepot)) {
 	    	//if (g.isArc(currentVertex,0)){ 
 				// Le coup pour aller de la node actuelle vers la node x est la valeur de la map nodes adjacentes
@@ -87,7 +86,7 @@ public abstract class TemplateTSP implements TSP {
 	    	}
 	    } else if (currentCost+bound(currentVertex,unvisited) < bestSolCost){
 	        Iterator<Node> it = iterator(currentVertex, unvisited, g);
-			Map<Node, Integer> adjacents = currentVertex.obtenirNodeAdjacentes();
+			Map<Node, Double> adjacents = currentVertex.obtenirNodeAdjacentes();
 	        while (it.hasNext()){
 	        	Node nextVertex = it.next();
 	        	visited.add(nextVertex);

@@ -21,7 +21,7 @@ public class SeqIter implements Iterator<Node> {
 		this.candidates = new Node[unvisited.size()];
 		for (Node s : unvisited){
 			// On vérifie qu'il existe un lien entre la Node actuelle (currentVertex) et la node s
-			Map<Node, Integer> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
+			Map<Node, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
 			if(nodesAdjacentes.containsKey(s))
 				candidates[nbCandidates++] = s;
 		}
