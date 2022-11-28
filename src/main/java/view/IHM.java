@@ -40,6 +40,7 @@ public class IHM {
 
     public void init(){
         /*try {
+            
                 for (LookAndFeelInfo info : UIManager.obtenirInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.obtenirName())) {
                     UIManager.modifierLookAndFeel(info.obtenirClassName());
