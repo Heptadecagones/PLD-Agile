@@ -22,6 +22,4 @@ public class Graph {
     public void modifierNodes(Set<Node> nodes) {
         this.nodes = nodes;
     }
-
-    
 }

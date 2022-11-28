@@ -67,10 +67,44 @@ public class completerGraph {
     }
 
     public ArrayList<Segment> calculerTournee() {
+
         ArrayList<Segment> tournee = new ArrayList<Segment>();
+        Graph grapheTSP = new Graph();
+        Node nodeSource = null;
+
+        for (Node node : listeDestination) {
+            Node temp = new Node(node.obtenirNom());
+            grapheTSP.ajouterNode(temp);
+        }
         
         for (Node source : this.listeDestination) {
-            Graph = 
+
+            //récupérer le node source du graphe TSP
+            for (Node n : grapheTSP.obtenirNodes()) {
+                if (n.obtenirNom().equals(source.obtenirNom())) {
+                    nodeSource = n;
+                    break;
+                }
+            }
+            
+            //Calculer Dijkstra avec la source
+            graphe = calculerPlusCourtCheminDepuisLaSource(graphe, source);
+
+            //Ajouter les noeuds/valeurs pour graphe TSP
+            for (Node destNode : grapheTSP.obtenirNodes()) {
+                for (Node node : graphe.obtenirNodes()) {
+                    if(destNode.obtenirNom().equals(node.obtenirNom()) && nodeSource != null) {
+                        nodeSource.ajouterDestination(destNode, node.obtenirDistance());
+                        break;
+                    }
+                }
+            }
+
+            //reset la valeur des noeuds pour l itération suivante
+            for (Node node : graphe.obtenirNodes()) {
+                node.modifierCheminPlusCourt(new LinkedList<>());
+                node.modifierDistance(Integer.MAX_VALUE);
+            }
         }
         return tournee;
     }
