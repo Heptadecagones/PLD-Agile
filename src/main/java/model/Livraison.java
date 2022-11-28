@@ -12,7 +12,7 @@ public class Livraison {
 
     @Override
     public String toString() {
-        return "Livraison [plageHoraire=" + plageHoraire + ", lieu=" + lieu + ", livreur=" + livreur + "]";
+        return "Livraison [plageHoraire=" + plageHoraire + ",\n lieu=" + lieu + ",\n livreur=" + livreur + "]";
     }
 
     public Livraison(int horaire, Intersection l, Livreur liv)

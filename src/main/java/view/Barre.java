@@ -23,7 +23,7 @@ import javax.swing.border.TitledBorder;
 import model.Plan;
 
 @SuppressWarnings("serial")
-public class Bar extends JPanel {
+public class Barre extends JPanel {
     private Font font = new Font("Arial",Font.PLAIN,20);
     private JButton openXML, addRoute, saveRoute, loadRoute;
     private Creation fenetreCreation;
@@ -63,7 +63,7 @@ public JButton getLoadRoute() {
         return loadRoute;
 }
 
-public Bar() {
+public Barre() {
             
             setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
             setOpaque(false);

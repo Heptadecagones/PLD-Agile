@@ -25,11 +25,13 @@ import model.Plan;
 @SuppressWarnings("serial")
 public class Description extends JPanel implements Observer{
 	JTextArea descText;
+    private final int LONGUEUR = 200;
+    private final int HAUTEUR = 650;
     public void setDescText(String setdescText) {
         this.descText.setText(setdescText);
     }
     public Description() {
-            setPreferredSize(new Dimension(300, 600));
+            setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
             setBorder(new CompoundBorder(new TitledBorder("Description"), new EmptyBorder(0, 0, 0, 0)));
             // TO DO
             descText = new JTextArea("Pas de contenu");
@@ -41,7 +43,7 @@ public class Description extends JPanel implements Observer{
         Plan p=(Plan) arg0;
         String ListeLivraison="";
         for(Livraison l : p.obtenirListeLivraison()){
-            ListeLivraison+=l.toString();
+            ListeLivraison+=l.toString()+"\n";
         }
         setDescText(ListeLivraison);
     }
