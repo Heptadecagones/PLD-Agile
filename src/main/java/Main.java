@@ -20,6 +20,7 @@ public class Main {
         Controleur c=new Controleur(plan);
         view.getBar().getLoadRoute().addActionListener(c);
         view.getBar().getAddRoute().addActionListener(c);
+        view.getBar().getFenetreCreation().getBtnCreerLivraison().addActionListener(c);
         
     }
 }

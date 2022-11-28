@@ -2,19 +2,23 @@ package model;
 
 public class Livreur {
     
-    private String id;
+    private int id;
     private boolean disponbilite;
 
-    public Livreur(String id) {
+    public Livreur(int id) {
         this.id = id;
         this.disponbilite = true;
     }
 
-    public String obtenirId() {
+    public String toString() {
+        return "Livreur [id=" + id + ", disponbilite=" + disponbilite + "]";
+    }
+
+    public int obtenirId() {
         return id;
     }
 
-    public void modifierId(String id) {
+    public void modifierId(int id) {
         this.id = id;
     }
 

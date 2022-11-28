@@ -26,6 +26,10 @@ public class Controleur implements ActionListener {
         if ("Load".equals(command)) {
             p.chargerXML("src/main/java/smallMap.xml");}
         if ("Add".equals(command)) {
-            p.nouvelleLivraison(4);}
+            //p.nouvelleLivraison(4)
+            ;}
+        if ("Create".equals(command)) {
+                p.nouvelleLivraison(4);
+                System.out.println("Create clicked");}
     }
 }

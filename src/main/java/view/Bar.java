@@ -20,10 +20,11 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import model.Plan;
+
 @SuppressWarnings("serial")
 public class Bar extends JPanel {
     private Font font = new Font("Arial",Font.PLAIN,20);
-
     private JButton openXML, addRoute, saveRoute, loadRoute;
     private Creation fenetreCreation;
     public void setOpenXML(JButton openXML) {
@@ -32,6 +33,10 @@ public class Bar extends JPanel {
 
 public void setAddRoute(JButton addRoute) {
         this.addRoute = addRoute;
+}
+
+public Creation getFenetreCreation() {
+        return fenetreCreation;
 }
 
 public void setSaveRoute(JButton saveRoute) {
@@ -59,6 +64,7 @@ public JButton getLoadRoute() {
 }
 
 public Bar() {
+            
             setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
             setOpaque(false);
             setBorder(new CompoundBorder(new TitledBorder("Bar"), new EmptyBorder(0, 0, 0, 0)));
@@ -67,7 +73,8 @@ public Bar() {
             addRoute = makeButton("Add");
             saveRoute = makeButton("Save");
             loadRoute = makeButton("Load");
-
+            fenetreCreation=new Creation();
+            fenetreCreation.init();
             // add the components to the main panel
             JPanel leftPanel = new JPanel(), rightPanel = new JPanel();
             leftPanel.add(openXML);
@@ -78,8 +85,7 @@ public Bar() {
             rightPanel.add(saveRoute);
             rightPanel.add(loadRoute);
             add(rightPanel);
-            Creation fenetreCreation=new Creation();
-            fenetreCreation.init();
+
             ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                     if (evt.getSource() == openXML) {

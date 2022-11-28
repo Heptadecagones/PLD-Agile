@@ -22,38 +22,38 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import model.Livraison;
 import model.Plan;
 
 @SuppressWarnings("serial")
 public class Creation extends JPanel{
-    JButton btnCreerLivraison;
+    private JButton btnCreerLivraison;
     private Font font = new Font("Arial",Font.PLAIN,20);
     private JFrame f = new JFrame("Ajout Livraison");
+    
+
+    public JButton getBtnCreerLivraison() {
+        return btnCreerLivraison;
+        }
     public Creation() {
 
     }
     public void init(){
         btnCreerLivraison = makeButton("Create");
         f.add(btnCreerLivraison);
-        /*JPanel southPanel = new JPanel();
-        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.LINE_AXIS));
-        southPanel.add(description);
-        southPanel.add(map);
-        f.add(southPanel, BorderLayout.SOUTH);*/
-                f.pack();
-                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                f.setResizable(false);
-                f.setVisible(false);
-                ActionListener action = new ActionListener(){
-                        public void actionPerformed(ActionEvent evt) {
-                                if (evt.getSource() == btnCreerLivraison) {
-                                        // your action here
-                                        System.out.println("Create clicked");
-                                        fermer();
-                                }
+        f.pack();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setResizable(false);
+        f.setVisible(false);
+        ActionListener action = new ActionListener(){
+                public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource() == btnCreerLivraison) {
+                                // your action here
+                                fermer();
                         }
-                };
-                btnCreerLivraison.addActionListener(action);
+                }
+        };
+        btnCreerLivraison.addActionListener(action);
 }
 
     public void ouvrir(){

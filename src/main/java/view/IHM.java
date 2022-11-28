@@ -5,15 +5,17 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import model.Plan;
+
 public class IHM {
     // position of the top left corner of the application
     final int LOCATION_X = 100;
     final int LOCATION_Y = 80;
-
     private Bar bar = new Bar();
     private Description description = new Description();
     private Map map = new Map();
-
+    public IHM(){
+    }
     public void setBar(Bar bar) {
         this.bar = bar;
     }
@@ -49,7 +51,6 @@ public class IHM {
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                 ex.printStackTrace();
             }*/
-
             JFrame f = new JFrame("IHM");
             f.setLocation(LOCATION_X, LOCATION_Y);
             f.add(bar, BorderLayout.NORTH);

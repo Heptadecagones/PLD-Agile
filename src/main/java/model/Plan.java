@@ -24,7 +24,7 @@ public class Plan extends Observable
     private ArrayList<Livraison> listeLivraison;
     //TODO rentrer une vraie livraisons ici exemple pour test
     public void nouvelleLivraison(int valeur) {
-        this.listeLivraison.add(new Livraison(5,null,2));
+        this.listeLivraison.add(new Livraison(5,null,new Livreur(1)));
         this.setChanged();
         this.notifyObservers();
     }
