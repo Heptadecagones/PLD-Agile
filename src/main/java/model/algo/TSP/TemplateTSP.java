@@ -101,4 +101,8 @@ public abstract class TemplateTSP implements TSP {
 	    }
 	}
 
+	public Node[] obtenirSolution() {
+		return bestSol;
+	}
+
 }
