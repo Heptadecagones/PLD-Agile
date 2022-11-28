@@ -25,7 +25,7 @@ public class Bar extends JPanel {
     private Font font = new Font("Arial",Font.PLAIN,20);
 
     private JButton openXML, addRoute, saveRoute, loadRoute;
-
+    private Creation fenetreCreation;
     public void setOpenXML(JButton openXML) {
         this.openXML = openXML;
 }
@@ -78,7 +78,8 @@ public Bar() {
             rightPanel.add(saveRoute);
             rightPanel.add(loadRoute);
             add(rightPanel);
-
+            Creation fenetreCreation=new Creation();
+            fenetreCreation.setVisible(true);
             ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                     if (evt.getSource() == openXML) {
@@ -107,6 +108,7 @@ public Bar() {
             addRoute.addActionListener(action);
             saveRoute.addActionListener(action);
             loadRoute.addActionListener(action);
+
     }
 
     public JButton makeButton(String name) {
