@@ -79,7 +79,7 @@ public Bar() {
             rightPanel.add(loadRoute);
             add(rightPanel);
             Creation fenetreCreation=new Creation();
-            fenetreCreation.setVisible(true);
+            fenetreCreation.init();
             ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                     if (evt.getSource() == openXML) {
@@ -90,6 +90,7 @@ public Bar() {
                     if (evt.getSource() == addRoute) {
                             // your action here
                             System.out.println("addRoute clicked");
+                            fenetreCreation.ouvrir();
                     }
 
                     if (evt.getSource() == saveRoute) {

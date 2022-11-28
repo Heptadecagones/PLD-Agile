@@ -16,6 +16,7 @@ import java.awt.Font;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -27,15 +28,39 @@ import model.Plan;
 public class Creation extends JPanel{
     JButton btnCreerLivraison;
     private Font font = new Font("Arial",Font.PLAIN,20);
-
+    private JFrame f = new JFrame("Ajout Livraison");
     public Creation() {
-            setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-            setOpaque(false);
-            setBorder(new CompoundBorder(new TitledBorder("Bar"), new EmptyBorder(0, 0, 0, 0)));
-            setPreferredSize(new Dimension(600, 200));
-            btnCreerLivraison = makeButton("Create");
-            this.add(btnCreerLivraison);
-            // TO DO
+
+    }
+    public void init(){
+        btnCreerLivraison = makeButton("Create");
+        f.add(btnCreerLivraison);
+        /*JPanel southPanel = new JPanel();
+        southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.LINE_AXIS));
+        southPanel.add(description);
+        southPanel.add(map);
+        f.add(southPanel, BorderLayout.SOUTH);*/
+                f.pack();
+                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                f.setResizable(false);
+                f.setVisible(false);
+                ActionListener action = new ActionListener(){
+                        public void actionPerformed(ActionEvent evt) {
+                                if (evt.getSource() == btnCreerLivraison) {
+                                        // your action here
+                                        System.out.println("Create clicked");
+                                        fermer();
+                                }
+                        }
+                };
+                btnCreerLivraison.addActionListener(action);
+}
+
+    public void ouvrir(){
+        this.f.setVisible(true);
+    }
+    public void fermer(){
+        this.f.setVisible(false);
     }
 
     public JButton makeButton(String name) {
@@ -43,6 +68,6 @@ public class Creation extends JPanel{
         button.setFont(font);
         button.setFocusPainted(false);
         return button;
-}
+        }
 }
 
