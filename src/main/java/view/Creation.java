@@ -18,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -30,6 +31,9 @@ public class Creation extends JPanel{
     private JButton btnCreerLivraison;
     private Font font = new Font("Arial",Font.PLAIN,20);
     private JFrame f = new JFrame("Ajout Livraison");
+    private JTextField textHoraire = new JTextField("horaire");
+    private JTextField textLivreur = new JTextField("livreur");
+    private JTextField textIntersection = new JTextField("intersection");
     
 
     public JButton getBtnCreerLivraison() {
@@ -40,11 +44,18 @@ public class Creation extends JPanel{
     }
     public void init(){
         btnCreerLivraison = makeButton("Create");
-        f.add(btnCreerLivraison);
-        f.pack();
+        
+        JPanel Panel = new JPanel();
+        Panel.setLayout(new BoxLayout(Panel, BoxLayout.Y_AXIS));
+        Panel.add(textIntersection);
+        Panel.add(textHoraire);
+        Panel.add(textLivreur);
+        Panel.add(btnCreerLivraison);
+        f.add(Panel);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setResizable(false);
+        f.setResizable(true);
         f.setVisible(false);
+        f.pack();
         ActionListener action = new ActionListener(){
                 public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource() == btnCreerLivraison) {
@@ -56,7 +67,16 @@ public class Creation extends JPanel{
         btnCreerLivraison.addActionListener(action);
 }
 
-    public void ouvrir(){
+    public JTextField getTextHoraire() {
+        return textHoraire;
+}
+public JTextField getTextLivreur() {
+        return textLivreur;
+}
+public JTextField getTextIntersection() {
+        return textIntersection;
+}
+public void ouvrir(){
         this.f.setVisible(true);
     }
     public void fermer(){

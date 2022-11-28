@@ -62,7 +62,7 @@ public class IHM {
             f.add(southPanel, BorderLayout.SOUTH);
                     f.pack();
                     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    f.setResizable(false);
+                    f.setResizable(true);
                     f.setVisible(true);
     }
     

@@ -9,11 +9,12 @@ public class Livraison {
     public Livraison()
     {
     }
-    public String toString()
-    {
-        String description = "Plage Horaire : " + this.plageHoraire + " lieu : " + "[a faire]" + " livreur : " + this.livreur;
-        return description;
+
+    @Override
+    public String toString() {
+        return "Livraison [plageHoraire=" + plageHoraire + ", lieu=" + lieu + ", livreur=" + livreur + "]";
     }
+
     public Livraison(int horaire, Intersection l, Livreur liv)
     {
         this.plageHoraire = horaire;
