@@ -10,18 +10,39 @@ package view;
  */
 
 import java.awt.Dimension;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import model.Livraison;
+import model.Plan;
+
 @SuppressWarnings("serial")
-public class Description extends JPanel {
-	
+public class Description extends JPanel implements Observer{
+	JTextArea descText;
+    public void setDescText(String setdescText) {
+        this.descText.setText(setdescText);
+    }
     public Description() {
             setPreferredSize(new Dimension(300, 600));
             setBorder(new CompoundBorder(new TitledBorder("Description"), new EmptyBorder(0, 0, 0, 0)));
             // TO DO
+            descText = new JTextArea("Pas de contenu");
+            this.add(descText);
+            // TO DO
+    }
+    @Override
+    public void update(Observable arg0, Object arg1) {
+        Plan p=(Plan) arg0;
+        String ListeLivraison="";
+        for(Livraison l : p.obtenirListeLivraison()){
+            ListeLivraison+=l.toString();
+        }
+        setDescText(ListeLivraison);
     }
 }

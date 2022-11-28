@@ -19,6 +19,7 @@ public class Controleur{
         v = new IHM();
         v.init();
         p.addObserver((Observer) v.getMap());
+        p.addObserver((Observer) v.getDescription());
         ActionListener c= new ActionListener(){    
             public void actionPerformed(ActionEvent arg0){
             String command = arg0.getActionCommand();
