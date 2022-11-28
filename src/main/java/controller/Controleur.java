@@ -18,25 +18,25 @@ public class Controleur{
         p = new Plan();
         v = new IHM();
         v.init();
-        p.addObserver((Observer) v.getCarte());
-        p.addObserver((Observer) v.getDescription());
+        p.addObserver((Observer) v.obtenirCarte());
+        p.addObserver((Observer) v.obtenirDescription());
         ActionListener c= new ActionListener(){    
             public void actionPerformed(ActionEvent arg0){
             String command = arg0.getActionCommand();
             //System.out.println(command);
-            if ("Load".equals(command)) {
+            if ("Charger".equals(command)) {
                 p.chargerXML("src/main/java/largeMap.xml");}
-            if ("Add".equals(command)) {
+            if ("Ajouter_Livraison".equals(command)) {
                 //p.nouvelleLivraison(4)
                 ;}
-            if ("Create".equals(command)) {
-                    p.nouvelleLivraison(v.getBarre().getFenetreCreation().getTextHoraire().getText(),v.getBarre().getFenetreCreation().getTextIntersection().getText(),v.getBarre().getFenetreCreation().getTextLivreur().getText());
+            if ("Creer".equals(command)) {
+                    p.nouvelleLivraison(v.obtenirBarre().obtenirFenetreCreation().getTextHoraire().getText(),v.obtenirBarre().obtenirFenetreCreation().getTextIntersection().getText(),v.obtenirBarre().obtenirFenetreCreation().getTextLivreur().getText());
                     System.out.println("Create clicked");}
         }};
 
-        v.getBarre().getLoadRoute().addActionListener(c);
-        v.getBarre().getAddRoute().addActionListener(c);
-        v.getBarre().getFenetreCreation().getBtnCreerLivraison().addActionListener(c);
+        v.obtenirBarre().obtenirCharger().addActionListener(c);
+        v.obtenirBarre().obtenirAjouterLivraison().addActionListener(c);
+        v.obtenirBarre().obtenirFenetreCreation().obtenirBtnCreerLivraison().addActionListener(c);
     }
     
 }

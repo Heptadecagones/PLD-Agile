@@ -10,21 +10,12 @@ package view;
  */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
 import java.awt.Font;
-
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-
-import model.Livraison;
-import model.Plan;
 
 @SuppressWarnings("serial")
 public class Creation extends JPanel{
@@ -36,14 +27,14 @@ public class Creation extends JPanel{
     private JTextField textIntersection = new JTextField("intersection");
     
 
-    public JButton getBtnCreerLivraison() {
+    public JButton obtenirBtnCreerLivraison() {
         return btnCreerLivraison;
         }
     public Creation() {
 
     }
     public void init(){
-        btnCreerLivraison = makeButton("Create");
+        btnCreerLivraison = creerButton("Creer");
         
         JPanel Panel = new JPanel();
         Panel.setLayout(new BoxLayout(Panel, BoxLayout.Y_AXIS));
@@ -83,7 +74,7 @@ public void ouvrir(){
         this.f.setVisible(false);
     }
 
-    public JButton makeButton(String name) {
+    public JButton creerButton(String name) {
         JButton button = new JButton(name);
         button.setFont(font);
         button.setFocusPainted(false);

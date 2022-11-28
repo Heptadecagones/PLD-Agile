@@ -3,18 +3,16 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+//import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.plaf.ColorUIResource;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import model.Intersection;
@@ -97,7 +95,7 @@ public class Carte extends JPanel implements Observer {
        
         super.paintComponent(g);
         
-        Graphics2D g2d = (Graphics2D) g;
+        //Graphics2D g2d = (Graphics2D) g;
        
         if (!listeIntersection.isEmpty()) {
             ArrayList<Point2D> points = new ArrayList<>();

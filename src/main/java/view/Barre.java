@@ -20,47 +20,45 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import model.Plan;
-
 @SuppressWarnings("serial")
 public class Barre extends JPanel {
     private Font font = new Font("Arial",Font.PLAIN,20);
-    private JButton openXML, addRoute, saveRoute, loadRoute;
+    private JButton ajouterLivraison, sauvegarder, charger;
     private Creation fenetreCreation;
-    public void setOpenXML(JButton openXML) {
+/*   public void modifierOpenXML(JButton openXML) {
         this.openXML = openXML;
+}*/
+
+public void modifierAjouterLivraison(JButton AjouterLivraison) {
+        this.ajouterLivraison = AjouterLivraison;
 }
 
-public void setAddRoute(JButton addRoute) {
-        this.addRoute = addRoute;
-}
-
-public Creation getFenetreCreation() {
+public Creation obtenirFenetreCreation() {
         return fenetreCreation;
 }
 
-public void setSaveRoute(JButton saveRoute) {
-        this.saveRoute = saveRoute;
+public void modifierSauvegarder(JButton Sauvegarder) {
+        this.sauvegarder = Sauvegarder;
 }
 
-public void setLoadRoute(JButton loadRoute) {
-        this.loadRoute = loadRoute;
+public void modifierCharger(JButton Charger) {
+        this.charger = Charger;
 }
 
-public JButton getOpenXML() {
+/*public JButton obtenirOpenXML() {
         return openXML;
+}*/
+
+public JButton obtenirAjouterLivraison() {
+        return ajouterLivraison;
 }
 
-public JButton getAddRoute() {
-        return addRoute;
+public JButton obtenirSauvegarder() {
+        return sauvegarder;
 }
 
-public JButton getSaveRoute() {
-        return saveRoute;
-}
-
-public JButton getLoadRoute() {
-        return loadRoute;
+public JButton obtenirCharger() {
+        return charger;
 }
 
 public Barre() {
@@ -69,52 +67,52 @@ public Barre() {
             setOpaque(false);
             setBorder(new CompoundBorder(new TitledBorder("Bar"), new EmptyBorder(0, 0, 0, 0)));
             // initialise the buttons
-            openXML = makeButton("Open");
-            addRoute = makeButton("Add");
-            saveRoute = makeButton("Save");
-            loadRoute = makeButton("Load");
+            //openXML = makeButton("Open");
+            ajouterLivraison = makeButton("Ajouter_Livraison");
+            sauvegarder = makeButton("Sauvegarder");
+            charger = makeButton("Charger");
             fenetreCreation=new Creation();
             fenetreCreation.init();
             // add the components to the main panel
             JPanel leftPanel = new JPanel(), rightPanel = new JPanel();
-            leftPanel.add(openXML);
-            leftPanel.add(addRoute);
+            //leftPanel.add(openXML);
+            leftPanel.add(ajouterLivraison);
             add(leftPanel);
 
             add(Box.createHorizontalGlue());
-            rightPanel.add(saveRoute);
-            rightPanel.add(loadRoute);
+            rightPanel.add(sauvegarder);
+            rightPanel.add(charger);
             add(rightPanel);
 
             ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                    if (evt.getSource() == openXML) {
+                    /*if (evt.getSource() == openXML) {
                             // your action here
                             System.out.println("openXML clicked");
-                    }
+                    }*/
 
-                    if (evt.getSource() == addRoute) {
+                    if (evt.getSource() == ajouterLivraison) {
                             // your action here
-                            System.out.println("addRoute clicked");
+                            System.out.println("AjouterLivraison clicked");
                             fenetreCreation.ouvrir();
                     }
 
-                    if (evt.getSource() == saveRoute) {
+                    if (evt.getSource() == sauvegarder) {
                             // your action here
-                            System.out.println("saveRoute clicked");
+                            System.out.println("Sauvegarder clicked");
                     }
 
-                    if (evt.getSource() == loadRoute) {
+                    if (evt.getSource() == charger) {
                             // your action here
-                            System.out.println("loadRoute clicked");
+                            System.out.println("Charger clicked");
                     }
             }
             };
 
-            openXML.addActionListener(action);
-            addRoute.addActionListener(action);
-            saveRoute.addActionListener(action);
-            loadRoute.addActionListener(action);
+            //openXML.addActionListener(action);
+            ajouterLivraison.addActionListener(action);
+            sauvegarder.addActionListener(action);
+            charger.addActionListener(action);
 
     }
 

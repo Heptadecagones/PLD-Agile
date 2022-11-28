@@ -14,35 +14,35 @@ public class IHM {
     private Description description = new Description();
     private Carte carte = new Carte();
 
-    public void setBarre(Barre barre) {
+    public void modifierBarre(Barre barre) {
         this.barre = barre;
     }
 
-    public void setDescription(Description description) {
+    public void modifierDescription(Description description) {
         this.description = description;
     }
 
-    public void setCarte(Carte carte) {
+    public void modifierCarte(Carte carte) {
         this.carte = carte;
     }
 
-    public Barre getBarre() {
+    public Barre obtenirBarre() {
         return barre;
     }
 
-    public Description getDescription() {
+    public Description obtenirDescription() {
         return description;
     }
 
-    public Carte getCarte() {
+    public Carte obtenirCarte() {
         return carte;
     }
 
     public void init(){
         /*try {
-                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
+                for (LookAndFeelInfo info : UIManager.obtenirInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.obtenirName())) {
+                    UIManager.modifierLookAndFeel(info.obtenirClassName());
                     break;
                 }
             }

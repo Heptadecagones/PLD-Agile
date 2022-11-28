@@ -43,7 +43,7 @@ public class Description extends JPanel implements Observer{
         Plan p=(Plan) arg0;
         String ListeLivraison="";
         for(Livraison l : p.obtenirListeLivraison()){
-            ListeLivraison+=l.toString()+"\n";
+            ListeLivraison+=l.toString()+"\n\n";
         }
         setDescText(ListeLivraison);
     }
