@@ -9,7 +9,11 @@ public class Livraison {
     public Livraison()
     {
     }
-
+    public String toString()
+    {
+        String description = "Plage Horaire : " + this.plageHoraire + " lieu : " + "[a faire]" + " livreur : " + this.livreur;
+        return description;
+    }
     public Livraison(int horaire, Intersection l, int liv)
     {
         this.plageHoraire = horaire;
