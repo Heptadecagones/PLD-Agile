@@ -44,7 +44,7 @@ public class DijkstraAlgoTest {
         ArrayList<Livraison> livrs = new ArrayList<>();
 
         // Construire une liste de livraisons aléatoires
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 2; i++) {
             Intersection inter = construireLivraisonAleatoire(plan);
             int horaire = ((int) (Math.random() * 3)) + 8;
 
@@ -53,7 +53,6 @@ public class DijkstraAlgoTest {
         }
 
         livreur.modifierLivraisons(livrs);
-        //System.out.println(livreur);
 
         this.dijal = new DijkstraAlgo(plan, livreur);
         Tournee t = new Tournee(dijal.calculerTournee());

@@ -1,8 +1,8 @@
 package model.algo.Dijkstra;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -19,7 +19,7 @@ public class DijkstraAlgo {
 
     // Initialise un graphe sans liste de destinations
     public DijkstraAlgo() {
-        this.tousLesGraphes = new HashMap<>();
+        this.tousLesGraphes = new LinkedHashMap<>();
         this.listeSegment = new ArrayList<Segment>();
         // this.listeDestination = null;
     }
@@ -29,7 +29,7 @@ public class DijkstraAlgo {
 
         this.listeSegment = plan.obtenirListeSegment();
 
-        tousLesGraphes = new HashMap<String,Graph>();
+        tousLesGraphes = new LinkedHashMap<String,Graph>();
         tousLesGraphes.put(plan.obtenirEntrepot().obtenirId(), new Graph(plan));
 
         for (int i = 0; i < livreur.obtenirLivraisons().size(); i++) {
@@ -45,12 +45,12 @@ public class DijkstraAlgo {
         Node nodeSourceGraphe =  null;
 
         Graph grapheTSP = new Graph();
-        for (HashMap.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
+        for (Map.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
             Node temp = new Node(entreMap.getKey());
             grapheTSP.ajouterNode(temp);
         }
 
-        for (HashMap.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
+        for (Map.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
 
             
             Graph graphe = entreMap.getValue();
@@ -116,7 +116,7 @@ public class DijkstraAlgo {
         Node nodeArrivee = null;
 
         //on recupere le chemin entre deux node du GrapheTSP
-        for (HashMap.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
+        for (Map.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
             if (entreMap.getKey().equals(depart)) {
                 for (Node n : entreMap.getValue().obtenirNodes()) {
                     if(n.obtenirNom().equals(arrivee)) {
