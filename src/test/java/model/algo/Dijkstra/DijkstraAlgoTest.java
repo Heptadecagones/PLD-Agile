@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Unit test for graphs.
  */
-public class CompleterGraphTest {
+public class DijkstraAlgoTest {
 
     @DisplayName("Test bidon")
     @Test

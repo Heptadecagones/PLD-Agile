@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 
 import model.*;
 
-public class CompleterGraph {
+public class DijkstraAlgo {
 
     Graph graphe;
     ArrayList<Node> listeDestination;
 
-    public CompleterGraph() {}
+    public DijkstraAlgo() {}
 
     public ArrayList<Segment> calculerTournee() {
 
