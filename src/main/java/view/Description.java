@@ -33,7 +33,7 @@ public class Description extends JPanel implements Observer{
     public Description() {
             setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
             setBorder(new CompoundBorder(new TitledBorder("Description"), new EmptyBorder(0, 0, 0, 0)));
-            // TO DO
+
             descText = new JTextArea("Pas de contenu");
             this.add(descText);
             // TO DO

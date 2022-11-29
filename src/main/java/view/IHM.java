@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class IHM {
-    // position of the top left corner of the application
-    final int POSITION_X = 100;
+    // position du coin supérieur gauche de l'application
+    final int POSITION_X = 50;
     final int POSITION_Y = 20;
 
     private Barre barre = new Barre();
@@ -54,9 +54,6 @@ public class IHM {
         JFrame frame = new JFrame("IHM");
         
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        
-        frame.setVisible(true);
-        
 
         frame.setLocation(POSITION_X, POSITION_Y);
         frame.add(barre, BorderLayout.NORTH);
@@ -68,7 +65,7 @@ public class IHM {
         frame.add(panelSud, BorderLayout.SOUTH);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.setVisible(true);
     }
     

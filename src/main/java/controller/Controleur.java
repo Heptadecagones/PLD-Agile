@@ -10,8 +10,6 @@ import view.IHM;
 public class Controleur{
     
     Plan p;
-    JTextField field;
-    JLabel label;
     IHM v;
 
     public Controleur(){
@@ -26,7 +24,7 @@ public class Controleur{
             //System.out.println(command);
             if ("Charger".equals(command)) {
                 p.chargerXML("src/main/java/largeMap.xml");}
-            if ("Ajouter_Livraison".equals(command)) {
+            if ("Nouvelle livraison".equals(command)) {
                 //p.nouvelleLivraison(4)
                 ;}
             if ("Creer".equals(command)) {
