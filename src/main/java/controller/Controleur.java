@@ -9,32 +9,32 @@ import model.Plan;
 import view.IHM;
 public class Controleur{
     
-    Plan p;
-    IHM v;
+    Plan plan;
+    IHM view;
 
     public Controleur(){
-        p = new Plan();
-        v = new IHM();
-        v.init();
-        p.addObserver((Observer) v.obtenirCarte());
-        p.addObserver((Observer) v.obtenirDescription());
+        plan = new Plan();
+        view = new IHM();
+        view.init();
+        plan.addObserver((Observer) view.obtenirCarte());
+        plan.addObserver((Observer) view.obtenirDescription());
         ActionListener c= new ActionListener(){    
             public void actionPerformed(ActionEvent arg0){
-            String command = arg0.getActionCommand();
-            //System.out.println(command);
-            if ("Charger".equals(command)) {
-                p.chargerXML("src/main/java/largeMap.xml");}
-            if ("Nouvelle livraison".equals(command)) {
-                //p.nouvelleLivraison(4)
-                ;}
-            if ("Creer".equals(command)) {
-                    p.nouvelleLivraison(v.obtenirBarre().obtenirFenetreCreation().getTextHoraire().getText(),v.obtenirBarre().obtenirFenetreCreation().getTextIntersection().getText(),v.obtenirBarre().obtenirFenetreCreation().getTextLivreur().getText());
-                    System.out.println("Create clicked");}
+                String command = arg0.getActionCommand();
+                //System.out.println(command);
+                if ("Charger".equals(command)) {
+                    plan.chargerXML("src/main/java/mediumMap.xml");}
+                if ("Nouvelle livraison".equals(command)) {
+                    //plan.nouvelleLivraison(4)
+                    ;}
+                if ("Creer".equals(command)) {
+                    plan.nouvelleLivraison(view.obtenirBarre().obtenirFenetreCreation().obtenirTextHoraire(),view.obtenirBarre().obtenirFenetreCreation().obtenirTextIntersection(),view.obtenirBarre().obtenirFenetreCreation().obtenirTextLivreur());
+                    System.out.println("Creer cliqué");}
         }};
 
-        v.obtenirBarre().obtenirCharger().addActionListener(c);
-        v.obtenirBarre().obtenirAjouterLivraison().addActionListener(c);
-        v.obtenirBarre().obtenirFenetreCreation().obtenirBtnCreerLivraison().addActionListener(c);
+        view.obtenirBarre().obtenirCharger().addActionListener(c);
+        view.obtenirBarre().obtenirAjouterLivraison().addActionListener(c);
+        view.obtenirBarre().obtenirFenetreCreation().obtenirBtnCreerLivraison().addActionListener(c);
     }
     
 }

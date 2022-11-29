@@ -14,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -24,19 +25,24 @@ import model.Plan;
 
 @SuppressWarnings("serial")
 public class Description extends JPanel implements Observer{
-	JTextArea descText;
+    JTextArea descText;
+    JScrollPane scrollPane;
     private final int LONGUEUR = 200;
     private final int HAUTEUR = 650;
     public void setDescText(String setdescText) {
         this.descText.setText(setdescText);
     }
     public Description() {
-            setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
-            setBorder(new CompoundBorder(new TitledBorder("Description"), new EmptyBorder(0, 0, 0, 0)));
+        setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
+        setBorder(new TitledBorder("Description"));
 
-            descText = new JTextArea("Pas de contenu");
-            this.add(descText);
-            // TO DO
+        descText = new JTextArea(20, 15);
+        descText.setText("Pas de contenu");
+        descText.setLineWrap(true);
+        scrollPane = new JScrollPane(descText);
+        add(scrollPane);
+        
+        // TO DO
     }
     @Override
     public void update(Observable arg0, Object arg1) {

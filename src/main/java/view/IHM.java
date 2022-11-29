@@ -51,7 +51,7 @@ public class IHM {
             ex.printStackTrace();
         }*/
 
-        JFrame frame = new JFrame("IHM");
+        JFrame frame = new JFrame("PLD AGILE");
         
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 

@@ -36,12 +36,13 @@ public class Carte extends JPanel implements Observer {
     private int DIAMETRE_INTERSECTION = 4;
     private int DIAMETRE_ENTREPOT = 10;
 
-    private Color couleurIntersection = new Color(255,0,0);
+    private Color couleurIntersection = Color.BLUE;
+    private Color couleurEntrepot = Color.RED;
     
     
     public Carte() {
         setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
-        setBorder(new CompoundBorder(new TitledBorder("Carte"), new EmptyBorder(0, 0, 0, 0)));
+        setBorder(new TitledBorder("Carte"));
 
         addMouseListener(new MouseAdapter() {
             @Override 
@@ -149,6 +150,7 @@ public class Carte extends JPanel implements Observer {
             int entrCordX = REMBOURRAGE + (int)((cordEntrepot.getX()-minX)/diffX*(LONGUEUR-2*REMBOURRAGE));
             int entrCordY = REMBOURRAGE + (int)((cordEntrepot.getY()-minY)/diffX*(HAUTEUR-2*REMBOURRAGE));
 
+            g2d.setColor(couleurEntrepot);
             g2d.fillOval(entrCordX-DIAMETRE_ENTREPOT/2, entrCordY-DIAMETRE_ENTREPOT/2, DIAMETRE_ENTREPOT, DIAMETRE_ENTREPOT);
         }
         
