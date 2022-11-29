@@ -8,25 +8,27 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import model.*;
+import model.algo.TSP.*;
 
 public class DijkstraAlgo {
 
-    Graph graphe;
+    ArrayList<Graph> tousLesGraphes;
     ArrayList<Node> listeDestination;
 
     // Initialise un graphe sans liste de destinations
-    public DijkstraAlgo(Plan plan) {
-        this.graphe = new Graph(plan);
+    public DijkstraAlgo() {
+        this.tousLesGraphes = new ArrayList<Graph>();
         this.listeDestination = null;
     }
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
     public DijkstraAlgo(Plan plan, Livreur livreur) {
 
-        this.graphe = new Graph(plan); 
+        this.tousLesGraphes = new ArrayList<Graph>();
+        for (int i = 0; i < livreur.obtenirLivraisons().size(); i++) tousLesGraphes.add(new Graph(plan));
         this.listeDestination = new ArrayList<>();
 
-        for (Node node : graphe.obtenirNodes()) {
+        for (Node node : tousLesGraphes.get(0).obtenirNodes()) {
             if (node.obtenirNom().equals(plan.obtenirEntrepot().obtenirId())) {
                 listeDestination.add(node);
                 break;
@@ -34,7 +36,7 @@ public class DijkstraAlgo {
         }
 
         for (Livraison dest : livreur.obtenirLivraisons()) {
-            for (Node node : graphe.obtenirNodes()) {
+            for (Node node : tousLesGraphes.get(0).obtenirNodes()) {
                 if (node.obtenirNom().equals(dest.obtenirLieu().obtenirId())) {
                     listeDestination.add(node);
                     break;
@@ -48,6 +50,7 @@ public class DijkstraAlgo {
         ArrayList<Segment> tournee = new ArrayList<Segment>();
         Graph grapheTSP = new Graph();
         Node nodeSource = null;
+        int i = 0;
 
         for (Node node : listeDestination) {
             Node temp = new Node(node.obtenirNom());
@@ -68,6 +71,7 @@ public class DijkstraAlgo {
             // Set<Node> grapheNodes = graphe.obtenirNodes().stream().map(Node::new).collect(Collectors.toSet());
             // Graph dijkstraGraph = new Graph(grapheNodes);
             // Calculer Dijkstra avec la source
+            Graph graphe = tousLesGraphes.get(i);
             graphe = calculerPlusCourtCheminDepuisLaSource(graphe, source);
 
             // Ajouter les noeuds/valeurs pour graphe TSP
@@ -79,13 +83,12 @@ public class DijkstraAlgo {
                     }
                 }
             }
-
-            // reset la valeur des noeuds pour l itération suivante
-            for (Node node : graphe.obtenirNodes()) {
-                node.modifierCheminPlusCourt(new LinkedList<>());
-                node.modifierDistance(Integer.MAX_VALUE);
-            }
+            i++;
         }
+
+        TSP calculDeTournee = new TSP1();
+        calculDeTournee.searchSolution(20000, grapheTSP);
+        Node[] ordreLivraison = calculDeTournee.obtenirSolution();
 
         // ici grapheTSP est bon pour faire la tournée
         return tournee;

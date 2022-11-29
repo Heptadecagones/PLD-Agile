@@ -3,9 +3,7 @@ package model.algo.Dijkstra;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import model.Intersection;
-import model.Livraison;
 import model.Plan;
 import model.Segment;
 

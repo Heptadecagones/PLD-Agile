@@ -53,7 +53,7 @@ public class DijkstraAlgoTest {
         }
 
         livreur.modifierLivraisons(livrs);
-        System.out.println(livreur);
+        //System.out.println(livreur);
 
         this.dijal = new DijkstraAlgo(plan, livreur);
         Tournee t = new Tournee(dijal.calculerTournee());
