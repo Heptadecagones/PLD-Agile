@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Node {
+public class Node{
 
     private String nom;
     private List<Node> cheminPlusCourt;

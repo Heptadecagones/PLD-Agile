@@ -34,7 +34,7 @@ public class DijkstraAlgoTest {
     }
 
     @Test
-    public void testSetup() {
+    public void testSetup() throws CloneNotSupportedException {
         // Initialiser le plan
         Plan plan = new Plan();
         plan.chargerXML("src/main/java/smallMap.xml");
@@ -44,7 +44,7 @@ public class DijkstraAlgoTest {
         ArrayList<Livraison> livrs = new ArrayList<>();
 
         // Construire une liste de livraisons aléatoires
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 1; i++) {
             Intersection inter = construireLivraisonAleatoire(plan);
             int horaire = ((int) (Math.random() * 3)) + 8;
 
