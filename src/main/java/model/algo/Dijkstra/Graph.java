@@ -11,6 +11,11 @@ public class Graph {
         this.nodes = new HashSet<>();
     }
 
+    // Constructeur à partir d'un ensemble de nodes
+    public Graph(Set<Node> nodes) {
+        this.nodes = nodes; 
+    }
+
     public void ajouterNode(Node nodeA) {
         nodes.add(nodeA);
     }

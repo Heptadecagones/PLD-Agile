@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import model.*;
 
@@ -87,12 +88,15 @@ public class CompleterGraph {
                 }
             }
             
+            // Copie les nodes du graphe dans un nouvel ensemble
+            Set<Node> grapheNodes = graphe.obtenirNodes().stream().map(Node::new).collect(Collectors.toSet());
+            Graph dijkstraGraph = new Graph(grapheNodes);
             //Calculer Dijkstra avec la source
-            graphe = calculerPlusCourtCheminDepuisLaSource(graphe, source);
+            dijkstraGraph = calculerPlusCourtCheminDepuisLaSource(dijkstraGraph, source);
 
             //Ajouter les noeuds/valeurs pour graphe TSP
             for (Node destNode : grapheTSP.obtenirNodes()) {
-                for (Node node : graphe.obtenirNodes()) {
+                for (Node node : dijkstraGraph.obtenirNodes()) {
                     if(destNode.obtenirNom().equals(node.obtenirNom()) && nodeSource != null) {
                         nodeSource.ajouterDestination(destNode, node.obtenirDistance());
                         break;

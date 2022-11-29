@@ -18,6 +18,14 @@ public class Node {
         this.distance = Integer.MAX_VALUE;
         this.nodeAdjacentes = new HashMap<>();
     }
+    
+    // Constructeur par copie
+    public Node(Node n) {
+        this.nom = n.obtenirNom();
+        this.cheminPlusCourt = n.obtenirCheminPlusCourt();
+        this.distance = n.obtenirDistance();
+        this.nodeAdjacentes = n.obtenirNodeAdjacentes();
+    }
 
     public void ajouterDestination(Node destination, double distance) {
         this.nodeAdjacentes.put(destination, distance);
