@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import model.*;
+import model.algo.TSP.*;
 
 public class completerGraph {
 
@@ -115,6 +116,9 @@ public class completerGraph {
         }
 
         //ici grapheTSP est bon pour faire la tournée
+        TSP calculDeTournee = new TSP1();
+        calculDeTournee.searchSolution(20000, grapheTSP);
+        Node[] ordreLivraison = calculDeTournee.obtenirSolution();
         return tournee;
     }
 

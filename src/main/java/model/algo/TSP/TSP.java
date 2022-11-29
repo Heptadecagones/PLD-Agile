@@ -25,4 +25,9 @@ public interface TSP {
 	 */
 	public double getSolutionCost();
 
+	/**
+	 * @return la liste ordonnée des livraisons de la tournée
+	 */
+	public Node[] obtenirSolution();
+
 }
