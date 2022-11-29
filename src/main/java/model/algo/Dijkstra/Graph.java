@@ -1,19 +1,79 @@
 package model.algo.Dijkstra;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import model.Intersection;
+import model.Livraison;
+import model.Plan;
+import model.Segment;
+
 public class Graph {
-    
+
     private Set<Node> nodes;
+    private ArrayList<Node> listeDestination;
 
     public Graph() {
-        this.nodes = new HashSet<>();
     }
 
     // Constructeur à partir d'un ensemble de nodes
     public Graph(Set<Node> nodes) {
-        this.nodes = nodes; 
+        this.nodes = nodes;
+    }
+
+    public Graph(Plan plan, Livraison livraison) {
+
+        ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
+        ArrayList<Segment> listeSegment = plan.obtenirListeSegment();
+
+        this.nodes = new HashSet<>();
+
+        for (Intersection intersection : listeIntersection) {
+            Node tempNode = new Node(intersection.obtenirId());
+            nodes.add(tempNode);
+        }
+
+        Node origine = null;
+        Node destination = null;
+        int c = 0;
+
+        for (Segment segment : listeSegment) {
+            c = 0;
+            for (Node node : nodes) {
+                if (node.obtenirNom().equals(segment.obtenirOrigine().obtenirId())) {
+                    origine = node;
+                    c++;
+                }
+
+                if (node.obtenirNom().equals(segment.obtenirDestination().obtenirId())) {
+                    destination = node;
+                    c++;
+                }
+
+                if (c > 1)
+                    break;
+            }
+
+            if (origine != null && destination != null)
+                origine.ajouterDestination(destination, segment.obtenirLongueur());
+        }
+
+        for (Node node : nodes) {
+            if (node.obtenirNom().equals(plan.obtenirEntrepot().obtenirId())) {
+                listeDestination.add(node);
+                break;
+            }
+        }
+
+        for (Livraison dest : livraison.obtenirLivreur().obtenirLivraisons()) {
+            for (Node node : nodes) {
+                if (node.obtenirNom().equals(dest.obtenirLieu().obtenirId())) {
+                    listeDestination.add(node);
+                    break;
+                }
+            }
+        }
     }
 
     public void ajouterNode(Node nodeA) {

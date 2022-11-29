@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
  */
 public class CompleterGraphTest {
 
-    Graphe testGraph;
-
     @DisplayName("Test bidon")
     @Test
     public void shouldAnswerWithTrue() {
@@ -22,6 +20,5 @@ public class CompleterGraphTest {
 
     @Before
     public void testSetup() {
-        testGraph = new Graphe();
     }
 }
