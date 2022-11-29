@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Node {
+public class Node implements Cloneable{
 
     private String nom;
     private List<Node> cheminPlusCourt;
@@ -21,6 +21,11 @@ public class Node {
 
     public void ajouterDestination(Node destination, double distance) {
         this.nodeAdjacentes.put(destination, distance);
+    }
+
+    @Override
+    public Node clone() throws CloneNotSupportedException {   
+	    return (Node)super.clone();
     }
 
     public String obtenirNom() {

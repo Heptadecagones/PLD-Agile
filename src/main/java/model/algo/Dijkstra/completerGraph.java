@@ -1,8 +1,10 @@
 package model.algo.Dijkstra;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -12,11 +14,12 @@ public class completerGraph {
 
     Graph graphe;
     ArrayList<Node> listeDestination;
+    ArrayList<Segment> listeSegment;
 
     public completerGraph(Plan plan, Livraison livraison) {
 
         ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
-        ArrayList<Segment> listeSegment = plan.obtenirListeSegment();
+        this.listeSegment = plan.obtenirListeSegment();
 
         this.graphe = new Graph();
         this.listeDestination = new ArrayList<Node>();
@@ -66,11 +69,12 @@ public class completerGraph {
         }
     }
 
-    public ArrayList<Segment> calculerTournee() {
+    public ArrayList<Segment> calculerTournee() throws CloneNotSupportedException {
 
         ArrayList<Segment> tournee = new ArrayList<Segment>();
         Graph grapheTSP = new Graph();
         Node nodeSource = null;
+        HashMap<String, ArrayList<Node>> detailsCheminGrapheTSP = new HashMap<String, ArrayList<Node>>();
 
         for (Node node : listeDestination) {
             Node temp = new Node(node.obtenirNom());
@@ -91,10 +95,13 @@ public class completerGraph {
             graphe = calculerPlusCourtCheminDepuisLaSource(graphe, source);
 
             //Ajouter les noeuds/valeurs pour graphe TSP
+            detailsCheminGrapheTSP.put(nodeSource.obtenirNom(), new ArrayList<Node>());
             for (Node destNode : grapheTSP.obtenirNodes()) {
+                
                 for (Node node : graphe.obtenirNodes()) {
                     if(destNode.obtenirNom().equals(node.obtenirNom()) && nodeSource != null) {
                         nodeSource.ajouterDestination(destNode, node.obtenirDistance());
+                        detailsCheminGrapheTSP.get(nodeSource.obtenirNom()).add(node.clone());
                         break;
                     }
                 }
