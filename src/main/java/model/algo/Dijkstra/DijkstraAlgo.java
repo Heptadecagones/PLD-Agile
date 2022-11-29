@@ -14,7 +14,34 @@ public class DijkstraAlgo {
     Graph graphe;
     ArrayList<Node> listeDestination;
 
-    public DijkstraAlgo() {}
+    // Initialise un graphe sans liste de destinations
+    public DijkstraAlgo(Plan plan) {
+        this.graphe = new Graph(plan);
+        this.listeDestination = null;
+    }
+
+    // Initialise un graphe avec toutes les destinations d'un livreur de marquées
+    public DijkstraAlgo(Plan plan, Livreur livreur) {
+
+        this.graphe = new Graph(plan); 
+        this.listeDestination = new ArrayList<>();
+
+        for (Node node : graphe.obtenirNodes()) {
+            if (node.obtenirNom().equals(plan.obtenirEntrepot().obtenirId())) {
+                listeDestination.add(node);
+                break;
+            }
+        }
+
+        for (Livraison dest : livreur.obtenirLivraisons()) {
+            for (Node node : graphe.obtenirNodes()) {
+                if (node.obtenirNom().equals(dest.obtenirLieu().obtenirId())) {
+                    listeDestination.add(node);
+                    break;
+                }
+            }
+        }
+    }
 
     public ArrayList<Segment> calculerTournee() {
 
@@ -38,14 +65,14 @@ public class DijkstraAlgo {
             }
 
             // Copie les nodes du graphe dans un nouvel ensemble
-            Set<Node> grapheNodes = graphe.obtenirNodes().stream().map(Node::new).collect(Collectors.toSet());
-            Graph dijkstraGraph = new Graph(grapheNodes);
+            // Set<Node> grapheNodes = graphe.obtenirNodes().stream().map(Node::new).collect(Collectors.toSet());
+            // Graph dijkstraGraph = new Graph(grapheNodes);
             // Calculer Dijkstra avec la source
-            dijkstraGraph = calculerPlusCourtCheminDepuisLaSource(dijkstraGraph, source);
+            graphe = calculerPlusCourtCheminDepuisLaSource(graphe, source);
 
             // Ajouter les noeuds/valeurs pour graphe TSP
             for (Node destNode : grapheTSP.obtenirNodes()) {
-                for (Node node : dijkstraGraph.obtenirNodes()) {
+                for (Node node : graphe.obtenirNodes()) {
                     if (destNode.obtenirNom().equals(node.obtenirNom()) && nodeSource != null) {
                         nodeSource.ajouterDestination(destNode, node.obtenirDistance());
                         break;

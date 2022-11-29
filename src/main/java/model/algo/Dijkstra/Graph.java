@@ -12,9 +12,9 @@ import model.Segment;
 public class Graph {
 
     private Set<Node> nodes;
-    private ArrayList<Node> listeDestination;
 
     public Graph() {
+        this.nodes = new HashSet<>();
     }
 
     // Constructeur à partir d'un ensemble de nodes
@@ -22,7 +22,7 @@ public class Graph {
         this.nodes = nodes;
     }
 
-    public Graph(Plan plan, Livraison livraison) {
+    public Graph(Plan plan) {
 
         ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
         ArrayList<Segment> listeSegment = plan.obtenirListeSegment();
@@ -59,21 +59,6 @@ public class Graph {
                 origine.ajouterDestination(destination, segment.obtenirLongueur());
         }
 
-        for (Node node : nodes) {
-            if (node.obtenirNom().equals(plan.obtenirEntrepot().obtenirId())) {
-                listeDestination.add(node);
-                break;
-            }
-        }
-
-        for (Livraison dest : livraison.obtenirLivreur().obtenirLivraisons()) {
-            for (Node node : nodes) {
-                if (node.obtenirNom().equals(dest.obtenirLieu().obtenirId())) {
-                    listeDestination.add(node);
-                    break;
-                }
-            }
-        }
     }
 
     public void ajouterNode(Node nodeA) {

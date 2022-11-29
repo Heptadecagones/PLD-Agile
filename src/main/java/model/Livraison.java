@@ -1,21 +1,20 @@
 package model;
 
 public class Livraison {
-    
+
     private int plageHoraire;
     private Intersection lieu;
     private Livreur livreur;
 
-    public Livraison()
-    {
+    public Livraison() {
     }
-    public String toString()
-    {
-        String description = "Plage Horaire : " + this.plageHoraire + " lieu : " + "[a faire]" + " livreur : " + this.livreur;
+
+    public String toString() {
+        String description = "Plage Horaire : " + this.plageHoraire + " lieu : " + this.lieu;
         return description;
     }
-    public Livraison(int horaire, Intersection l, Livreur liv)
-    {
+
+    public Livraison(int horaire, Intersection l, Livreur liv) {
         this.plageHoraire = horaire;
         this.lieu = l;
         this.livreur = liv;

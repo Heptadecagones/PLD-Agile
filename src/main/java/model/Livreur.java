@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Livreur {
-    
+
     private String id;
     private boolean disponbilite;
     private ArrayList<Livraison> livraisons;
@@ -38,5 +38,11 @@ public class Livreur {
         this.livraisons = livraisons;
     }
 
-    
+    public String toString() {
+        String description = "id: " + this.id + " dispo: " + this.disponbilite + " ";
+        for(Livraison l : this.livraisons) {
+            description += " livraison: " + l; 
+        }
+        return description;
+    }
 }

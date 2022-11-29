@@ -122,7 +122,7 @@ public class Plan extends Observable
         } 
         this.setChanged();
         this.notifyObservers();
-        System.out.println(this.toString());
+        // System.out.println(this.toString());
     }
 
     public Plan()
