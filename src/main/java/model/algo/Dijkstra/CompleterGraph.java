@@ -8,12 +8,12 @@ import java.util.Map.Entry;
 
 import model.*;
 
-public class completerGraph {
+public class CompleterGraph {
 
     Graph graphe;
     ArrayList<Node> listeDestination;
 
-    public completerGraph(Plan plan, Livraison livraison) {
+    public CompleterGraph(Plan plan, Livraison livraison) {
 
         ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
         ArrayList<Segment> listeSegment = plan.obtenirListeSegment();
