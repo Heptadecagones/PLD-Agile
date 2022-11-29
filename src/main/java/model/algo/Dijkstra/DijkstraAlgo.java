@@ -1,8 +1,10 @@
 package model.algo.Dijkstra;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -14,6 +16,7 @@ public class DijkstraAlgo {
 
     ArrayList<Graph> tousLesGraphes;
     ArrayList<Node> listeDestination;
+    ArrayList<Segment> listeSegment;
 
     // Initialise un graphe sans liste de destinations
     public DijkstraAlgo() {
@@ -45,7 +48,7 @@ public class DijkstraAlgo {
         }
     }
 
-    public ArrayList<Segment> calculerTournee() {
+    public ArrayList<Segment> calculerTournee() throws CloneNotSupportedException {
 
         ArrayList<Segment> tournee = new ArrayList<Segment>();
         Graph grapheTSP = new Graph();
@@ -76,9 +79,11 @@ public class DijkstraAlgo {
 
             // Ajouter les noeuds/valeurs pour graphe TSP
             for (Node destNode : grapheTSP.obtenirNodes()) {
+                
                 for (Node node : graphe.obtenirNodes()) {
                     if (destNode.obtenirNom().equals(node.obtenirNom()) && nodeSource != null) {
                         nodeSource.ajouterDestination(destNode, node.obtenirDistance());
+                        detailsCheminGrapheTSP.get(nodeSource.obtenirNom()).add(node.clone());
                         break;
                     }
                 }
