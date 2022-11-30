@@ -14,11 +14,9 @@ public class Barre extends JPanel {
     private Font font = new Font("Arial",Font.PLAIN,14);
 
     private JButton nouvelleLivraison, sauvegarder, charger;
-    private Creation fenetreCreation;
+    
 
-	public Creation obtenirFenetreCreation() {
-		return fenetreCreation;
-	}
+
 
 	public void modifierAjouterLivraison(JButton nouvelleLivraison) {
 		this.nouvelleLivraison = nouvelleLivraison;
@@ -54,8 +52,7 @@ public class Barre extends JPanel {
 		nouvelleLivraison.setEnabled(false);
 		sauvegarder = creerBouton("Sauvegarder");
 
-		fenetreCreation = new Creation();
-		fenetreCreation.init();
+
 
 		// ajoute les composants
 		JPanel panelGauche = new JPanel(), panelDroit = new JPanel();
@@ -75,10 +72,10 @@ public class Barre extends JPanel {
 					System.out.println("Charger cliqué");
 				}
 
-				if (evt.getSource() == nouvelleLivraison) {
+				/*if (evt.getSource() == nouvelleLivraison) {
 					System.out.println("nouvelleLivraison cliqué");
 					fenetreCreation.ouvrir();
-				}
+				}*/
 
 				if (evt.getSource() == sauvegarder) {
 					System.out.println("Sauvegarder cliqué");

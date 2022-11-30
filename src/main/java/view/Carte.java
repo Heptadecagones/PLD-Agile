@@ -42,12 +42,13 @@ public class Carte extends JPanel implements Observer {
 
     private Color couleurIntersection = Color.BLUE;
     private Color couleurEntrepot = Color.RED;
-    
+    private Creation fenetreCreation;
     
     public Carte() {
         setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
         setBorder(new TitledBorder("Carte"));
-
+        fenetreCreation = new Creation();
+		fenetreCreation.init();
         addMouseListener(new MouseAdapter() {
             @Override 
             public void mousePressed(MouseEvent e) {
@@ -73,11 +74,10 @@ public class Carte extends JPanel implements Observer {
     public void mouseCompare(ArrayList<Intersection> listeIntersection, int mouseX, int mouseY, Graphics g, int minmX){
         int showX = 0 ;
         int showY = 0 ;
-        
         double minX = 1000.0, maxX = 0.0, minY = 1000.0, maxY = 0.0;
         
         int intersectionmaxX,intersectionmaxY,intersectionminX,intersectionminY; 
-        Intersection minIntersection = new Intersection();
+        Intersection choixIntersection = new Intersection();
     if (!listeIntersection.isEmpty()) {
         ArrayList<Point2D> points = new ArrayList<>();
         for (Intersection intersection : listeIntersection) {
@@ -99,7 +99,7 @@ public class Carte extends JPanel implements Observer {
                 showX =  (int)(coordX-5);
                 showY =  (int)(coordY-5);
                 minmX =  (Math.abs(mouseX - coordX)+Math.abs(mouseY-coordY));   
-                minIntersection = listeIntersection.get(i);
+                choixIntersection = listeIntersection.get(i);
             }
         }        
         System.out.println("this is x for mouse: "+ mouseX+ " and this is the one we found" + showX );
@@ -107,8 +107,9 @@ public class Carte extends JPanel implements Observer {
         g.setColor(new Color(0, 255, 0));
         g.fillOval(showX, showY, 10, 10);
 
-        String message = minIntersection.toString();
-
+        String message = choixIntersection.toString();
+        System.out.println("nouvelleLivraison cliqué");
+		fenetreCreation.ouvrir();
         JOptionPane.showMessageDialog(new JFrame(),
             message,
             "Coordonnée", JOptionPane.PLAIN_MESSAGE);
@@ -130,7 +131,9 @@ public class Carte extends JPanel implements Observer {
         
     }
 */
-
+public Creation obtenirFenetreCreation() {
+    return fenetreCreation;
+}
 
     @Override
     public void paintComponent(Graphics g) {
