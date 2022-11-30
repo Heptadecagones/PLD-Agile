@@ -13,8 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Plan extends Observable
-{
+public class Plan extends Observable {
     private Intersection entrepot;
     private ArrayList<Intersection> listeIntersection;
     private ArrayList<Segment> listeSegment;
@@ -23,12 +22,15 @@ public class Plan extends Observable
     private ArrayList<Tournee> listeTournee;
     private ArrayList<Livraison> listeLivraison;
     private ArrayList<Livreur> listeLivreur;
-    //AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
-    public void nouvelleLivraison(String horaire,Intersection intersection,String numLivreur) {
-        this.listeLivraison.add(new Livraison(Integer.parseInt(horaire),intersection,new Livreur(Integer.parseInt(numLivreur))));
+
+    // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
+    public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
+        this.listeLivraison
+                .add(new Livraison(Integer.parseInt(horaire), intersection, new Livreur(Integer.parseInt(numLivreur))));
         this.setChanged();
         this.notifyObservers();
     }
+
     public void chargerXML(String nomFichier) {
         try {
 
@@ -50,7 +52,7 @@ public class Plan extends Observable
                     String tempId = eElement.getAttribute("id");
                     double tempLong = Double.parseDouble(eElement.getAttribute("longitude"));
                     double tempLat = Double.parseDouble(eElement.getAttribute("latitude"));
-                    Intersection tempInter = new Intersection(tempId,tempLong, tempLat);
+                    Intersection tempInter = new Intersection(tempId, tempLong, tempLat);
                     this.listeIntersection.add(tempInter);
                 }
             }
@@ -72,18 +74,19 @@ public class Plan extends Observable
                     Intersection tempDest = null;
 
                     int compte = 0;
-                    for(int j = 0 ; j < this.listeIntersection.size(); j++) {
-                        if(this.listeIntersection.get(j).obtenirId().equals(tempOrigineId)) {
+                    for (int j = 0; j < this.listeIntersection.size(); j++) {
+                        if (this.listeIntersection.get(j).obtenirId().equals(tempOrigineId)) {
                             tempOrigine = this.listeIntersection.get(j);
                             compte++;
                         }
 
-                        if(this.listeIntersection.get(j).obtenirId().equals(tempDestId)) {
+                        if (this.listeIntersection.get(j).obtenirId().equals(tempDestId)) {
                             tempDest = this.listeIntersection.get(j);
                             compte++;
                         }
 
-                        if(compte == 2) break;
+                        if (compte == 2)
+                            break;
                     }
                     Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
                     tempOrigine.ajouterSegment(tempSegment);
@@ -99,8 +102,8 @@ public class Plan extends Observable
                 String tempEntrepotId = eElement.getAttribute("address");
                 this.entrepot = null;
 
-                for(int j = 0 ; j < this.listeIntersection.size(); j++) {
-                    if(this.listeIntersection.get(j).obtenirId().equals(tempEntrepotId)) {
+                for (int j = 0; j < this.listeIntersection.size(); j++) {
+                    if (this.listeIntersection.get(j).obtenirId().equals(tempEntrepotId)) {
                         this.entrepot = this.listeIntersection.get(j);
                         break;
                     }
@@ -108,37 +111,30 @@ public class Plan extends Observable
             }
             this.listeTournee = new ArrayList<Tournee>();
             this.listeLivraison = new ArrayList<Livraison>();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
+            System.out.println(e);
+        } catch (SAXException e) {
+            System.out.println(e);
+        } catch (ParserConfigurationException e) {
             System.out.println(e);
         }
-        catch(SAXException e) {
-            System.out.println(e);
-        }
-        catch(ParserConfigurationException e) {
-            System.out.println(e);
-        } 
         this.setChanged();
         this.notifyObservers();
         // System.out.println(this.toString());
     }
 
-    public Plan()
-    {
+    public Plan() {
     }
 
-    public Intersection obtenirEntrepot()
-    {
+    public Intersection obtenirEntrepot() {
         return entrepot;
     }
 
-    public long obtenirNombreIntersection()
-    {
+    public long obtenirNombreIntersection() {
         return nombreIntersection;
     }
 
-    public long obtenirNombreSegment()
-    {
+    public long obtenirNombreSegment() {
         return nombreSegment;
     }
 
@@ -158,73 +154,31 @@ public class Plan extends Observable
         return listeLivraison;
     }
 
-    public void modifierListeTournee(ArrayList<Tournee> listeTournee) {
-        this.listeTournee = listeTournee;
-    }
-
-    public void modifierListeLivraison(ArrayList<Livraison> listeLivraison) {
-        this.listeLivraison = listeLivraison;
-    }
-
-    public void modifierEntrepot(Intersection entrepot) {
-        this.entrepot = entrepot;
-    }
-
-    public void modifierListeIntersection(ArrayList<Intersection> listeIntersection) {
-        this.listeIntersection = listeIntersection;
-    }
-
-    public void modifierListeSegment(ArrayList<Segment> listeSegment) {
-        this.listeSegment = listeSegment;
-    }
-
-    public void modifierNombreIntersection(long nombreIntersection) {
-        this.nombreIntersection = nombreIntersection;
-    }
-
-    public void modifierNombreSegment(long nombreSegment) {
-        this.nombreSegment = nombreSegment;
-    }
-
     public String toString() {
         String description = "Entrepot\n";
         description += this.entrepot.toString();
-        description +="\nNombre de Livraisons : " + this.listeLivraison.size()+"\n";
-        description+="\nListe des Livraisons :\n";
-        for(int i = 0 ; i < this.listeLivraison.size(); i++) {
+        description += "\nNombre de Livraisons : " + this.listeLivraison.size() + "\n";
+        description += "\nListe des Livraisons :\n";
+        for (int i = 0; i < this.listeLivraison.size(); i++) {
             description += this.listeLivraison.get(i).toString();
             description += "\n";
         }
-        description +="\nNombre d'intserctions : " + this.nombreIntersection;
-        description +="\nNombre de segments : " + this.nombreSegment;
-        description +="\nListe des intersections :\n";
-        for(int i = 0 ; i < this.listeIntersection.size(); i++) {
+        description += "\nNombre d'intserctions : " + this.nombreIntersection;
+        description += "\nNombre de segments : " + this.nombreSegment;
+        description += "\nListe des intersections :\n";
+        for (int i = 0; i < this.listeIntersection.size(); i++) {
             description += this.listeIntersection.get(i).toString();
             description += "\n";
         }
-        description +="Liste des segments :\n";
-        for(int i = 0 ; i < this.listeSegment.size(); i++) {
+        description += "Liste des segments :\n";
+        for (int i = 0; i < this.listeSegment.size(); i++) {
             description += this.listeSegment.get(i).toString();
             description += "\n";
         }
         return description;
     }
 
-    public void ajouterLivraison(Livraison liv)
-    {
+    public void ajouterLivraison(Livraison liv) {
         this.listeLivraison.add(liv);
     }
-
-    public void ajouterTournee(Livraison tournee)
-    {
-        this.listeLivraison.add(tournee);
-    }
-    public ArrayList<Livreur> obtenirListeLivreur() {
-        return listeLivreur;
-    }
-    public void modifierListeLivreur(ArrayList<Livreur> listeLivreur) {
-        this.listeLivreur = listeLivreur;
-    }
-
-    
 }
