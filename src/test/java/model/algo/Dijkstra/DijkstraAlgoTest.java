@@ -4,7 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,25 +21,32 @@ import model.Tournee;
  */
 public class DijkstraAlgoTest {
 
-    DijkstraAlgo dijal;
+    static Plan plan;
+    static DijkstraAlgo dijal;
 
-    @DisplayName("Test bidon")
-    @Test
-    public void shouldAnswerWithTrue() {
-        assertTrue(true);
-    }
-
+    /** Construit une livraison aléatoire
+     * @param plan
+     * @return une intersection du plan
+     */
     public Intersection construireLivraisonAleatoire(Plan p) {
         ArrayList<Intersection> interList = p.obtenirListeIntersection();
         int index = (int) (Math.random() * interList.size());
         return interList.get(index);
     }
 
-    @Test
-    public void testSetup() throws CloneNotSupportedException {
+    /** Génère le plan nécessaire aux tests de l'algorithme.
+     */
+    @BeforeAll
+    public static void initPlan() {
         // Initialiser le plan
-        Plan plan = new Plan();
-        plan.chargerXML("src/main/java/largeMap.xml");
+        plan = new Plan();
+        plan.chargerXML("src/main/java/smallMap.xml");
+    }
+
+    /** Prépare une livraison aléatoire et génère le graphe "algorithmique".
+     */
+    @BeforeEach
+    public void initAlgo() {
 
         // Initialiser le livreur
         Livreur livreur = new Livreur("Abdul-Martin");
@@ -54,8 +63,21 @@ public class DijkstraAlgoTest {
 
         livreur.modifierLivraisons(livrs);
 
-        this.dijal = new DijkstraAlgo(plan, livreur);
+        dijal = new DijkstraAlgo(plan, livreur);
+    }
+
+    /** Met les variables à null pour éviter de les réutiliser après un test.
+     */
+    @AfterEach
+    public void deinit() {
+        dijal = null;
+        plan = null;
+    }
+
+    @Test
+    public void testAlgorithme() throws CloneNotSupportedException {
         Tournee t = new Tournee(dijal.calculerTournee());
         //System.out.println(t);
     }
+
 }
