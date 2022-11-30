@@ -24,9 +24,9 @@ public class Controleur{
                 //System.out.println(command);
                 if ("Charger".equals(command)) {
                     plan.chargerXML("src/main/java/mediumMap.xml");}
-                if ("Nouvelle livraison".equals(command)) {
+                /*if ("Nouvelle livraison".equals(command)) {
                     //plan.nouvelleLivraison(4)
-                    ;}
+                    ;}*/
                 if ("Creer".equals(command)) {
                     plan.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),view.obtenirCarte().obtenirFenetreCreation().obtenirIntersection(),view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur());
                     System.out.println("Creer cliqué");}

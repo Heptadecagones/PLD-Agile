@@ -22,7 +22,7 @@ public class Plan extends Observable
     private long nombreSegment;
     private ArrayList<Tournee> listeTournee;
     private ArrayList<Livraison> listeLivraison;
-    //TODO rentrer une vraie livraisons ici exemple pour test
+    //AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
     public void nouvelleLivraison(String horaire,Intersection intersection,String numLivreur) {
         this.listeLivraison.add(new Livraison(Integer.parseInt(horaire),intersection,new Livreur(Integer.parseInt(numLivreur))));
         this.setChanged();

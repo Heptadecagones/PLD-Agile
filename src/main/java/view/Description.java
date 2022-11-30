@@ -42,8 +42,8 @@ public class Description extends JPanel implements Observer{
         scrollPane = new JScrollPane(descText);
         add(scrollPane);
         
-        // TO DO
     }
+    //UPDATE DES DONNEES : ECRITURE DE LA LISTE DES LIVRAISONS
     @Override
     public void update(Observable arg0, Object arg1) {
         Plan p=(Plan) arg0;

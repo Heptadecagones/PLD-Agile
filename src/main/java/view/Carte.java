@@ -60,7 +60,7 @@ public class Carte extends JPanel implements Observer {
             }
           });
     }
-
+    //UPDATE AU CHANGEMENT DES DONNEES DU MODELE
     @Override
     public void update(Observable arg0, Object arg1) {
         Plan plan = (Plan) arg0;
@@ -70,7 +70,7 @@ public class Carte extends JPanel implements Observer {
         repaint();
     }
 
-
+    //TOUT CE QUI SE PASSE APRES UN CLIQUE SUR LA CARTE
     public void mouseCompare(ArrayList<Intersection> listeIntersection, int mouseX, int mouseY, Graphics g, int minmX){
         int showX = 0 ;
         int showY = 0 ;
@@ -106,7 +106,7 @@ public class Carte extends JPanel implements Observer {
 
         g.setColor(new Color(0, 255, 0));
         g.fillOval(showX, showY, 10, 10);
-
+        //OUVERTURE FENETRE LIVRAISON
         String message = choixIntersection.toString();
         System.out.println("nouvelleLivraison cliqué");
         fenetreCreation.setIntersection(choixIntersection);
@@ -135,7 +135,7 @@ public class Carte extends JPanel implements Observer {
 public Creation obtenirFenetreCreation() {
     return fenetreCreation;
 }
-
+    //PAINT DE LA CARTE
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -246,6 +246,7 @@ public Creation obtenirFenetreCreation() {
      * @param intersection
      * @return Point2D
      */
+    //TRANSFORMATION POUR CLICK (COORDONNEES ECRAN -> COORDONNES CARTE)
     public Point2D convertirLatLong(Intersection intersection) {
         double longitude = intersection.obtenirLongitude();
         double latitude = intersection.obtenirLatitude();
