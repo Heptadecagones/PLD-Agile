@@ -4,29 +4,28 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import model.Intersection;
 
+import org.checkerframework.checker.units.qual.min;
+
+import model.Intersection;
 import model.Plan;
 import model.Segment;
 
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer {
-    private final int LONGUEUR = 800;
-    private final int HAUTEUR = 650;
+    private final int LONGUEUR = 1500;
+    private final int HAUTEUR = 950;
     private final int REMBOURRAGE = 20;
-
     private final double PI = 3.1415926535;
 
     private Intersection entrepot;
@@ -50,6 +49,8 @@ public class Carte extends JPanel implements Observer {
                 int mouseX = e.getX();
                 int mouseY = e.getY();
                 System.out.println(mouseX + "," + mouseY);
+                int minmX = 1000000;
+                mouseCompare(listeIntersection, mouseX, mouseY, getGraphics(),minmX);
             }
           });
 
@@ -58,12 +59,17 @@ public class Carte extends JPanel implements Observer {
 
     }
 
-/* 
 
-   public Intersection mouseCompare(ArrayList<Intersection> listeIntersection, int mouseX, int mouseY){
+    public void mouseCompare(ArrayList<Intersection> listeIntersection, int mouseX, int mouseY, Graphics g, int minmX){
+        int showX = 0 ;
+        int showY = 0 ;
+
+        double minX = 1000.0, maxX = 0.0, minY = 1000.0, maxY = 0.0;
+        
+        int intersectionmaxX,intersectionmaxY,intersectionminX,intersectionminY; 
+      
     if (!listeIntersection.isEmpty()) {
         ArrayList<Point2D> points = new ArrayList<>();
-        double minX = 1000.0, maxX = 0.0, minY = 1000.0, maxY = 0.0;
         for (Intersection intersection : listeIntersection) {
             Point2D point = convertirLatLong(intersection);
             points.add(point);
@@ -74,18 +80,29 @@ public class Carte extends JPanel implements Observer {
         }
         double diffX = maxX - minX;
         double diffY = maxY - minY;
+        
         for (Point2D point : points) {
             int coordX = REMBOURRAGE + (int)((point.getX()-minX)/diffX*(LONGUEUR-2*REMBOURRAGE));
             int coordY = REMBOURRAGE + (int)((point.getY()-minY)/diffY*(HAUTEUR-2*REMBOURRAGE));
 
+            if((Math.abs(mouseX - coordX)+Math.abs(mouseY-coordY)) < minmX){
+                showX =  (int)(coordX);
+                showY =  (int)(coordY);
+                minmX =  (Math.abs(mouseX - coordX)+Math.abs(mouseY-coordY));   
+            } 
 
-
+           
+        
         }
+        System.out.println("this is x for mouse: "+ mouseX+ " and this is the one we found" + showX );
+
+        g.setColor(new Color(0, 255, 0));
+        g.fillOval(showX, showY, 10, 10);
     }
 
 
     }
-   */ 
+   
     @Override
     public void update(Observable arg0, Object arg1) {
         Plan plan = (Plan) arg0;
