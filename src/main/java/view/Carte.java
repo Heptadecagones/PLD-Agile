@@ -8,10 +8,13 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -20,6 +23,7 @@ import org.checkerframework.checker.units.qual.min;
 import model.Intersection;
 import model.Plan;
 import model.Segment;
+import model.Tournee;
 
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer {
@@ -31,6 +35,7 @@ public class Carte extends JPanel implements Observer {
     private Intersection entrepot;
     private ArrayList<Intersection> listeIntersection = new ArrayList<>();
     private ArrayList<Segment> listeSegment = new ArrayList<>();
+    private ArrayList<Tournee> listeTournee = new ArrayList<>();
 
     private int DIAMETRE_INTERSECTION = 4;
     private int DIAMETRE_ENTREPOT = 10;
@@ -53,21 +58,26 @@ public class Carte extends JPanel implements Observer {
                 mouseCompare(listeIntersection, mouseX, mouseY, getGraphics(),minmX);
             }
           });
+    }
 
-
-
-
+    @Override
+    public void update(Observable arg0, Object arg1) {
+        Plan plan = (Plan) arg0;
+        listeIntersection = plan.obtenirListeIntersection();
+        listeSegment = plan.obtenirListeSegment();
+        entrepot = plan.obtenirEntrepot();
+        repaint();
     }
 
 
     public void mouseCompare(ArrayList<Intersection> listeIntersection, int mouseX, int mouseY, Graphics g, int minmX){
         int showX = 0 ;
         int showY = 0 ;
-
+        
         double minX = 1000.0, maxX = 0.0, minY = 1000.0, maxY = 0.0;
         
         int intersectionmaxX,intersectionmaxY,intersectionminX,intersectionminY; 
-      
+        Intersection minIntersection = new Intersection();
     if (!listeIntersection.isEmpty()) {
         ArrayList<Point2D> points = new ArrayList<>();
         for (Intersection intersection : listeIntersection) {
@@ -81,36 +91,46 @@ public class Carte extends JPanel implements Observer {
         double diffX = maxX - minX;
         double diffY = maxY - minY;
         
-        for (Point2D point : points) {
-            int coordX = REMBOURRAGE + (int)((point.getX()-minX)/diffX*(LONGUEUR-2*REMBOURRAGE));
-            int coordY = REMBOURRAGE + (int)((point.getY()-minY)/diffY*(HAUTEUR-2*REMBOURRAGE));
+        for (int i = 0; i<points.size();i++) {
+            int coordX = REMBOURRAGE + (int)((points.get(i).getX()-minX)/diffX*(LONGUEUR-2*REMBOURRAGE));
+            int coordY = REMBOURRAGE + (int)((points.get(i).getY()-minY)/diffY*(HAUTEUR-2*REMBOURRAGE));
 
             if((Math.abs(mouseX - coordX)+Math.abs(mouseY-coordY)) < minmX){
-                showX =  (int)(coordX);
-                showY =  (int)(coordY);
+                showX =  (int)(coordX-5);
+                showY =  (int)(coordY-5);
                 minmX =  (Math.abs(mouseX - coordX)+Math.abs(mouseY-coordY));   
-            } 
-
-           
-        
-        }
+                minIntersection = listeIntersection.get(i);
+            }
+        }        
         System.out.println("this is x for mouse: "+ mouseX+ " and this is the one we found" + showX );
 
         g.setColor(new Color(0, 255, 0));
         g.fillOval(showX, showY, 10, 10);
+
+        String message = minIntersection.toString();
+
+        JOptionPane.showMessageDialog(new JFrame(),
+            message,
+            "Coordonnée", JOptionPane.PLAIN_MESSAGE);
+        
+        
+        
+
+
     }
 
 
     }
-   
-    @Override
-    public void update(Observable arg0, Object arg1) {
-        Plan plan = (Plan) arg0;
-        listeIntersection = plan.obtenirListeIntersection();
-        listeSegment = plan.obtenirListeSegment();
-        entrepot = plan.obtenirEntrepot();
-        repaint();
+
+
+/* 
+    public void colorierTourne(ArrayList<Tournee> listeTournee, Graphics g){
+        
+
+        
     }
+*/
+
 
     @Override
     public void paintComponent(Graphics g) {
