@@ -18,13 +18,16 @@ import model.Intersection;
 @SuppressWarnings("serial")
 public class Creation extends JPanel{
     private JButton btnCreerLivraison;
+    private JLabel infoHoraire=new JLabel("Horaire :");
+    private JLabel infoLivreur=new JLabel("Livreur :");
+
     private final Font font = new Font("Arial",Font.PLAIN,16);
 
-    private String horraires[] = {"8", "9", "10", "11"};
+    private String horaires[] = {"8", "9", "10", "11"};
     
     private JFrame f = new JFrame("Ajout Livraison");
-    private JComboBox textHoraire = new JComboBox(horraires);
-    private JTextField textLivreur = new JTextField("livreur");
+    private JComboBox textHoraire = new JComboBox(horaires);
+    private JTextField textLivreur = new JTextField();
     private JLabel textIntersection = new JLabel("pas d'infos sur l'intersection");
     private Intersection intersection;
 
@@ -49,7 +52,9 @@ public class Creation extends JPanel{
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(textIntersection);
+        panel.add(infoHoraire);
         panel.add(textHoraire);
+        panel.add(infoLivreur);
         panel.add(textLivreur);
         panel.add(btnCreerLivraison);
         f.add(panel);

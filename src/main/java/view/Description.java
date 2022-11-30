@@ -36,7 +36,7 @@ public class Description extends JPanel implements Observer{
         setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
         setBorder(new TitledBorder("Description"));
 
-        descText = new JTextArea(20, 15);
+        descText = new JTextArea(20, 25);
         descText.setText("Pas de contenu");
         descText.setLineWrap(true);
         scrollPane = new JScrollPane(descText);
