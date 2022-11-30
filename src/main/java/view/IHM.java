@@ -38,22 +38,25 @@ public class IHM {
         return carte;
     }
 
-    public void init(){
-        /*try {
-            
-                for (LookAndFeelInfo info : UIManager.obtenirInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.obtenirName())) {
-                    UIManager.modifierLookAndFeel(info.obtenirClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
-        }*/
+    public void init() {
+        /*
+         * try {
+         * 
+         * for (LookAndFeelInfo info : UIManager.obtenirInstalledLookAndFeels()) {
+         * if ("Nimbus".equals(info.obtenirName())) {
+         * UIManager.modifierLookAndFeel(info.obtenirClassName());
+         * break;
+         * }
+         * }
+         * } catch (ClassNotFoundException | InstantiationException |
+         * IllegalAccessException | UnsupportedLookAndFeelException ex) {
+         * ex.printStackTrace();
+         * }
+         */
 
         JFrame frame = new JFrame("PLD AGILE");
-        
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         frame.setLocation(POSITION_X, POSITION_Y);
         frame.add(barre, BorderLayout.NORTH);
@@ -63,11 +66,10 @@ public class IHM {
         panelSud.add(description);
         panelSud.add(carte);
         frame.add(panelSud, BorderLayout.SOUTH);
-        //frame.pack();
+        // frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.setResizable(false);
+        // frame.setResizable(false);
         frame.setVisible(true);
     }
-    
-}
 
+}

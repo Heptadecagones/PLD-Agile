@@ -16,15 +16,15 @@ import javax.swing.JTextField;
 import model.Intersection;
 
 @SuppressWarnings("serial")
-public class Creation extends JPanel{
+public class Creation extends JPanel {
     private JButton btnCreerLivraison;
-    private JLabel infoHoraire=new JLabel("Horaire :");
-    private JLabel infoLivreur=new JLabel("Livreur :");
+    private JLabel infoHoraire = new JLabel("Horaire :");
+    private JLabel infoLivreur = new JLabel("Livreur :");
 
-    private final Font font = new Font("Arial",Font.PLAIN,16);
+    private final Font font = new Font("Arial", Font.PLAIN, 16);
 
-    private String horaires[] = {"8", "9", "10", "11"};
-    
+    private String horaires[] = { "8", "9", "10", "11" };
+
     private JFrame f = new JFrame("Ajout Livraison");
     private JComboBox textHoraire = new JComboBox(horaires);
     private JTextField textLivreur = new JTextField();
@@ -46,9 +46,10 @@ public class Creation extends JPanel{
     public Creation() {
 
     }
-    public void init(){
+
+    public void init() {
         btnCreerLivraison = creerBouton("Creer");
-        
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(textIntersection);
@@ -62,38 +63,41 @@ public class Creation extends JPanel{
         f.setResizable(false);
         f.setVisible(false);
         f.pack();
-        ActionListener action = new ActionListener(){
-			public void actionPerformed(ActionEvent evt) {
-				if (evt.getSource() == btnCreerLivraison) {
-					fermer();
-				}
-			}
+        ActionListener action = new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if (evt.getSource() == btnCreerLivraison) {
+                    fermer();
+                }
+            }
         };
         btnCreerLivraison.addActionListener(action);
-}
+    }
 
     public String obtenirTextHoraire() {
         return (String) textHoraire.getSelectedItem();
-	}
-	public String obtenirTextLivreur() {
+    }
+
+    public String obtenirTextLivreur() {
         return textLivreur.getText();
-	}
-	public String obtenirTextIntersection() {
+    }
+
+    public String obtenirTextIntersection() {
         return textIntersection.getText();
-	}
-	public void ouvrir(){
+    }
+
+    public void ouvrir() {
         textIntersection.setText(this.intersection.toString());
         this.f.setVisible(true);
     }
-    public void fermer(){
+
+    public void fermer() {
         this.f.setVisible(false);
     }
 
     public JButton creerBouton(String nom) {
-		JButton bouton = new JButton(nom);
-		bouton.setFont(font);
-		bouton.setFocusPainted(false);
-		return bouton;
+        JButton bouton = new JButton(nom);
+        bouton.setFont(font);
+        bouton.setFocusPainted(false);
+        return bouton;
     }
 }
-

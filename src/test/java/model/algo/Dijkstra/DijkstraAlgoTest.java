@@ -86,9 +86,9 @@ public class DijkstraAlgoTest {
         ArrayList<Segment> segs = t.obtenirListeSegment();
 
         Intersection startInter = segs.get(0).obtenirOrigine();
-        Intersection endInter = segs.get(segs.size()-1).obtenirDestination(); 
+        Intersection endInter = segs.get(segs.size() - 1).obtenirDestination();
 
-        assertTrue(startInter == endInter); 
+        assertTrue(startInter == endInter);
     }
 
 }

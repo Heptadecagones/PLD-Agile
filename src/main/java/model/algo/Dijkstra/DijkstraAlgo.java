@@ -13,7 +13,7 @@ import model.algo.TSP.*;
 
 public class DijkstraAlgo {
 
-    Map<String,Graph> tousLesGraphes;
+    Map<String, Graph> tousLesGraphes;
     // ArrayList<Node> listeDestination;
     ArrayList<Segment> listeSegment;
 
@@ -29,7 +29,7 @@ public class DijkstraAlgo {
 
         this.listeSegment = plan.obtenirListeSegment();
 
-        tousLesGraphes = new LinkedHashMap<String,Graph>();
+        tousLesGraphes = new LinkedHashMap<String, Graph>();
         tousLesGraphes.put(plan.obtenirEntrepot().obtenirId(), new Graph(plan));
 
         for (int i = 0; i < livreur.obtenirLivraisons().size(); i++) {
@@ -43,29 +43,29 @@ public class DijkstraAlgo {
 
         ArrayList<Segment> tournee = new ArrayList<Segment>();
         Node nodeSourceGrapheTSP = null;
-        Node nodeSourceGraphe =  null;
+        Node nodeSourceGraphe = null;
 
         Graph grapheTSP = new Graph();
-        for (Map.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
+        for (Map.Entry<String, Graph> entreMap : tousLesGraphes.entrySet()) {
             Node temp = new Node(entreMap.getKey());
             grapheTSP.ajouterNode(temp);
         }
 
-        for (Map.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
+        for (Map.Entry<String, Graph> entreMap : tousLesGraphes.entrySet()) {
 
-            
             Graph graphe = entreMap.getValue();
 
-            //On recupere la source du graphe pour faire l'algo Dijkstra
-            for(Node n : graphe.obtenirNodes()) {
+            // On recupere la source du graphe pour faire l'algo Dijkstra
+            for (Node n : graphe.obtenirNodes()) {
                 if (n.obtenirNom().equals(entreMap.getKey())) {
                     nodeSourceGraphe = n;
                     break;
                 }
             }
 
-            //On recupere la source pour le graphe TSP, la node à qui on va ajouter des valeurs
-            for(Node n : grapheTSP.obtenirNodes()) {
+            // On recupere la source pour le graphe TSP, la node à qui on va ajouter des
+            // valeurs
+            for (Node n : grapheTSP.obtenirNodes()) {
                 if (n.obtenirNom().equals(entreMap.getKey())) {
                     nodeSourceGrapheTSP = n;
                     break;
@@ -76,7 +76,7 @@ public class DijkstraAlgo {
 
             // Ajouter les noeuds/valeurs pour graphe TSP
             for (Node destNode : grapheTSP.obtenirNodes()) {
-                
+
                 for (Node node : graphe.obtenirNodes()) {
                     if (destNode.obtenirNom().equals(node.obtenirNom()) && nodeSourceGrapheTSP != null) {
                         nodeSourceGrapheTSP.ajouterDestination(destNode, node.obtenirDistance());
@@ -92,17 +92,18 @@ public class DijkstraAlgo {
         String depart = null;
         String arrivee = null;
 
-        //On ajoute les segments dans la tournee
-        for (int i = 0; i < ordreLivraison.length-1; i++) {
+        // On ajoute les segments dans la tournee
+        for (int i = 0; i < ordreLivraison.length - 1; i++) {
 
             depart = ordreLivraison[i].obtenirNom();
-            arrivee = ordreLivraison[i+1].obtenirNom();
+            arrivee = ordreLivraison[i + 1].obtenirNom();
 
             tournee = ajouterSegment(depart, arrivee, tournee);
         }
 
-        //On ajoute les segments entre la derniere livraison et l'entrepôt dans la tournee
-        depart = ordreLivraison[ordreLivraison.length-1].obtenirNom();
+        // On ajoute les segments entre la derniere livraison et l'entrepôt dans la
+        // tournee
+        depart = ordreLivraison[ordreLivraison.length - 1].obtenirNom();
         arrivee = ordreLivraison[0].obtenirNom();
         tournee = ajouterSegment(depart, arrivee, tournee);
 
@@ -115,11 +116,11 @@ public class DijkstraAlgo {
         Node nodeDepart = null;
         Node nodeArrivee = null;
 
-        //on recupere le chemin entre deux node du GrapheTSP
-        for (Map.Entry<String,Graph> entreMap : tousLesGraphes.entrySet()) {
+        // on recupere le chemin entre deux node du GrapheTSP
+        for (Map.Entry<String, Graph> entreMap : tousLesGraphes.entrySet()) {
             if (entreMap.getKey().equals(depart)) {
                 for (Node n : entreMap.getValue().obtenirNodes()) {
-                    if(n.obtenirNom().equals(arrivee)) {
+                    if (n.obtenirNom().equals(arrivee)) {
                         nodeChemin = n;
                         break;
                     }
@@ -127,27 +128,31 @@ public class DijkstraAlgo {
             }
         }
 
-        //on convertit le pluscourt chemin de ce node en liste de segment qui va etre ajouté à tounee
-        for (int j = 0; j < nodeChemin.obtenirCheminPlusCourt().size()-1; j++) {
+        // on convertit le pluscourt chemin de ce node en liste de segment qui va etre
+        // ajouté à tounee
+        for (int j = 0; j < nodeChemin.obtenirCheminPlusCourt().size() - 1; j++) {
             nodeDepart = nodeChemin.obtenirCheminPlusCourt().get(j);
-            nodeArrivee = nodeChemin.obtenirCheminPlusCourt().get(j+1);
+            nodeArrivee = nodeChemin.obtenirCheminPlusCourt().get(j + 1);
 
             for (Segment segment : listeSegment) {
-                if(segment.obtenirOrigine().obtenirId().equals(nodeDepart.obtenirNom()) && segment.obtenirDestination().obtenirId().equals(nodeArrivee.obtenirNom())) {
+                if (segment.obtenirOrigine().obtenirId().equals(nodeDepart.obtenirNom())
+                        && segment.obtenirDestination().obtenirId().equals(nodeArrivee.obtenirNom())) {
                     tournee.add(segment);
                     break;
                 }
             }
         }
-        //Ajouter le dernier segment jusqu'au point de livraison/entrepot
+        // Ajouter le dernier segment jusqu'au point de livraison/entrepot
         if (nodeChemin.obtenirCheminPlusCourt().size() == 0) {
             depart = "";
         } else {
-            depart = nodeChemin.obtenirCheminPlusCourt().get(nodeChemin.obtenirCheminPlusCourt().size()-1).obtenirNom(); 
+            depart = nodeChemin.obtenirCheminPlusCourt().get(nodeChemin.obtenirCheminPlusCourt().size() - 1)
+                    .obtenirNom();
         }
-        
+
         for (Segment segment : listeSegment) {
-            if(segment.obtenirOrigine().obtenirId().equals(depart) && segment.obtenirDestination().obtenirId().equals(arrivee)) {
+            if (segment.obtenirOrigine().obtenirId().equals(depart)
+                    && segment.obtenirDestination().obtenirId().equals(arrivee)) {
                 tournee.add(segment);
                 break;
             }

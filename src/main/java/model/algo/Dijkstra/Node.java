@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Node{
+public class Node {
 
     private String nom;
     private List<Node> cheminPlusCourt;
@@ -18,7 +18,7 @@ public class Node{
         this.distance = Integer.MAX_VALUE;
         this.nodeAdjacentes = new HashMap<>();
     }
-    
+
     // Constructeur par copie
     public Node(Node n) {
         this.nom = n.obtenirNom();
@@ -63,5 +63,4 @@ public class Node{
         this.nodeAdjacentes = nodeAdjacentes;
     }
 
-    
 }

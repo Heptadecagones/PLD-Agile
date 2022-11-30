@@ -6,39 +6,42 @@ import model.algo.Dijkstra.*;
 import java.util.Map;
 
 public class SeqIter implements Iterator<Node> {
-	private Node[] candidates;
-	private int nbCandidates;
+    private Node[] candidates;
+    private int nbCandidates;
 
-	/**
-	 * Create an iterator to traverse the set of vertices in <code>unvisited</code> 
-	 * which are successors of <code>currentVertex</code> in <code>g</code>
-	 * Vertices are traversed in the same order as in <code>unvisited</code>
-	 * @param unvisited
-	 * @param currentVertex
-	 * @param g
-	 */
-	public SeqIter(Collection<Node> unvisited, Node currentVertex, Graph g){
-		this.candidates = new Node[unvisited.size()];
-		for (Node s : unvisited){
-			// On vérifie qu'il existe un lien entre la Node actuelle (currentVertex) et la node s
-			Map<Node, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
-			if(nodesAdjacentes.containsKey(s))
-				candidates[nbCandidates++] = s;
-		}
-	}
-	
-	@Override
-	public boolean hasNext() {
-		return nbCandidates > 0;
-	}
+    /**
+     * Create an iterator to traverse the set of vertices in <code>unvisited</code>
+     * which are successors of <code>currentVertex</code> in <code>g</code>
+     * Vertices are traversed in the same order as in <code>unvisited</code>
+     * 
+     * @param unvisited
+     * @param currentVertex
+     * @param g
+     */
+    public SeqIter(Collection<Node> unvisited, Node currentVertex, Graph g) {
+        this.candidates = new Node[unvisited.size()];
+        for (Node s : unvisited) {
+            // On vérifie qu'il existe un lien entre la Node actuelle (currentVertex) et la
+            // node s
+            Map<Node, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
+            if (nodesAdjacentes.containsKey(s))
+                candidates[nbCandidates++] = s;
+        }
+    }
 
-	@Override
-	public Node next() {
-		nbCandidates--;
-		return candidates[nbCandidates];
-	}
+    @Override
+    public boolean hasNext() {
+        return nbCandidates > 0;
+    }
 
-	@Override
-	public void remove() {}
+    @Override
+    public Node next() {
+        nbCandidates--;
+        return candidates[nbCandidates];
+    }
+
+    @Override
+    public void remove() {
+    }
 
 }

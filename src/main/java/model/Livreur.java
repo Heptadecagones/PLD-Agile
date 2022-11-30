@@ -40,8 +40,8 @@ public class Livreur {
 
     public String toString() {
         String description = "id: " + this.id + " dispo: " + this.disponbilite + " ";
-        for(Livraison l : this.livraisons) {
-            description += " livraison: " + l; 
+        for (Livraison l : this.livraisons) {
+            description += " livraison: " + l;
         }
         return description;
     }

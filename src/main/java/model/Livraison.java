@@ -7,9 +7,7 @@ public class Livraison {
     private Livreur livreur;
 
     public Livraison() {
-
     }
-
 
     public String toString() {
         String description = "Plage Horaire : " + this.plageHoraire + " lieu : " + this.lieu;
