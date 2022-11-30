@@ -18,8 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import org.checkerframework.checker.units.qual.min;
-
 import model.Intersection;
 import model.Plan;
 import model.Segment;

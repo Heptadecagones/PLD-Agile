@@ -1,22 +1,23 @@
 package model;
 
 public class Livraison {
-    
+
     private int plageHoraire;
     private Intersection lieu;
     private Livreur livreur;
 
-    public Livraison()
-    {
+    public Livraison() {
+
     }
 
-    @Override
+
     public String toString() {
-        return "Livraison [plageHoraire=" + plageHoraire + ",\n lieu=" + lieu + ",\n livreur=" + livreur + "]";
+        String description = "Plage Horaire : " + this.plageHoraire + " lieu : " + this.lieu;
+        return description;
     }
 
-    public Livraison(int horaire, Intersection l, Livreur liv)
-    {
+    public Livraison(int horaire, Intersection l, Livreur liv) {
+
         this.plageHoraire = horaire;
         this.lieu = l;
         this.livreur = liv;

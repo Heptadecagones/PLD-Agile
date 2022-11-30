@@ -22,6 +22,7 @@ public class Plan extends Observable
     private long nombreSegment;
     private ArrayList<Tournee> listeTournee;
     private ArrayList<Livraison> listeLivraison;
+    private ArrayList<Livreur> listeLivreur;
     //AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
     public void nouvelleLivraison(String horaire,Intersection intersection,String numLivreur) {
         this.listeLivraison.add(new Livraison(Integer.parseInt(horaire),intersection,new Livreur(Integer.parseInt(numLivreur))));
@@ -119,7 +120,7 @@ public class Plan extends Observable
         } 
         this.setChanged();
         this.notifyObservers();
-        System.out.println(this.toString());
+        // System.out.println(this.toString());
     }
 
     public Plan()
@@ -218,4 +219,12 @@ public class Plan extends Observable
     {
         this.listeLivraison.add(tournee);
     }
+    public ArrayList<Livreur> obtenirListeLivreur() {
+        return listeLivreur;
+    }
+    public void modifierListeLivreur(ArrayList<Livreur> listeLivreur) {
+        this.listeLivreur = listeLivreur;
+    }
+
+    
 }
