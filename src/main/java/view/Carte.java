@@ -23,8 +23,8 @@ import model.Segment;
 
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer {
-    private final int LONGUEUR = 1500;
-    private final int HAUTEUR = 950;
+    private final int LONGUEUR = 900;
+    private final int HAUTEUR = 650;
     private final int REMBOURRAGE = 20;
     private final double PI = 3.1415926535;
 
@@ -86,8 +86,8 @@ public class Carte extends JPanel implements Observer {
             int coordY = REMBOURRAGE + (int)((point.getY()-minY)/diffY*(HAUTEUR-2*REMBOURRAGE));
 
             if((Math.abs(mouseX - coordX)+Math.abs(mouseY-coordY)) < minmX){
-                showX =  (int)(coordX);
-                showY =  (int)(coordY);
+                showX =  (int)(coordX-5);
+                showY =  (int)(coordY-5);
                 minmX =  (Math.abs(mouseX - coordX)+Math.abs(mouseY-coordY));   
             } 
 

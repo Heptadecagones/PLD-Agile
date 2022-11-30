@@ -63,7 +63,7 @@ public class IHM {
         panelSud.add(description);
         panelSud.add(carte);
         frame.add(panelSud, BorderLayout.SOUTH);
-        frame.pack();
+        //frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //frame.setResizable(false);
         frame.setVisible(true);
