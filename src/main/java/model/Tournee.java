@@ -32,7 +32,7 @@ public class Tournee {
     {
         String description ="Liste des segments :\n";
         for(int i = 0 ; i < this.listeSegment.size(); i++) {
-            description += this.listeSegment.get(i).toString();
+            description += this.listeSegment.get(i);
             description += "\n";
         }
         return description;
