@@ -140,7 +140,9 @@ public class DijkstraAlgo {
             }
         }
         //Ajouter le dernier segment jusqu'au point de livraison/entrepot
-        depart = nodeChemin.obtenirCheminPlusCourt().get(nodeChemin.obtenirCheminPlusCourt().size()-1).obtenirNom();
+        int index = 0;
+        if (nodeChemin.obtenirCheminPlusCourt().size() > 0) index = nodeChemin.obtenirCheminPlusCourt().size()-1;
+        depart = nodeChemin.obtenirCheminPlusCourt().get(index).obtenirNom();
         for (Segment segment : listeSegment) {
             if(segment.obtenirOrigine().obtenirId().equals(depart) && segment.obtenirDestination().obtenirId().equals(arrivee)) {
                 tournee.add(segment);
