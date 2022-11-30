@@ -36,6 +36,7 @@ public class DijkstraAlgo {
             String nomLivraison = livreur.obtenirLivraisons().get(i).obtenirLieu().obtenirId();
             tousLesGraphes.put(nomLivraison, new Graph(plan));
         }
+
     }
 
     public ArrayList<Segment> calculerTournee() throws CloneNotSupportedException {
@@ -84,7 +85,6 @@ public class DijkstraAlgo {
                 }
             }
         }
-
         TSP calculDeTournee = new TSP1();
         calculDeTournee.searchSolution(20000, grapheTSP);
         Node[] ordreLivraison = calculDeTournee.obtenirSolution();
@@ -140,9 +140,12 @@ public class DijkstraAlgo {
             }
         }
         //Ajouter le dernier segment jusqu'au point de livraison/entrepot
-        int index = 0;
-        if (nodeChemin.obtenirCheminPlusCourt().size() > 0) index = nodeChemin.obtenirCheminPlusCourt().size()-1;
-        depart = nodeChemin.obtenirCheminPlusCourt().get(index).obtenirNom();
+        if (nodeChemin.obtenirCheminPlusCourt().size() == 0) {
+            depart = "";
+        } else {
+            depart = nodeChemin.obtenirCheminPlusCourt().get(nodeChemin.obtenirCheminPlusCourt().size()-1).obtenirNom(); 
+        }
+        
         for (Segment segment : listeSegment) {
             if(segment.obtenirOrigine().obtenirId().equals(depart) && segment.obtenirDestination().obtenirId().equals(arrivee)) {
                 tournee.add(segment);

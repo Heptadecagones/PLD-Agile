@@ -37,7 +37,7 @@ public class DijkstraAlgoTest {
     public void testSetup() throws CloneNotSupportedException {
         // Initialiser le plan
         Plan plan = new Plan();
-        plan.chargerXML("src/main/java/smallMap.xml");
+        plan.chargerXML("src/main/java/largeMap.xml");
 
         // Initialiser le livreur
         Livreur livreur = new Livreur("Abdul-Martin");
@@ -56,6 +56,6 @@ public class DijkstraAlgoTest {
 
         this.dijal = new DijkstraAlgo(plan, livreur);
         Tournee t = new Tournee(dijal.calculerTournee());
-        System.out.println(t);
+        //System.out.println(t);
     }
 }

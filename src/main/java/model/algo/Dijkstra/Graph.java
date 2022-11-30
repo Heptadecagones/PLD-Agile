@@ -2,6 +2,7 @@ package model.algo.Dijkstra;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import model.Intersection;
 import model.Plan;
@@ -12,7 +13,7 @@ public class Graph {
     private Set<Node> nodes;
 
     public Graph() {
-        this.nodes = new HashSet<>();
+        this.nodes = new LinkedHashSet<>();
     }
 
     // Constructeur à partir d'un ensemble de nodes
@@ -25,7 +26,7 @@ public class Graph {
         ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
         ArrayList<Segment> listeSegment = plan.obtenirListeSegment();
 
-        this.nodes = new HashSet<>();
+        this.nodes = new LinkedHashSet<>();
 
         for (Intersection intersection : listeIntersection) {
             Node tempNode = new Node(intersection.obtenirId());
