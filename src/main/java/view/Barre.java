@@ -13,14 +13,7 @@ import javax.swing.JPanel;
 public class Barre extends JPanel {
     private Font font = new Font("Arial",Font.PLAIN,14);
 
-    private JButton nouvelleLivraison, sauvegarder, charger;
-    
-
-
-
-	public void modifierAjouterLivraison(JButton nouvelleLivraison) {
-		this.nouvelleLivraison = nouvelleLivraison;
-	}
+    private JButton sauvegarder, charger;
 
 	public void modifierSauvegarder(JButton Sauvegarder) {
 		this.sauvegarder = Sauvegarder;
@@ -28,10 +21,6 @@ public class Barre extends JPanel {
 
 	public void modifierCharger(JButton Charger) {
 		this.charger = Charger;
-	}
-
-	public JButton obtenirAjouterLivraison() {
-		return nouvelleLivraison;
 	}
 
 	public JButton obtenirSauvegarder() {
@@ -48,8 +37,6 @@ public class Barre extends JPanel {
 		
 		// init les boutons
 		charger = creerBouton("Charger");
-		nouvelleLivraison = creerBouton("Nouvelle livraison");
-		nouvelleLivraison.setEnabled(false);
 		sauvegarder = creerBouton("Sauvegarder");
 
 
@@ -57,7 +44,6 @@ public class Barre extends JPanel {
 		// ajoute les composants
 		JPanel panelGauche = new JPanel(), panelDroit = new JPanel();
 		panelGauche.add(charger);
-		panelGauche.add(nouvelleLivraison);
 		add(panelGauche);
 
 		add(Box.createHorizontalGlue());
@@ -68,7 +54,6 @@ public class Barre extends JPanel {
 		ActionListener action = new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				if (evt.getSource() == charger) {
-					nouvelleLivraison.setEnabled(true);
 					System.out.println("Charger cliqué");
 				}
 
@@ -84,7 +69,6 @@ public class Barre extends JPanel {
 		};
 
 		charger.addActionListener(action);
-		nouvelleLivraison.addActionListener(action);
 		sauvegarder.addActionListener(action);
     }
 

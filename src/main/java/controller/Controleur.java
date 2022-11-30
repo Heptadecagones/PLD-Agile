@@ -28,12 +28,11 @@ public class Controleur{
                     //plan.nouvelleLivraison(4)
                     ;}
                 if ("Creer".equals(command)) {
-                    plan.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),view.obtenirCarte().obtenirFenetreCreation().obtenirTextIntersection(),view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur());
+                    plan.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),view.obtenirCarte().obtenirFenetreCreation().obtenirIntersection(),view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur());
                     System.out.println("Creer cliqué");}
         }};
 
         view.obtenirBarre().obtenirCharger().addActionListener(c);
-        view.obtenirBarre().obtenirAjouterLivraison().addActionListener(c);
         view.obtenirCarte().obtenirFenetreCreation().obtenirBtnCreerLivraison().addActionListener(c);
     }
     

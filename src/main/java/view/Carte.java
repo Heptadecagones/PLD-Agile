@@ -109,10 +109,11 @@ public class Carte extends JPanel implements Observer {
 
         String message = choixIntersection.toString();
         System.out.println("nouvelleLivraison cliqué");
+        fenetreCreation.setIntersection(choixIntersection);
 		fenetreCreation.ouvrir();
-        JOptionPane.showMessageDialog(new JFrame(),
+        /*JOptionPane.showMessageDialog(new JFrame(),
             message,
-            "Coordonnée", JOptionPane.PLAIN_MESSAGE);
+            "Coordonnée", JOptionPane.PLAIN_MESSAGE);*/
         
         
         

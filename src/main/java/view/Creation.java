@@ -9,8 +9,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import model.Intersection;
 
 @SuppressWarnings("serial")
 public class Creation extends JPanel{
@@ -22,8 +25,16 @@ public class Creation extends JPanel{
     private JFrame f = new JFrame("Ajout Livraison");
     private JComboBox textHoraire = new JComboBox(horraires);
     private JTextField textLivreur = new JTextField("livreur");
-    private JTextField textIntersection = new JTextField("intersection");
-    
+    private JLabel textIntersection = new JLabel("pas d'infos sur l'intersection");
+    private Intersection intersection;
+
+    public Intersection obtenirIntersection() {
+        return intersection;
+    }
+
+    public void setIntersection(Intersection intersection) {
+        this.intersection = intersection;
+    }
 
     public JButton obtenirBtnCreerLivraison() {
         return btnCreerLivraison;
@@ -66,6 +77,7 @@ public class Creation extends JPanel{
         return textIntersection.getText();
 	}
 	public void ouvrir(){
+        textIntersection.setText(this.intersection.toString());
         this.f.setVisible(true);
     }
     public void fermer(){
