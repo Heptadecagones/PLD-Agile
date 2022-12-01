@@ -25,7 +25,7 @@ public class Controleur {
                 String command = arg0.getActionCommand();
                 // System.out.println(command);
                 if ("Charger".equals(command)) {
-                    planLivraison.ouvrirPlan("src/main/java/mediumMap.xml");
+                    planLivraison.ouvrirPlan("src/main/java/largeMap.xml");
                 }
                 /*
                  * if ("Nouvelle livraison".equals(command)) {

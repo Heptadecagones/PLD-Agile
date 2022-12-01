@@ -24,10 +24,10 @@ public class Creation extends JPanel {
     private final Font font = new Font("Arial", Font.PLAIN, 16);
 
     private String horaires[] = { "8", "9", "10", "11" };
-
+    private String livreurs[] = { "0", "1", "2"};
     private JFrame f = new JFrame("Ajout Livraison");
     private JComboBox textHoraire = new JComboBox(horaires);
-    private JTextField textLivreur = new JTextField();
+    private JComboBox textLivreur = new JComboBox(livreurs);
     private JLabel textIntersection = new JLabel("pas d'infos sur l'intersection");
     private Intersection intersection;
 
@@ -78,7 +78,7 @@ public class Creation extends JPanel {
     }
 
     public String obtenirTextLivreur() {
-        return textLivreur.getText();
+        return textLivreur.getSelectedItem().toString();
     }
 
     public String obtenirTextIntersection() {

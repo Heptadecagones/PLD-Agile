@@ -5,17 +5,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -23,12 +19,8 @@ import model.Intersection;
 import model.Livreur;
 import model.PlanLivraison;
 import model.Segment;
-import model.Tournee;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
-import javax.swing.*;
-
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer {
     private final int LONGUEUR = 900;
@@ -82,7 +74,6 @@ public class Carte extends JPanel implements Observer {
         int showY = 0;
         double minX = 1000.0, maxX = 0.0, minY = 1000.0, maxY = 0.0;
 
-        int intersectionmaxX, intersectionmaxY, intersectionminX, intersectionminY;
         Intersection choixIntersection = new Intersection();
         if (!listeIntersection.isEmpty()) {
             ArrayList<Point2D> points = new ArrayList<>();
@@ -192,8 +183,8 @@ public class Carte extends JPanel implements Observer {
 
         if (entrepot != null) {
             Point2D cordEntrepot = convertirLatLong(entrepot);
-            int entrCordX = REMBOURRAGE + (int) ((cordEntrepot.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE))-10;
-            int entrCordY = REMBOURRAGE + (int) ((cordEntrepot.getY() - minY) / diffX * (HAUTEUR - 2 * REMBOURRAGE))-10;
+            int entrCordX = REMBOURRAGE + (int) ((cordEntrepot.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+            int entrCordY = REMBOURRAGE + (int) ((cordEntrepot.getY() - minY) / diffX * (HAUTEUR - 2 * REMBOURRAGE));
 
             g2d.setColor(couleurEntrepot);
             g2d.fillOval(entrCordX - DIAMETRE_ENTREPOT / 2, entrCordY - DIAMETRE_ENTREPOT / 2, DIAMETRE_ENTREPOT,
@@ -203,8 +194,8 @@ public class Carte extends JPanel implements Observer {
         g2d.setColor(Color.BLACK);
 
         if (!listeSegment.isEmpty()) {
-            ArrayList<Point2D> origines = new ArrayList<>();
-            ArrayList<Point2D> destinations = new ArrayList<>();
+            //ArrayList<Point2D> origines = new ArrayList<>();
+            //ArrayList<Point2D> destinations = new ArrayList<>();
             Color[] tabColor=new Color[listeLivreur.size()];
             int i=0;
             for(i=0;i<listeLivreur.size();i++){

@@ -4,7 +4,9 @@ public class Livraison {
 
     private int plageHoraire;
     private Intersection lieu;
+    //inutile pour l'instant
     private Livreur livreur;
+    //
 
     public Livraison() {
     }
