@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -22,6 +23,10 @@ import model.Intersection;
 import model.Plan;
 import model.Segment;
 import model.Tournee;
+
+import java.awt.*;
+import java.awt.geom.Line2D;
+import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer {
@@ -66,6 +71,7 @@ public class Carte extends JPanel implements Observer {
         listeIntersection = plan.obtenirListeIntersection();
         listeSegment = plan.obtenirListeSegment();
         entrepot = plan.obtenirEntrepot();
+        listeTournee=plan.obtenirListeTournee();
         repaint();
     }
 
@@ -185,8 +191,8 @@ public class Carte extends JPanel implements Observer {
 
         if (entrepot != null) {
             Point2D cordEntrepot = convertirLatLong(entrepot);
-            int entrCordX = REMBOURRAGE + (int) ((cordEntrepot.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
-            int entrCordY = REMBOURRAGE + (int) ((cordEntrepot.getY() - minY) / diffX * (HAUTEUR - 2 * REMBOURRAGE));
+            int entrCordX = REMBOURRAGE + (int) ((cordEntrepot.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE))-10;
+            int entrCordY = REMBOURRAGE + (int) ((cordEntrepot.getY() - minY) / diffX * (HAUTEUR - 2 * REMBOURRAGE))-10;
 
             g2d.setColor(couleurEntrepot);
             g2d.fillOval(entrCordX - DIAMETRE_ENTREPOT / 2, entrCordY - DIAMETRE_ENTREPOT / 2, DIAMETRE_ENTREPOT,
@@ -198,9 +204,18 @@ public class Carte extends JPanel implements Observer {
         if (!listeSegment.isEmpty()) {
             ArrayList<Point2D> origines = new ArrayList<>();
             ArrayList<Point2D> destinations = new ArrayList<>();
+            Color[] tabColor=new Color[listeTournee.size()];
+            int i=0;
+            for(i=0;i<listeTournee.size();i++){
+                int un=(int)(Math.random() * 255);
+                int deux=(int)(Math.random() * 255);
+                int trois=(int)(Math.random() * 255);
+                tabColor[i]=new Color(un,deux,trois);
+            }
             for (Segment segment : listeSegment) {
+
                 Point2D origine = convertirLatLong(segment.obtenirOrigine());
-                origines.add(origine);
+                //origines.add(origine);
 
                 /*
                  * minX = Math.min(minX, origine.getX());
@@ -210,7 +225,7 @@ public class Carte extends JPanel implements Observer {
                  */
 
                 Point2D destination = convertirLatLong(segment.obtenirDestination());
-                destinations.add(destination);
+                //destinations.add(destination);
 
                 /*
                  * minX = Math.min(minX, destination.getX());
@@ -218,6 +233,32 @@ public class Carte extends JPanel implements Observer {
                  * minY = Math.min(minY, destination.getY());
                  * maxY = Math.max(maxY, destination.getY());
                  */
+                int origineCordX = REMBOURRAGE
+                + (int) ((origine.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                int origineCordY = REMBOURRAGE
+                + (int) ((origine.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+
+                int destinationCordX = REMBOURRAGE
+                + (int) ((destination.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                int destinationCordY = REMBOURRAGE
+                + (int) ((destination.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                g2d.setColor(Color.BLACK);
+                g2d.setStroke(new BasicStroke(1));
+                i=0;
+                for(Tournee t : listeTournee){
+                    i++;
+                    for(Segment s : t.obtenirListeSegment()){
+                        if(segment==s){
+                            System.out.println(t.toString()+i+tabColor[i]);
+                            g2d.setColor(tabColor[i]);
+                            g2d.setStroke(new BasicStroke(3));
+                        }
+                    }
+                }
+                
+                g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);
+                
+                
             }
 
             /*
@@ -225,7 +266,7 @@ public class Carte extends JPanel implements Observer {
              * double diffY = maxY - minY;
              */
 
-            for (int i = 0; i < origines.size(); ++i) {
+            /*for (int i = 0; i < origines.size(); ++i) {
                 int origineCordX = REMBOURRAGE
                         + (int) ((origines.get(i).getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
                 int origineCordY = REMBOURRAGE
@@ -237,7 +278,7 @@ public class Carte extends JPanel implements Observer {
                         + (int) ((destinations.get(i).getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
 
                 g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);
-            }
+            }*/
         }
     }
 
