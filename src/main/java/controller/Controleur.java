@@ -6,26 +6,26 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import model.Plan;
+import model.PlanLivraison;
 import view.IHM;
 
 public class Controleur {
 
-    Plan plan;
+    PlanLivraison planLivraison;
     IHM view;
 
     public Controleur() {
-        plan = new Plan();
+        planLivraison = new PlanLivraison();
         view = new IHM();
         view.init();
-        plan.addObserver((Observer) view.obtenirCarte());
-        plan.addObserver((Observer) view.obtenirDescription());
+        planLivraison.addObserver((Observer) view.obtenirCarte());
+        planLivraison.addObserver((Observer) view.obtenirDescription());
         ActionListener c = new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 String command = arg0.getActionCommand();
                 // System.out.println(command);
                 if ("Charger".equals(command)) {
-                    plan.chargerXML("src/main/java/mediumMap.xml");
+                    planLivraison.ouvrirPlan("src/main/java/mediumMap.xml");
                 }
                 /*
                  * if ("Nouvelle livraison".equals(command)) {
@@ -33,7 +33,7 @@ public class Controleur {
                  * ;}
                  */
                 if ("Creer".equals(command)) {
-                    plan.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),
+                    planLivraison.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),
                             view.obtenirCarte().obtenirFenetreCreation().obtenirIntersection(),
                             view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur());
                     System.out.println("Creer cliqué");

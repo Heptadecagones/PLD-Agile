@@ -25,16 +25,16 @@ public class DijkstraAlgo {
     }
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
-    public DijkstraAlgo(Plan plan, Livreur livreur) {
+    public DijkstraAlgo(PlanLivraison planLivraison, Livreur livreur) {
 
-        this.listeSegment = plan.obtenirListeSegment();
+        this.listeSegment = planLivraison.obtenirPlan().obtenirListeSegment();
 
         tousLesGraphes = new LinkedHashMap<String, Graph>();
-        tousLesGraphes.put(plan.obtenirEntrepot().obtenirId(), new Graph(plan));
+        tousLesGraphes.put(planLivraison.obtenirPlan().obtenirEntrepot().obtenirId(), new Graph(planLivraison));
 
         for (int i = 0; i < livreur.obtenirLivraisons().size(); i++) {
             String nomLivraison = livreur.obtenirLivraisons().get(i).obtenirLieu().obtenirId();
-            tousLesGraphes.put(nomLivraison, new Graph(plan));
+            tousLesGraphes.put(nomLivraison, new Graph(planLivraison));
         }
 
     }

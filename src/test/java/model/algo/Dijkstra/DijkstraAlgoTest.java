@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import model.Intersection;
 import model.Livraison;
 import model.Livreur;
-import model.Plan;
+import model.PlanLivraison;
 import model.Segment;
 import model.Tournee;
 
@@ -23,7 +23,7 @@ import model.Tournee;
  */
 public class DijkstraAlgoTest {
 
-    static Plan plan;
+    static PlanLivraison plan;
     static DijkstraAlgo dijal;
 
     /**
@@ -32,8 +32,8 @@ public class DijkstraAlgoTest {
      * @param plan
      * @return une intersection du plan
      */
-    public Intersection construireLivraisonAleatoire(Plan p) {
-        ArrayList<Intersection> interList = p.obtenirListeIntersection();
+    public Intersection construireLivraisonAleatoire(PlanLivraison p) {
+        ArrayList<Intersection> interList = p.obtenirPlan().obtenirListeIntersection();
         int index = (int) (Math.random() * interList.size());
         return interList.get(index);
     }
@@ -44,8 +44,8 @@ public class DijkstraAlgoTest {
     @BeforeAll
     public static void initPlan() {
         // Initialiser le plan
-        plan = new Plan();
-        plan.chargerXML("src/main/java/largeMap.xml");
+        plan = new PlanLivraison();
+        plan.ouvrirPlan("src/main/java/largeMap.xml");
     }
 
     /**

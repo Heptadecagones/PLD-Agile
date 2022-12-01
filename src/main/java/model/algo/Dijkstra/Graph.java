@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import model.Intersection;
-import model.Plan;
+import model.PlanLivraison;
 import model.Segment;
 
 public class Graph {
@@ -21,10 +21,10 @@ public class Graph {
         this.nodes = nodes;
     }
 
-    public Graph(Plan plan) {
+    public Graph(PlanLivraison planLivraison) {
 
-        ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
-        ArrayList<Segment> listeSegment = plan.obtenirListeSegment();
+        ArrayList<Intersection> listeIntersection = planLivraison.obtenirPlan().obtenirListeIntersection();
+        ArrayList<Segment> listeSegment = planLivraison.obtenirPlan().obtenirListeSegment();
 
         this.nodes = new LinkedHashSet<>();
 

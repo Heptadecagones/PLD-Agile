@@ -22,7 +22,7 @@ import javax.swing.border.TitledBorder;
 
 import model.Livraison;
 import model.Livreur;
-import model.Plan;
+import model.PlanLivraison;
 
 @SuppressWarnings("serial")
 public class Description extends JPanel implements Observer {
@@ -50,7 +50,7 @@ public class Description extends JPanel implements Observer {
     // UPDATE DES DONNEES : ECRITURE DE LA LISTE DES LIVRAISONS
     @Override
     public void update(Observable arg0, Object arg1) {
-        Plan p = (Plan) arg0;
+        PlanLivraison p = (PlanLivraison) arg0;
         String ListeLivraison = "";
         for(Livreur li:p.obtenirListeLivreur()){
             ListeLivraison+=li.toString()+ "\n";

@@ -21,7 +21,7 @@ import javax.swing.border.TitledBorder;
 
 import model.Intersection;
 import model.Livreur;
-import model.Plan;
+import model.PlanLivraison;
 import model.Segment;
 import model.Tournee;
 
@@ -68,11 +68,11 @@ public class Carte extends JPanel implements Observer {
     // UPDATE AU CHANGEMENT DES DONNEES DU MODELE
     @Override
     public void update(Observable arg0, Object arg1) {
-        Plan plan = (Plan) arg0;
-        listeIntersection = plan.obtenirListeIntersection();
-        listeSegment = plan.obtenirListeSegment();
-        entrepot = plan.obtenirEntrepot();
-        listeLivreur=plan.obtenirListeLivreur();
+        PlanLivraison planLivraison = (PlanLivraison) arg0;
+        listeIntersection = planLivraison.obtenirPlan().obtenirListeIntersection();
+        listeSegment = planLivraison.obtenirPlan().obtenirListeSegment();
+        entrepot = planLivraison.obtenirPlan().obtenirEntrepot();
+        listeLivreur=planLivraison.obtenirListeLivreur();
         repaint();
     }
 
