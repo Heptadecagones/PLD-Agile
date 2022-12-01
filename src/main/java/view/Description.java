@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import model.Livraison;
+import model.Livreur;
 import model.Plan;
 
 @SuppressWarnings("serial")
@@ -51,8 +52,8 @@ public class Description extends JPanel implements Observer {
     public void update(Observable arg0, Object arg1) {
         Plan p = (Plan) arg0;
         String ListeLivraison = "";
-        for (Livraison l : p.obtenirListeLivraison()) {
-            ListeLivraison += l.toString() + "\n\n";
+        for(Livreur li:p.obtenirListeLivreur()){
+            ListeLivraison+=li.toString()+ "\n";
         }
         setDescText(ListeLivraison);
     }

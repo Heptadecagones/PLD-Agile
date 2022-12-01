@@ -5,13 +5,14 @@ import java.util.ArrayList;
 public class Livreur {
 
     private int id;
-    private boolean disponbilite;
+    private boolean disponibilite;
     private ArrayList<Livraison> livraisons;
-
+    private Tournee tournee;
     public Livreur(int id) {
         this.id = id;
-        this.disponbilite = true;
+        this.disponibilite = true;
         this.livraisons = new ArrayList<Livraison>();
+        this.tournee=new Tournee();
     }
 
     public int obtenirId() {
@@ -22,12 +23,12 @@ public class Livreur {
         this.id = id;
     }
 
-    public boolean estDisponbilite() {
-        return disponbilite;
+    public boolean estDisponible() {
+        return disponibilite;
     }
 
-    public void modifierDisponbilite(boolean disponbilite) {
-        this.disponbilite = disponbilite;
+    public void modifierDisponibilite(boolean disponbilite) {
+        this.disponibilite = disponbilite;
     }
 
     public ArrayList<Livraison> obtenirLivraisons() {
@@ -39,10 +40,14 @@ public class Livreur {
     }
 
     public String toString() {
-        String description = "id: " + this.id + " dispo: " + this.disponbilite + " ";
+        String description = "id: " + this.id + " dispo: " + this.disponibilite + " ";
         for (Livraison l : this.livraisons) {
             description += " livraison: " + l;
         }
         return description;
+    }
+
+    public Tournee obtenirTournee() {
+        return tournee;
     }
 }

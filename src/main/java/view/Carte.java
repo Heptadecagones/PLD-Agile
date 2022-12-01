@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import model.Intersection;
+import model.Livreur;
 import model.Plan;
 import model.Segment;
 import model.Tournee;
@@ -38,7 +39,7 @@ public class Carte extends JPanel implements Observer {
     private Intersection entrepot;
     private ArrayList<Intersection> listeIntersection = new ArrayList<>();
     private ArrayList<Segment> listeSegment = new ArrayList<>();
-    private ArrayList<Tournee> listeTournee = new ArrayList<>();
+    private ArrayList<Livreur> listeLivreur = new ArrayList<>();
 
     private int DIAMETRE_INTERSECTION = 4;
     private int DIAMETRE_ENTREPOT = 10;
@@ -71,7 +72,7 @@ public class Carte extends JPanel implements Observer {
         listeIntersection = plan.obtenirListeIntersection();
         listeSegment = plan.obtenirListeSegment();
         entrepot = plan.obtenirEntrepot();
-        listeTournee=plan.obtenirListeTournee();
+        listeLivreur=plan.obtenirListeLivreur();
         repaint();
     }
 
@@ -204,9 +205,9 @@ public class Carte extends JPanel implements Observer {
         if (!listeSegment.isEmpty()) {
             ArrayList<Point2D> origines = new ArrayList<>();
             ArrayList<Point2D> destinations = new ArrayList<>();
-            Color[] tabColor=new Color[listeTournee.size()];
+            Color[] tabColor=new Color[listeLivreur.size()];
             int i=0;
-            for(i=0;i<listeTournee.size();i++){
+            for(i=0;i<listeLivreur.size();i++){
                 int un=(int)(Math.random() * 255);
                 int deux=(int)(Math.random() * 255);
                 int trois=(int)(Math.random() * 255);
@@ -245,11 +246,11 @@ public class Carte extends JPanel implements Observer {
                 g2d.setColor(Color.BLACK);
                 g2d.setStroke(new BasicStroke(1));
                 i=0;
-                for(Tournee t : listeTournee){
+                for(Livreur livr : listeLivreur){
                     i++;
-                    for(Segment s : t.obtenirListeSegment()){
+                    for(Segment s : livr.obtenirTournee().obtenirListeSegment()){
                         if(segment==s){
-                            System.out.println(t.toString()+i+tabColor[i]);
+                            //System.out.println(t.toString()+i+tabColor[i]);
                             g2d.setColor(tabColor[i]);
                             g2d.setStroke(new BasicStroke(3));
                         }

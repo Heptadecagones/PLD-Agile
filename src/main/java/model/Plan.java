@@ -21,19 +21,15 @@ public class Plan extends Observable {
     private ArrayList<Segment> listeSegment;
     private long nombreIntersection;
     private long nombreSegment;
-    private ArrayList<Tournee> listeTournee;
-    private ArrayList<Livraison> listeLivraison;
     private ArrayList<Livreur> listeLivreur;
 
     // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
     public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
         Livraison nouvelleLivraison=new Livraison(Integer.parseInt(horaire), intersection, this.listeLivreur.get(Integer.parseInt(numLivreur)));
         this.listeLivreur.get(Integer.parseInt(numLivreur)).obtenirLivraisons().add(nouvelleLivraison);
-        this.listeLivraison.add(nouvelleLivraison);
         System.out.println("Livreur:"+this.listeLivreur.get(Integer.parseInt(numLivreur)).toString());
         DijkstraAlgo dijal = new DijkstraAlgo(this, this.listeLivreur.get(Integer.parseInt(numLivreur)));
         Tournee t=new Tournee();
-        System.out.println(this.listeTournee.size());
         try{
          t= new Tournee(dijal.calculerTournee());
          System.out.println("test\n:"+t.toString());
@@ -41,8 +37,7 @@ public class Plan extends Observable {
         catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace();
         }
-        System.out.println(this.listeTournee.size());
-        this.listeTournee.get(Integer.parseInt(numLivreur)).modifierListeSegment(t.obtenirListeSegment());
+        this.listeLivreur.get(Integer.parseInt(numLivreur)).obtenirTournee().modifierListeSegment(t.obtenirListeSegment());
         this.setChanged();
         this.notifyObservers();
     }
@@ -125,8 +120,6 @@ public class Plan extends Observable {
                     }
                 }
             }
-        //this.listeTournee = new ArrayList<Tournee>();
-            this.listeLivraison = new ArrayList<Livraison>();
         } catch (IOException e) {
             System.out.println(e);
         } catch (SAXException e) {
@@ -141,16 +134,10 @@ public class Plan extends Observable {
 
     public Plan() {
         this.listeLivreur = new ArrayList<Livreur>();
-        this.listeTournee = new ArrayList<Tournee>();
         this.listeLivreur.add(new Livreur(0));
         this.listeLivreur.add(new Livreur(1));
         this.listeLivreur.add(new Livreur(2));
         this.listeLivreur.add(new Livreur(3));
-        this.listeTournee.add(new Tournee(new ArrayList<Segment>()));
-        this.listeTournee.add(new Tournee(new ArrayList<Segment>()));
-        this.listeTournee.add(new Tournee(new ArrayList<Segment>()));
-        this.listeTournee.add(new Tournee(new ArrayList<Segment>()));
-        System.out.println(this.listeTournee.size());
     }
 
     public Intersection obtenirEntrepot() {
@@ -173,23 +160,10 @@ public class Plan extends Observable {
         return listeSegment;
     }
 
-    public ArrayList<Tournee> obtenirListeTournee() {
-        return listeTournee;
-    }
-
-    public ArrayList<Livraison> obtenirListeLivraison() {
-        return listeLivraison;
-    }
-
     public String toString() {
         String description = "Entrepot\n";
         description += this.entrepot.toString();
-        description += "\nNombre de Livraisons : " + this.listeLivraison.size() + "\n";
         description += "\nListe des Livraisons :\n";
-        for (int i = 0; i < this.listeLivraison.size(); i++) {
-            description += this.listeLivraison.get(i).toString();
-            description += "\n";
-        }
         description += "\nNombre d'intserctions : " + this.nombreIntersection;
         description += "\nNombre de segments : " + this.nombreSegment;
         description += "\nListe des intersections :\n";
@@ -205,7 +179,7 @@ public class Plan extends Observable {
         return description;
     }
 
-    public void ajouterLivraison(Livraison liv) {
-        this.listeLivraison.add(liv);
+    public ArrayList<Livreur> obtenirListeLivreur() {
+        return this.listeLivreur;
     }
 }
