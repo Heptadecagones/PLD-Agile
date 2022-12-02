@@ -1,8 +1,10 @@
 package controller;
 
 import java.awt.event.*;
+import java.io.File;
 import java.util.Observer;
 
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -25,7 +27,25 @@ public class Controleur {
                 String command = arg0.getActionCommand();
                 // System.out.println(command);
                 if ("Charger".equals(command)) {
-                    plan.chargerXML("src/main/java/mediumMap.xml");
+                    JFileChooser selecteur = new JFileChooser();
+
+                    // adapter le chemin vers les fichier XML 
+                    String cheminXML = File.separator + "src" + File.separator + "main" + File.separator + "java";
+                    File repertoireProjet = new File(System.getProperty("user.dir") + cheminXML);
+                    selecteur.setCurrentDirectory(repertoireProjet);
+
+                    if (selecteur.showOpenDialog(view.obtenirBarre().obtenirCharger()) == JFileChooser.APPROVE_OPTION) {
+                        File file = selecteur.getSelectedFile();
+                        if (file.exists()) {
+                            if (file.getName().endsWith(".xml")) {
+                                plan.chargerXML(file.getPath());
+                            } else {
+                                System.out.println("Pas un fichier xml");
+                            }
+                        } else {
+                            System.out.println("Fichier n'existe pas");
+                        }
+                    }
                 }
                 /*
                  * if ("Nouvelle livraison".equals(command)) {
