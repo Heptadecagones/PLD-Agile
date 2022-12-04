@@ -69,7 +69,7 @@ public class DijkstraAlgoTest {
 
         livreur.modifierLivraisons(livrs);
 
-        dijal = new DijkstraAlgo(plan, livreur);
+        dijal = new DijkstraAlgo(plan.obtenirPlan(), livreur);
     }
 
     /**
@@ -80,7 +80,10 @@ public class DijkstraAlgoTest {
         dijal = null;
     }
 
-    @RepeatedTest(2)
+    /* TODO : Le test est déprécié, ce n'est Pls DijkstraAlgo qui renvoi la tournée.
+     * Remplacer avec un autre test.
+     */
+    /*@RepeatedTest(3)
     public void testAlgorithme() throws CloneNotSupportedException {
         Tournee t = new Tournee(dijal.calculerTournee());
         ArrayList<Segment> segs = t.obtenirListeSegment();
@@ -89,6 +92,6 @@ public class DijkstraAlgoTest {
         Intersection endInter = segs.get(segs.size() - 1).obtenirDestination();
 
         assertTrue(startInter == endInter);
-    }
+    }*/
 
 }

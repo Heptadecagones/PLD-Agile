@@ -1,7 +1,8 @@
 package model;
 import java.util.Observable;
 import java.util.ArrayList;
-import model.algo.Dijkstra.DijkstraAlgo;
+import model.algo.FacadeAlgoTournee;
+
 /**
  *
  * @author Henri
@@ -17,10 +18,12 @@ public class PlanLivraison extends Observable {
         Livraison nouvelleLivraison=new Livraison(Integer.parseInt(horaire), intersection, this.listeLivreur.get(Integer.parseInt(numLivreur)));
         this.listeLivreur.get(Integer.parseInt(numLivreur)).obtenirLivraisons().add(nouvelleLivraison);
         System.out.println("Livreur:"+this.listeLivreur.get(Integer.parseInt(numLivreur)).toString());
-        DijkstraAlgo dijal = new DijkstraAlgo(this, this.listeLivreur.get(Integer.parseInt(numLivreur)));
+        // TODO: remplacer l'appel de DijkstraAlgo par un appel de FacadeAlgoTournee
+        //DijkstraAlgo dijal = new DijkstraAlgo(this, this.listeLivreur.get(Integer.parseInt(numLivreur)));
         Tournee t=new Tournee();
         try{
-         t= new Tournee(dijal.calculerTournee());
+            t = new Tournee(FacadeAlgoTournee.calculerTournee(
+                plan, this.listeLivreur.get(Integer.parseInt(numLivreur))));
          System.out.println("test\n:"+t.toString());
         }
         catch (CloneNotSupportedException cnse) {

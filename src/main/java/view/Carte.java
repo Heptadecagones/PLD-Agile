@@ -121,7 +121,7 @@ public class Carte extends JPanel implements Observer {
             g.setColor(new Color(0, 255, 0));
             g.fillOval(showX, showY, 10, 10);
             // OUVERTURE FENETRE LIVRAISON
-            String message = choixIntersection.toString();
+            //String message = choixIntersection.toString();
             System.out.println("nouvelleLivraison cliqué");
             fenetreCreation.setIntersection(choixIntersection);
             fenetreCreation.ouvrir();
