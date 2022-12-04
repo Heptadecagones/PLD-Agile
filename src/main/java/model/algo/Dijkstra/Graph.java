@@ -1,12 +1,17 @@
 package model.algo.Dijkstra;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
 import model.Intersection;
 import model.Plan;
 import model.Segment;
+
+/**
+ *
+ * @author Yannick
+ */
 
 public class Graph {
 
@@ -21,6 +26,7 @@ public class Graph {
         this.nodes = nodes;
     }
 
+    // Constructeur à partir d'un plan
     public Graph(Plan plan) {
 
         ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
@@ -60,14 +66,23 @@ public class Graph {
 
     }
 
+    /**
+     * @param nodeA
+     */
     public void ajouterNode(Node nodeA) {
         nodes.add(nodeA);
     }
 
+    /**
+     * @return
+     */
     public Set<Node> obtenirNodes() {
         return nodes;
     }
 
+    /**
+     * @param nodes
+     */
     public void modifierNodes(Set<Node> nodes) {
         this.nodes = nodes;
     }

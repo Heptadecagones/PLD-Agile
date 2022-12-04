@@ -2,8 +2,15 @@ package model.algo.TSP;
 
 import java.util.Collection;
 import java.util.Iterator;
-import model.algo.Dijkstra.*;
 import java.util.Map;
+
+import model.algo.Dijkstra.Graph;
+import model.algo.Dijkstra.Node;
+
+/**
+ *
+ * @author Hugo
+ */
 
 public class SeqIter implements Iterator<Node> {
     private Node[] candidates;

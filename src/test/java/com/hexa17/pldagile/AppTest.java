@@ -5,8 +5,10 @@ package com.hexa17.pldagile;
 // import org.junit.jupiter.api.Test;
 
 /**
- * Unit test for simple App.
+ *
+ * @author Maven (auto)
  */
+
 public class AppTest {
     /**
      * Rigorous Test :-)

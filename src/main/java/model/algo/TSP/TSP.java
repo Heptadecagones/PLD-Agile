@@ -1,6 +1,13 @@
 package model.algo.TSP;
 
-import model.algo.Dijkstra.*;
+import model.algo.Dijkstra.Graph;
+import model.algo.Dijkstra.Node;
+
+
+/**
+ *
+ * @author Hugo
+ */
 
 public interface TSP {
     /**

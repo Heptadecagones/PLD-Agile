@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *
+ * @author Yannick
+ */
+
 public class Segment {
 
     private String nom;

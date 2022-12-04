@@ -1,29 +1,38 @@
 package model;
 
-import java.util.Observable;
-import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Observable;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ *
+ * @author Yannick
+ */
+
 public class Plan extends Observable {
     private Intersection entrepot;
+
     private ArrayList<Intersection> listeIntersection;
     private ArrayList<Segment> listeSegment;
-    private long nombreIntersection;
-    private long nombreSegment;
     private ArrayList<Tournee> listeTournee;
     private ArrayList<Livraison> listeLivraison;
     private ArrayList<Livreur> listeLivreur;
 
-    // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
+    private long nombreIntersection;
+    private long nombreSegment;
+
+    // Ajout d'une livraison, méthode appelée par le constructeur
     public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
         this.listeLivraison
                 .add(new Livraison(Integer.parseInt(horaire), intersection, new Livreur(Integer.parseInt(numLivreur))));
