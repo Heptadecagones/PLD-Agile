@@ -2,7 +2,14 @@ package model.algo.TSP;
 
 import java.util.Collection;
 import java.util.Iterator;
-import model.algo.Dijkstra.*;
+
+import model.algo.Dijkstra.Graph;
+import model.algo.Dijkstra.Node;
+
+/**
+ *
+ * @author Hugo
+ */
 
 public class TSP1 extends TemplateTSP {
     @Override

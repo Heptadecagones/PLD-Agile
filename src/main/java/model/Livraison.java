@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *
+ * @author Yannick
+ */
+
 public class Livraison {
 
     private int plageHoraire;

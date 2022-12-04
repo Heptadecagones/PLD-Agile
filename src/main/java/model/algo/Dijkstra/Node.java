@@ -5,6 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ * @author Yannick
+ */
+
 public class Node {
 
     private String nom;
@@ -33,10 +38,6 @@ public class Node {
 
     public String obtenirNom() {
         return nom;
-    }
-
-    public void modifierNom(String nom) {
-        this.nom = nom;
     }
 
     public List<Node> obtenirCheminPlusCourt() {

@@ -5,6 +5,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ *
+ * @author Henri
+ */
+
 public class IHM {
     // position du coin supérieur gauche de l'application
     final int POSITION_X = 50;

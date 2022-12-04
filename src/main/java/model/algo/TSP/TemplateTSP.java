@@ -3,9 +3,16 @@ package model.algo.TSP;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.Map;
-import model.algo.Dijkstra.*;
+import java.util.Set;
+
+import model.algo.Dijkstra.Graph;
+import model.algo.Dijkstra.Node;
+
+/**
+ *
+ * @author Hugo
+ */
 
 public abstract class TemplateTSP implements TSP {
     private Node[] bestSol;

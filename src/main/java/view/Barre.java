@@ -1,13 +1,18 @@
 package view;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+/**
+ *
+ * @author Henri
+ */
 
 @SuppressWarnings("serial")
 public class Barre extends JPanel {
