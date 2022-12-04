@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Henri
+ * @author Equipe IHM
  */
 
 public class IHM {

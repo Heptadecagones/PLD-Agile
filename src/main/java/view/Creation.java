@@ -23,7 +23,7 @@ import model.Intersection;
 
 /**
  *
- * @author Equipe IHM? TODO modifier
+ * @author Equipe IHM
  */
 
 @SuppressWarnings("serial")
@@ -63,6 +63,7 @@ public class Creation {
     }
 
     public void init() {
+        // Définir les propriétés des composants
         btnCreerLivraison = creerBouton("Creer");
         textIntersection.setFont(font);
         textIntersection.setLineWrap(true);
@@ -70,6 +71,7 @@ public class Creation {
         textHoraire.setFont(font);
         textLivreur.setFont(font);
 
+        // Ajouter des composants dans la fenêtre
         JPanel panelMere = new JPanel();
         panelMere.setLayout(new BoxLayout(panelMere, BoxLayout.Y_AXIS));
 
@@ -100,6 +102,8 @@ public class Creation {
         panelMere.add(panelFil);
         panelMere.add(btnCreerLivraison);
         f.add(panelMere);
+
+        // Définir les propriétés de la fenêtre
         f.setLocation(200, 200);
         f.setResizable(false);
         f.pack();
@@ -127,15 +131,26 @@ public class Creation {
         return textIntersection.getText();
     }
 
+    /**
+     * Ouvrir la fenêtre 
+     */
     public void ouvrir() {
         textIntersection.setText(this.intersection.toString());
         this.f.setVisible(true);
     }
 
+    /**
+     * Fermer la fenêtre 
+     */
     public void fermer() {
         this.f.setVisible(false);
     }
 
+    /**
+     * Renvoie un bouton avec des propriétés de base (police, etc)
+     * @param nom
+     * @return JButton
+     */
     public JButton creerBouton(String nom) {
         JButton bouton = new JButton(nom);
         bouton.setFont(font);

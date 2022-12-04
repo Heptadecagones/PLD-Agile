@@ -12,12 +12,24 @@ import javax.swing.border.TitledBorder;
 import model.Livraison;
 import model.Plan;
 
+/**
+ *
+ * @author Equipe IHM
+ */
+
 @SuppressWarnings("serial")
 public class Description extends JPanel implements Observer {
+    /**
+     * Tous les composants
+     */
     JTextArea descText;
     JScrollPane scrollPane;
-    private final int LONGUEUR = 200;
-    private final int HAUTEUR = 650;
+
+    /**
+     * la taille du panneau
+     */
+    private int LONGUEUR = 200;
+    private int HAUTEUR = 650;
 
     public void setDescText(String setdescText) {
         this.descText.setText(setdescText);
@@ -32,10 +44,9 @@ public class Description extends JPanel implements Observer {
         descText.setLineWrap(true);
         scrollPane = new JScrollPane(descText);
         add(scrollPane);
-
     }
 
-    // UPDATE DES DONNEES : ECRITURE DE LA LISTE DES LIVRAISONS
+    // Mise à jour des données : Ecriture de la liste des livraisons
     @Override
     public void update(Observable arg0, Object arg1) {
         Plan p = (Plan) arg0;
