@@ -75,7 +75,7 @@ public class Creation {
 
         JPanel panelFil = new JPanel();
         panelFil.setLayout(new GridBagLayout());
-        
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
@@ -91,7 +91,7 @@ public class Creation {
         panelHoraire.setBorder(new TitledBorder("Horaire"));
         panelHoraire.add(textHoraire);
         panelFil.add(panelHoraire, gbc);
-        
+
         gbc.gridy++;
         panelLivreur.setBorder(new TitledBorder("Livreur"));
         panelLivreur.add(textLivreur);
@@ -104,7 +104,7 @@ public class Creation {
         f.setResizable(false);
         f.pack();
         f.setVisible(false);
-        
+
         ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource() == btnCreerLivraison) {
