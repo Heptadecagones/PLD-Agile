@@ -45,6 +45,10 @@ public class Controleur {
                         File file = selecteur.getSelectedFile();
                         if (file.exists()) {
                             if (file.getName().endsWith(".xml")) {
+                                // Remise toutes les données de l'ancienne carte
+                                view.obtenirCarte().reinitDonnee();
+                                planLivraison.reinitDonnee();
+
                                 planLivraison.ouvrirPlan(file.getPath());
                             } else {
                                 System.out.println("Pas un fichier xml");

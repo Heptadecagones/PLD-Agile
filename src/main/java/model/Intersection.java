@@ -52,6 +52,10 @@ public class Intersection {
         this.listeSegmentOrigine.add(segment);
     }
 
+    public ArrayList<Segment> obtenirListeSegmentOrigine() {
+        return listeSegmentOrigine;
+    }
+
     public String toString() {
         String description = "Id : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude;
         return description;

@@ -127,5 +127,15 @@ public class Plan {
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;
     }
+
+    /**
+     * Réinitialise toutes les donnees 
+     * Utilisée quand l'utilisateur charge une nouvelle carte
+     */
+    public void reinitDonnee() {
+        entrepot = new Intersection();
+        listeIntersection = new ArrayList<>();
+        listeSegment = new ArrayList<>();
+    }
         
 }

@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.BorderLayout;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,21 +27,15 @@ public class Description extends JPanel implements Observer {
     JTextArea descText;
     JScrollPane scrollPane;
 
-    /**
-     * la taille du panneau
-     */
-    private int LONGUEUR = 200;
-    private int HAUTEUR = 650;
-
     public void setDescText(String setdescText) {
         this.descText.setText(setdescText);
     }
 
     public Description() {
-        setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
+        setLayout(new BorderLayout());
         setBorder(new TitledBorder("Description"));
 
-        descText = new JTextArea(20, 25);
+        descText = new JTextArea();
         descText.setText("Pas de contenu");
         descText.setLineWrap(true);
         scrollPane = new JScrollPane(descText);
@@ -52,7 +48,7 @@ public class Description extends JPanel implements Observer {
         PlanLivraison p = (PlanLivraison) arg0;
         String ListeLivraison = "";
         for(Livreur li:p.obtenirListeLivreur()){
-            ListeLivraison+=li.toString()+ "\n";
+            ListeLivraison+=li.toString()+ "\n\n";
         }
         setDescText(ListeLivraison);
     }
