@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *
+ * @author Yannick
+ */
+
 public class Segment {
 
     private String nom;
@@ -8,7 +13,6 @@ public class Segment {
     private double longueur;
 
     public Segment() {
-
     }
 
     public Segment(String n, Intersection ori, Intersection dest, double l) {

@@ -1,74 +1,80 @@
 package view;
-import javax.swing.JButton;
+
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import java.awt.*;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author Equipe IHM
+ */
 
 public class IHM {
-    JFrame frame;
-    JTextField field;
-    JButton button;
-    JLabelObserver label;
-    public void setLabel2(JLabelObserver label2) {
-        this.label2 = label2;
-    }
-    public void setLabel3(JLabelObserver label3) {
-        this.label3 = label3;
+    // position du coin supérieur gauche de l'application
+    final int POSITION_X = 50;
+    final int POSITION_Y = 20;
+
+    private Barre barre = new Barre();
+    private Description description = new Description();
+    private Carte carte = new Carte();
+
+    public void modifierBarre(Barre barre) {
+        this.barre = barre;
     }
 
-    JLabelObserver label2;
-    public JLabel getLabel2() {
-        return label2;
-    }
-    public JLabel getLabel3() {
-        return label3;
+    public void modifierDescription(Description description) {
+        this.description = description;
     }
 
-    JLabelObserver label3;
-    public void setLabel(JLabelObserver label) {
-        this.label = label;
-    }
-    public JLabel getLabel() {
-        return label;
-    }
-    public JFrame getFrame() {
-        return frame;
-    }
-    public JTextField getField() {
-        return field;
-    }
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
-    }
-    public void setField(JTextField field) {
-        this.field = field;
-    }
-    public void setButton(JButton button) {
-        this.button = button;
-    }
-    public JButton getButton() {
-        return button;
+    public void modifierCarte(Carte carte) {
+        this.carte = carte;
     }
 
-    /**
-     * 
-     */
-    public void init(){
-        frame=new JFrame("Exemple MVC");
-        field = new JTextField();
-        field.setColumns(10);
-        button=new JButton("OK");
-        label=new JLabelObserver("label 1");
-        label2=new JLabelObserver("label 2");
-        label3=new JLabelObserver("label 3");
-        frame.setLayout(new FlowLayout());
-        frame.getContentPane().add(field);
-        frame.getContentPane().add(button);
-        frame.getContentPane().add(label);
-        frame.getContentPane().add(label2);
-        frame.getContentPane().add(label3);
+    public Barre obtenirBarre() {
+        return barre;
+    }
+
+    public Description obtenirDescription() {
+        return description;
+    }
+
+    public Carte obtenirCarte() {
+        return carte;
+    }
+
+    public void init() {
+        /*
+         * try {
+         * 
+         * for (LookAndFeelInfo info : UIManager.obtenirInstalledLookAndFeels()) {
+         * if ("Nimbus".equals(info.obtenirName())) {
+         * UIManager.modifierLookAndFeel(info.obtenirClassName());
+         * break;
+         * }
+         * }
+         * } catch (ClassNotFoundException | InstantiationException |
+         * IllegalAccessException | UnsupportedLookAndFeelException ex) {
+         * ex.printStackTrace();
+         * }
+         */
+
+        JFrame frame = new JFrame("PLD AGILE");
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        frame.setLocation(POSITION_X, POSITION_Y);
+        frame.add(barre, BorderLayout.NORTH);
+
+        JPanel panelSud = new JPanel();
+        panelSud.setLayout(new BoxLayout(panelSud, BoxLayout.LINE_AXIS));
+        panelSud.add(description);
+        panelSud.add(carte);
+        frame.add(panelSud, BorderLayout.SOUTH);
+        // frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // frame.setResizable(false);
         frame.setVisible(true);
-        frame.pack();
     }
+
 }

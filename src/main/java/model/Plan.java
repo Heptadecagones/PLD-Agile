@@ -1,48 +1,46 @@
 package model;
 
-import java.util.Observable;
-import java.util.ArrayList;
-import javafx.util.Pair;
-import java.util.Map;
-import java.util.HashMap;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Observable;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Plan extends Observable
-{
+/**
+ *
+ * @author Yannick
+ */
 
-    // String valeur;
-
-    // public String getValeur() {
-    //     return valeur;
-    // }
-
-    // public void setValeur(String valeur) {
-    //     this.valeur = valeur;
-    //     System.out.println("nouvelle valeur ="+valeur);
-    //     this.setChanged();
-    //     this.notifyObservers();
-    // }
-
+public class Plan extends Observable {
     private Intersection entrepot;
+
     private ArrayList<Intersection> listeIntersection;
     private ArrayList<Segment> listeSegment;
-    private long nombreIntersection;
-    private long nombreSegment;
     private ArrayList<Tournee> listeTournee;
     private ArrayList<Livraison> listeLivraison;
-    // Structure contenant le segment identifié par Pair<idOrigine, idDestination) 
-    private HashMap<Pair<String, String>, Segment> segmentsParIds;
+    private ArrayList<Livreur> listeLivreur;
 
-    public Plan(String nomFichier) {
+    private long nombreIntersection;
+    private long nombreSegment;
+
+    // Ajout d'une livraison, méthode appelée par le constructeur
+    public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
+        this.listeLivraison
+                .add(new Livraison(Integer.parseInt(horaire), intersection, new Livreur(Integer.parseInt(numLivreur))));
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public void chargerXML(String nomFichier) {
         try {
 
             File file = new File(nomFichier);
@@ -63,7 +61,7 @@ public class Plan extends Observable
                     String tempId = eElement.getAttribute("id");
                     double tempLong = Double.parseDouble(eElement.getAttribute("longitude"));
                     double tempLat = Double.parseDouble(eElement.getAttribute("latitude"));
-                    Intersection tempInter = new Intersection(tempId,tempLong, tempLat);
+                    Intersection tempInter = new Intersection(tempId, tempLong, tempLat);
                     this.listeIntersection.add(tempInter);
                 }
             }
@@ -85,18 +83,19 @@ public class Plan extends Observable
                     Intersection tempDest = null;
 
                     int compte = 0;
-                    for(int j = 0 ; j < this.listeIntersection.size(); j++) {
-                        if(this.listeIntersection.get(j).obtenirId().equals(tempOrigineId)) {
+                    for (int j = 0; j < this.listeIntersection.size(); j++) {
+                        if (this.listeIntersection.get(j).obtenirId().equals(tempOrigineId)) {
                             tempOrigine = this.listeIntersection.get(j);
                             compte++;
                         }
 
-                        if(this.listeIntersection.get(j).obtenirId().equals(tempDestId)) {
+                        if (this.listeIntersection.get(j).obtenirId().equals(tempDestId)) {
                             tempDest = this.listeIntersection.get(j);
                             compte++;
                         }
 
-                        if(compte == 2) break;
+                        if (compte == 2)
+                            break;
                     }
                     Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
                     tempOrigine.ajouterSegment(tempSegment);
@@ -112,8 +111,8 @@ public class Plan extends Observable
                 String tempEntrepotId = eElement.getAttribute("address");
                 this.entrepot = null;
 
-                for(int j = 0 ; j < this.listeIntersection.size(); j++) {
-                    if(this.listeIntersection.get(j).obtenirId().equals(tempEntrepotId)) {
+                for (int j = 0; j < this.listeIntersection.size(); j++) {
+                    if (this.listeIntersection.get(j).obtenirId().equals(tempEntrepotId)) {
                         this.entrepot = this.listeIntersection.get(j);
                         break;
                     }
@@ -121,38 +120,30 @@ public class Plan extends Observable
             }
             this.listeTournee = new ArrayList<Tournee>();
             this.listeLivraison = new ArrayList<Livraison>();
-
-            // Création de segmentParIds
-            this.calculerSegmentsParIds();
-
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
+            System.out.println(e);
+        } catch (SAXException e) {
+            System.out.println(e);
+        } catch (ParserConfigurationException e) {
             System.out.println(e);
         }
-        catch(SAXException e) {
-            System.out.println(e);
-        }
-        catch(ParserConfigurationException e) {
-            System.out.println(e);
-        } 
+        this.setChanged();
+        this.notifyObservers();
+        // System.out.println(this.toString());
     }
 
-    public Plan()
-    {
+    public Plan() {
     }
 
-    public Intersection obtenirEntrepot()
-    {
+    public Intersection obtenirEntrepot() {
         return entrepot;
     }
 
-    public long obtenirNombreIntersection()
-    {
+    public long obtenirNombreIntersection() {
         return nombreIntersection;
     }
 
-    public long obtenirNombreSegment()
-    {
+    public long obtenirNombreSegment() {
         return nombreSegment;
     }
 
@@ -172,78 +163,31 @@ public class Plan extends Observable
         return listeLivraison;
     }
 
-    public void modifierListeTournee(ArrayList<Tournee> listeTournee) {
-        this.listeTournee = listeTournee;
-    }
-
-    public void modifierListeLivraison(ArrayList<Livraison> listeLivraison) {
-        this.listeLivraison = listeLivraison;
-    }
-
-    public void modifierEntrepot(Intersection entrepot) {
-        this.entrepot = entrepot;
-    }
-
-    public void modifierListeIntersection(ArrayList<Intersection> listeIntersection) {
-        this.listeIntersection = listeIntersection;
-    }
-
-    public void modifierListeSegment(ArrayList<Segment> listeSegment) {
-        this.listeSegment = listeSegment;
-    }
-
-    public void modifierNombreIntersection(long nombreIntersection) {
-        this.nombreIntersection = nombreIntersection;
-    }
-
-    public void modifierNombreSegment(long nombreSegment) {
-        this.nombreSegment = nombreSegment;
-    }
-
     public String toString() {
         String description = "Entrepot\n";
         description += this.entrepot.toString();
-        description +="\nNombre d'intserctions : " + this.nombreIntersection;
-        description +="\nNombre de segments : " + this.nombreSegment;
-        description +="\nListe des intersections :\n";
-        for(int i = 0 ; i < this.listeIntersection.size(); i++) {
+        description += "\nNombre de Livraisons : " + this.listeLivraison.size() + "\n";
+        description += "\nListe des Livraisons :\n";
+        for (int i = 0; i < this.listeLivraison.size(); i++) {
+            description += this.listeLivraison.get(i).toString();
+            description += "\n";
+        }
+        description += "\nNombre d'intserctions : " + this.nombreIntersection;
+        description += "\nNombre de segments : " + this.nombreSegment;
+        description += "\nListe des intersections :\n";
+        for (int i = 0; i < this.listeIntersection.size(); i++) {
             description += this.listeIntersection.get(i).toString();
             description += "\n";
         }
-        description +="Liste des segments :\n";
-        for(int i = 0 ; i < this.listeSegment.size(); i++) {
+        description += "Liste des segments :\n";
+        for (int i = 0; i < this.listeSegment.size(); i++) {
             description += this.listeSegment.get(i).toString();
             description += "\n";
         }
         return description;
     }
 
-    public void ajouterLivraison(Livraison liv)
-    {
+    public void ajouterLivraison(Livraison liv) {
         this.listeLivraison.add(liv);
-    }
-
-    public void ajouterTournee(Livraison tournee)
-    {
-        this.listeLivraison.add(tournee);
-    }
-
-    /*  On suppose qu'il n'y a que dans le cas de la création d'un plan qu'on
-        souhaite calculer segmentsParIds
-    */
-    private void calculerSegmentsParIds( )
-    {
-        segmentsParIds = new HashMap<Pair<String, String>, Segment>();
-        for(Segment seg : this.listeSegment)
-        {
-            segmentsParIds.put(new Pair<String, String>(seg.obtenirOrigine().obtenirId(),
-                                                        seg.obtenirDestination().obtenirId())
-                                                        , seg);
-        }
-    }
-
-    public HashMap<Pair<String, String>, Segment> obtenirSegmentsParIds()
-    {
-        return this.segmentsParIds;
     }
 }

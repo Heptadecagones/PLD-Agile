@@ -1,17 +1,26 @@
 package model;
 
+/**
+ *
+ * @author Yannick
+ */
+
 public class Livraison {
-    
+
     private int plageHoraire;
     private Intersection lieu;
-    private int livreur;
+    private Livreur livreur;
 
-    public Livraison()
-    {
+    public Livraison() {
     }
 
-    public Livraison(int horaire, Intersection l, int liv)
-    {
+    public String toString() {
+        String description = "Plage Horaire : " + this.plageHoraire + " lieu : " + this.lieu;
+        return description;
+    }
+
+    public Livraison(int horaire, Intersection l, Livreur liv) {
+
         this.plageHoraire = horaire;
         this.lieu = l;
         this.livreur = liv;
@@ -25,7 +34,7 @@ public class Livraison {
         return lieu;
     }
 
-    public int obtenirLivreur() {
+    public Livreur obtenirLivreur() {
         return livreur;
     }
 
@@ -37,7 +46,7 @@ public class Livraison {
         this.lieu = lieu;
     }
 
-    public void modifierLivreur(int livreur) {
+    public void modifierLivreur(Livreur livreur) {
         this.livreur = livreur;
     }
 }
