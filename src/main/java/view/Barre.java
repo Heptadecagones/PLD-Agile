@@ -82,6 +82,7 @@ public class Barre extends JPanel {
 
     /**
      * Renvoie un bouton avec des propriétés de base (police, etc)
+     * 
      * @param nom
      * @return JButton
      */

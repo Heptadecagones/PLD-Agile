@@ -1,7 +1,6 @@
 package model.algo;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
@@ -18,6 +17,7 @@ import model.algo.Dijkstra.*;
 
 /**
  * Tests du patron de conception Facade pour la partie algorithmique
+ * 
  * @author Hugo
  */
 
@@ -39,7 +39,6 @@ public class FacadeAlgoTourneeTest {
         int index = (int) (Math.random() * interList.size());
         return interList.get(index);
     }
-
 
     /**
      * Génère le plan nécessaire aux tests de l'algorithme.
@@ -83,12 +82,11 @@ public class FacadeAlgoTourneeTest {
         int nombreLivraison = 4;
         Livreur livreur = renvoiLivreuravecLivraisonsAleatoires(nombreLivraison);
         ArrayList<Segment> tournee = null;
-        try{
+        try {
             tournee = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
-        }
-        catch (CloneNotSupportedException cnse) {
+        } catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace();
-            // Si l'exception arrive on ne veut pas voir de 
+            // Si l'exception arrive on ne veut pas voir de
             assertTrue(false);
         }
 

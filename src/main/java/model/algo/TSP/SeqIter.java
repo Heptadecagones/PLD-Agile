@@ -4,16 +4,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import model.algo.Dijkstra.Graph;
-import model.algo.Dijkstra.Node;
+import model.algo.Dijkstra.Graphe;
+import model.algo.Dijkstra.Noeud;
 
 /**
  *
  * @author Hugo
  */
 
-public class SeqIter implements Iterator<Node> {
-    private Node[] candidates;
+public class SeqIter implements Iterator<Noeud> {
+    private Noeud[] candidates;
     private int nbCandidates;
 
     /**
@@ -25,12 +25,12 @@ public class SeqIter implements Iterator<Node> {
      * @param currentVertex
      * @param g
      */
-    public SeqIter(Collection<Node> unvisited, Node currentVertex, Graph g) {
-        this.candidates = new Node[unvisited.size()];
-        for (Node s : unvisited) {
+    public SeqIter(Collection<Noeud> unvisited, Noeud currentVertex, Graphe g) {
+        this.candidates = new Noeud[unvisited.size()];
+        for (Noeud s : unvisited) {
             // On vérifie qu'il existe un lien entre la Node actuelle (currentVertex) et la
             // node s
-            Map<Node, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
+            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
             if (nodesAdjacentes.containsKey(s))
                 candidates[nbCandidates++] = s;
         }
@@ -42,7 +42,7 @@ public class SeqIter implements Iterator<Node> {
     }
 
     @Override
-    public Node next() {
+    public Noeud next() {
         nbCandidates--;
         return candidates[nbCandidates];
     }

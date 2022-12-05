@@ -10,22 +10,22 @@ import model.Livreur;
 
 /**
  * Patron de conception Facade pour la partie algorithmique
+ * 
  * @author Hugo
  */
 
 public abstract class FacadeAlgoTournee {
-    public static ArrayList<Segment> calculerTournee(Plan plan, Livreur livreur) throws CloneNotSupportedException
-    {
+    public static ArrayList<Segment> calculerTournee(Plan plan, Livreur livreur) throws CloneNotSupportedException {
         ArrayList<Segment> tournee = new ArrayList<Segment>();
 
         // Obtention du graphe
         DijkstraAlgo algo = new DijkstraAlgo(plan, livreur);
-        Graph grapheNoœdsLivraisons = algo.calculerGraphePourTSP();
+        Graphe grapheNoœdsLivraisons = algo.calculerGraphePourTSP();
 
         // calcul de le tournée
         TSP calculDeTournee = new TSP1();
         calculDeTournee.searchSolution(20000, grapheNoœdsLivraisons);
-        Node[] ordreLivraison = calculDeTournee.obtenirSolution();
+        Noeud[] ordreLivraison = calculDeTournee.obtenirSolution();
 
         String depart = null;
         String arrivee = null;
@@ -37,8 +37,8 @@ public abstract class FacadeAlgoTournee {
             arrivee = ordreLivraison[i + 1].obtenirNom();
 
             tournee.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
-                depart, arrivee));
-            //tournee.add(plan.obtenirSegmentsParIdsIntersections(depart, arrivee));
+                    depart, arrivee));
+            // tournee.add(plan.obtenirSegmentsParIdsIntersections(depart, arrivee));
         }
 
         // On ajoute les segments entre la derniere livraison et l'entrepôt dans la
@@ -46,7 +46,7 @@ public abstract class FacadeAlgoTournee {
         depart = ordreLivraison[ordreLivraison.length - 1].obtenirNom();
         arrivee = ordreLivraison[0].obtenirNom();
         tournee.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
-            depart, arrivee));
+                depart, arrivee));
 
         return tournee;
     }

@@ -33,7 +33,7 @@ public class Creation {
     private final Font font = new Font("Arial", Font.PLAIN, 16);
 
     private String horaires[] = { "8", "9", "10", "11" };
-    private String livreurs[] = { "0", "1", "2"};
+    private String livreurs[] = { "0", "1", "2" };
     private JFrame f = new JFrame("Ajout Livraison");
 
     private JTextArea textIntersection = new JTextArea(10, 20);
@@ -133,7 +133,7 @@ public class Creation {
     }
 
     /**
-     * Ouvrir la fenêtre 
+     * Ouvrir la fenêtre
      */
     public void ouvrir() {
         textIntersection.setText(this.intersection.toString());
@@ -141,7 +141,7 @@ public class Creation {
     }
 
     /**
-     * Fermer la fenêtre 
+     * Fermer la fenêtre
      */
     public void fermer() {
         this.f.setVisible(false);
@@ -149,6 +149,7 @@ public class Creation {
 
     /**
      * Renvoie un bouton avec des propriétés de base (police, etc)
+     * 
      * @param nom
      * @return JButton
      */

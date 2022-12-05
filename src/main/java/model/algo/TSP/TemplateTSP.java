@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import model.algo.Dijkstra.Graph;
-import model.algo.Dijkstra.Node;
+import model.algo.Dijkstra.Graphe;
+import model.algo.Dijkstra.Noeud;
 
 /**
  *
@@ -15,23 +15,23 @@ import model.algo.Dijkstra.Node;
  */
 
 public abstract class TemplateTSP implements TSP {
-    private Node[] bestSol;
-    protected Graph g;
+    private Noeud[] bestSol;
+    protected Graphe g;
     private double bestSolCost;
     private int timeLimit;
     private long startTime;
 
-    public void searchSolution(int timeLimit, Graph g) {
+    public void searchSolution(int timeLimit, Graphe g) {
         if (timeLimit <= 0)
             return;
         startTime = System.currentTimeMillis();
         this.timeLimit = timeLimit;
         this.g = g;
-        bestSol = new Node[g.obtenirNodes().size()];
-        Collection<Node> unvisited = new ArrayList<Node>(g.obtenirNodes().size() - 1);
-        Set<Node> nodes = g.obtenirNodes();
-        Iterator<Node> it = nodes.iterator(); // Remarque : l'entrepôt est toujours le premier du set
-        Collection<Node> visited = new ArrayList<Node>(g.obtenirNodes().size());
+        bestSol = new Noeud[g.obtenirNodes().size()];
+        Collection<Noeud> unvisited = new ArrayList<Noeud>(g.obtenirNodes().size() - 1);
+        Set<Noeud> nodes = g.obtenirNodes();
+        Iterator<Noeud> it = nodes.iterator(); // Remarque : l'entrepôt est toujours le premier du set
+        Collection<Noeud> visited = new ArrayList<Noeud>(g.obtenirNodes().size());
         visited.add(it.next()); // The first visited vertex is 0
         while (it.hasNext())
             unvisited.add(it.next());
@@ -39,7 +39,7 @@ public abstract class TemplateTSP implements TSP {
         branchAndBound(visited.iterator().next(), unvisited, visited, 0);
     }
 
-    public Node getSolution(int i) {
+    public Noeud getSolution(int i) {
         if (g != null && i >= 0 && i < g.obtenirNodes().size())
             return bestSol[i];
         return null;
@@ -61,7 +61,7 @@ public abstract class TemplateTSP implements TSP {
      *         every vertex in <code>unvisited</code> exactly once, and returning
      *         back to vertex <code>0</code>.
      */
-    protected abstract int bound(Node currentVertex, Collection<Node> unvisited);
+    protected abstract int bound(Noeud currentVertex, Collection<Noeud> unvisited);
 
     /**
      * Method that must be defined in TemplateTSP subclasses
@@ -72,7 +72,7 @@ public abstract class TemplateTSP implements TSP {
      * @return an iterator for visiting all vertices in <code>unvisited</code> which
      *         are successors of <code>currentVertex</code>
      */
-    protected abstract Iterator<Node> iterator(Node currentVertex, Collection<Node> unvisited, Graph g);
+    protected abstract Iterator<Noeud> iterator(Noeud currentVertex, Collection<Noeud> unvisited, Graphe g);
 
     /**
      * Template method of a branch and bound algorithm for solving the TSP in
@@ -85,15 +85,15 @@ public abstract class TemplateTSP implements TSP {
      * @param currentCost   the cost of the path corresponding to
      *                      <code>visited</code>
      */
-    private void branchAndBound(Node currentVertex, Collection<Node> unvisited,
-            Collection<Node> visited, double currentCost) {
+    private void branchAndBound(Noeud currentVertex, Collection<Noeud> unvisited,
+            Collection<Noeud> visited, double currentCost) {
         if (System.currentTimeMillis() - startTime > timeLimit)
             return;
         if (unvisited.size() == 0) {
-            Node entrepot = visited.iterator().next();
+            Noeud entrepot = visited.iterator().next();
             // IMPORTANT : je laisse le code initial en commentaires, au cas où je me trompe
             // sur l'interprétation
-            Map<Node, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
+            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
             if (nodesAdjacentes.containsKey(entrepot)) {
                 // if (g.isArc(currentVertex,0)){
                 // Le coup pour aller de la node actuelle vers la node x est la valeur de la map
@@ -106,10 +106,10 @@ public abstract class TemplateTSP implements TSP {
                 }
             }
         } else if (currentCost + bound(currentVertex, unvisited) < bestSolCost) {
-            Iterator<Node> it = iterator(currentVertex, unvisited, g);
-            Map<Node, Double> adjacents = currentVertex.obtenirNodeAdjacentes();
+            Iterator<Noeud> it = iterator(currentVertex, unvisited, g);
+            Map<Noeud, Double> adjacents = currentVertex.obtenirNodeAdjacentes();
             while (it.hasNext()) {
-                Node nextVertex = it.next();
+                Noeud nextVertex = it.next();
                 visited.add(nextVertex);
                 unvisited.remove(nextVertex);
                 branchAndBound(nextVertex, unvisited, visited,
@@ -121,7 +121,7 @@ public abstract class TemplateTSP implements TSP {
         }
     }
 
-    public Node[] obtenirSolution() {
+    public Noeud[] obtenirSolution() {
         return bestSol;
     }
 

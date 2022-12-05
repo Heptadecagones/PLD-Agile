@@ -13,11 +13,12 @@ public class Livreur {
     private boolean disponibilite;
     private ArrayList<Livraison> livraisons;
     private Tournee tournee;
+
     public Livreur(int id) {
         this.id = id;
         this.disponibilite = true;
         this.livraisons = new ArrayList<Livraison>();
-        this.tournee=new Tournee();
+        this.tournee = new Tournee();
     }
 
     public int obtenirId() {

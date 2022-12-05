@@ -21,6 +21,7 @@ import model.PlanLivraison;
 import model.Segment;
 
 import java.awt.*;
+
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer {
     /**
@@ -54,14 +55,14 @@ public class Carte extends JPanel implements Observer {
 
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
-    
+
     public Carte() {
         setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
         setBorder(new TitledBorder("Carte"));
 
         fenetreCreation = new Creation();
         fenetreCreation.init();
-        
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -81,7 +82,7 @@ public class Carte extends JPanel implements Observer {
         listeIntersection = planLivraison.obtenirPlan().obtenirListeIntersection();
         listeSegment = planLivraison.obtenirPlan().obtenirListeSegment();
         entrepot = planLivraison.obtenirPlan().obtenirEntrepot();
-        listeLivreur=planLivraison.obtenirListeLivreur();
+        listeLivreur = planLivraison.obtenirListeLivreur();
         repaint();
     }
 
@@ -121,7 +122,7 @@ public class Carte extends JPanel implements Observer {
             g.setColor(new Color(0, 255, 0));
             g.fillOval(showX, showY, 10, 10);
             // OUVERTURE FENETRE LIVRAISON
-            //String message = choixIntersection.toString();
+            // String message = choixIntersection.toString();
             System.out.println("nouvelleLivraison cliqué");
             fenetreCreation.setIntersection(choixIntersection);
             fenetreCreation.ouvrir();
@@ -182,26 +183,26 @@ public class Carte extends JPanel implements Observer {
 
         diffX = maxX - minX;
         diffY = maxY - minY;
-        
+
         // PEINTURE
         if (!listeSegment.isEmpty()) {
-            //ArrayList<Point2D> origines = new ArrayList<>();
-            //ArrayList<Point2D> destinations = new ArrayList<>();
-            Color[] tabColor=new Color[listeLivreur.size()];
-            int i=0;
-            for(i=0;i<listeLivreur.size();i++){
-                int un=(int)(Math.random() * 255);
-                int deux=(int)(Math.random() * 255);
-                int trois=(int)(Math.random() * 255);
-                tabColor[i]=new Color(un,deux,trois);
+            // ArrayList<Point2D> origines = new ArrayList<>();
+            // ArrayList<Point2D> destinations = new ArrayList<>();
+            Color[] tabColor = new Color[listeLivreur.size()];
+            int i = 0;
+            for (i = 0; i < listeLivreur.size(); i++) {
+                int un = (int) (Math.random() * 255);
+                int deux = (int) (Math.random() * 255);
+                int trois = (int) (Math.random() * 255);
+                tabColor[i] = new Color(un, deux, trois);
             }
             for (Segment segment : listeSegment) {
 
                 Point2D origine = convertirLatLong(segment.obtenirOrigine());
-                //origines.add(origine);
+                // origines.add(origine);
 
                 Point2D destination = convertirLatLong(segment.obtenirDestination());
-                //destinations.add(destination);
+                // destinations.add(destination);
 
                 /*
                  * minX = Math.min(minX, destination.getX());
@@ -210,31 +211,30 @@ public class Carte extends JPanel implements Observer {
                  * maxY = Math.max(maxY, destination.getY());
                  */
                 int origineCordX = REMBOURRAGE
-                + (int) ((origine.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                        + (int) ((origine.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
                 int origineCordY = REMBOURRAGE
-                + (int) ((origine.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                        + (int) ((origine.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
 
                 int destinationCordX = REMBOURRAGE
-                + (int) ((destination.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                        + (int) ((destination.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
                 int destinationCordY = REMBOURRAGE
-                + (int) ((destination.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                        + (int) ((destination.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
                 g2d.setColor(Color.BLACK);
                 g2d.setStroke(new BasicStroke(1));
-                i=0;
-                for(Livreur livr : listeLivreur){
+                i = 0;
+                for (Livreur livr : listeLivreur) {
                     i++;
-                    for(Segment s : livr.obtenirTournee().obtenirListeSegment()){
-                        if(segment==s){
-                            //System.out.println(t.toString()+i+tabColor[i]);
+                    for (Segment s : livr.obtenirTournee().obtenirListeSegment()) {
+                        if (segment == s) {
+                            // System.out.println(t.toString()+i+tabColor[i]);
                             g2d.setColor(tabColor[i]);
                             g2d.setStroke(new BasicStroke(3));
                         }
                     }
                 }
-                
+
                 g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);
-                
-                
+
             }
 
             /*
@@ -242,19 +242,25 @@ public class Carte extends JPanel implements Observer {
              * double diffY = maxY - minY;
              */
 
-            /*for (int i = 0; i < origines.size(); ++i) {
-                int origineCordX = REMBOURRAGE
-                        + (int) ((origines.get(i).getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
-                int origineCordY = REMBOURRAGE
-                        + (int) ((origines.get(i).getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
-
-                int destinationCordX = REMBOURRAGE
-                        + (int) ((destinations.get(i).getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
-                int destinationCordY = REMBOURRAGE
-                        + (int) ((destinations.get(i).getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
-
-                g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);
-            }*/
+            /*
+             * for (int i = 0; i < origines.size(); ++i) {
+             * int origineCordX = REMBOURRAGE
+             * + (int) ((origines.get(i).getX() - minX) / diffX * (LONGUEUR - 2 *
+             * REMBOURRAGE));
+             * int origineCordY = REMBOURRAGE
+             * + (int) ((origines.get(i).getY() - minY) / diffY * (HAUTEUR - 2 *
+             * REMBOURRAGE));
+             * 
+             * int destinationCordX = REMBOURRAGE
+             * + (int) ((destinations.get(i).getX() - minX) / diffX * (LONGUEUR - 2 *
+             * REMBOURRAGE));
+             * int destinationCordY = REMBOURRAGE
+             * + (int) ((destinations.get(i).getY() - minY) / diffY * (HAUTEUR - 2 *
+             * REMBOURRAGE));
+             * 
+             * g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);
+             * }
+             */
         }
 
         if (!listeIntersection.isEmpty()) {
