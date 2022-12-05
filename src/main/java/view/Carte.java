@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import model.Intersection;
+import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
 import model.Segment;
@@ -52,7 +53,7 @@ public class Carte extends JPanel implements Observer {
     private final int DIAMETRE_INTERSECTION = 2;
     private final int DIAMETRE_ENTREPOT = 10;
   
-  
+    
     private int un;
     private int deux;
     private int trois;
@@ -78,6 +79,7 @@ public class Carte extends JPanel implements Observer {
                 System.out.println(mouseX + "," + mouseY);
                 int minmX = 1000000;
                 mouseCompare(listeIntersection, mouseX, mouseY, getGraphics(), minmX);
+           
             }
         });
 
@@ -285,6 +287,7 @@ public class Carte extends JPanel implements Observer {
             }
         }
 
+
         if (entrepot != null) {
             Point2D cordEntrepot = convertirLatLong(entrepot);
             int entrCordX = REMBOURRAGE + (int) ((cordEntrepot.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
@@ -294,7 +297,23 @@ public class Carte extends JPanel implements Observer {
             g2d.fillOval(entrCordX - DIAMETRE_ENTREPOT / 2, entrCordY - DIAMETRE_ENTREPOT / 2,
                     DIAMETRE_ENTREPOT, DIAMETRE_ENTREPOT);
         }
+    
+
+
+    for(Livreur livr : listeLivreur){
+        for(Livraison s : livr.obtenirLivraisons()){
+            Point2D cordLivr = convertirLatLong(s.obtenirLieu());
+
+            int livrCordX = REMBOURRAGE + (int) ((cordLivr.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+            int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+
+            g2d.setColor(couleurIntersection);
+            g2d.fillOval(livrCordX - DIAMETRE_ENTREPOT / 2, livrCordY - DIAMETRE_ENTREPOT / 2,
+                    DIAMETRE_ENTREPOT, DIAMETRE_ENTREPOT);
+            }
+        }
     }
+
 
     /**
      * Projection de Mercator
