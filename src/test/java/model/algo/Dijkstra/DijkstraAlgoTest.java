@@ -1,20 +1,15 @@
 package model.algo.Dijkstra;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 
 import model.Intersection;
 import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
-import model.Segment;
-import model.Tournee;
 
 /**
  * Unit test for graphs.
