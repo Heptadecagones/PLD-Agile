@@ -1,6 +1,7 @@
 package model.algo;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,8 @@ public class FacadeAlgoTourneeTest {
 
     static PlanLivraison plan;
     static DijkstraAlgo dijal;
+    static final int nombreLivraisons = 4;
+    static Livreur livreur;
 
     /**
      * Construit une livraison aléatoire
@@ -33,8 +36,7 @@ public class FacadeAlgoTourneeTest {
      * @return une intersection du plan
      */
 
-    // TODO : vérifier si utile pour les tests
-    public Intersection construireLivraisonAleatoire(PlanLivraison p) {
+    public static Intersection construireLivraisonAleatoire(PlanLivraison p) {
         ArrayList<Intersection> interList = p.obtenirPlan().obtenirListeIntersection();
         int index = (int) (Math.random() * interList.size());
         return interList.get(index);
@@ -53,10 +55,10 @@ public class FacadeAlgoTourneeTest {
     /**
      * Prépare une livraison aléatoire et génère le graphe "algorithmique".
      */
-    public Livreur renvoiLivreuravecLivraisonsAleatoires(int nombreLivraisons) {
+    public static Livreur renvoiLivreurAvecLivraisonsAleatoires(int nombreLivraisons) {
 
         // Initialiser le livreur
-        Livreur livreur = new Livreur(0);
+        Livreur livreurRenvoi = new Livreur(0);
         ArrayList<Livraison> livrs = new ArrayList<>();
 
         // Construire une liste de livraisons aléatoires
@@ -68,9 +70,14 @@ public class FacadeAlgoTourneeTest {
             livrs.add(l);
         }
 
-        livreur.modifierLivraisons(livrs);
+        livreurRenvoi.modifierLivraisons(livrs);
 
-        return livreur;
+        return livreurRenvoi;
+    }
+
+    @BeforeAll
+    public static void initLivreur() {
+        livreur = renvoiLivreurAvecLivraisonsAleatoires(nombreLivraisons);
     }
 
     /**
@@ -79,18 +86,59 @@ public class FacadeAlgoTourneeTest {
      */
     @Test
     void testTourneeNonVide() {
-        int nombreLivraison = 4;
-        Livreur livreur = renvoiLivreuravecLivraisonsAleatoires(nombreLivraison);
         ArrayList<Segment> tournee = null;
         try {
             tournee = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
         } catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace();
-            // Si l'exception arrive on ne veut pas voir de
+            // Si l'exception arrive le test échoue
             assertTrue(false);
         }
 
         assertTrue(tournee.size() > 0);
     }
+
+    /**
+     * Vérifie que l'origine du premier segment de la tournée et la destination
+     * du dernier segment sont bien l'entrepôt
+     */
+    @Test
+    void testDepartEtArriveeTourneeSontBienEntrepot() {
+        ArrayList<Segment> tournee = null;
+        Intersection entrepot = plan.obtenirPlan().obtenirEntrepot();
+        try {
+            tournee = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
+        } catch (CloneNotSupportedException cnse) {
+            cnse.printStackTrace();
+            // Si l'exception arrive le test échoue
+            assertTrue(false);
+        }
+
+        assertSame(entrepot, tournee.get(0).obtenirOrigine());
+        assertSame(entrepot, tournee.get(tournee.size()-1).obtenirDestination());
+    }
+
+    /**
+     * Vérifie que l'origine du premier segment de la tournée et la destination
+     * du dernier segment sont bien l'entrepôt
+     */
+    @Test
+    void testNombreSegmentsAuMoinsEgalANombreLivraison() {
+        ArrayList<Segment> tournee = null;
+        try {
+            tournee = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
+        } catch (CloneNotSupportedException cnse) {
+            cnse.printStackTrace();
+            // Si l'exception arrive le test échoue
+            assertTrue(false);
+        }
+
+        /* Il doit y avoir au moins un Segment par livrasion, plus une pour le
+            retour à l'entrpôt */
+
+        assertTrue(tournee.size() >= nombreLivraisons+1);
+    }
+
+
     // TODO : implanter un test vérifiant un parcours connu (testé depuis main)
 }
