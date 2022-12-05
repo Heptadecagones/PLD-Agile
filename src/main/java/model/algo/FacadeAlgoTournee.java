@@ -16,6 +16,7 @@ import model.Livreur;
 
 public abstract class FacadeAlgoTournee {
     public static ArrayList<Segment> calculerTournee(Plan plan, Livreur livreur) throws CloneNotSupportedException {
+
         ArrayList<Segment> tournee = new ArrayList<Segment>();
 
         // Obtention du graphe

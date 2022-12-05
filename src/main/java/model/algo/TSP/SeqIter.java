@@ -28,9 +28,9 @@ public class SeqIter implements Iterator<Noeud> {
     public SeqIter(Collection<Noeud> unvisited, Noeud currentVertex, Graphe g) {
         this.candidates = new Noeud[unvisited.size()];
         for (Noeud s : unvisited) {
-            // On vérifie qu'il existe un lien entre la Node actuelle (currentVertex) et la
+            // On vérifie qu'il existe un lien entre la Noeud actuelle (currentVertex) et la
             // node s
-            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
+            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNoeudAdjacentes();
             if (nodesAdjacentes.containsKey(s))
                 candidates[nbCandidates++] = s;
         }

@@ -27,11 +27,11 @@ public abstract class TemplateTSP implements TSP {
         startTime = System.currentTimeMillis();
         this.timeLimit = timeLimit;
         this.g = g;
-        bestSol = new Noeud[g.obtenirNodes().size()];
-        Collection<Noeud> unvisited = new ArrayList<Noeud>(g.obtenirNodes().size() - 1);
-        Set<Noeud> nodes = g.obtenirNodes();
+        bestSol = new Noeud[g.obtenirNoeuds().size()];
+        Collection<Noeud> unvisited = new ArrayList<Noeud>(g.obtenirNoeuds().size() - 1);
+        Set<Noeud> nodes = g.obtenirNoeuds();
         Iterator<Noeud> it = nodes.iterator(); // Remarque : l'entrepôt est toujours le premier du set
-        Collection<Noeud> visited = new ArrayList<Noeud>(g.obtenirNodes().size());
+        Collection<Noeud> visited = new ArrayList<Noeud>(g.obtenirNoeuds().size());
         visited.add(it.next()); // The first visited vertex is 0
         while (it.hasNext())
             unvisited.add(it.next());
@@ -40,7 +40,7 @@ public abstract class TemplateTSP implements TSP {
     }
 
     public Noeud getSolution(int i) {
-        if (g != null && i >= 0 && i < g.obtenirNodes().size())
+        if (g != null && i >= 0 && i < g.obtenirNoeuds().size())
             return bestSol[i];
         return null;
     }
@@ -93,7 +93,7 @@ public abstract class TemplateTSP implements TSP {
             Noeud entrepot = visited.iterator().next();
             // IMPORTANT : je laisse le code initial en commentaires, au cas où je me trompe
             // sur l'interprétation
-            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNodeAdjacentes();
+            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNoeudAdjacentes();
             if (nodesAdjacentes.containsKey(entrepot)) {
                 // if (g.isArc(currentVertex,0)){
                 // Le coup pour aller de la node actuelle vers la node x est la valeur de la map
@@ -107,7 +107,7 @@ public abstract class TemplateTSP implements TSP {
             }
         } else if (currentCost + bound(currentVertex, unvisited) < bestSolCost) {
             Iterator<Noeud> it = iterator(currentVertex, unvisited, g);
-            Map<Noeud, Double> adjacents = currentVertex.obtenirNodeAdjacentes();
+            Map<Noeud, Double> adjacents = currentVertex.obtenirNoeudAdjacentes();
             while (it.hasNext()) {
                 Noeud nextVertex = it.next();
                 visited.add(nextVertex);

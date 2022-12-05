@@ -21,7 +21,7 @@ import model.Segment;
 public class DijkstraAlgo {
 
     Map<String, Graphe> tousLesGraphes;
-    // ArrayList<Node> listeDestination;
+    // ArrayList<Noeud> listeDestination;
     ArrayList<Livraison> listeLivraison;
     ArrayList<Segment> listeSegment;
 
@@ -62,7 +62,7 @@ public class DijkstraAlgo {
         // Ajoute les nodes de tous les graphes (un graphe par livreur) à TSP
         for (Map.Entry<String, Graphe> entreMap : tousLesGraphes.entrySet()) {
             Noeud temp = new Noeud(entreMap.getKey());
-            grapheTSP.ajouterNode(temp);
+            grapheTSP.ajouterNoeud(temp);
         }
 
         // Construit le graphe simplifié pour TSP. Le graphe simplifié contient
@@ -72,7 +72,7 @@ public class DijkstraAlgo {
             Graphe graphe = entreMap.getValue();
 
             // On récupère la source du graphe pour faire l'algo Dijkstra
-            for (Noeud n : graphe.obtenirNodes()) {
+            for (Noeud n : graphe.obtenirNoeuds()) {
                 if (n.obtenirNom().equals(entreMap.getKey())) {
                     nodeSourceGraphe = n;
                     break;
@@ -81,7 +81,7 @@ public class DijkstraAlgo {
 
             // On récupère la source pour le graphe TSP, la node à qui on va ajouter des
             // valeurs
-            for (Noeud n : grapheTSP.obtenirNodes()) {
+            for (Noeud n : grapheTSP.obtenirNoeuds()) {
                 if (n.obtenirNom().equals(entreMap.getKey())) {
                     nodeSourceGrapheTSP = n;
                     break;
@@ -91,10 +91,10 @@ public class DijkstraAlgo {
             graphe = calculerPlusCourtCheminDepuisLaSource(graphe, nodeSourceGraphe);
 
             // Ajouter les noeuds/valeurs pour graphe TSP
-            for (Noeud destNode : grapheTSP.obtenirNodes()) {
-                for (Noeud node : graphe.obtenirNodes()) {
-                    if (destNode.obtenirNom().equals(node.obtenirNom()) && nodeSourceGrapheTSP != null) {
-                        nodeSourceGrapheTSP.ajouterDestination(destNode, node.obtenirDistance());
+            for (Noeud destNoeud : grapheTSP.obtenirNoeuds()) {
+                for (Noeud node : graphe.obtenirNoeuds()) {
+                    if (destNoeud.obtenirNom().equals(node.obtenirNom()) && nodeSourceGrapheTSP != null) {
+                        nodeSourceGrapheTSP.ajouterDestination(destNoeud, node.obtenirDistance());
                         break;
                     }
                 }
@@ -106,7 +106,7 @@ public class DijkstraAlgo {
         /*
          * TSP calculDeTournee = new TSP1();
          * calculDeTournee.searchSolution(20000, grapheTSP);
-         * Node[] ordreLivraison = calculDeTournee.obtenirSolution();
+         * Noeud[] ordreLivraison = calculDeTournee.obtenirSolution();
          * 
          * String depart = null;
          * String arrivee = null;
@@ -128,20 +128,20 @@ public class DijkstraAlgo {
          */
     }
 
-    private static void calculerDistanceMinimale(Noeud evaluationNode, Double edgeWeigh, Noeud sourceNode) {
-        double sourceDistance = sourceNode.obtenirDistance();
-        if (sourceDistance + edgeWeigh < evaluationNode.obtenirDistance()) {
-            evaluationNode.modifierDistance(sourceDistance + edgeWeigh);
-            LinkedList<Noeud> shortestPath = new LinkedList<>(sourceNode.obtenirCheminPlusCourt());
-            shortestPath.add(sourceNode);
-            evaluationNode.modifierCheminPlusCourt(shortestPath);
+    private static void calculerDistanceMinimale(Noeud evaluationNoeud, Double edgeWeigh, Noeud sourceNoeud) {
+        double sourceDistance = sourceNoeud.obtenirDistance();
+        if (sourceDistance + edgeWeigh < evaluationNoeud.obtenirDistance()) {
+            evaluationNoeud.modifierDistance(sourceDistance + edgeWeigh);
+            LinkedList<Noeud> shortestPath = new LinkedList<>(sourceNoeud.obtenirCheminPlusCourt());
+            shortestPath.add(sourceNoeud);
+            evaluationNoeud.modifierCheminPlusCourt(shortestPath);
         }
     }
 
-    private static Noeud obtenirNodeDistanecPlusCourte(Set<Noeud> unsettledNodes) {
+    private static Noeud obtenirNoeudDistanecPlusCourte(Set<Noeud> unsettledNoeuds) {
         Noeud nodeDistanecPlusCourte = null;
         double plusCouteDistance = Integer.MAX_VALUE;
-        for (Noeud node : unsettledNodes) {
+        for (Noeud node : unsettledNoeuds) {
             double nodeDistance = node.obtenirDistance();
             if (nodeDistance < plusCouteDistance) {
                 plusCouteDistance = nodeDistance;
@@ -160,14 +160,14 @@ public class DijkstraAlgo {
         nodesNonResolus.add(source);
 
         while (nodesNonResolus.size() != 0) {
-            Noeud nodeActuel = obtenirNodeDistanecPlusCourte(nodesNonResolus);
+            Noeud nodeActuel = obtenirNoeudDistanecPlusCourte(nodesNonResolus);
             nodesNonResolus.remove(nodeActuel);
-            for (Entry<Noeud, Double> adjacencyPair : nodeActuel.obtenirNodeAdjacentes().entrySet()) {
-                Noeud adjacentNode = adjacencyPair.getKey();
+            for (Entry<Noeud, Double> adjacencyPair : nodeActuel.obtenirNoeudAdjacentes().entrySet()) {
+                Noeud adjacentNoeud = adjacencyPair.getKey();
                 double edgeWeight = adjacencyPair.getValue();
-                if (!nodesResolus.contains(adjacentNode)) {
-                    calculerDistanceMinimale(adjacentNode, edgeWeight, nodeActuel);
-                    nodesNonResolus.add(adjacentNode);
+                if (!nodesResolus.contains(adjacentNoeud)) {
+                    calculerDistanceMinimale(adjacentNoeud, edgeWeight, nodeActuel);
+                    nodesNonResolus.add(adjacentNoeud);
                 }
             }
             nodesResolus.add(nodeActuel);
@@ -185,7 +185,7 @@ public class DijkstraAlgo {
         // on recupere le chemin entre deux node du GrapheTSP
         for (Map.Entry<String, Graphe> entreMap : tousLesGraphes.entrySet()) {
             if (entreMap.getKey().equals(depart)) {
-                for (Noeud n : entreMap.getValue().obtenirNodes()) {
+                for (Noeud n : entreMap.getValue().obtenirNoeuds()) {
                     if (n.obtenirNom().equals(arrivee)) {
                         nodeChemin = n;
                         break;

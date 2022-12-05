@@ -16,12 +16,22 @@ public class Noeud {
     private List<Noeud> cheminPlusCourt;
     private double distance;
     private Map<Noeud, Double> nodeAdjacentes;
+    private int horaireLivraison;
+
+    public int obtenirHoraireLivraison() {
+        return horaireLivraison;
+    }
+
+    public void modifierHoraireLivraison(int horaireLivraison) {
+        this.horaireLivraison = horaireLivraison;
+    }
 
     public Noeud(String nom) {
         this.nom = nom;
         this.cheminPlusCourt = new LinkedList<>();
         this.distance = Integer.MAX_VALUE;
         this.nodeAdjacentes = new HashMap<>();
+        this.horaireLivraison = 0;
     }
 
     // Constructeur par copie
@@ -29,7 +39,7 @@ public class Noeud {
         this.nom = n.obtenirNom();
         this.cheminPlusCourt = n.obtenirCheminPlusCourt();
         this.distance = n.obtenirDistance();
-        this.nodeAdjacentes = n.obtenirNodeAdjacentes();
+        this.nodeAdjacentes = n.obtenirNoeudAdjacentes();
     }
 
     public void ajouterDestination(Noeud destination, double distance) {
@@ -56,12 +66,17 @@ public class Noeud {
         this.distance = distance;
     }
 
-    public Map<Noeud, Double> obtenirNodeAdjacentes() {
+    public Map<Noeud, Double> obtenirNoeudAdjacentes() {
         return nodeAdjacentes;
     }
 
-    public void modifierNodeAdjacentes(Map<Noeud, Double> nodeAdjacentes) {
+    public void modifierNoeudAdjacentes(Map<Noeud, Double> nodeAdjacentes) {
         this.nodeAdjacentes = nodeAdjacentes;
     }
 
+    @Override
+    public String toString() {
+        String s = "Noeud " + nom + ": " + horaireLivraison; 
+        return s;
+    }
 }

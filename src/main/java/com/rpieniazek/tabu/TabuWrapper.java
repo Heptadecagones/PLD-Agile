@@ -3,35 +3,34 @@ package com.rpieniazek.tabu;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
-import model.algo.Dijkstra.Graph;
-import model.algo.Dijkstra.Node;
+import model.algo.Dijkstra.Graphe;
+import model.algo.Dijkstra.Noeud;
 
 public class TabuWrapper {
 
     private final Matrix matrice; // Matrice d'adjacence du graphe
-    private Graph dijkstraResult;
+    private Graphe dijkstraResult;
 
-    public TabuWrapper(Graph graph) {
+    public TabuWrapper(Graphe graph) {
         this.dijkstraResult = graph;
         this.matrice = grapheEnMatrice();
     }
 
     private Matrix grapheEnMatrice() {
-        ArrayList<Node> graphNodes = new ArrayList<Node>(this.dijkstraResult.obtenirNodes());
-        int taille = graphNodes.size();
+        ArrayList<Noeud> grapheNoeuds = new ArrayList<Noeud>(this.dijkstraResult.obtenirNoeuds());
+        int taille = grapheNoeuds.size();
         double[][] preMatrice = new double[taille][taille];
-        // Trier les livraisons
-        Collections.sort(graphNodes, new Comparator<Node>() {
-            public int compare(Node n1, Node n2) {
-                return n1.obtenirHoraireLivraison() - n2.obtenirHoraireLivraison();
+
+        // Construire la matrice d'adjacence dont Tabu a besoin
+        for (int i = 0; i < taille; i++) {
+            Noeud n = grapheNoeuds.get(i);
+            for (Node n : n.obtenirNoeudAdjacentes()) {
+                
             }
-        });
-
-        for (Node n : graphNodes) {
-            System.out.println("Node " + n.obtenirNom() + ": " + n.obtenirHoraireLivraison());
         }
-
         Matrix m = new Matrix(preMatrice);
         return null;
     }
