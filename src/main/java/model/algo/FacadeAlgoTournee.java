@@ -8,6 +8,11 @@ import model.algo.TSP.TSP1;
 import model.Plan;
 import model.Livreur;
 
+/**
+ * Patron de conception Facade pour la partie algorithmique
+ * @author Hugo
+ */
+
 public abstract class FacadeAlgoTournee {
     public static ArrayList<Segment> calculerTournee(Plan plan, Livreur livreur) throws CloneNotSupportedException
     {

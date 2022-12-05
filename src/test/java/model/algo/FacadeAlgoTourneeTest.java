@@ -5,11 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import model.Intersection;
@@ -17,9 +13,13 @@ import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
 import model.Segment;
-import model.Tournee;
 
 import model.algo.Dijkstra.*;
+
+/**
+ * Tests du patron de conception Facade pour la partie algorithmique
+ * @author Hugo
+ */
 
 public class FacadeAlgoTourneeTest {
 
@@ -51,5 +51,48 @@ public class FacadeAlgoTourneeTest {
         plan.ouvrirPlan("src/main/java/largeMap.xml");
     }
 
+    /**
+     * Prépare une livraison aléatoire et génère le graphe "algorithmique".
+     */
+    public Livreur renvoiLivreuravecLivraisonsAleatoires(int nombreLivraisons) {
+
+        // Initialiser le livreur
+        Livreur livreur = new Livreur(0);
+        ArrayList<Livraison> livrs = new ArrayList<>();
+
+        // Construire une liste de livraisons aléatoires
+        for (int i = 0; i < nombreLivraisons; i++) {
+            Intersection inter = construireLivraisonAleatoire(plan);
+            int horaire = ((int) (Math.random() * 3)) + 8;
+
+            Livraison l = new Livraison(horaire, inter, livreur);
+            livrs.add(l);
+        }
+
+        livreur.modifierLivraisons(livrs);
+
+        return livreur;
+    }
+
+    /**
+     * Vérifie que la tournée n'est pas vide lorsqu'on lui donne une livraison
+     * aléatoire
+     */
+    @Test
+    void testTourneeNonVide() {
+        int nombreLivraison = 4;
+        Livreur livreur = renvoiLivreuravecLivraisonsAleatoires(nombreLivraison);
+        ArrayList<Segment> tournee = null;
+        try{
+            tournee = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
+        }
+        catch (CloneNotSupportedException cnse) {
+            cnse.printStackTrace();
+            // Si l'exception arrive on ne veut pas voir de 
+            assertTrue(false);
+        }
+
+        assertTrue(tournee.size() > 0);
+    }
     // TODO : implanter un test vérifiant un parcours connu (testé depuis main)
 }
