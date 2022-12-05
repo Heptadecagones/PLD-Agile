@@ -12,9 +12,6 @@ import javax.swing.JPanel;
 
 public class IHM {
     // position du coin supérieur gauche de l'application
-    final int POSITION_X = 50;
-    final int POSITION_Y = 20;
-
     private Barre barre = new Barre();
     private Description description = new Description();
     private Carte carte = new Carte();
@@ -60,10 +57,9 @@ public class IHM {
          */
 
         JFrame frame = new JFrame("PLD AGILE");
-
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        frame.setLocation(POSITION_X, POSITION_Y);
+        frame.setLocation(0, 0);
         frame.add(barre, BorderLayout.NORTH);
 
         JPanel panelSud = new JPanel();
