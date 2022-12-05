@@ -65,13 +65,6 @@ public class Barre extends JPanel {
                     System.out.println("Charger cliqué");
                 }
 
-                /*
-                 * if (evt.getSource() == nouvelleLivraison) {
-                 * System.out.println("nouvelleLivraison cliqué");
-                 * fenetreCreation.ouvrir();
-                 * }
-                 */
-
                 if (evt.getSource() == sauvegarder) {
                     System.out.println("Sauvegarder cliqué");
                 }

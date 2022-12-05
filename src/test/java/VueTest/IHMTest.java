@@ -24,58 +24,15 @@ public class IHMTest
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        Runtime.getRuntime().exec("WordPad");
+        int keyInput[] = { KeyEvent.VK_J, KeyEvent.VK_A, KeyEvent.VK_V,
+            KeyEvent.VK_A, KeyEvent.VK_SPACE };
         c.view.obtenirBarre().obtenirCharger().doClick();
-        
-        // Create an instance of Robot class
         Robot robot = new Robot();
-        // Press keys using robot. A gap of
-        // of 500 milli seconds is added after
-        // every key press
-        robot.mouseMove(0, 0);
-        robot.keyPress(KeyEvent.VK_E);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_L);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_L);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_O);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_SPACE);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_F);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_R);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_O);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_M);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_SPACE);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_G);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_E);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_E);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_K);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_S);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_F);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_O);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_R);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_G);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_E);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_E);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_K);
-        Thread.sleep(500);
-        robot.keyPress(KeyEvent.VK_S);
+        for (int i = 0; i < keyInput.length; i++) {
+          robot.keyPress(keyInput[i]);
+          robot.delay(100);
+        }
+
     }
 }
