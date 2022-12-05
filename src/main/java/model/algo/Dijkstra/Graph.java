@@ -35,7 +35,7 @@ public class Graph {
         this.nodes = new LinkedHashSet<>();
 
         for (Intersection intersection : listeIntersection) {
-            Node tempNode = new Node(intersection.obtenirId());
+            Node tempNode = new Node(intersection.obtenirId(), 4);
             nodes.add(tempNode);
         }
 

@@ -16,12 +16,19 @@ public class Node {
     private List<Node> cheminPlusCourt;
     private double distance;
     private Map<Node, Double> nodeAdjacentes;
+    // TODO Ajouter l'horaire de livraison lorsqu'on construit le graphe @yannick
+    private int horaireLivraison;
 
-    public Node(String nom) {
+    public int obtenirHoraireLivraison() {
+        return horaireLivraison;
+    }
+
+    public Node(String nom, int horaireLiv) {
         this.nom = nom;
         this.cheminPlusCourt = new LinkedList<>();
         this.distance = Integer.MAX_VALUE;
         this.nodeAdjacentes = new HashMap<>();
+        this.horaireLivraison = horaireLiv; 
     }
 
     // Constructeur par copie

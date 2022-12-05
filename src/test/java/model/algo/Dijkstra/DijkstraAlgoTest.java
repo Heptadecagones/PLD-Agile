@@ -8,6 +8,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+
+import com.rpieniazek.tabu.TabuWrapper;
 
 import model.Intersection;
 import model.Livraison;
@@ -17,7 +20,7 @@ import model.Segment;
 import model.Tournee;
 
 /**
- * Unit test for graphs.
+ * Unit tests for graphs.
  * 
  * @author Thibaut
  */
@@ -25,6 +28,7 @@ public class DijkstraAlgoTest {
 
     static Plan plan;
     static DijkstraAlgo dijal;
+    private Graph dijResult;
 
     /**
      * Construit une livraison aléatoire
@@ -59,7 +63,7 @@ public class DijkstraAlgoTest {
         ArrayList<Livraison> livrs = new ArrayList<>();
 
         // Construire une liste de livraisons aléatoires
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             Intersection inter = construireLivraisonAleatoire(plan);
             int horaire = ((int) (Math.random() * 3)) + 8;
 
@@ -80,15 +84,11 @@ public class DijkstraAlgoTest {
         dijal = null;
     }
 
-    @RepeatedTest(2)
-    public void testAlgorithme() throws CloneNotSupportedException {
-        Tournee t = new Tournee(dijal.calculerTournee());
-        ArrayList<Segment> segs = t.obtenirListeSegment();
-
-        Intersection startInter = segs.get(0).obtenirOrigine();
-        Intersection endInter = segs.get(segs.size() - 1).obtenirDestination();
-
-        assertTrue(startInter == endInter);
+    @Test
+    public void testTabu() throws CloneNotSupportedException {
+        this.dijResult = dijal.calculerTournee();
+        new TabuWrapper(dijResult);
+        assertTrue(false);
     }
 
 }

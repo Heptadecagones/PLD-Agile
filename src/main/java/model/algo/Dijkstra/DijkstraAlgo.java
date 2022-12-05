@@ -8,11 +8,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import model.Livraison;
 import model.Livreur;
 import model.Plan;
 import model.Segment;
-import model.algo.TSP.TSP;
-import model.algo.TSP.TSP1;
 
 /**
  *
@@ -23,6 +22,7 @@ public class DijkstraAlgo {
 
     Map<String, Graph> tousLesGraphes;
     // ArrayList<Node> listeDestination;
+    ArrayList<Livraison> listeLivraison;
     ArrayList<Segment> listeSegment;
 
     // Initialise un graphe sans liste de destinations
@@ -37,6 +37,7 @@ public class DijkstraAlgo {
 
         // WARN: Copie superficielle dans listeSegment
         this.listeSegment = plan.obtenirListeSegment();
+        this.listeLivraison = plan.obtenirListeLivraison();
         this.tousLesGraphes = new LinkedHashMap<String, Graph>();
         // Met l'entrepôt en premier dans la liste des destinations
         tousLesGraphes.put(plan.obtenirEntrepot().obtenirId(), new Graph(plan));
@@ -55,7 +56,7 @@ public class DijkstraAlgo {
      * @return un objet Tournee
      * @throws CloneNotSupportedException
      */
-    public ArrayList<Segment> calculerTournee() throws CloneNotSupportedException {
+    public Graph calculerTournee() throws CloneNotSupportedException {
 
         ArrayList<Segment> tournee = new ArrayList<Segment>();
         Node nodeSourceGrapheTSP = null, nodeSourceGraphe = null;
@@ -63,7 +64,7 @@ public class DijkstraAlgo {
 
         // Ajoute les nodes de tous les graphes (un graphe par livreur) à TSP
         for (Map.Entry<String, Graph> entreMap : tousLesGraphes.entrySet()) {
-            Node temp = new Node(entreMap.getKey());
+            Node temp = new Node(entreMap.getKey(), 2);
             grapheTSP.ajouterNode(temp);
         }
 
@@ -103,28 +104,28 @@ public class DijkstraAlgo {
             }
         }
 
-        // Cherche une solution optimale de trajet entre les destinations
-        TSP calculDeTournee = new TSP1();
-        calculDeTournee.searchSolution(20000, grapheTSP);
-        Node[] ordreLivraison = calculDeTournee.obtenirSolution();
+        // // Cherche une solution optimale de trajet entre les destinations
+        // TSP calculDeTournee = new TSP1();
+        // calculDeTournee.searchSolution(20000, grapheTSP);
+        // Node[] ordreLivraison = calculDeTournee.obtenirSolution();
 
-        String depart = null;
-        String arrivee = null;
+        // String depart = null;
+        // String arrivee = null;
 
-        // On ajoute les segments dans la tournée
-        for (int i = 0; i < ordreLivraison.length - 1; i++) {
-            depart = ordreLivraison[i].obtenirNom();
-            arrivee = ordreLivraison[i + 1].obtenirNom();
-            tournee = ajouterSegment(depart, arrivee, tournee);
-        }
+        // // On ajoute les segments dans la tournée
+        // for (int i = 0; i < ordreLivraison.length - 1; i++) {
+        // depart = ordreLivraison[i].obtenirNom();
+        // arrivee = ordreLivraison[i + 1].obtenirNom();
+        // tournee = ajouterSegment(depart, arrivee, tournee);
+        // }
 
-        // On ajoute les segments entre la dernière livraison et l'entrepôt dans la
-        // tournée
-        depart = ordreLivraison[ordreLivraison.length - 1].obtenirNom();
-        arrivee = ordreLivraison[0].obtenirNom();
-        tournee = ajouterSegment(depart, arrivee, tournee);
+        // // On ajoute les segments entre la dernière livraison et l'entrepôt dans la
+        // // tournée
+        // depart = ordreLivraison[ordreLivraison.length - 1].obtenirNom();
+        // arrivee = ordreLivraison[0].obtenirNom();
+        // tournee = ajouterSegment(depart, arrivee, tournee);
 
-        return tournee;
+        return grapheTSP;
     }
 
     /**

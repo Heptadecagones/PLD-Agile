@@ -13,17 +13,17 @@ public class TabuWrapperTest {
     /**
      * Rigorous Test :-)
      */
-    @Test
-    public void MapGenerationTest() {
-        try {
-            Plan plan = new Plan("src/main/java/smallMap.xml");
-            TabuWrapper tw = new TabuWrapper(plan);
-        } catch (Exception e) {
-            System.out.println("Encountered exception: " + e);
-            assertTrue(false);
-        }
-        finally {
-            assertTrue(true);
-        }
-    }
+    // @Test
+    // public void TabuTest() {
+    //     try {
+    //         Plan plan = new Plan("src/main/java/smallMap.xml");
+    //         TabuWrapper tw = new TabuWrapper(plan);
+    //     } catch (Exception e) {
+    //         System.out.println("Encountered exception: " + e);
+    //         assertTrue(false);
+    //     }
+    //     finally {
+    //         assertTrue(true);
+    //     }
+    // }
 }
