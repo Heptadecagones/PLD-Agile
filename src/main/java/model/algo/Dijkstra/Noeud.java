@@ -10,14 +10,14 @@ import java.util.Map;
  * @author Yannick
  */
 
-public class Node {
+public class Noeud {
 
     private String nom;
-    private List<Node> cheminPlusCourt;
+    private List<Noeud> cheminPlusCourt;
     private double distance;
-    private Map<Node, Double> nodeAdjacentes;
+    private Map<Noeud, Double> nodeAdjacentes;
 
-    public Node(String nom) {
+    public Noeud(String nom) {
         this.nom = nom;
         this.cheminPlusCourt = new LinkedList<>();
         this.distance = Integer.MAX_VALUE;
@@ -25,14 +25,14 @@ public class Node {
     }
 
     // Constructeur par copie
-    public Node(Node n) {
+    public Noeud(Noeud n) {
         this.nom = n.obtenirNom();
         this.cheminPlusCourt = n.obtenirCheminPlusCourt();
         this.distance = n.obtenirDistance();
         this.nodeAdjacentes = n.obtenirNodeAdjacentes();
     }
 
-    public void ajouterDestination(Node destination, double distance) {
+    public void ajouterDestination(Noeud destination, double distance) {
         this.nodeAdjacentes.put(destination, distance);
     }
 
@@ -40,11 +40,11 @@ public class Node {
         return nom;
     }
 
-    public List<Node> obtenirCheminPlusCourt() {
+    public List<Noeud> obtenirCheminPlusCourt() {
         return cheminPlusCourt;
     }
 
-    public void modifierCheminPlusCourt(List<Node> cheminPlusCourt) {
+    public void modifierCheminPlusCourt(List<Noeud> cheminPlusCourt) {
         this.cheminPlusCourt = cheminPlusCourt;
     }
 
@@ -56,11 +56,11 @@ public class Node {
         this.distance = distance;
     }
 
-    public Map<Node, Double> obtenirNodeAdjacentes() {
+    public Map<Noeud, Double> obtenirNodeAdjacentes() {
         return nodeAdjacentes;
     }
 
-    public void modifierNodeAdjacentes(Map<Node, Double> nodeAdjacentes) {
+    public void modifierNodeAdjacentes(Map<Noeud, Double> nodeAdjacentes) {
         this.nodeAdjacentes = nodeAdjacentes;
     }
 

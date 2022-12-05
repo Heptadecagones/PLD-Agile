@@ -13,20 +13,20 @@ import model.Segment;
  * @author Yannick
  */
 
-public class Graph {
+public class Graphe {
 
-    private Set<Node> nodes;
+    private Set<Noeud> nodes;
 
-    public Graph() {
+    public Graphe() {
         this.nodes = new LinkedHashSet<>();
     }
 
     // Constructeur à partir d'un ensemble de nodes
-    public Graph(Set<Node> nodes) {
+    public Graphe(Set<Noeud> nodes) {
         this.nodes = nodes;
     }
 
-    public Graph(Plan plan) {
+    public Graphe(Plan plan) {
 
         ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
         ArrayList<Segment> listeSegment = plan.obtenirListeSegment();
@@ -34,17 +34,17 @@ public class Graph {
         this.nodes = new LinkedHashSet<>();
 
         for (Intersection intersection : listeIntersection) {
-            Node tempNode = new Node(intersection.obtenirId());
+            Noeud tempNode = new Noeud(intersection.obtenirId());
             nodes.add(tempNode);
         }
 
-        Node origine = null;
-        Node destination = null;
+        Noeud origine = null;
+        Noeud destination = null;
         int c = 0;
 
         for (Segment segment : listeSegment) {
             c = 0;
-            for (Node node : nodes) {
+            for (Noeud node : nodes) {
                 if (node.obtenirNom().equals(segment.obtenirOrigine().obtenirId())) {
                     origine = node;
                     c++;
@@ -68,21 +68,21 @@ public class Graph {
     /**
      * @param nodeA
      */
-    public void ajouterNode(Node nodeA) {
+    public void ajouterNode(Noeud nodeA) {
         nodes.add(nodeA);
     }
 
     /**
      * @return
      */
-    public Set<Node> obtenirNodes() {
+    public Set<Noeud> obtenirNodes() {
         return nodes;
     }
 
     /**
      * @param nodes
      */
-    public void modifierNodes(Set<Node> nodes) {
+    public void modifierNodes(Set<Noeud> nodes) {
         this.nodes = nodes;
     }
 }

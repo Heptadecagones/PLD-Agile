@@ -20,12 +20,12 @@ public abstract class FacadeAlgoTournee {
 
         // Obtention du graphe
         DijkstraAlgo algo = new DijkstraAlgo(plan, livreur);
-        Graph grapheNoœdsLivraisons = algo.calculerGraphePourTSP();
+        Graphe grapheNoœdsLivraisons = algo.calculerGraphePourTSP();
 
         // calcul de le tournée
         TSP calculDeTournee = new TSP1();
         calculDeTournee.searchSolution(20000, grapheNoœdsLivraisons);
-        Node[] ordreLivraison = calculDeTournee.obtenirSolution();
+        Noeud[] ordreLivraison = calculDeTournee.obtenirSolution();
 
         String depart = null;
         String arrivee = null;

@@ -1,7 +1,7 @@
 package model.algo.TSP;
 
-import model.algo.Dijkstra.Graph;
-import model.algo.Dijkstra.Node;
+import model.algo.Dijkstra.Graphe;
+import model.algo.Dijkstra.Noeud;
 
 /**
  *
@@ -18,7 +18,7 @@ public interface TSP {
      * @param limitTime
      * @param g
      */
-    public void searchSolution(int timeLimit, Graph g);
+    public void searchSolution(int timeLimit, Graphe g);
 
     /**
      * @param i
@@ -27,7 +27,7 @@ public interface TSP {
      *         (-1 if <code>searcheSolution</code> has not been called yet, or if i
      *         < 0 or i >= g.getNbSommets())
      */
-    public Node getSolution(int i);
+    public Noeud getSolution(int i);
 
     /**
      * @return the total cost of the solution computed by
@@ -39,6 +39,6 @@ public interface TSP {
     /**
      * @return la liste ordonnée des livraisons de la tournée
      */
-    public Node[] obtenirSolution();
+    public Noeud[] obtenirSolution();
 
 }
