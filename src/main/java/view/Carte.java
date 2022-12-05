@@ -51,6 +51,14 @@ public class Carte extends JPanel implements Observer {
 
     private final int DIAMETRE_INTERSECTION = 2;
     private final int DIAMETRE_ENTREPOT = 10;
+  
+  
+    private int un;
+    private int deux;
+    private int trois;
+
+    private int max_livreur = 10000;
+    private Color[] tabColor2=new Color[max_livreur];
 
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
@@ -72,7 +80,16 @@ public class Carte extends JPanel implements Observer {
                 mouseCompare(listeIntersection, mouseX, mouseY, getGraphics(), minmX);
             }
         });
+
+        for (int i = 0; i < max_livreur; ++i) {
+            un= Math.abs((int)(Math.random()*255));
+            deux =Math.abs((int)(Math.random()*255));
+            trois=Math.abs((int)(Math.random()*255));
+            tabColor2[i] = new Color(un, deux, trois);
+        }
     }
+       
+   
 
     // MISE À JOUR AU CHANGEMENT DES DONNÉES DU MODÈLE
     @Override
@@ -150,6 +167,7 @@ public class Carte extends JPanel implements Observer {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+     
 
         Graphics2D g2d = (Graphics2D) g;
 
@@ -183,18 +201,10 @@ public class Carte extends JPanel implements Observer {
         diffX = maxX - minX;
         diffY = maxY - minY;
         
+     
         // PEINTURE
-        if (!listeSegment.isEmpty()) {
-            //ArrayList<Point2D> origines = new ArrayList<>();
-            //ArrayList<Point2D> destinations = new ArrayList<>();
-            Color[] tabColor=new Color[listeLivreur.size()];
-            int i=0;
-            for(i=0;i<listeLivreur.size();i++){
-                int un=(int)(Math.random() * 255);
-                int deux=(int)(Math.random() * 255);
-                int trois=(int)(Math.random() * 255);
-                tabColor[i]=new Color(un,deux,trois);
-            }
+        if (!listeSegment.isEmpty()) { 
+            int i ;
             for (Segment segment : listeSegment) {
 
                 Point2D origine = convertirLatLong(segment.obtenirOrigine());
@@ -226,7 +236,7 @@ public class Carte extends JPanel implements Observer {
                     for(Segment s : livr.obtenirTournee().obtenirListeSegment()){
                         if(segment==s){
                             //System.out.println(t.toString()+i+tabColor[i]);
-                            g2d.setColor(tabColor[i]);
+                            g2d.setColor(tabColor2[i]);
                             g2d.setStroke(new BasicStroke(3));
                         }
                     }
