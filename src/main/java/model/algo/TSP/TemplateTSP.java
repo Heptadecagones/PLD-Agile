@@ -93,7 +93,7 @@ public abstract class TemplateTSP implements TSP {
             Noeud entrepot = visited.iterator().next();
             // IMPORTANT : je laisse le code initial en commentaires, au cas où je me trompe
             // sur l'interprétation
-            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNoeudAdjacentes();
+            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNoeudsAdjacents();
             if (nodesAdjacentes.containsKey(entrepot)) {
                 // if (g.isArc(currentVertex,0)){
                 // Le coup pour aller de la node actuelle vers la node x est la valeur de la map
@@ -107,7 +107,7 @@ public abstract class TemplateTSP implements TSP {
             }
         } else if (currentCost + bound(currentVertex, unvisited) < bestSolCost) {
             Iterator<Noeud> it = iterator(currentVertex, unvisited, g);
-            Map<Noeud, Double> adjacents = currentVertex.obtenirNoeudAdjacentes();
+            Map<Noeud, Double> adjacents = currentVertex.obtenirNoeudsAdjacents();
             while (it.hasNext()) {
                 Noeud nextVertex = it.next();
                 visited.add(nextVertex);

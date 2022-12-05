@@ -26,10 +26,7 @@ public class TabuWrapper {
 
         // Construire la matrice d'adjacence dont Tabu a besoin
         for (int i = 0; i < taille; i++) {
-            Noeud n = grapheNoeuds.get(i);
-            for (Node n : n.obtenirNoeudAdjacentes()) {
-                
-            }
+
         }
         Matrix m = new Matrix(preMatrice);
         return null;

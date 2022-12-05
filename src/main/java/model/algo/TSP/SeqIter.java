@@ -30,7 +30,7 @@ public class SeqIter implements Iterator<Noeud> {
         for (Noeud s : unvisited) {
             // On vérifie qu'il existe un lien entre la Noeud actuelle (currentVertex) et la
             // node s
-            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNoeudAdjacentes();
+            Map<Noeud, Double> nodesAdjacentes = currentVertex.obtenirNoeudsAdjacents();
             if (nodesAdjacentes.containsKey(s))
                 candidates[nbCandidates++] = s;
         }

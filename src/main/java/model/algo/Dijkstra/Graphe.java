@@ -15,6 +15,8 @@ import model.Segment;
 
 public class Graphe {
 
+    private Set<Noeud> noeuds;
+
     @Override
     public String toString() {
         String s = super.toString() + "\n";
@@ -24,10 +26,8 @@ public class Graphe {
         }
         s += "\\/";
 
-        return s; 
+        return s;
     }
-
-    private Set<Noeud> noeuds;
 
     public Graphe() {
         this.noeuds = new LinkedHashSet<>();

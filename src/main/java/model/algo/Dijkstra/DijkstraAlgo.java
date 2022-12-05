@@ -162,7 +162,7 @@ public class DijkstraAlgo {
         while (nodesNonResolus.size() != 0) {
             Noeud nodeActuel = obtenirNoeudDistanecPlusCourte(nodesNonResolus);
             nodesNonResolus.remove(nodeActuel);
-            for (Entry<Noeud, Double> adjacencyPair : nodeActuel.obtenirNoeudAdjacentes().entrySet()) {
+            for (Entry<Noeud, Double> adjacencyPair : nodeActuel.obtenirNoeudsAdjacents().entrySet()) {
                 Noeud adjacentNoeud = adjacencyPair.getKey();
                 double edgeWeight = adjacencyPair.getValue();
                 if (!nodesResolus.contains(adjacentNoeud)) {

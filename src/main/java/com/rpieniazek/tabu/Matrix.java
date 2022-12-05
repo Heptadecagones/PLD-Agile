@@ -8,7 +8,9 @@ public class Matrix {
 
     private int edgeCount;
 
-    /** Constructeur à valeurs aléatoires
+    /**
+     * Constructeur à valeurs aléatoires
+     * 
      * @param taille
      */
     public Matrix(int size) {
@@ -17,7 +19,9 @@ public class Matrix {
         generateMatrix(size);
     }
 
-    /** Constructeur par copie
+    /**
+     * Constructeur par copie
+     * 
      * @param matrice
      */
     public Matrix(double[][] matrix) {
@@ -41,7 +45,9 @@ public class Matrix {
         return edgeCount;
     }
 
-    /** Calcule la distance totale d'une solution
+    /**
+     * Calcule la distance totale d'une solution
+     * 
      * @param solution
      * @return la distance entière
      */
@@ -53,7 +59,9 @@ public class Matrix {
         return cost;
     }
 
-    /** Génère une matrice aléatoire
+    /**
+     * Génère une matrice aléatoire
+     * 
      * @param taille
      */
     private void generateMatrix(int size) {
@@ -69,4 +77,16 @@ public class Matrix {
         }
     }
 
+    @Override
+    public String toString() {
+        String s = "";
+
+        for (int i = 0; i < edgeCount; i++) {
+            for (int j = 0; j < edgeCount; j++) {
+                s += matrix[i][j] + " ";
+            }
+            s += '\n';
+        }
+        return s;
+    }
 }

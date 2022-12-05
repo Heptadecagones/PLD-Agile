@@ -1,29 +1,86 @@
 package com.rpieniazek.tabu;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+import model.algo.Dijkstra.Graphe;
+import model.algo.Dijkstra.Noeud;
+
 /**
  * Created by Rafal on 2015-12-02.
  */
 public class TabuSearch {
 
     private TabuList tabuList; // Liste tabou
-    private final Matrix matrix; // Matrice d'adjacence
+    private Matrix matrix; // Matrice d'adjacence
 
     int[] currSolution; // Solution actuelle
     int numberOfIterations; // Nombre maximal d'itérations
     int problemSize; // Taille du problème
 
+    private Map<Noeud, Integer> places; // TODO Meilleur nom
+
     private int[] bestSolution;
     private int bestCost;
 
-    public TabuSearch(Matrix matrix) {
-        this.matrix = matrix;
-        problemSize = matrix.getEdgeCount();
-        numberOfIterations = problemSize * 10; // ?
+    public TabuSearch(Graphe graphe) {
+        this.places = new HashMap<>();
+        this.matrix = GrapheVersMatrice(graphe);
+        this.problemSize = matrix.getEdgeCount();
+        this.numberOfIterations = problemSize * 10; // ?
+        this.tabuList = new TabuList(problemSize);
 
-        tabuList = new TabuList(problemSize);
         setupCurrentSolution();
         setupBestSolution();
 
+        System.out.println(matrix + "\n====\n" + places);
+    }
+
+    // @author Thibaut
+    private Matrix GrapheVersMatrice(Graphe graphe) {
+        Set<Noeud> noeuds = graphe.obtenirNoeuds();
+        int taille = noeuds.size();
+        double[][] preMatrice = new double[taille][taille];
+
+        int i = 0;
+
+        // Pour chaque noeud dans le graphe
+        for (Noeud orig : noeuds) {
+            // On regarde ses voisins et on ajoute la paire orig -> dest à la matrice
+            for (Entry<Noeud, Double> dest : orig.obtenirNoeudsAdjacents().entrySet()) {
+                int origID = -1, destID = -1;
+
+                // Si on est déjà passés par cette node, on connaît son index
+                if (places.containsKey(orig)) {
+                    origID = places.get(orig);
+                } else { // Sinon on l'ajoute à la liste connue
+                    places.put(orig, i);
+                    origID = i++;
+                }
+
+                // De même pour la destination
+                if (places.containsKey(dest.getKey())) {
+                    destID = places.get(dest.getKey());
+                } else {
+                    places.put(dest.getKey(), i);
+                    destID = i++;
+                }
+
+                // Test de santé mentale
+                assert (origID != -1 && destID != -1);
+
+                // TODO: Vérification du prédicat d'antériorité sur les noeuds
+
+                // On peut enfin ajouter le déplacement
+                preMatrice[origID][destID] = dest.getValue();
+            }
+        }
+
+        Matrix m = new Matrix(preMatrice);
+        return m;
     }
 
     private void setupBestSolution() {
@@ -83,5 +140,25 @@ public class TabuSearch {
         int temp = currSolution[i];
         currSolution[i] = currSolution[k];
         currSolution[k] = temp;
+    }
+
+    public static <V, K> Map<V, K> inverser(Map<K, V> map) {
+        return map.entrySet()
+                .stream()
+                .collect(Collectors.toMap(Entry::getValue, Entry::getKey));
+    }
+
+    public Noeud[] soluceEnNoeuds() {
+        int[] soluceEnInt = invoke();
+
+        // On inverse la Map pour retrouver les noeuds en fonction des entiers
+        Map<Integer, Noeud> invPlaces = inverser(places);
+        Noeud[] soluce = new Noeud[soluceEnInt.length];
+
+        for (int i = 0; i < soluceEnInt.length; i++) {
+            soluce[i] = invPlaces.get(soluceEnInt[i]);
+        }
+
+        return soluce;
     }
 }

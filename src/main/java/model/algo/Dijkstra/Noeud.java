@@ -39,7 +39,7 @@ public class Noeud {
         this.nom = n.obtenirNom();
         this.cheminPlusCourt = n.obtenirCheminPlusCourt();
         this.distance = n.obtenirDistance();
-        this.nodeAdjacentes = n.obtenirNoeudAdjacentes();
+        this.nodeAdjacentes = n.obtenirNoeudsAdjacents();
     }
 
     public void ajouterDestination(Noeud destination, double distance) {
@@ -66,7 +66,7 @@ public class Noeud {
         this.distance = distance;
     }
 
-    public Map<Noeud, Double> obtenirNoeudAdjacentes() {
+    public Map<Noeud, Double> obtenirNoeudsAdjacents() {
         return nodeAdjacentes;
     }
 

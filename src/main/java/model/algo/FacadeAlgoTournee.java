@@ -1,6 +1,9 @@
 package model.algo;
 
 import java.util.ArrayList;
+
+import com.rpieniazek.tabu.TabuSearch;
+
 import model.Segment;
 import model.algo.Dijkstra.*;
 import model.algo.TSP.TSP;
@@ -19,14 +22,13 @@ public abstract class FacadeAlgoTournee {
 
         ArrayList<Segment> tournee = new ArrayList<Segment>();
 
-        // Obtention du graphe
+        // Obtention du graphe simplifié entre les points de livraison
         DijkstraAlgo algo = new DijkstraAlgo(plan, livreur);
-        Graphe grapheNoœdsLivraisons = algo.calculerGraphePourTSP();
+        Graphe grapheSimplifie = algo.calculerGraphePourTSP();
 
-        // calcul de le tournée
-        TSP calculDeTournee = new TSP1();
-        calculDeTournee.searchSolution(20000, grapheNoœdsLivraisons);
-        Noeud[] ordreLivraison = calculDeTournee.obtenirSolution();
+
+        TabuSearch ts = new TabuSearch(grapheSimplifie);
+        Noeud[] ordreLivraison = ts.soluceEnNoeuds();
 
         String depart = null;
         String arrivee = null;
