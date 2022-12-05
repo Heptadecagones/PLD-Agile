@@ -80,18 +80,21 @@ public class DijkstraAlgoTest {
         dijal = null;
     }
 
-    /* TODO : Le test est déprécié, ce n'est Pls DijkstraAlgo qui renvoi la tournée.
+    /*
+     * TODO : Le test est déprécié, ce n'est Pls DijkstraAlgo qui renvoi la tournée.
      * Remplacer avec un autre test.
      */
-    /*@RepeatedTest(3)
-    public void testAlgorithme() throws CloneNotSupportedException {
-        Tournee t = new Tournee(dijal.calculerTournee());
-        ArrayList<Segment> segs = t.obtenirListeSegment();
-
-        Intersection startInter = segs.get(0).obtenirOrigine();
-        Intersection endInter = segs.get(segs.size() - 1).obtenirDestination();
-
-        assertTrue(startInter == endInter);
-    }*/
+    /*
+     * @RepeatedTest(3)
+     * public void testAlgorithme() throws CloneNotSupportedException {
+     * Tournee t = new Tournee(dijal.calculerTournee());
+     * ArrayList<Segment> segs = t.obtenirListeSegment();
+     * 
+     * Intersection startInter = segs.get(0).obtenirOrigine();
+     * Intersection endInter = segs.get(segs.size() - 1).obtenirDestination();
+     * 
+     * assertTrue(startInter == endInter);
+     * }
+     */
 
 }

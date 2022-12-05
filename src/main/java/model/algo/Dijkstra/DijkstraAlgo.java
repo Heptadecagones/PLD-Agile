@@ -51,7 +51,7 @@ public class DijkstraAlgo {
 
     /**
      * 
-     *  @throws CloneNotSupportedException
+     * @throws CloneNotSupportedException
      */
     public Graph calculerGraphePourTSP() throws CloneNotSupportedException {
 
@@ -103,30 +103,30 @@ public class DijkstraAlgo {
 
         return grapheTSP;
 
-        /*TSP calculDeTournee = new TSP1();
-        calculDeTournee.searchSolution(20000, grapheTSP);
-        Node[] ordreLivraison = calculDeTournee.obtenirSolution();
-
-        String depart = null;
-        String arrivee = null;
-
-        // On ajoute les segments dans la tournée
-        for (int i = 0; i < ordreLivraison.length - 1; i++) {
-            depart = ordreLivraison[i].obtenirNom();
-            arrivee = ordreLivraison[i + 1].obtenirNom();
-            tournee = ajouterSegment(depart, arrivee, tournee);
-        }
-
-        // On ajoute les segments entre la dernière livraison et l'entrepôt dans la
-        // tournée
-        depart = ordreLivraison[ordreLivraison.length - 1].obtenirNom();
-        arrivee = ordreLivraison[0].obtenirNom();
-        tournee = ajouterSegment(depart, arrivee, tournee);
-
-        return tournee;*/
+        /*
+         * TSP calculDeTournee = new TSP1();
+         * calculDeTournee.searchSolution(20000, grapheTSP);
+         * Node[] ordreLivraison = calculDeTournee.obtenirSolution();
+         * 
+         * String depart = null;
+         * String arrivee = null;
+         * 
+         * // On ajoute les segments dans la tournée
+         * for (int i = 0; i < ordreLivraison.length - 1; i++) {
+         * depart = ordreLivraison[i].obtenirNom();
+         * arrivee = ordreLivraison[i + 1].obtenirNom();
+         * tournee = ajouterSegment(depart, arrivee, tournee);
+         * }
+         * 
+         * // On ajoute les segments entre la dernière livraison et l'entrepôt dans la
+         * // tournée
+         * depart = ordreLivraison[ordreLivraison.length - 1].obtenirNom();
+         * arrivee = ordreLivraison[0].obtenirNom();
+         * tournee = ajouterSegment(depart, arrivee, tournee);
+         * 
+         * return tournee;
+         */
     }
-
-
 
     private static void calculerDistanceMinimale(Node evaluationNode, Double edgeWeigh, Node sourceNode) {
         double sourceDistance = sourceNode.obtenirDistance();
@@ -175,9 +175,8 @@ public class DijkstraAlgo {
         return graphe;
     }
 
-    public ArrayList<Segment> obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee
-        (String depart, String arrivee) {
-        
+    public ArrayList<Segment> obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(String depart, String arrivee) {
+
         ArrayList<Segment> semgentsDuPlusCourtChemin = new ArrayList<Segment>();
         Node nodeChemin = null;
         Node nodeDepart = null;

@@ -21,7 +21,9 @@ public class Plan {
     private ArrayList<Segment> listeSegment;
     private long nombreIntersection;
     private long nombreSegment;
-    //chargement d'un plan( avec segments,intersections,entrepot) à partir d'un fichier XML
+
+    // chargement d'un plan( avec segments,intersections,entrepot) à partir d'un
+    // fichier XML
     public void chargerXML(String nomFichier) {
         try {
 
@@ -108,6 +110,7 @@ public class Plan {
             System.out.println(e);
         }
     }
+
     public Intersection obtenirEntrepot() {
         return entrepot;
     }
@@ -127,5 +130,5 @@ public class Plan {
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;
     }
-        
+
 }

@@ -3,7 +3,6 @@ package model.algo.TSP;
 import model.algo.Dijkstra.Graph;
 import model.algo.Dijkstra.Node;
 
-
 /**
  *
  * @author Hugo
