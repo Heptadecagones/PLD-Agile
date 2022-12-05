@@ -12,6 +12,7 @@ public class Tournee {
     private ArrayList<Segment> listeSegment;
 
     public Tournee() {
+        this.listeSegment = new ArrayList<Segment>();
     }
 
     public Tournee(ArrayList<Segment> liste) {

@@ -9,8 +9,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
-import model.Livraison;
-import model.Plan;
+import model.Livreur;
+import model.PlanLivraison;
 
 /**
  *
@@ -49,10 +49,10 @@ public class Description extends JPanel implements Observer {
     // Mise à jour des données : Ecriture de la liste des livraisons
     @Override
     public void update(Observable arg0, Object arg1) {
-        Plan p = (Plan) arg0;
+        PlanLivraison p = (PlanLivraison) arg0;
         String ListeLivraison = "";
-        for (Livraison l : p.obtenirListeLivraison()) {
-            ListeLivraison += l.toString() + "\n\n";
+        for(Livreur li:p.obtenirListeLivreur()){
+            ListeLivraison+=li.toString()+ "\n";
         }
         setDescText(ListeLivraison);
     }

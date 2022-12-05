@@ -1,34 +1,30 @@
-package model.algo.Dijkstra;
+package model.algo;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-
-import com.rpieniazek.tabu.TabuWrapper;
 
 import model.Intersection;
 import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
 import model.Segment;
-import model.Tournee;
+
+import model.algo.Dijkstra.*;
 
 /**
- * Unit tests for graphs.
- * 
- * @author Thibaut
+ * Tests du patron de conception Facade pour la partie algorithmique
+ * @author Hugo
  */
-public class DijkstraAlgoTest {
+
+public class FacadeAlgoTourneeTest {
 
     static PlanLivraison plan;
     static DijkstraAlgo dijal;
-    private Graph dijResult;
 
     /**
      * Construit une livraison aléatoire
@@ -36,11 +32,14 @@ public class DijkstraAlgoTest {
      * @param plan
      * @return une intersection du plan
      */
+
+    // TODO : vérifier si utile pour les tests
     public Intersection construireLivraisonAleatoire(PlanLivraison p) {
         ArrayList<Intersection> interList = p.obtenirPlan().obtenirListeIntersection();
         int index = (int) (Math.random() * interList.size());
         return interList.get(index);
     }
+
 
     /**
      * Génère le plan nécessaire aux tests de l'algorithme.
@@ -55,15 +54,14 @@ public class DijkstraAlgoTest {
     /**
      * Prépare une livraison aléatoire et génère le graphe "algorithmique".
      */
-    @BeforeEach
-    public void initAlgo() {
+    public Livreur renvoiLivreuravecLivraisonsAleatoires(int nombreLivraisons) {
 
         // Initialiser le livreur
-        Livreur livreur = new Livreur(69);
+        Livreur livreur = new Livreur(0);
         ArrayList<Livraison> livrs = new ArrayList<>();
 
         // Construire une liste de livraisons aléatoires
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < nombreLivraisons; i++) {
             Intersection inter = construireLivraisonAleatoire(plan);
             int horaire = ((int) (Math.random() * 3)) + 8;
 
@@ -73,35 +71,28 @@ public class DijkstraAlgoTest {
 
         livreur.modifierLivraisons(livrs);
 
-        dijal = new DijkstraAlgo(plan.obtenirPlan(), livreur);
+        return livreur;
     }
 
     /**
-     * Met les variables à null pour éviter de les réutiliser après un test.
+     * Vérifie que la tournée n'est pas vide lorsqu'on lui donne une livraison
+     * aléatoire
      */
-    @AfterEach
-    public void deinit() {
-        dijal = null;
-    }
-
     @Test
-    public void testTabu() throws CloneNotSupportedException {
-        this.dijResult = dijal.calculerTournee();
-        new TabuWrapper(dijResult);
-        assertTrue(false);
+    void testTourneeNonVide() {
+        int nombreLivraison = 4;
+        Livreur livreur = renvoiLivreuravecLivraisonsAleatoires(nombreLivraison);
+        ArrayList<Segment> tournee = null;
+        try{
+            tournee = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
+        }
+        catch (CloneNotSupportedException cnse) {
+            cnse.printStackTrace();
+            // Si l'exception arrive on ne veut pas voir de 
+            assertTrue(false);
+        }
+
+        assertTrue(tournee.size() > 0);
     }
-
-    /* TODO : Le test est déprécié, ce n'est Pls DijkstraAlgo qui renvoi la tournée.
-     * Remplacer avec un autre test.
-     */
-    /*@RepeatedTest(3)
-    public void testAlgorithme() throws CloneNotSupportedException {
-        Tournee t = new Tournee(dijal.calculerTournee());
-        ArrayList<Segment> segs = t.obtenirListeSegment();
-
-        Intersection startInter = segs.get(0).obtenirOrigine();
-        Intersection endInter = segs.get(segs.size() - 1).obtenirDestination();
-
-        assertTrue(startInter == endInter);
-    }*/
+    // TODO : implanter un test vérifiant un parcours connu (testé depuis main)
 }

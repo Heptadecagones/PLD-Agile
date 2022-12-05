@@ -51,12 +51,10 @@ public class DijkstraAlgo {
     }
 
     /**
-     * Calcule une tournée.
      * 
-     * @return un objet Tournee
-     * @throws CloneNotSupportedException
+     *  @throws CloneNotSupportedException
      */
-    public Graph calculerTournee() throws CloneNotSupportedException {
+    public Graph calculerGraphePourTSP() throws CloneNotSupportedException {
 
         ArrayList<Segment> tournee = new ArrayList<Segment>();
         Node nodeSourceGrapheTSP = null, nodeSourceGraphe = null;
@@ -104,10 +102,11 @@ public class DijkstraAlgo {
             }
         }
 
-        // // Cherche une solution optimale de trajet entre les destinations
-        // TSP calculDeTournee = new TSP1();
-        // calculDeTournee.searchSolution(20000, grapheTSP);
-        // Node[] ordreLivraison = calculDeTournee.obtenirSolution();
+        return grapheTSP;
+
+        /*TSP calculDeTournee = new TSP1();
+        calculDeTournee.searchSolution(20000, grapheTSP);
+        Node[] ordreLivraison = calculDeTournee.obtenirSolution();
 
         // String depart = null;
         // String arrivee = null;
@@ -125,64 +124,10 @@ public class DijkstraAlgo {
         // arrivee = ordreLivraison[0].obtenirNom();
         // tournee = ajouterSegment(depart, arrivee, tournee);
 
-        return grapheTSP;
+        return tournee;*/
     }
 
-    /**
-     * @param depart  (String, nom de Node)
-     * @param arrivee (String, nom de Node)
-     * @param tournee (ArrayList<Segment>)
-     * @return
-     */
-    private ArrayList<Segment> ajouterSegment(String depart, String arrivee, ArrayList<Segment> tournee) {
 
-        Node nodeChemin = null;
-        Node nodeDepart = null;
-        Node nodeArrivee = null;
-
-        // On récupère le chemin entre deux nodes du GrapheTSP
-        for (Map.Entry<String, Graph> entreMap : tousLesGraphes.entrySet()) {
-            if (entreMap.getKey().equals(depart)) {
-                for (Node n : entreMap.getValue().obtenirNodes()) {
-                    if (n.obtenirNom().equals(arrivee)) {
-                        nodeChemin = n;
-                        break;
-                    }
-                }
-            }
-        }
-
-        // On convertit le plus court chemin de ce node en liste de segment qui va être
-        // ajouté à tounee
-        for (int j = 0; j < nodeChemin.obtenirCheminPlusCourt().size() - 1; j++) {
-            nodeDepart = nodeChemin.obtenirCheminPlusCourt().get(j);
-            nodeArrivee = nodeChemin.obtenirCheminPlusCourt().get(j + 1);
-
-            for (Segment segment : listeSegment) {
-                if (segment.obtenirOrigine().obtenirId().equals(nodeDepart.obtenirNom())
-                        && segment.obtenirDestination().obtenirId().equals(nodeArrivee.obtenirNom())) {
-                    tournee.add(segment);
-                    break;
-                }
-            }
-        }
-        // Ajouter le dernier segment jusqu'au point de livraison/entrepot
-        if (nodeChemin.obtenirCheminPlusCourt().size() == 0) {
-            depart = "";
-        } else {
-            depart = nodeChemin.obtenirCheminPlusCourt().get(nodeChemin.obtenirCheminPlusCourt().size() - 1)
-                    .obtenirNom();
-        }
-
-        for (Segment segment : listeSegment) {
-            if (segment.obtenirOrigine().obtenirId().equals(depart)
-                    && segment.obtenirDestination().obtenirId().equals(arrivee)) {
-                tournee.add(segment);
-                break;
-            }
-        }
-        return tournee;
-    }
 
     private static void calculerDistanceMinimale(Node evaluationNode, Double edgeWeigh, Node sourceNode) {
         double sourceDistance = sourceNode.obtenirDistance();
@@ -229,5 +174,57 @@ public class DijkstraAlgo {
             nodesResolus.add(nodeActuel);
         }
         return graphe;
+    }
+
+    public ArrayList<Segment> obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee
+        (String depart, String arrivee) {
+        
+        ArrayList<Segment> semgentsDuPlusCourtChemin = new ArrayList<Segment>();
+        Node nodeChemin = null;
+        Node nodeDepart = null;
+        Node nodeArrivee = null;
+
+        // on recupere le chemin entre deux node du GrapheTSP
+        for (Map.Entry<String, Graph> entreMap : tousLesGraphes.entrySet()) {
+            if (entreMap.getKey().equals(depart)) {
+                for (Node n : entreMap.getValue().obtenirNodes()) {
+                    if (n.obtenirNom().equals(arrivee)) {
+                        nodeChemin = n;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // on convertit le pluscourt chemin de ce node en liste de segment qui va etre
+        // ajouté à tounee
+        for (int j = 0; j < nodeChemin.obtenirCheminPlusCourt().size() - 1; j++) {
+            nodeDepart = nodeChemin.obtenirCheminPlusCourt().get(j);
+            nodeArrivee = nodeChemin.obtenirCheminPlusCourt().get(j + 1);
+
+            for (Segment segment : listeSegment) {
+                if (segment.obtenirOrigine().obtenirId().equals(nodeDepart.obtenirNom())
+                        && segment.obtenirDestination().obtenirId().equals(nodeArrivee.obtenirNom())) {
+                    semgentsDuPlusCourtChemin.add(segment);
+                    break;
+                }
+            }
+        }
+        // Ajouter le dernier segment jusqu'au point de livraison/entrepot
+        if (nodeChemin.obtenirCheminPlusCourt().size() == 0) {
+            depart = "";
+        } else {
+            depart = nodeChemin.obtenirCheminPlusCourt().get(nodeChemin.obtenirCheminPlusCourt().size() - 1)
+                    .obtenirNom();
+        }
+
+        for (Segment segment : listeSegment) {
+            if (segment.obtenirOrigine().obtenirId().equals(depart)
+                    && segment.obtenirDestination().obtenirId().equals(arrivee)) {
+                semgentsDuPlusCourtChemin.add(segment);
+                break;
+            }
+        }
+        return semgentsDuPlusCourtChemin;
     }
 }

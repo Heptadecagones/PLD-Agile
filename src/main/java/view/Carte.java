@@ -8,26 +8,19 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import model.Intersection;
-import model.Plan;
+import model.Livreur;
+import model.PlanLivraison;
 import model.Segment;
-import model.Tournee;
 
-/**
- *
- * @author Equipe IHM
- */
-
+import java.awt.*;
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer {
     /**
@@ -49,7 +42,7 @@ public class Carte extends JPanel implements Observer {
     private Intersection entrepot;
     private ArrayList<Intersection> listeIntersection = new ArrayList<>();
     private ArrayList<Segment> listeSegment = new ArrayList<>();
-    private ArrayList<Tournee> listeTournee = new ArrayList<>();
+    private ArrayList<Livreur> listeLivreur = new ArrayList<>();
 
     // La coordonnée du 4 coins de la carte
     private double minX = Double.MAX_VALUE, maxX = 0.0, minY = Double.MAX_VALUE, maxY = 0.0;
@@ -84,10 +77,11 @@ public class Carte extends JPanel implements Observer {
     // MISE À JOUR AU CHANGEMENT DES DONNÉES DU MODÈLE
     @Override
     public void update(Observable arg0, Object arg1) {
-        Plan plan = (Plan) arg0;
-        listeIntersection = plan.obtenirListeIntersection();
-        listeSegment = plan.obtenirListeSegment();
-        entrepot = plan.obtenirEntrepot();
+        PlanLivraison planLivraison = (PlanLivraison) arg0;
+        listeIntersection = planLivraison.obtenirPlan().obtenirListeIntersection();
+        listeSegment = planLivraison.obtenirPlan().obtenirListeSegment();
+        entrepot = planLivraison.obtenirPlan().obtenirEntrepot();
+        listeLivreur=planLivraison.obtenirListeLivreur();
         repaint();
     }
 
@@ -127,7 +121,7 @@ public class Carte extends JPanel implements Observer {
             g.setColor(new Color(0, 255, 0));
             g.fillOval(showX, showY, 10, 10);
             // OUVERTURE FENETRE LIVRAISON
-            String message = choixIntersection.toString();
+            //String message = choixIntersection.toString();
             System.out.println("nouvelleLivraison cliqué");
             fenetreCreation.setIntersection(choixIntersection);
             fenetreCreation.ouvrir();
@@ -191,17 +185,64 @@ public class Carte extends JPanel implements Observer {
         
         // PEINTURE
         if (!listeSegment.isEmpty()) {
-            ArrayList<Point2D> origines = new ArrayList<>();
-            ArrayList<Point2D> destinations = new ArrayList<>();
+            //ArrayList<Point2D> origines = new ArrayList<>();
+            //ArrayList<Point2D> destinations = new ArrayList<>();
+            Color[] tabColor=new Color[listeLivreur.size()];
+            int i=0;
+            for(i=0;i<listeLivreur.size();i++){
+                int un=(int)(Math.random() * 255);
+                int deux=(int)(Math.random() * 255);
+                int trois=(int)(Math.random() * 255);
+                tabColor[i]=new Color(un,deux,trois);
+            }
             for (Segment segment : listeSegment) {
+
                 Point2D origine = convertirLatLong(segment.obtenirOrigine());
-                origines.add(origine);
+                //origines.add(origine);
 
                 Point2D destination = convertirLatLong(segment.obtenirDestination());
-                destinations.add(destination);
+                //destinations.add(destination);
+
+                /*
+                 * minX = Math.min(minX, destination.getX());
+                 * maxX = Math.max(maxX, destination.getX());
+                 * minY = Math.min(minY, destination.getY());
+                 * maxY = Math.max(maxY, destination.getY());
+                 */
+                int origineCordX = REMBOURRAGE
+                + (int) ((origine.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                int origineCordY = REMBOURRAGE
+                + (int) ((origine.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+
+                int destinationCordX = REMBOURRAGE
+                + (int) ((destination.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                int destinationCordY = REMBOURRAGE
+                + (int) ((destination.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                g2d.setColor(Color.BLACK);
+                g2d.setStroke(new BasicStroke(1));
+                i=0;
+                for(Livreur livr : listeLivreur){
+                    i++;
+                    for(Segment s : livr.obtenirTournee().obtenirListeSegment()){
+                        if(segment==s){
+                            //System.out.println(t.toString()+i+tabColor[i]);
+                            g2d.setColor(tabColor[i]);
+                            g2d.setStroke(new BasicStroke(3));
+                        }
+                    }
+                }
+                
+                g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);
+                
+                
             }
 
-            for (int i = 0; i < origines.size(); ++i) {
+            /*
+             * double diffX = maxX - minX;
+             * double diffY = maxY - minY;
+             */
+
+            /*for (int i = 0; i < origines.size(); ++i) {
                 int origineCordX = REMBOURRAGE
                         + (int) ((origines.get(i).getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
                 int origineCordY = REMBOURRAGE
@@ -213,7 +254,7 @@ public class Carte extends JPanel implements Observer {
                         + (int) ((destinations.get(i).getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
 
                 g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);
-            }
+            }*/
         }
 
         if (!listeIntersection.isEmpty()) {

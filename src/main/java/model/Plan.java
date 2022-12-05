@@ -1,9 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Observable;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,31 +14,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-/**
- *
- * @author Yannick
- */
-
-public class Plan extends Observable {
+public class Plan {
     private Intersection entrepot;
 
     private ArrayList<Intersection> listeIntersection;
     private ArrayList<Segment> listeSegment;
-    private ArrayList<Tournee> listeTournee;
-    private ArrayList<Livraison> listeLivraison;
-    private ArrayList<Livreur> listeLivreur;
-
     private long nombreIntersection;
     private long nombreSegment;
-
-    // Ajout d'une livraison, méthode appelée par le constructeur
-    public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
-        this.listeLivraison
-                .add(new Livraison(Integer.parseInt(horaire), intersection, new Livreur(Integer.parseInt(numLivreur))));
-        this.setChanged();
-        this.notifyObservers();
-    }
-
+    //chargement d'un plan( avec segments,intersections,entrepot) à partir d'un fichier XML
     public void chargerXML(String nomFichier) {
         try {
 
@@ -118,8 +100,6 @@ public class Plan extends Observable {
                     }
                 }
             }
-            this.listeTournee = new ArrayList<Tournee>();
-            this.listeLivraison = new ArrayList<Livraison>();
         } catch (IOException e) {
             System.out.println(e);
         } catch (SAXException e) {
@@ -127,14 +107,7 @@ public class Plan extends Observable {
         } catch (ParserConfigurationException e) {
             System.out.println(e);
         }
-        this.setChanged();
-        this.notifyObservers();
-        // System.out.println(this.toString());
     }
-
-    public Plan() {
-    }
-
     public Intersection obtenirEntrepot() {
         return entrepot;
     }
@@ -154,40 +127,5 @@ public class Plan extends Observable {
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;
     }
-
-    public ArrayList<Tournee> obtenirListeTournee() {
-        return listeTournee;
-    }
-
-    public ArrayList<Livraison> obtenirListeLivraison() {
-        return listeLivraison;
-    }
-
-    public String toString() {
-        String description = "Entrepot\n";
-        description += this.entrepot.toString();
-        description += "\nNombre de Livraisons : " + this.listeLivraison.size() + "\n";
-        description += "\nListe des Livraisons :\n";
-        for (int i = 0; i < this.listeLivraison.size(); i++) {
-            description += this.listeLivraison.get(i).toString();
-            description += "\n";
-        }
-        description += "\nNombre d'intserctions : " + this.nombreIntersection;
-        description += "\nNombre de segments : " + this.nombreSegment;
-        description += "\nListe des intersections :\n";
-        for (int i = 0; i < this.listeIntersection.size(); i++) {
-            description += this.listeIntersection.get(i).toString();
-            description += "\n";
-        }
-        description += "Liste des segments :\n";
-        for (int i = 0; i < this.listeSegment.size(); i++) {
-            description += this.listeSegment.get(i).toString();
-            description += "\n";
-        }
-        return description;
-    }
-
-    public void ajouterLivraison(Livraison liv) {
-        this.listeLivraison.add(liv);
-    }
+        
 }

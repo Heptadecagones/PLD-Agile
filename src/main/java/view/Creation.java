@@ -30,15 +30,16 @@ import model.Intersection;
 public class Creation {
     private JButton btnCreerLivraison;
 
-    private final Font font = new Font("Arial", Font.PLAIN, 14);
-
-    private JFrame f = new JFrame("Ajout Livraison");
+    private final Font font = new Font("Arial", Font.PLAIN, 16);
 
     private String horaires[] = { "8", "9", "10", "11" };
+    private String livreurs[] = { "0", "1", "2"};
+    private JFrame f = new JFrame("Ajout Livraison");
+
     private JTextArea textIntersection = new JTextArea(10, 20);
     private JScrollPane defilerTextIntersection = new JScrollPane(textIntersection);
     private JComboBox textHoraire = new JComboBox(horaires);
-    private JTextField textLivreur = new JTextField();
+    private JComboBox textLivreur = new JComboBox(livreurs);
 
     private JPanel panelIntersection = new JPanel(new BorderLayout());
     private JPanel panelHoraire = new JPanel(new BorderLayout());
@@ -124,7 +125,7 @@ public class Creation {
     }
 
     public String obtenirTextLivreur() {
-        return textLivreur.getText();
+        return textLivreur.getSelectedItem().toString();
     }
 
     public String obtenirTextIntersection() {

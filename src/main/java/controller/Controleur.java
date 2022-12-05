@@ -7,7 +7,7 @@ import java.util.Observer;
 
 import javax.swing.JFileChooser;
 
-import model.Plan;
+import model.PlanLivraison;
 import view.IHM;
 
 /**
@@ -17,26 +17,22 @@ import view.IHM;
 
 public class Controleur {
 
-    Plan plan;
+    PlanLivraison planLivraison;
     IHM view;
 
     /**
      * Constructeur qui initialise un plan et une vue
      */
     public Controleur() {
-
-        this.plan = new Plan();
-        this.view = new IHM();
-        this.view.init();
-
-        this.plan.addObserver((Observer) this.view.obtenirCarte());
-        this.plan.addObserver((Observer) this.view.obtenirDescription());
-
+        planLivraison = new PlanLivraison();
+        view = new IHM();
+        view.init();
+        planLivraison.addObserver((Observer) view.obtenirCarte());
+        planLivraison.addObserver((Observer) view.obtenirDescription());
         ActionListener c = new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
                 String command = arg0.getActionCommand();
-                // System.out.println(command);
                 if ("Charger".equals(command)) {
                     JFileChooser selecteur = new JFileChooser();
 
@@ -49,7 +45,7 @@ public class Controleur {
                         File file = selecteur.getSelectedFile();
                         if (file.exists()) {
                             if (file.getName().endsWith(".xml")) {
-                                plan.chargerXML(file.getPath());
+                                planLivraison.ouvrirPlan(file.getPath());
                             } else {
                                 System.out.println("Pas un fichier xml");
                             }
@@ -58,13 +54,8 @@ public class Controleur {
                         }
                     }
                 }
-                /*
-                 * if ("Nouvelle livraison".equals(command)) {
-                 * plan.nouvelleLivraison(4)
-                 * ;}
-                 */
                 if ("Creer".equals(command)) {
-                    plan.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),
+                    planLivraison.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),
                             view.obtenirCarte().obtenirFenetreCreation().obtenirIntersection(),
                             view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur());
                     System.out.println("Creer cliqué");

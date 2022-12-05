@@ -26,7 +26,6 @@ public class Graph {
         this.nodes = nodes;
     }
 
-    // Constructeur à partir d'un plan
     public Graph(Plan plan) {
 
         ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
