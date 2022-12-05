@@ -30,15 +30,17 @@ public class IHMTest
         robot.delay(100);
         robot.mouseRelease(0);
         robot.delay(1000);*/
-        c.view.obtenirBarre().obtenirCharger().doClick();
-        Thread.sleep(1000);
         Robot robot2 = new Robot();
-        robot2.delay(2000);
-        robot2.delay(1000);
         for(int i=0;i<keyInput.length;i++){
             robot2.keyPress(keyInput[i]);
             robot2.delay(100);
             robot2.keyRelease(keyInput[i]);
         }
+        c.view.obtenirBarre().obtenirCharger().doClick();
+        Thread.sleep(1000);
+  
+        robot2.delay(2000);
+        robot2.delay(1000);
+
     }
 }                                                                          
