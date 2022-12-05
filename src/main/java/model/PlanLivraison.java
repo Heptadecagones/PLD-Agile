@@ -36,16 +36,18 @@ public class PlanLivraison extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
+
     public PlanLivraison() {
         init();
     }
 
     /**
-     * Initialise les donnees
-     * IMPORTANT : ce methode est utilisé aussi dans reinitDonnee()
+     * Init les données / Reinit les données de l'ancienne carte
+     * Utilisée quand l'utilisateur charge une nouvelle carte
      */
     public void init() {
-        this.plan=new Plan();
+        this.plan = new Plan();
+        this.plan.init();
         this.listeLivreur = new ArrayList<Livreur>();
         this.listeLivreur.add(new Livreur(0));
         this.listeLivreur.add(new Livreur(1));
@@ -58,14 +60,5 @@ public class PlanLivraison extends Observable {
     }
     public Plan obtenirPlan() {
         return this.plan;
-    }
-
-    /**
-     * Réinitialise toutes les donnees
-     * Utilisée quand l'utilisateur charge une nouvelle carte
-     */
-    public void reinitDonnee() {
-        plan.reinitDonnee();
-        this.init();
     }
 }

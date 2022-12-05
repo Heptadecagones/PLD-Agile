@@ -72,21 +72,52 @@ public class Carte extends JPanel implements Observer {
 
         fenetreCreation = new Creation();
         fenetreCreation.init();
-        
+
+        initDonnee();
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 int mouseX = e.getX();
                 int mouseY = e.getY();
                 System.out.println(mouseX + "," + mouseY);
-                int minmX = 1000000;
+                int minmX = 30;
                 mouseCompare(listeIntersection, mouseX, mouseY, getGraphics(), minmX);
            
             }
         });
     }
 
+    /**
+     * (Re)Initialise les donnees de la carte 
+     * Utilisée quand l'utilisateur charge une nouvelle carte
+     */
+    public void initDonnee() {
+        minX = Double.MAX_VALUE; 
+        maxX = 0.0;
+        minY = Double.MAX_VALUE;
+        maxY = 0.0;
+        
+        diffX = -1.0; 
+        diffY = -1.0;
 
+        entrepot = new Intersection();
+        listeIntersection = new ArrayList<>();
+        listeSegment = new ArrayList<>();
+        listeLivreur = new ArrayList<>();
+
+        choixIntersection = new Intersection();
+        choixSegment = new Segment();
+
+        // Init les couleurs de la route pour chaque livreur
+        for (int i = 0; i < MAX_LIVREUR; ++i) {
+            int rouge = Math.abs((int)(Math.random()*255));
+            int vert = Math.abs((int)(Math.random()*255));
+            int bleu = Math.abs((int)(Math.random()*255));
+
+            tabCouleurLivreur[i] = new Color(rouge, vert, bleu);
+        }
+    }
 
     // MISE À JOUR AU CHANGEMENT DES DONNÉES DU MODÈLE
     @Override
@@ -132,7 +163,6 @@ public class Carte extends JPanel implements Observer {
             System.out.println("nouvelleLivraison cliqué");
             fenetreCreation.setIntersection(choixIntersection);
             fenetreCreation.ouvrir();
-
         }
 
     }
@@ -285,43 +315,4 @@ public class Carte extends JPanel implements Observer {
 
         return (new Point2D.Double(x, y));
     }
-
-    /**
-     * Init les couleurs de la route pour chaque livreur
-     */
-    public void initCouleur() {
-        for (int i = 0; i < MAX_LIVREUR; ++i) {
-            int rouge = Math.abs((int)(Math.random()*255));
-            int vert = Math.abs((int)(Math.random()*255));
-            int bleu = Math.abs((int)(Math.random()*255));
-
-            tabCouleurLivreur[i] = new Color(rouge, vert, bleu);
-        }
-    }
-
-
-    /**
-     * Réinitialise les donnees de la carte 
-     * Utilisée quand l'utilisateur charge une nouvelle carte
-     */
-    public void reinitDonnee() {
-        minX = Double.MAX_VALUE; 
-        maxX = 0.0;
-        minY = Double.MAX_VALUE;
-        maxY = 0.0;
-        
-        diffX = -1.0; 
-        diffY = -1.0;
-
-        entrepot = new Intersection();
-        listeIntersection = new ArrayList<>();
-        listeSegment = new ArrayList<>();
-        listeLivreur = new ArrayList<>();
-
-        choixIntersection = new Intersection();
-        choixSegment = new Segment();
-
-        initCouleur();
-    }
-
 }

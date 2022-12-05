@@ -21,6 +21,17 @@ public class Plan {
     private ArrayList<Segment> listeSegment;
     private long nombreIntersection;
     private long nombreSegment;
+
+    /**
+     * Init les données / Reinit les données de l'ancienne carte
+     * Utilisée quand l'utilisateur charge une nouvelle carte
+     */
+    public void init() {
+        entrepot = new Intersection();
+        listeIntersection = new ArrayList<>();
+        listeSegment = new ArrayList<>();
+    }
+    
     //chargement d'un plan( avec segments,intersections,entrepot) à partir d'un fichier XML
     public void chargerXML(String nomFichier) {
         try {
@@ -126,16 +137,6 @@ public class Plan {
 
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;
-    }
-
-    /**
-     * Réinitialise toutes les donnees 
-     * Utilisée quand l'utilisateur charge une nouvelle carte
-     */
-    public void reinitDonnee() {
-        entrepot = new Intersection();
-        listeIntersection = new ArrayList<>();
-        listeSegment = new ArrayList<>();
     }
         
 }
