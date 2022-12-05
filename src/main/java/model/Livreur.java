@@ -2,6 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ *
+ * @author Yannick
+ */
+
 public class Livreur {
 
     private int id;

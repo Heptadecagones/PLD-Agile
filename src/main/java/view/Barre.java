@@ -1,19 +1,28 @@
 package view;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ *
+ * @author Equipe IHM
+ */
+
 @SuppressWarnings("serial")
 public class Barre extends JPanel {
-    private Font font = new Font("Arial", Font.PLAIN, 14);
-
+    /**
+     * Tous les composants
+     */
     private JButton sauvegarder, charger;
+
+    // La police de toutes les composants
+    private final Font font = new Font("Arial", Font.PLAIN, 14);
 
     public void modifierSauvegarder(JButton Sauvegarder) {
         this.sauvegarder = Sauvegarder;
@@ -35,11 +44,11 @@ public class Barre extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         setOpaque(false);
 
-        // init les boutons
+        // Init les boutons
         charger = creerBouton("Charger");
         sauvegarder = creerBouton("Sauvegarder");
 
-        // ajoute les composants
+        // Ajoute les composants
         JPanel panelGauche = new JPanel(), panelDroit = new JPanel();
         panelGauche.add(charger);
         add(panelGauche);
@@ -71,6 +80,11 @@ public class Barre extends JPanel {
         sauvegarder.addActionListener(action);
     }
 
+    /**
+     * Renvoie un bouton avec des propriétés de base (police, etc)
+     * @param nom
+     * @return JButton
+     */
     public JButton creerBouton(String nom) {
         JButton bouton = new JButton(nom);
         bouton.setFont(font);

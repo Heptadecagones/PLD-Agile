@@ -1,34 +1,50 @@
 
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
-import java.awt.Font;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import model.Intersection;
 
+/**
+ *
+ * @author Equipe IHM
+ */
+
 @SuppressWarnings("serial")
-public class Creation extends JPanel {
+public class Creation {
     private JButton btnCreerLivraison;
-    private JLabel infoHoraire = new JLabel("Horaire :");
-    private JLabel infoLivreur = new JLabel("Livreur :");
 
     private final Font font = new Font("Arial", Font.PLAIN, 16);
 
     private String horaires[] = { "8", "9", "10", "11" };
     private String livreurs[] = { "0", "1", "2"};
     private JFrame f = new JFrame("Ajout Livraison");
+
+    private JTextArea textIntersection = new JTextArea(10, 20);
+    private JScrollPane defilerTextIntersection = new JScrollPane(textIntersection);
     private JComboBox textHoraire = new JComboBox(horaires);
     private JComboBox textLivreur = new JComboBox(livreurs);
-    private JLabel textIntersection = new JLabel("pas d'infos sur l'intersection");
+
+    private JPanel panelIntersection = new JPanel(new BorderLayout());
+    private JPanel panelHoraire = new JPanel(new BorderLayout());
+    private JPanel panelLivreur = new JPanel(new BorderLayout());
+
     private Intersection intersection;
 
     public Intersection obtenirIntersection() {
@@ -48,21 +64,52 @@ public class Creation extends JPanel {
     }
 
     public void init() {
+        // Définir les propriétés des composants
         btnCreerLivraison = creerBouton("Creer");
+        textIntersection.setFont(font);
+        textIntersection.setLineWrap(true);
+        textIntersection.setEditable(false);
+        textHoraire.setFont(font);
+        textLivreur.setFont(font);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(textIntersection);
-        panel.add(infoHoraire);
-        panel.add(textHoraire);
-        panel.add(infoLivreur);
-        panel.add(textLivreur);
-        panel.add(btnCreerLivraison);
-        f.add(panel);
+        // Ajouter des composants dans la fenêtre
+        JPanel panelMere = new JPanel();
+        panelMere.setLayout(new BoxLayout(panelMere, BoxLayout.Y_AXIS));
+
+        JPanel panelFil = new JPanel();
+        panelFil.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panelIntersection.setBorder(new TitledBorder("Intersection"));
+        panelIntersection.add(defilerTextIntersection);
+        panelFil.add(panelIntersection, gbc);
+
+        gbc.gridy++;
+        panelHoraire.setBorder(new TitledBorder("Horaire"));
+        panelHoraire.add(textHoraire);
+        panelFil.add(panelHoraire, gbc);
+
+        gbc.gridy++;
+        panelLivreur.setBorder(new TitledBorder("Livreur"));
+        panelLivreur.add(textLivreur);
+        panelFil.add(panelLivreur, gbc);
+
+        panelMere.add(panelFil);
+        panelMere.add(btnCreerLivraison);
+        f.add(panelMere);
+
+        // Définir les propriétés de la fenêtre
         f.setLocation(200, 200);
         f.setResizable(false);
-        f.setVisible(false);
         f.pack();
+        f.setVisible(false);
+
         ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource() == btnCreerLivraison) {
@@ -85,15 +132,26 @@ public class Creation extends JPanel {
         return textIntersection.getText();
     }
 
+    /**
+     * Ouvrir la fenêtre 
+     */
     public void ouvrir() {
         textIntersection.setText(this.intersection.toString());
         this.f.setVisible(true);
     }
 
+    /**
+     * Fermer la fenêtre 
+     */
     public void fermer() {
         this.f.setVisible(false);
     }
 
+    /**
+     * Renvoie un bouton avec des propriétés de base (police, etc)
+     * @param nom
+     * @return JButton
+     */
     public JButton creerBouton(String nom) {
         JButton bouton = new JButton(nom);
         bouton.setFont(font);

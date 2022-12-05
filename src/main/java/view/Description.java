@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package view;
-
-/**
- *
- * @author NGUYEN Danh Lan
- */
 
 import java.awt.Dimension;
 import java.util.Observable;
@@ -16,20 +7,29 @@ import java.util.Observer;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
 
+/**
+ *
+ * @author Equipe IHM
+ */
+
 @SuppressWarnings("serial")
 public class Description extends JPanel implements Observer {
+    /**
+     * Tous les composants
+     */
     JTextArea descText;
     JScrollPane scrollPane;
-    private final int LONGUEUR = 200;
-    private final int HAUTEUR = 650;
+
+    /**
+     * la taille du panneau
+     */
+    private int LONGUEUR = 200;
+    private int HAUTEUR = 650;
 
     public void setDescText(String setdescText) {
         this.descText.setText(setdescText);
@@ -44,10 +44,9 @@ public class Description extends JPanel implements Observer {
         descText.setLineWrap(true);
         scrollPane = new JScrollPane(descText);
         add(scrollPane);
-
     }
 
-    // UPDATE DES DONNEES : ECRITURE DE LA LISTE DES LIVRAISONS
+    // Mise à jour des données : Ecriture de la liste des livraisons
     @Override
     public void update(Observable arg0, Object arg1) {
         PlanLivraison p = (PlanLivraison) arg0;

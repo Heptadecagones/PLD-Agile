@@ -1,10 +1,13 @@
 package model;
-
 import java.util.Observable;
 import java.util.ArrayList;
-
 import model.algo.Dijkstra.DijkstraAlgo;
-
+/**
+ *
+ * @author Henri
+ * Voir diagramme des classes
+ * Classe avec un Plan et une liste de Livreur, permet de faire le lien entre le plan et les livraisons
+ */
 public class PlanLivraison extends Observable {
 
     private ArrayList<Livreur> listeLivreur;

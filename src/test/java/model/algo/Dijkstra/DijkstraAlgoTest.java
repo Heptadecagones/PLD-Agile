@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import model.Intersection;
 import model.Livraison;
@@ -20,6 +18,8 @@ import model.Tournee;
 
 /**
  * Unit test for graphs.
+ * 
+ * @author Thibaut
  */
 public class DijkstraAlgoTest {
 
@@ -80,7 +80,7 @@ public class DijkstraAlgoTest {
         dijal = null;
     }
 
-    @RepeatedTest(3)
+    @RepeatedTest(2)
     public void testAlgorithme() throws CloneNotSupportedException {
         Tournee t = new Tournee(dijal.calculerTournee());
         ArrayList<Segment> segs = t.obtenirListeSegment();

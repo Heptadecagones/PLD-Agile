@@ -3,9 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,11 +16,12 @@ import org.xml.sax.SAXException;
 
 public class Plan {
     private Intersection entrepot;
+
     private ArrayList<Intersection> listeIntersection;
     private ArrayList<Segment> listeSegment;
     private long nombreIntersection;
     private long nombreSegment;
-
+    //chargement d'un plan( avec segments,intersections,entrepot) à partir d'un fichier XML
     public void chargerXML(String nomFichier) {
         try {
 
