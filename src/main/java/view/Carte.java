@@ -31,8 +31,8 @@ public class Carte extends JPanel implements Observer {
     /**
      * La taille du panneau
      */
-    private int LONGUEUR = 900;
-    private int HAUTEUR = 650;
+    private int LONGUEUR;
+    private int HAUTEUR;
 
     private final int REMBOURRAGE = 10;
 
@@ -55,7 +55,9 @@ public class Carte extends JPanel implements Observer {
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
     
-    public Carte() {
+    public Carte(int LONGUEUR,int HAUTEUR) {
+        this.HAUTEUR=HAUTEUR;
+        this.LONGUEUR=LONGUEUR;
         setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
         setBorder(new TitledBorder("Carte"));
 

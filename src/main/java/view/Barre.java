@@ -41,7 +41,6 @@ public class Barre extends JPanel {
     }
 
     public Barre() {
-        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         setOpaque(false);
 
         // Init les boutons
@@ -51,10 +50,11 @@ public class Barre extends JPanel {
         // Ajoute les composants
         JPanel panelGauche = new JPanel(), panelDroit = new JPanel();
         panelGauche.add(charger);
+        panelGauche.setLocation(0,0);
         add(panelGauche);
 
-        add(Box.createHorizontalGlue());
         panelDroit.add(sauvegarder);
+        panelDroit.setLocation(100,100);
         add(panelDroit);
 
         ActionListener action = new ActionListener() {

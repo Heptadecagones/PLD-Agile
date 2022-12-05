@@ -1,10 +1,11 @@
 package view;
 
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
+import java.awt.Color;
 /**
  *
  * @author Equipe IHM
@@ -12,9 +13,9 @@ import javax.swing.JPanel;
 
 public class IHM {
     // position du coin supérieur gauche de l'application
-    private Barre barre = new Barre();
-    private Description description = new Description();
-    private Carte carte = new Carte();
+    private Barre barre; 
+    private Description description;
+    private Carte carte;
 
     public void modifierBarre(Barre barre) {
         this.barre = barre;
@@ -57,19 +58,32 @@ public class IHM {
          */
 
         JFrame frame = new JFrame("PLD AGILE");
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setSize(screenSize);
         frame.setLocation(0, 0);
-        frame.add(barre, BorderLayout.NORTH);
-
-        JPanel panelSud = new JPanel();
-        panelSud.setLayout(new BoxLayout(panelSud, BoxLayout.LINE_AXIS));
-        panelSud.add(description);
-        panelSud.add(carte);
-        frame.add(panelSud, BorderLayout.SOUTH);
-        // frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // frame.setResizable(false);
+       
+        System.out.println(frame.getBounds().height*3/4);
+       
+        this.carte=new Carte(frame.getBounds().height*3/4,frame.getBounds().width*3/4);
+        this.barre=new Barre();
+        this.description=new Description();
+       
+        barre.setLocation(0,0);
+        barre.setSize(frame.getBounds().width, frame.getBounds().height*1/4);
+        barre.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+       
+        carte.setLocation(frame.getBounds().width*1/4,frame.getBounds().height*1/4);
+        carte.setSize(frame.getBounds().width*3/4, frame.getBounds().height*3/4);
+        carte.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        
+        description.setLocation(0,frame.getBounds().height*1/4);
+        description.setSize(frame.getBounds().width*1/4, frame.getBounds().height*3/4);
+        description.setBorder(BorderFactory.createLineBorder(Color.RED));
+        
+        frame.add(barre);
+        frame.add(carte);
+        frame.add(description);
         frame.setVisible(true);
     }
 

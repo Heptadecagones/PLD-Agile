@@ -28,22 +28,18 @@ public class Description extends JPanel implements Observer {
     /**
      * la taille du panneau
      */
-    private int LONGUEUR = 200;
-    private int HAUTEUR = 650;
 
     public void setDescText(String setdescText) {
         this.descText.setText(setdescText);
     }
 
     public Description() {
-        setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
-        setBorder(new TitledBorder("Description"));
 
         descText = new JTextArea(20, 25);
         descText.setText("Pas de contenu");
         descText.setLineWrap(true);
         scrollPane = new JScrollPane(descText);
-        add(scrollPane);
+        this.add(scrollPane);
     }
 
     // Mise à jour des données : Ecriture de la liste des livraisons
