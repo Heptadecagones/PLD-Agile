@@ -17,8 +17,8 @@ import view.IHM;
 
 public class Controleur {
 
-    PlanLivraison planLivraison;
-    IHM view;
+    public PlanLivraison planLivraison;
+    public IHM view;
 
     /**
      * Constructeur qui initialise un plan et une vue

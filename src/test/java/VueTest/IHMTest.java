@@ -15,7 +15,7 @@ public class IHMTest
     public static void main(String[] args) throws IOException,
                            AWTException, InterruptedException
     {
-        new Controleur();
+        Controleur c=new Controleur();
         try {
             Thread.sleep(2000);
         }
@@ -24,7 +24,8 @@ public class IHMTest
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
- 
+        c.view.obtenirBarre().obtenirCharger().doClick();
+        
         // Create an instance of Robot class
         Robot robot = new Robot();
         // Press keys using robot. A gap of

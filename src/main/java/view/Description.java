@@ -24,7 +24,8 @@ public class Description extends JPanel implements Observer {
      */
     JTextArea descText;
     JScrollPane scrollPane;
-
+    private int LARGEUR;
+    private int LONGUEUR;
     /**
      * la taille du panneau
      */
@@ -33,12 +34,16 @@ public class Description extends JPanel implements Observer {
         this.descText.setText(setdescText);
     }
 
-    public Description() {
+    public Description(int LARGEUR,int LONGUEUR) {
+        this.LONGUEUR=LONGUEUR;
+        this.LARGEUR=LARGEUR;
+    }
 
-        descText = new JTextArea(20, 25);
-        descText.setText("Pas de contenu");
+    public void init(){
+        descText = new JTextArea(25, 25);
         descText.setLineWrap(true);
         scrollPane = new JScrollPane(descText);
+        scrollPane.setSize(LARGEUR,LONGUEUR);
         this.add(scrollPane);
     }
 

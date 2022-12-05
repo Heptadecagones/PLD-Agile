@@ -20,7 +20,8 @@ public class Barre extends JPanel {
      * Tous les composants
      */
     private JButton sauvegarder, charger;
-
+    private int LARGEUR;
+    private int LONGUEUR;
     // La police de toutes les composants
     private final Font font = new Font("Arial", Font.PLAIN, 14);
 
@@ -40,22 +41,23 @@ public class Barre extends JPanel {
         return charger;
     }
 
-    public Barre() {
-        setOpaque(false);
+    public Barre(int LARGEUR,int LONGUEUR) {
+        this.LONGUEUR=LONGUEUR;
+        this.LARGEUR=LARGEUR;
+    }
 
+    public void init(){
+        setLayout(null);
         // Init les boutons
         charger = creerBouton("Charger");
         sauvegarder = creerBouton("Sauvegarder");
 
         // Ajoute les composants
-        JPanel panelGauche = new JPanel(), panelDroit = new JPanel();
-        panelGauche.add(charger);
-        panelGauche.setLocation(0,0);
-        add(panelGauche);
+        charger.setBounds(LARGEUR/10,0,LARGEUR/3,LONGUEUR);
+        add(charger);
 
-        panelDroit.add(sauvegarder);
-        panelDroit.setLocation(100,100);
-        add(panelDroit);
+        sauvegarder.setBounds(LARGEUR-LARGEUR/3-LARGEUR/10,0,LARGEUR/3,LONGUEUR);
+        add(sauvegarder);
 
         ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
