@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +44,8 @@ public class Barre extends JPanel {
     public Barre() {
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         setOpaque(false);
+
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
         // Init les boutons
         charger = creerBouton("Charger");

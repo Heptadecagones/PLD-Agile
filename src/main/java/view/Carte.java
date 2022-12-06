@@ -32,8 +32,25 @@ public class Carte extends JPanel implements Observer {
     /**
      * La taille du panneau
      */
-    private int LONGUEUR = 900;
-    private int HAUTEUR = 650;
+    private int largeur = 650;
+    private int hauteur = 650;
+
+    public int obtenirLargeur() {
+        return largeur;
+    }
+
+    public void modifierLargeur(int largeur) {
+        this.largeur = largeur;
+    }
+
+    public int obtenirHauteur() {
+        return hauteur;
+    }
+
+    public void modifierHauteur(int hauteur) {
+        this.hauteur = hauteur;
+    }
+
 
     /**
      * Toutes les données de la carte
@@ -68,9 +85,12 @@ public class Carte extends JPanel implements Observer {
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
     private final Color couleurChoixIntersection = Color.GREEN;
-    
-    public Carte() {
-        setPreferredSize(new Dimension(LONGUEUR, HAUTEUR));
+
+    public Carte(int largeur, int hauteur) {
+        this.largeur = largeur;
+        this.hauteur = hauteur;
+        setPreferredSize(new Dimension(largeur, hauteur));
+        
         setBorder(new TitledBorder("Carte"));
 
         fenetreCreation = new Creation();
@@ -154,8 +174,8 @@ public class Carte extends JPanel implements Observer {
             }
 
             for (int i = 0; i < points.size(); i++) {
-                int coordX = REMBOURRAGE + (int) ((points.get(i).getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
-                int coordY = REMBOURRAGE + (int) ((points.get(i).getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                int coordX = REMBOURRAGE + (int) ((points.get(i).getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                int coordY = REMBOURRAGE + (int) ((points.get(i).getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 if ((Math.abs(sourisX - coordX) + Math.abs(sourisY - coordY)) < maxDistance) {
                     maxDistance = (Math.abs(sourisX - coordX) + Math.abs(sourisY - coordY));
@@ -175,7 +195,7 @@ public class Carte extends JPanel implements Observer {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-     
+
         Graphics2D g2d = (Graphics2D) g;
 
         RenderingHints rh = new RenderingHints(
@@ -217,14 +237,14 @@ public class Carte extends JPanel implements Observer {
                 Point2D destination = convertirLatLong(segment.obtenirDestination());
 
                 int origineCordX = REMBOURRAGE
-                + (int) ((origine.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                + (int) ((origine.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int origineCordY = REMBOURRAGE
-                + (int) ((origine.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                + (int) ((origine.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 int destinationCordX = REMBOURRAGE
-                + (int) ((destination.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                + (int) ((destination.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int destinationCordY = REMBOURRAGE
-                + (int) ((destination.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                + (int) ((destination.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
                 
                 g2d.setColor(Color.BLACK);
                 g2d.setStroke(new BasicStroke(1));
@@ -256,8 +276,8 @@ public class Carte extends JPanel implements Observer {
             g2d.setColor(couleurIntersection);
 
             for (Point2D point : points) {
-                int coordX = REMBOURRAGE + (int) ((point.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
-                int coordY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                int coordX = REMBOURRAGE + (int) ((point.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                int coordY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 g2d.fillOval(coordX - DIAMETRE_INTERSECTION / 2, coordY - DIAMETRE_INTERSECTION / 2,
                         DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
@@ -268,8 +288,8 @@ public class Carte extends JPanel implements Observer {
         if (entrepot.obtenirId() != null) {
             System.out.println(entrepot.toString());
             Point2D cordEntrepot = convertirLatLong(entrepot);
-            int entrCordX = REMBOURRAGE + (int) ((cordEntrepot.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
-            int entrCordY = REMBOURRAGE + (int) ((cordEntrepot.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+            int entrCordX = REMBOURRAGE + (int) ((cordEntrepot.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+            int entrCordY = REMBOURRAGE + (int) ((cordEntrepot.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
             g2d.setColor(couleurEntrepot);
             g2d.fillOval(entrCordX - DIAMETRE_ENTREPOT / 2, entrCordY - DIAMETRE_ENTREPOT / 2,
@@ -281,8 +301,8 @@ public class Carte extends JPanel implements Observer {
             for (Livraison s : livr.obtenirLivraisons()) {
                 Point2D cordLivr = convertirLatLong(s.obtenirLieu());
 
-                int livrCordX = REMBOURRAGE + (int) ((cordLivr.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
-                int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+                int livrCordX = REMBOURRAGE + (int) ((cordLivr.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 g2d.setColor(couleurIntersection);
                 g2d.fillOval(livrCordX - DIAMETRE_DEST_LIVRIAISON / 2, livrCordY - DIAMETRE_DEST_LIVRIAISON / 2,
@@ -294,8 +314,8 @@ public class Carte extends JPanel implements Observer {
         if (choixIntersection.obtenirId() != null) {
             Point2D cordChoixIntersection = convertirLatLong(choixIntersection);
 
-            int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
-            int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
+            int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+            int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
             System.out.println("cord = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
             g2d.setColor(couleurChoixIntersection);
@@ -317,14 +337,14 @@ public class Carte extends JPanel implements Observer {
         double latitude = intersection.obtenirLatitude();
 
         // obtenir x-coordonnée
-        double x = (longitude + 180) * (LONGUEUR / 360);
+        double x = (longitude + 180) * (largeur / 360);
 
         // convertir de degré en radian
         double latRad = latitude * Math.PI / 180;
 
         // obtenir y-coordonnée
         double mercN = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
-        double y = (HAUTEUR / 2.0) - (LONGUEUR * mercN / (2.0 * Math.PI));
+        double y = (hauteur / 2.0) - (largeur * mercN / (2.0 * Math.PI));
 
         return (new Point2D.Double(x, y));
     }
