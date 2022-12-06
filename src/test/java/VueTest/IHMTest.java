@@ -10,10 +10,23 @@ import java.io.*;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import controller.Controleur;
- 
+import java.awt.*;   
+import java.awt.event.*;   
+import javax.swing.*;   
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.parallel.Execution;
+
 public class IHMTest
 {
-    public static void main(String[] args) throws IOException,
+    @RepeatedTest(1)
+    public static void nouvelleLivraison() throws IOException,
                            AWTException, InterruptedException
     {
         Controleur c=new Controleur();
@@ -24,23 +37,19 @@ public class IHMTest
             
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         
-        /*Robot robot = new Robot();
-        robot.mouseMove(screenSize.width*1/3, 0);
-        robot.mousePress(0);
+        //c.view.obtenirBarre().obtenirCharger().doClick();
+        c.planLivraison.ouvrirPlan("src/main/java/largeMap.xml");
+        
+        Robot robot = new Robot();
+        robot.delay(1000);
+        robot.mouseMove(screenSize.width*1/2, screenSize.height*1/2);
+        robot.mousePress(InputEvent.BUTTON1_MASK);
         robot.delay(100);
-        robot.mouseRelease(0);
-        robot.delay(1000);*/
-        Robot robot2 = new Robot();
-        for(int i=0;i<keyInput.length;i++){
-            robot2.keyPress(keyInput[i]);
-            robot2.delay(100);
-            robot2.keyRelease(keyInput[i]);
-        }
-        c.view.obtenirBarre().obtenirCharger().doClick();
-        Thread.sleep(1000);
-  
-        robot2.delay(2000);
-        robot2.delay(1000);
+        robot.mouseRelease(InputEvent.BUTTON1_MASK);
+        robot.delay(1000);
+        c.view.obtenirCarte().obtenirFenetreCreation().obtenirBtnCreerLivraison().doClick();
+
+        assertTrue(c.planLivraison.obtenirListeLivreur().get(0).obtenirLivraisons().size()==0);
 
     }
 }                                                                          
