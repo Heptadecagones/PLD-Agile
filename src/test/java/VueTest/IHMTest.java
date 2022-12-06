@@ -17,18 +17,15 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.Test;
 
 public class IHMTest
 {
-    @RepeatedTest(1)
-    public static void nouvelleLivraison() throws IOException,
+    @Test
+    public void nouvelleLivraison() throws IOException,
                            AWTException, InterruptedException
     {
+        System.out.println("testIHM");
         Controleur c=new Controleur();
 
         
@@ -49,7 +46,7 @@ public class IHMTest
         robot.delay(1000);
         c.view.obtenirCarte().obtenirFenetreCreation().obtenirBtnCreerLivraison().doClick();
 
-        assertTrue(c.planLivraison.obtenirListeLivreur().get(0).obtenirLivraisons().size()==0);
+        assertTrue(c.planLivraison.obtenirListeLivreur().get(0).obtenirLivraisons().size()==1);
 
     }
 }                                                                          
