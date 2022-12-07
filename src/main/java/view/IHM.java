@@ -55,23 +55,24 @@ public class IHM {
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
-
         frame.setBounds(0, 0, (int)tailleEcran.getWidth(), (int)tailleEcran.getHeight());
 
-        barre = new Barre();
-        frame.add(barre, BorderLayout.NORTH);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
-        JPanel panelSud = new JPanel();
-        panelSud.setLayout(new BoxLayout(panelSud, BoxLayout.X_AXIS));
-        description = new Description();
-        description.init();
-        panelSud.add(description);
+        barre = new Barre();
+        barre.init();
+        panel.add(barre);
 
         int min = Math.min((int)tailleEcran.getWidth(), (int)tailleEcran.getHeight());
-        carte = new Carte(9*min/10, 9*min/10);
-        panelSud.add(carte);
+        carte = new Carte(min-15, min-15);
+        panel.add(carte);
 
-        frame.add(panelSud, BorderLayout.SOUTH);
+        description = new Description();
+        description.init();
+        panel.add(description);
+
+        frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);

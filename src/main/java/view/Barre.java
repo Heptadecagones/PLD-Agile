@@ -42,7 +42,10 @@ public class Barre extends JPanel {
     }
 
     public Barre() {
-        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+    }
+
+    public void init() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
 
         setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));

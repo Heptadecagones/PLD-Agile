@@ -56,7 +56,7 @@ public class Carte extends JPanel implements Observer {
      * Toutes les données de la carte
      */
     // Le rembourrage de la carte par rapport à le panneau
-    private final int REMBOURRAGE = 10;
+    private final int REMBOURRAGE = 15;
 
     // La coordonnée du 4 coins de la carte
     private double minX = Double.MAX_VALUE, maxX = 0.0, minY = Double.MAX_VALUE, maxY = 0.0;
@@ -89,7 +89,7 @@ public class Carte extends JPanel implements Observer {
     public Carte(int largeur, int hauteur) {
         this.largeur = largeur;
         this.hauteur = hauteur;
-        setPreferredSize(new Dimension(largeur, hauteur));
+        setPreferredSize(new Dimension(this.largeur, this.hauteur));
         
         setBorder(new TitledBorder("Carte"));
 
@@ -121,7 +121,7 @@ public class Carte extends JPanel implements Observer {
                 int mouseX = e.getX();
                 int mouseY = e.getY();
                 rue = recupererRue(mouseX, mouseY, 100).obtenirNom();
-                System.out.println(rue);
+                //System.out.println(rue);
                 if (rue != null) {
                     setToolTipText(rue);
                 }
@@ -269,6 +269,7 @@ public class Carte extends JPanel implements Observer {
     // PAINT DE LA CARTE
     @Override
     public void paintComponent(Graphics g) {
+        System.out.println(largeur + " " + hauteur);
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;

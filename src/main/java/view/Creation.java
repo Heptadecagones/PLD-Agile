@@ -29,7 +29,7 @@ import model.Intersection;
 public class Creation {
     private JButton btnCreerLivraison;
 
-    private final Font font = new Font("Arial", Font.PLAIN, 16);
+    private final Font font = new Font("Arial", Font.PLAIN, 12);
 
     private String horaires[] = { "8", "9", "10", "11" };
     private String livreurs[] = { "0", "1", "2" };
@@ -104,7 +104,7 @@ public class Creation {
         f.add(panelMere);
 
         // Définir les propriétés de la fenêtre
-        f.setLocation(200, 200);
+        //f.setLocation(200, 200);
         f.setResizable(false);
         f.pack();
         f.setVisible(false);
