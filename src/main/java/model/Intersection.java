@@ -35,9 +35,9 @@ public class Intersection {
     
     //TODO check return type
     //TODO interface
-    public void () {
+    /*public void () {
 
-    }
+    }*/
 
     public double obtenirLongitude() {
         return longitude;
@@ -67,6 +67,10 @@ public class Intersection {
         this.listeSegmentOrigine.add(segment);
     }
 
+    public Map<Intersection, Pair<ArrayList<Segment>, Double>> obtenirArborescence() {
+        return arborescence;
+    }
+
 
     public String toString() {
         String description = "Id : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude;
@@ -93,7 +97,7 @@ public class Intersection {
     /**
      * 
      */
-    public void calculerPlusCourtChemin() {
+    public void calculerArborescenceChemins(ArrayList<Intersection> intersections) {
 
     }
 }
