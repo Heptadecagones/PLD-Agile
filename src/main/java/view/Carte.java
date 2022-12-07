@@ -138,9 +138,17 @@ public class Carte extends JPanel implements Observer {
 
         // Init les couleurs de la route pour chaque livreur
         for (int i = 0; i < MAX_LIVREUR; ++i) {
-            int rouge = Math.abs((int)(Math.random()*255));
-            int vert = Math.abs((int)(Math.random()*255));
-            int bleu = Math.abs((int)(Math.random()*255));
+            double total_coulour = 0 ;
+            int rouge ;
+            int vert ;
+            int bleu ;
+           
+            do{
+            rouge = Math.abs((int)(Math.random()*255));
+            vert = Math.abs((int)(Math.random()*255));
+            bleu = Math.abs((int)(Math.random()*255));
+            total_coulour = 0.3*rouge + 0.59*vert + 0.11*bleu;}
+            while(total_coulour < 128.0);
 
             tabCouleurLivreur[i] = new Color(rouge, vert, bleu);
         }
