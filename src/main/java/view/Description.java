@@ -26,27 +26,23 @@ public class Description extends JPanel implements Observer {
      */
     JTextArea descText;
     JScrollPane scrollPane;
-    private int LARGEUR;
-    private int LONGUEUR;
-    /**
-     * la taille du panneau
-     */
 
     public void setDescText(String setdescText) {
         this.descText.setText(setdescText);
     }
 
-    public Description(int LARGEUR,int LONGUEUR) {
-        this.LONGUEUR=LONGUEUR;
-        this.LARGEUR=LARGEUR;
+    public Description() {
     }
 
-    public void init(){
-        descText = new JTextArea(25, 25);
+    public void init() {
+        setLayout(new BorderLayout());
+        setBorder(new TitledBorder("Description"));
+
+        descText = new JTextArea();
+        descText.setText("Pas de contenu");
         descText.setLineWrap(true);
         scrollPane = new JScrollPane(descText);
-        scrollPane.setSize(LARGEUR,LONGUEUR);
-        this.add(scrollPane);
+        add(scrollPane);
     }
 
     // Mise à jour des données : Ecriture de la liste des livraisons
@@ -54,8 +50,8 @@ public class Description extends JPanel implements Observer {
     public void update(Observable arg0, Object arg1) {
         PlanLivraison p = (PlanLivraison) arg0;
         String ListeLivraison = "";
-        for (Livreur li : p.obtenirListeLivreur()) {
-            ListeLivraison += li.toString() + "\n";
+        for(Livreur li:p.obtenirListeLivreur()){
+            ListeLivraison+=li.toString()+ "\n\n";
         }
         setDescText(ListeLivraison);
     }

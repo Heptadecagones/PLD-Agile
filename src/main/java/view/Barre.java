@@ -21,8 +21,7 @@ public class Barre extends JPanel {
      * Tous les composants
      */
     private JButton sauvegarder, charger;
-    private int LARGEUR;
-    private int LONGUEUR;
+
     // La police de toutes les composants
     private final Font font = new Font("Arial", Font.PLAIN, 14);
 
@@ -42,29 +41,37 @@ public class Barre extends JPanel {
         return charger;
     }
 
-    public Barre(int LARGEUR,int LONGUEUR) {
-        this.LONGUEUR=LONGUEUR;
-        this.LARGEUR=LARGEUR;
-    }
+    public Barre() {
+        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        setOpaque(false);
 
-    public void init(){
-        setLayout(null);
+        setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+
         // Init les boutons
         charger = creerBouton("Charger");
         sauvegarder = creerBouton("Sauvegarder");
 
         // Ajoute les composants
-        charger.setBounds(LARGEUR/10,0,LARGEUR/3,LONGUEUR);
-        add(charger);
+        JPanel panelGauche = new JPanel(), panelDroit = new JPanel();
+        panelGauche.add(charger);
+        add(panelGauche);
 
-        sauvegarder.setBounds(LARGEUR-LARGEUR/3-LARGEUR/10,0,LARGEUR/3,LONGUEUR);
-        add(sauvegarder);
+        add(Box.createHorizontalGlue());
+        panelDroit.add(sauvegarder);
+        add(panelDroit);
 
         ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource() == charger) {
                     System.out.println("Charger cliqué");
                 }
+
+                /*
+                 * if (evt.getSource() == nouvelleLivraison) {
+                 * System.out.println("nouvelleLivraison cliqué");
+                 * fenetreCreation.ouvrir();
+                 * }
+                 */
 
                 if (evt.getSource() == sauvegarder) {
                     System.out.println("Sauvegarder cliqué");
@@ -78,7 +85,6 @@ public class Barre extends JPanel {
 
     /**
      * Renvoie un bouton avec des propriétés de base (police, etc)
-     * 
      * @param nom
      * @return JButton
      */
