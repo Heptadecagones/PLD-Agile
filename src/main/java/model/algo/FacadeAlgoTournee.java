@@ -42,7 +42,10 @@ public abstract class FacadeAlgoTournee {
 
         TabuSearch ts = new TabuSearch(grapheSimplifie, minLiv);
         Noeud[] ordreLivraison = ts.soluceEnNoeuds();
-
+        int ij = 0;
+        for(Noeud n : ordreLivraison) {
+            System.out.println(ij++ +": "+ n);
+        }
         String depart = null;
         String arrivee = null;
         double heure = minLiv;

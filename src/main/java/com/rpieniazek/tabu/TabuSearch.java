@@ -77,12 +77,12 @@ public class TabuSearch {
                 int origTime = orig.obtenirHoraireLivraison();
                 int destTime = dest.getKey().obtenirHoraireLivraison();
 
+                //TODO bouger le code qui supprime des liens dans grapheTSP
                 if (origTime == 99 && destTime > minLiv) {
                     continue;
                 } else if (origTime <= destTime) {
                     preMatrice[origID][destID] = dest.getValue();
                 }
-
             }
         }
 
