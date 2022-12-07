@@ -86,11 +86,18 @@ public class Carte extends JPanel implements Observer {
     private final Color couleurIntersection = Color.BLUE;
     private final Color couleurChoixIntersection = Color.GREEN;
 
-    public Carte(int largeur, int hauteur) {
-        this.largeur = largeur;
-        this.hauteur = hauteur;
-        setPreferredSize(new Dimension(this.largeur, this.hauteur));
-        
+    @Override
+    // Garantie la carree de la carte
+    public Dimension getPreferredSize() {
+        Dimension d = getParent().getSize();
+        int min = Math.min((int)d.getWidth(), (int)d.getHeight());
+        this.largeur = min;
+        this.hauteur = min;
+
+        return new Dimension(min, min);
+    }
+
+    public Carte() {
         setBorder(new TitledBorder("Carte"));
 
         fenetreCreation = new Creation();
@@ -269,7 +276,6 @@ public class Carte extends JPanel implements Observer {
     // PAINT DE LA CARTE
     @Override
     public void paintComponent(Graphics g) {
-        System.out.println(largeur + " " + hauteur);
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;

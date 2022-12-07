@@ -48,11 +48,6 @@ public class IHM {
     public void init() {
         JFrame frame = new JFrame("PLD AGILE");
 
-        //height of the task bar
-        //Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration());
-        //int taskBarSize = scnMax.bottom;
-
-
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setBounds(0, 0, (int)tailleEcran.getWidth(), (int)tailleEcran.getHeight());
@@ -64,8 +59,7 @@ public class IHM {
         barre.init();
         panel.add(barre);
 
-        int min = Math.min((int)tailleEcran.getWidth(), (int)tailleEcran.getHeight());
-        carte = new Carte(min-15, min-15);
+        carte = new Carte();
         panel.add(carte);
 
         description = new Description();
@@ -74,7 +68,7 @@ public class IHM {
 
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.setVisible(true);
     }
 
