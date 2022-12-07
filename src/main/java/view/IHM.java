@@ -67,7 +67,8 @@ public class IHM {
         
         barre.init();
         description.init();
-
+        description.modifierCarte(carte);
+        
         panelCarte = new JScrollPane(carte);
         panelCarte.setLocation(frame.getBounds().width*1/4,frame.getBounds().height*1/10);
         panelCarte.setSize(frame.getBounds().width*3/4, frame.getBounds().height*8/10);
