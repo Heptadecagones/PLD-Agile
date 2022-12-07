@@ -139,6 +139,7 @@ public class Carte extends JPanel implements Observer {
 
             g.setColor(new Color(0, 255, 0));
             g.fillOval(showX, showY, 10, 10);
+          
             // OUVERTURE FENETRE LIVRAISON
             String message = choixIntersection.toString();
             System.out.println("nouvelleLivraison cliqué");
@@ -306,7 +307,7 @@ public class Carte extends JPanel implements Observer {
 
             int livrCordX = REMBOURRAGE + (int) ((cordLivr.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
             int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (HAUTEUR - 2 * REMBOURRAGE));
-
+            System.out.println(s.obtenirPlageHoraire());
             g2d.setColor(couleurIntersection);
             g2d.fillOval(livrCordX - DIAMETRE_ENTREPOT / 2, livrCordY - DIAMETRE_ENTREPOT / 2,
                     DIAMETRE_ENTREPOT, DIAMETRE_ENTREPOT);
