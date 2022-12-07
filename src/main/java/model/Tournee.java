@@ -10,9 +10,11 @@ import java.util.ArrayList;
 public class Tournee {
 
     private ArrayList<Segment> listeSegment;
+    private ArrayList<Livraison> listeLivraison;
 
     public Tournee() {
         this.listeSegment = new ArrayList<Segment>();
+        this.listeLivraison = new ArrayList<Livraison>();
     }
 
     public Tournee(ArrayList<Segment> liste) {
@@ -25,6 +27,13 @@ public class Tournee {
 
     public void modifierListeSegment(ArrayList<Segment> listeSegment) {
         this.listeSegment = listeSegment;
+    }
+    public ArrayList<Livraison> obtenirListeLivraison() {
+        return listeLivraison;
+    }
+
+    public void modifierListeLivraison(ArrayList<Livraison> listeLivraison) {
+        this.listeLivraison = listeLivraison;
     }
 
     public void ajouterSegment(Segment seg) {

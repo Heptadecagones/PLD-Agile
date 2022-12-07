@@ -20,7 +20,8 @@ public class Barre extends JPanel {
      * Tous les composants
      */
     private JButton sauvegarder, charger;
-
+    private int LARGEUR;
+    private int LONGUEUR;
     // La police de toutes les composants
     private final Font font = new Font("Arial", Font.PLAIN, 14);
 
@@ -40,35 +41,29 @@ public class Barre extends JPanel {
         return charger;
     }
 
-    public Barre() {
-        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-        setOpaque(false);
+    public Barre(int LARGEUR,int LONGUEUR) {
+        this.LONGUEUR=LONGUEUR;
+        this.LARGEUR=LARGEUR;
+    }
 
+    public void init(){
+        setLayout(null);
         // Init les boutons
         charger = creerBouton("Charger");
         sauvegarder = creerBouton("Sauvegarder");
 
         // Ajoute les composants
-        JPanel panelGauche = new JPanel(), panelDroit = new JPanel();
-        panelGauche.add(charger);
-        add(panelGauche);
+        charger.setBounds(LARGEUR/10,0,LARGEUR/3,LONGUEUR);
+        add(charger);
 
-        add(Box.createHorizontalGlue());
-        panelDroit.add(sauvegarder);
-        add(panelDroit);
+        sauvegarder.setBounds(LARGEUR-LARGEUR/3-LARGEUR/10,0,LARGEUR/3,LONGUEUR);
+        add(sauvegarder);
 
         ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource() == charger) {
                     System.out.println("Charger cliqué");
                 }
-
-                /*
-                 * if (evt.getSource() == nouvelleLivraison) {
-                 * System.out.println("nouvelleLivraison cliqué");
-                 * fenetreCreation.ouvrir();
-                 * }
-                 */
 
                 if (evt.getSource() == sauvegarder) {
                     System.out.println("Sauvegarder cliqué");
