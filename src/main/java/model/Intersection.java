@@ -14,6 +14,8 @@ public class Intersection {
     private double latitude;
     private ArrayList<Segment> listeSegmentOrigine;
 
+    private Integer trancheHoraireLivraison;
+
     public Intersection() {
     }
 
@@ -22,6 +24,7 @@ public class Intersection {
         this.longitude = longi;
         this.latitude = lat;
         this.listeSegmentOrigine = new ArrayList<Segment>();
+        trancheHoraireLivraison = null;
     }
 
     public double obtenirLongitude() {
@@ -55,5 +58,29 @@ public class Intersection {
     public String toString() {
         String description = "Id : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude;
         return description;
+    }
+
+    /**
+     * Méthode pour ajouter une tranche horaire passée en paramètres.
+     * La tranche horaire est acceptée si elle appartient à [8;11] et refusée
+     * sinon.
+     * @param trancheHoraire
+     * @return true si la trancheHoraire est acceptée, false si elle est refusée
+     */
+    public boolean modifierTrancheHoraire(Integer trancheHoraire) {
+        if(trancheHoraire < 8 || trancheHoraire > 11) {
+            trancheHoraireLivraison = trancheHoraire;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * 
+     */
+    public void calculerPlusCourtChemin() {
+
     }
 }
