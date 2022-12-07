@@ -5,7 +5,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import model.Intersection;
-import model.Plan;
 import model.Segment;
 
 /**
@@ -38,10 +37,8 @@ public class Graphe {
         this.noeuds = nodes;
     }
 
-    public Graphe(Plan plan) {
 
-        ArrayList<Intersection> listeIntersection = plan.obtenirListeIntersection();
-        ArrayList<Segment> listeSegment = plan.obtenirListeSegment();
+    public Graphe(ArrayList<Intersection> listeIntersection, ArrayList<Segment> listeSegment) {
 
         this.noeuds = new LinkedHashSet<>();
 
@@ -97,4 +94,5 @@ public class Graphe {
     public void modifierNoeuds(Set<Noeud> nodes) {
         this.noeuds = nodes;
     }
+
 }

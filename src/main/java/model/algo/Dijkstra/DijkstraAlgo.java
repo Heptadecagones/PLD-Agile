@@ -42,7 +42,7 @@ public class DijkstraAlgo {
         this.tousLesGraphes = new LinkedHashMap<String, Graphe>();
         this.grapheTSP = new Graphe();
         // Met l'entrepôt en premier dans la liste des destinations
-        tousLesGraphes.put(plan.obtenirEntrepot().obtenirId(), new Graphe(plan));
+        tousLesGraphes.put(plan.obtenirEntrepot().obtenirId(), plan.clone());
 
         // On ajoute l'entrepôt au graphe TSP en premier
         Noeud entrepot = new Noeud(plan.obtenirEntrepot().obtenirId());
@@ -51,7 +51,7 @@ public class DijkstraAlgo {
         // Met les livraisons du livreur spécifié dans la liste des destinations
         for (Livraison livraison : livreur.obtenirLivraisons()) {
             String nomLivraison = livraison.obtenirLieu().obtenirId();
-            tousLesGraphes.put(nomLivraison, new Graphe(plan));
+            tousLesGraphes.put(nomLivraison, plan.clone());
             Noeud temp = new Noeud(nomLivraison);
             temp.modifierHoraireLivraison(livraison.obtenirPlageHoraire());
             grapheTSP.ajouterNoeud(temp);

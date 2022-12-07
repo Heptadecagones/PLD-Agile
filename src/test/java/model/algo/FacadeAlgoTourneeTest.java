@@ -46,8 +46,7 @@ public class FacadeAlgoTourneeTest {
     @BeforeAll
     public static void initPlan() {
         // Initialiser le plan
-        plan = new PlanLivraison();
-        plan.ouvrirPlan("src/main/java/largeMap.xml");
+        plan = new PlanLivraison("src/main/java/largeMap.xml");
     }
 
     /**

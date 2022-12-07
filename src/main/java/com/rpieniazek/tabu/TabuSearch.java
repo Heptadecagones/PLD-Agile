@@ -1,13 +1,11 @@
 package com.rpieniazek.tabu;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import model.Livraison;
 import model.algo.Dijkstra.Graphe;
 import model.algo.Dijkstra.Noeud;
 

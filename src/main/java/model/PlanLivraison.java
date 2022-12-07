@@ -40,14 +40,13 @@ public class PlanLivraison extends Observable {
         this.notifyObservers();
     }
 
-    public void ouvrirPlan(String XML) {
-        this.plan.chargerXML(XML);
+    public PlanLivraison(String xml) {
+        PlanUsine pf = new PlanUsine();
+        pf.chargerXML(xml);
         this.setChanged();
         this.notifyObservers();
-    }
+        this.plan = pf.construirePlan();
 
-    public PlanLivraison() {
-        this.plan = new Plan();
         this.listeLivreur = new ArrayList<Livreur>();
         this.listeLivreur.add(new Livreur(0));
         this.listeLivreur.add(new Livreur(1));

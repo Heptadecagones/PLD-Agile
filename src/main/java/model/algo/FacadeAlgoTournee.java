@@ -7,8 +7,6 @@ import com.rpieniazek.tabu.TabuSearch;
 import model.Segment;
 import model.Tournee;
 import model.algo.Dijkstra.*;
-import model.algo.TSP.TSP;
-import model.algo.TSP.TSP1;
 import model.Plan;
 import model.Livraison;
 import model.Livreur;

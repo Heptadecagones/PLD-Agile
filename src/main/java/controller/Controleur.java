@@ -24,11 +24,8 @@ public class Controleur {
      * Constructeur qui initialise un plan et une vue
      */
     public Controleur() {
-        planLivraison = new PlanLivraison();
         view = new IHM();
         view.init();
-        planLivraison.addObserver((Observer) view.obtenirCarte());
-        planLivraison.addObserver((Observer) view.obtenirDescription());
         ActionListener c = new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
@@ -45,7 +42,9 @@ public class Controleur {
                         File file = selecteur.getSelectedFile();
                         if (file.exists()) {
                             if (file.getName().endsWith(".xml")) {
-                                planLivraison.ouvrirPlan(file.getPath());
+                                planLivraison = new PlanLivraison(file.getPath());
+                                planLivraison.addObserver((Observer) view.obtenirCarte());
+                                planLivraison.addObserver((Observer) view.obtenirDescription());
                             } else {
                                 System.out.println("Pas un fichier xml");
                             }
