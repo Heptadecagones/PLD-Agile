@@ -8,6 +8,7 @@ import java.util.Observer;
 import javax.swing.JFileChooser;
 
 import model.PlanLivraison;
+import view.Carte;
 import view.IHM;
 
 /**
@@ -64,25 +65,12 @@ public class Controleur {
                             view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur());
                     System.out.println("Creer cliqué");
                 }
-                if ("Zoom".equals(command)) {
-                    view.obtenirCarte().modifierZoom(2*view.obtenirCarte().obtenirZoom());
-                    System.out.println("Zoom" + view.obtenirCarte().obtenirZoom());
-                }
-                if ("Dezoom".equals(command)) {
-                    if(view.obtenirCarte().obtenirZoom()!=0){
-                    view.obtenirCarte().modifierZoom(1/2*view.obtenirCarte().obtenirZoom());}
-                    System.out.println("Dezoom"+ view.obtenirCarte().obtenirZoom());
-                }
             }
         };
 
         this.view.obtenirBarre().obtenirCharger().addActionListener(c);
         this.view.obtenirCarte().obtenirFenetreCreation()
                 .obtenirBtnCreerLivraison().addActionListener(c);
-        this.view.obtenirBarre().obtenirZoom()
-                .addActionListener(c);
-        this.view.obtenirBarre().obtenirDezoom()
-                .addActionListener(c);
     }
 
 }

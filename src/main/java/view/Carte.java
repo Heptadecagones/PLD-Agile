@@ -13,11 +13,13 @@ import java.util.Observable;
 import java.util.Observer;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
-
+import java.awt.geom.AffineTransform;
 import model.Intersection;
 import model.Livraison;
 import model.Livreur;
@@ -73,22 +75,25 @@ public class Carte extends JPanel implements Observer {
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
     private Livraison livraisonClickee;
-    private int zoom=1;
+    private double zoom=1;
     public void modifierLivraisonClickee(Livraison l){
         livraisonClickee=l;
     }
-    public void modifierZoom(int i){
+    public void modifierZoom(double i){
         this.zoom=i;
-        this.LONGUEUR=LONGUEUR*zoom;
-        this.LARGEUR=LARGEUR*zoom;
 
     }
-    public int obtenirZoom(){
+    public double obtenirZoom(){
         return zoom;
     }
+    public int obtenirLARGEUR(){
+        return LARGEUR;
+    }
+    public double offsetX=0.0;
+    public double offsetY=0.0;
     public Carte(int LARGEUR, int LONGUEUR) {
-        this.LONGUEUR = 2*LONGUEUR;
-        this.LARGEUR = 2*LARGEUR;
+        this.LONGUEUR = LONGUEUR;
+        this.LARGEUR = LARGEUR;
 
         fenetreCreation = new Creation();
         fenetreCreation.init();
@@ -111,18 +116,48 @@ public class Carte extends JPanel implements Observer {
             }
         });
                 // Afficher le nom de la rue plus proche a la souris sur la carte
-                addMouseMotionListener(new MouseMotionAdapter() {
+        addMouseMotionListener(new MouseMotionAdapter() {
                     public void mouseMoved(MouseEvent e) {
                         String rue;
                         int mouseX = e.getX();
                         int mouseY = e.getY();
-                        rue = recupererRue(mouseX, mouseY, 100).obtenirNom();
+                        /*rue = recupererRue(mouseX, mouseY, 100).obtenirNom();
                         //System.out.println(rue);
                         if (rue != null) {
                             setToolTipText(rue);
-                        }
+                        }*/
                     }
-                });
+        });
+        addMouseWheelListener(new MouseWheelListener() {
+            public void mouseWheelMoved(MouseWheelEvent e){
+            //Zoom in
+                int sourisX = e.getX();
+                int sourisY = e.getY();
+                System.out.println(sourisX+" :;: "+sourisY+"\n");
+                if(e.getWheelRotation()<0){
+                    double oldWidth = LARGEUR * obtenirZoom();
+                    double newWidth = LARGEUR * 1.1 *obtenirZoom();
+                    modifierZoom(1.1*obtenirZoom());
+                    //offsetX+=0.1*LARGEUR;
+                    //offsetY+=0.1*LARGEUR;
+                    offsetX = offsetX +(oldWidth - newWidth)/(newWidth/(sourisX-offsetX*1.1));
+                    offsetY = offsetY +(oldWidth - newWidth)/(newWidth/(sourisY-offsetY*1.1));
+                    repaint();
+                }
+                //Zoom out
+                if(e.getWheelRotation()>0){
+                    double oldWidth = LARGEUR * obtenirZoom();
+                    double newWidth = LARGEUR * obtenirZoom()/1.1;
+                    modifierZoom(obtenirZoom()/1.1);
+                    //offsetX+=0.1*LARGEUR;
+                    //offsetY+=0.1*LARGEUR;
+                    double difWidth = (oldWidth - newWidth);
+                    offsetX += difWidth/(newWidth/(sourisX-offsetX/1.1));
+                    offsetY += difWidth/(newWidth/(sourisY-offsetY/1.1));
+                    repaint();
+                }   
+            }
+        });
     }
 
     /**
@@ -260,15 +295,20 @@ public class Carte extends JPanel implements Observer {
     public Creation obtenirFenetreCreation() {
         return fenetreCreation;
     }
-
     // PAINT DE LA CARTE
     @Override
     public void paintComponent(Graphics g) {
-        System.out.println("LONGUEUR "+LONGUEUR+" LARGEUR "+LARGEUR);
+
+        
         super.paintComponent(g);
-
+        AffineTransform at = new AffineTransform();
+        at.translate(offsetX, offsetY);
+        at.scale(zoom,zoom);
+        
+        System.out.println("offsetX"+offsetX+" offsetY "+offsetY);
         Graphics2D g2d = (Graphics2D) g;
-
+        g2d.setTransform(at);
+        
         RenderingHints rh = new RenderingHints(
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -403,6 +443,7 @@ public class Carte extends JPanel implements Observer {
             //g2d.setColor(couleurChoixIntersection);
             g2d.fillOval(cordChoixIntersectionX-DIAMETRE_CHOIX_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_CHOIX_INTERSECTION/2, DIAMETRE_CHOIX_INTERSECTION, DIAMETRE_CHOIX_INTERSECTION);
         }
+        g2d.dispose();
     }
 
 
