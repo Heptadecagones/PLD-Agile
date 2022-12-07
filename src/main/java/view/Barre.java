@@ -21,8 +21,11 @@ public class Barre extends JPanel {
      * Tous les composants
      */
     private JButton sauvegarder, charger;
+    private JButton zoom,dezoom;
     private int LARGEUR;
     private int LONGUEUR;
+
+
     // La police de toutes les composants
     private final Font font = new Font("Arial", Font.PLAIN, 14);
 
@@ -41,7 +44,12 @@ public class Barre extends JPanel {
     public JButton obtenirCharger() {
         return charger;
     }
-
+    public JButton obtenirZoom() {
+        return zoom;
+    }
+    public JButton obtenirDezoom() {
+        return dezoom;
+    }
     public Barre(int LARGEUR,int LONGUEUR) {
         this.LONGUEUR=LONGUEUR;
         this.LARGEUR=LARGEUR;
@@ -52,13 +60,19 @@ public class Barre extends JPanel {
         // Init les boutons
         charger = creerBouton("Charger");
         sauvegarder = creerBouton("Sauvegarder");
-
+        zoom = creerBouton("Zoom");
+        dezoom = creerBouton("Dezoom");
         // Ajoute les composants
-        charger.setBounds(LARGEUR/10,0,LARGEUR/3,LONGUEUR);
+        charger.setBounds(LARGEUR/10,0,LARGEUR/10,LONGUEUR);
         add(charger);
 
-        sauvegarder.setBounds(LARGEUR-LARGEUR/3-LARGEUR/10,0,LARGEUR/3,LONGUEUR);
+        sauvegarder.setBounds(LARGEUR/2-LARGEUR/6-LARGEUR/10,0,LARGEUR/10,LONGUEUR);
         add(sauvegarder);
+
+        zoom.setBounds(LARGEUR/2+LARGEUR/10,0,LARGEUR/10,LONGUEUR);
+        add(zoom);
+        dezoom.setBounds(LARGEUR-LARGEUR/6-LARGEUR/10,0,LARGEUR/10,LONGUEUR);
+        add(dezoom);
 
         ActionListener action = new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -69,11 +83,21 @@ public class Barre extends JPanel {
                 if (evt.getSource() == sauvegarder) {
                     System.out.println("Sauvegarder cliqué");
                 }
+
+                if (evt.getSource() == zoom) {
+                    System.out.println("Zoom cliqué");
+                }
+
+                if (evt.getSource() == dezoom) {
+                    System.out.println("Dezoom cliqué");
+                }
             }
         };
 
         charger.addActionListener(action);
         sauvegarder.addActionListener(action);
+        zoom.addActionListener(action);
+        dezoom.addActionListener(action);
     }
 
     /**

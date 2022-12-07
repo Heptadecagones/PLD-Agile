@@ -65,7 +65,7 @@ public class Carte extends JPanel implements Observer {
     private final int DIAMETRE_ENTREPOT = 12;
     private final int DIAMETRE_CHOIX_INTERSECTION = 10;
     private final int DIAMETRE_DEST_LIVRIAISON = 10;
-
+    
     private final int MAX_LIVREUR = 1000; // OBTIENT CE NOMBRE DEPUIS LE MODELE
     // La liste de couleur pour la route de livreur
     private Color[] tabCouleurLivreur = new Color[MAX_LIVREUR];
@@ -73,13 +73,22 @@ public class Carte extends JPanel implements Observer {
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
     private Livraison livraisonClickee;
-
+    private int zoom=1;
     public void modifierLivraisonClickee(Livraison l){
         livraisonClickee=l;
     }
+    public void modifierZoom(int i){
+        this.zoom=i;
+        this.LONGUEUR=LONGUEUR*zoom;
+        this.LARGEUR=LARGEUR*zoom;
+
+    }
+    public int obtenirZoom(){
+        return zoom;
+    }
     public Carte(int LARGEUR, int LONGUEUR) {
-        this.LONGUEUR = LONGUEUR;
-        this.LARGEUR = LARGEUR;
+        this.LONGUEUR = 2*LONGUEUR;
+        this.LARGEUR = 2*LARGEUR;
 
         fenetreCreation = new Creation();
         fenetreCreation.init();
@@ -255,6 +264,7 @@ public class Carte extends JPanel implements Observer {
     // PAINT DE LA CARTE
     @Override
     public void paintComponent(Graphics g) {
+        System.out.println("LONGUEUR "+LONGUEUR+" LARGEUR "+LARGEUR);
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
