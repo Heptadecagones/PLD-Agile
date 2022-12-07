@@ -22,9 +22,14 @@ public class Plan {
     private long nombreIntersection;
     private long nombreSegment;
 
-    // chargement d'un plan( avec segments,intersections,entrepot) à partir d'un
-    // fichier XML
-    public void chargerXML(String nomFichier) {
+    /**
+     * Chargement d'un plan (avec segments, intersections, entrepôt), à partir
+     * d'un fichier XML
+     * @param nomFichier le chemin du fichier à charger depuis la source du projet
+     * @return distanceMaximale, la distance du plus long segment chargé
+     */
+    public double chargerXML(String nomFichier) {
+        double distanceMaximale = 0;
         try {
 
             File file = new File(nomFichier);
@@ -66,6 +71,10 @@ public class Plan {
                     Intersection tempOrigine = null;
                     Intersection tempDest = null;
 
+                    // Prise en compte du plus long segment
+                    if(tempLongueur > distanceMaximale) {
+                        distanceMaximale = tempLongueur;
+                    }
                     int compte = 0;
                     for (int j = 0; j < this.listeIntersection.size(); j++) {
                         if (this.listeIntersection.get(j).obtenirId().equals(tempOrigineId)) {
@@ -109,6 +118,8 @@ public class Plan {
         } catch (ParserConfigurationException e) {
             System.out.println(e);
         }
+
+        return distanceMaximale;
     }
 
     public Intersection obtenirEntrepot() {
