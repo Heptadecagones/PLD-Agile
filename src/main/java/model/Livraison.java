@@ -1,7 +1,5 @@
 package model;
 
-import java.time.LocalDate;
-
 /**
  *
  * @author Yannick
@@ -29,7 +27,7 @@ public class Livraison {
         this.plageHoraire = horaire;
         this.lieu = l;
         this.livreur = liv;
-        this.heureLivraison = null;
+        this.heureLivraison = 0;
     }
 
     public int obtenirPlageHoraire() {

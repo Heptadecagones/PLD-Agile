@@ -27,9 +27,9 @@ public class PlanLivraison extends Observable {
         // this.listeLivreur.get(Integer.parseInt(numLivreur)));
         Tournee t = new Tournee();
         try {
-            t = new Tournee(FacadeAlgoTournee.calculerTournee(
-                    plan, this.listeLivreur.get(Integer.parseInt(numLivreur))));
-            System.out.println("test\n:" + t.toString());
+            t = FacadeAlgoTournee.calculerTournee(
+                plan, this.listeLivreur.get(Integer.parseInt(numLivreur)));
+            //System.out.println("test\n:" + t.toString());
         } catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace();
         }
