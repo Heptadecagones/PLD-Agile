@@ -12,7 +12,7 @@ import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
 import model.Segment;
-
+import model.Tournee;
 import model.algo.Dijkstra.*;
 
 /**
@@ -62,7 +62,7 @@ public class FacadeAlgoTourneeTest {
         // Construire une liste de livraisons aléatoires
         for (int i = 0; i < nombreLivraisons; i++) {
             Intersection inter = construireLivraisonAleatoire(plan);
-            int horaire = ((int) (Math.random() * 3)) + 8;
+            int horaire = ((int) (Math.random() * 4)) + 8;
 
             Livraison l = new Livraison(horaire, inter, livreur);
             livrs.add(l);
@@ -81,16 +81,17 @@ public class FacadeAlgoTourneeTest {
     void testTourneeNonVide() {
         int nombreLivraison = 4;
         Livreur livreur = renvoiLivreuravecLivraisonsAleatoires(nombreLivraison);
-        ArrayList<Segment> tournee = null;
+        Tournee t = new Tournee();
         try {
-            tournee = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
+            t = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
+
         } catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace();
             // Si l'exception arrive on ne veut pas voir de
             assertTrue(false);
         }
-
-        assertTrue(tournee.size() > 0);
+        assertTrue(t.obtenirListeLivraison().size() > 0);
+        // System.out.println(t);
     }
     // TODO : implanter un test vérifiant un parcours connu (testé depuis main)
 }

@@ -24,12 +24,14 @@ public class DijkstraAlgo {
     // ArrayList<Noeud> listeDestination;
     ArrayList<Livraison> listeLivraison;
     ArrayList<Segment> listeSegment;
+    Graphe grapheTSP;
 
     // Initialise un graphe sans liste de destinations
     public DijkstraAlgo() {
 
         this.tousLesGraphes = new LinkedHashMap<>();
         this.listeSegment = new ArrayList<Segment>();
+        this.grapheTSP = new Graphe();
     }
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
@@ -38,15 +40,22 @@ public class DijkstraAlgo {
         // WARN: Copie superficielle dans listeSegment
         this.listeSegment = plan.obtenirListeSegment();
         this.tousLesGraphes = new LinkedHashMap<String, Graphe>();
+        this.grapheTSP = new Graphe();
         // Met l'entrepôt en premier dans la liste des destinations
         tousLesGraphes.put(plan.obtenirEntrepot().obtenirId(), new Graphe(plan));
 
-        // Met les livraisons du livreur spécifié dans la liste des destinations
-        for (int i = 0; i < livreur.obtenirLivraisons().size(); i++) {
-            String nomLivraison = livreur.obtenirLivraisons().get(i).obtenirLieu().obtenirId();
-            tousLesGraphes.put(nomLivraison, new Graphe(plan));
-        }
+        // On ajoute l'entrepôt au graphe TSP en premier
+        Noeud entrepot = new Noeud(plan.obtenirEntrepot().obtenirId());
+        grapheTSP.ajouterNoeud(entrepot);
 
+        // Met les livraisons du livreur spécifié dans la liste des destinations
+        for (Livraison livraison : livreur.obtenirLivraisons()) {
+            String nomLivraison = livraison.obtenirLieu().obtenirId();
+            tousLesGraphes.put(nomLivraison, new Graphe(plan));
+            Noeud temp = new Noeud(nomLivraison);
+            temp.modifierHoraireLivraison(livraison.obtenirPlageHoraire());
+            grapheTSP.ajouterNoeud(temp);
+        }
     }
 
     /**
@@ -57,13 +66,6 @@ public class DijkstraAlgo {
 
         ArrayList<Segment> tournee = new ArrayList<Segment>();
         Noeud nodeSourceGrapheTSP = null, nodeSourceGraphe = null;
-        Graphe grapheTSP = new Graphe();
-
-        // Ajoute les nodes de tous les graphes (un graphe par livreur) à TSP
-        for (Map.Entry<String, Graphe> entreMap : tousLesGraphes.entrySet()) {
-            Noeud temp = new Noeud(entreMap.getKey());
-            grapheTSP.ajouterNoeud(temp);
-        }
 
         // Construit le graphe simplifié pour TSP. Le graphe simplifié contient
         // uniquement les destinations et les coûts les plus faibles pour voyager
@@ -139,16 +141,16 @@ public class DijkstraAlgo {
     }
 
     private static Noeud obtenirNoeudDistanecPlusCourte(Set<Noeud> unsettledNoeuds) {
-        Noeud nodeDistanecPlusCourte = null;
+        Noeud nodeDistancePlusCourte = null;
         double plusCouteDistance = Integer.MAX_VALUE;
         for (Noeud node : unsettledNoeuds) {
             double nodeDistance = node.obtenirDistance();
             if (nodeDistance < plusCouteDistance) {
                 plusCouteDistance = nodeDistance;
-                nodeDistanecPlusCourte = node;
+                nodeDistancePlusCourte = node;
             }
         }
-        return nodeDistanecPlusCourte;
+        return nodeDistancePlusCourte;
     }
 
     public static Graphe calculerPlusCourtCheminDepuisLaSource(Graphe graphe, Noeud source) {
@@ -158,6 +160,7 @@ public class DijkstraAlgo {
         Set<Noeud> nodesNonResolus = new HashSet<>();
 
         nodesNonResolus.add(source);
+        source.modifierDistance(0);
 
         while (nodesNonResolus.size() != 0) {
             Noeud nodeActuel = obtenirNoeudDistanecPlusCourte(nodesNonResolus);

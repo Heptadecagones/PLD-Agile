@@ -31,7 +31,7 @@ public class Noeud {
         this.cheminPlusCourt = new LinkedList<>();
         this.distance = Integer.MAX_VALUE;
         this.nodeAdjacentes = new HashMap<>();
-        this.horaireLivraison = 0;
+        this.horaireLivraison = 99;
     }
 
     // Constructeur par copie

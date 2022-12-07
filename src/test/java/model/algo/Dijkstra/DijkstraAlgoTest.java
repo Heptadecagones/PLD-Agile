@@ -82,14 +82,14 @@ public class DijkstraAlgoTest {
         dijal = null;
     }
 
-    @Test
-    public void testTabu() throws CloneNotSupportedException {
-        this.dijResult = dijal.calculerGraphePourTSP();
-        
-        new TabuWrapper(dijResult);
-        System.out.println(dijResult.toString());
-        assertTrue(true);
-    }
+    // TODO CIRCONCIRE LES IMPIES
+    // @Test
+    // public void testTabu() throws CloneNotSupportedException {
+    //     this.dijResult = dijal.calculerGraphePourTSP();
+    //     
+    //     new TabuWrapper(dijResult);
+
+    // }
 
     /*
      * TODO : Le test est déprécié, ce n'est Pls DijkstraAlgo qui renvoi la tournée.

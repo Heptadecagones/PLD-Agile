@@ -1,11 +1,13 @@
 package com.rpieniazek.tabu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import model.Livraison;
 import model.algo.Dijkstra.Graphe;
 import model.algo.Dijkstra.Noeud;
 
@@ -26,21 +28,19 @@ public class TabuSearch {
     private int[] bestSolution;
     private int bestCost;
 
-    public TabuSearch(Graphe graphe) {
+    public TabuSearch(Graphe graphe, int minLiv) {
         this.places = new HashMap<>();
-        this.matrix = GrapheVersMatrice(graphe);
+        this.matrix = GrapheVersMatrice(graphe, minLiv);
         this.problemSize = matrix.getEdgeCount();
         this.numberOfIterations = problemSize * 10; // ?
         this.tabuList = new TabuList(problemSize);
 
         setupCurrentSolution();
         setupBestSolution();
-
-        System.out.println(matrix + "\n====\n" + places);
     }
 
     // @author Thibaut
-    private Matrix GrapheVersMatrice(Graphe graphe) {
+    private Matrix GrapheVersMatrice(Graphe graphe, int minLiv) {
         Set<Noeud> noeuds = graphe.obtenirNoeuds();
         int taille = noeuds.size();
         double[][] preMatrice = new double[taille][taille];
@@ -49,6 +49,7 @@ public class TabuSearch {
 
         // Pour chaque noeud dans le graphe
         for (Noeud orig : noeuds) {
+
             // On regarde ses voisins et on ajoute la paire orig -> dest à la matrice
             for (Entry<Noeud, Double> dest : orig.obtenirNoeudsAdjacents().entrySet()) {
                 int origID = -1, destID = -1;
@@ -72,10 +73,16 @@ public class TabuSearch {
                 // Test de santé mentale
                 assert (origID != -1 && destID != -1);
 
-                // TODO: Vérification du prédicat d'antériorité sur les noeuds
+                // WARN: Edge case
+                int origTime = orig.obtenirHoraireLivraison();
+                int destTime = dest.getKey().obtenirHoraireLivraison();
 
-                // On peut enfin ajouter le déplacement
-                preMatrice[origID][destID] = dest.getValue();
+                if (origTime == 99 && destTime > minLiv) {
+                    continue;
+                } else if (origTime <= destTime) {
+                    preMatrice[origID][destID] = dest.getValue();
+                }
+
             }
         }
 

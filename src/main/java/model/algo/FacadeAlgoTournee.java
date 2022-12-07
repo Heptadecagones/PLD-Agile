@@ -45,12 +45,12 @@ public abstract class FacadeAlgoTournee {
 
         String depart = null;
         String arrivee = null;
-        int heure = minLiv;
+        double heure = minLiv;
 
         Livraison livraison = null;
 
         // On ajoute les segments dans la tournee
-        for (int i = 0; i < ordreLivraison.length - 1; i++) {
+        for (int i = 0; i < ordreLivraison.length -1; i++) {
 
             depart = ordreLivraison[i].obtenirNom();
             arrivee = ordreLivraison[i + 1].obtenirNom();
@@ -62,9 +62,11 @@ public abstract class FacadeAlgoTournee {
                 }
             }
 
-            double longueur = ordreLivraison[i].obtenirNoeudsAdjacents().get(ordreLivraison[i+1].obtenirNom());
+            double longueur = ordreLivraison[i].obtenirNoeudsAdjacents().get(ordreLivraison[i+1]);
             double temps = longueur / 15000;
             heure += temps;
+            double plageHoraire = livraison.obtenirHeureLivraison();
+            if (heure < plageHoraire) heure = plageHoraire;
 
             livraison.modifierHeureLivraison(heure);
 
