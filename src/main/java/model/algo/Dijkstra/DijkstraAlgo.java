@@ -133,9 +133,9 @@ public class DijkstraAlgo {
         double sourcePoids = sourceNoeud.obtenirPoids();
         if (sourcePoids + edgeWeigh < evaluationNoeud.obtenirPoids()) {
             evaluationNoeud.modifierPoids(sourcePoids + edgeWeigh);
-            LinkedList<Noeud> shortestPath = new LinkedList<>(sourceNoeud.obtenirCheminPlusCourt());
+            LinkedList<Noeud> shortestPath = new LinkedList<>(sourceNoeud.obtenirCheminPlusCourtDepuisEntrepot());
             shortestPath.add(sourceNoeud);
-            evaluationNoeud.modifierCheminPlusCourt(shortestPath);
+            evaluationNoeud.modifierCheminPlusCourtDepuisEntrepot(shortestPath);
         }
     }
 
@@ -198,9 +198,9 @@ public class DijkstraAlgo {
 
         // on convertit le pluscourt chemin de ce node en liste de segment qui va etre
         // ajouté à tounee
-        for (int j = 0; j < nodeChemin.obtenirCheminPlusCourt().size() - 1; j++) {
-            nodeDepart = nodeChemin.obtenirCheminPlusCourt().get(j);
-            nodeArrivee = nodeChemin.obtenirCheminPlusCourt().get(j + 1);
+        for (int j = 0; j < nodeChemin.obtenirCheminPlusCourtDepuisEntrepot().size() - 1; j++) {
+            nodeDepart = nodeChemin.obtenirCheminPlusCourtDepuisEntrepot().get(j);
+            nodeArrivee = nodeChemin.obtenirCheminPlusCourtDepuisEntrepot().get(j + 1);
 
             for (Segment segment : listeSegment) {
                 if (segment.obtenirOrigine().obtenirId().equals(nodeDepart.obtenirId())
@@ -211,10 +211,10 @@ public class DijkstraAlgo {
             }
         }
         // Ajouter le dernier segment jusqu'au point de livraison/entrepot
-        if (nodeChemin.obtenirCheminPlusCourt().size() == 0) {
+        if (nodeChemin.obtenirCheminPlusCourtDepuisEntrepot().size() == 0) {
             depart = "";
         } else {
-            depart = nodeChemin.obtenirCheminPlusCourt().get(nodeChemin.obtenirCheminPlusCourt().size() - 1)
+            depart = nodeChemin.obtenirCheminPlusCourtDepuisEntrepot().get(nodeChemin.obtenirCheminPlusCourtDepuisEntrepot().size() - 1)
                     .obtenirId();
         }
 

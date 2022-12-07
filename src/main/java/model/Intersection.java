@@ -15,14 +15,15 @@ public class Intersection extends Noeud {
     private double longitude;
     private double latitude;
     //private ArrayList<Segment> listeSegmentOrigine;
-    private int horaireLivraison;
+    
 
     /**
      * Attributs hérités de Noeud :
      * - id : String
-     * - cheminPlusCourt : List<Noeud>
+     * - cheminPlusCourtDepuisEntrepot : List<Noeud>
      * - poids : double
      * - noeudsAdjacents : Map<Noeud, Double>
+     * - horaireLivrasion : int
      * le poids correspond à la distance
      */
 
@@ -34,7 +35,6 @@ public class Intersection extends Noeud {
         this.longitude = longi;
         this.latitude = lat;
         //this.listeSegmentOrigine = new ArrayList<Segment>();
-        this.horaireLivraison = 99;
     }
 
     public double obtenirLongitude() {
@@ -60,8 +60,7 @@ public class Intersection extends Noeud {
 
     @Override
     public String toString() {
-        String description = "Intersection : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude
-                                + "horaire de livraison : " + this.horaireLivraison;
+        String description = "Intersection : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude;
         return description;
     }
 }

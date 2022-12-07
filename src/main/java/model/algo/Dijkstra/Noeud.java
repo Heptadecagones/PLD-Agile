@@ -13,25 +13,27 @@ import java.util.Map;
 public class Noeud {
 
     protected String id;
-    private List<Noeud> cheminPlusCourt;  // Mais c'est quoi au juste ?
+    private List<Noeud> cheminPlusCourtDepuisEntrepot;
     protected double poids;
     private Map<Noeud, Double> noeudsAdjacents;
-
+    private int horaireLivraison;
     
 
     public Noeud(String id) {
         this.id = id;
-        this.cheminPlusCourt = new LinkedList<>();
+        this.cheminPlusCourtDepuisEntrepot = new LinkedList<>();
         this.poids = Integer.MAX_VALUE;
         this.noeudsAdjacents = new HashMap<>();
+        this.horaireLivraison = 99;
     }
 
     // Constructeur par copie
     public Noeud(Noeud n) {
         this.id = n.obtenirId();
-        this.cheminPlusCourt = n.obtenirCheminPlusCourt();
+        this.cheminPlusCourtDepuisEntrepot = n.obtenirCheminPlusCourtDepuisEntrepot();
         this.poids = n.obtenirPoids();
         this.noeudsAdjacents = n.obtenirNoeudsAdjacents();
+        this.horaireLivraison = n.obtenirHoraireLivraison();
     }
 
     public void ajouterDestination(Noeud destination, double poids) {
@@ -42,12 +44,12 @@ public class Noeud {
         return id;
     }
 
-    public List<Noeud> obtenirCheminPlusCourt() {
-        return cheminPlusCourt;
+    public List<Noeud> obtenirCheminPlusCourtDepuisEntrepot() {
+        return cheminPlusCourtDepuisEntrepot;
     }
 
-    public void modifierCheminPlusCourt(List<Noeud> cheminPlusCourt) {
-        this.cheminPlusCourt = cheminPlusCourt;
+    public void modifierCheminPlusCourtDepuisEntrepot(List<Noeud> cheminPlusCourtDepuisEntrepot) {
+        this.cheminPlusCourtDepuisEntrepot = cheminPlusCourtDepuisEntrepot;
     }
 
     public double obtenirPoids() {
@@ -66,9 +68,17 @@ public class Noeud {
         this.noeudsAdjacents = noeudsAdjacents;
     }
 
+    public int obtenirHoraireLivraison() {
+        return this.horaireLivraison;
+    }
+
+    public void modifierHoraireLivraison(int horaire) {
+        this.horaireLivraison = horaire;
+    }
+
     @Override
     public String toString() {
-        String s = "Noeud " + id; 
+        String s = "Noeud " + id + ", horaire de livraison : " + this.horaireLivraison; 
         return s;
     }
 }
