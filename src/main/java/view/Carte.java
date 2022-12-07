@@ -92,7 +92,7 @@ public class Carte extends JPanel implements Observer {
         int showY = 0;
         double minX = Double.MAX_VALUE, maxX = 0.0, minY = Double.MAX_VALUE, maxY = 0.0;
 
-        Intersection choixIntersection = new Intersection();
+        Intersection choixIntersection = null;
         if (!listeIntersection.isEmpty()) {
             ArrayList<Point2D> points = new ArrayList<>();
             for (Intersection intersection : listeIntersection) {
@@ -124,8 +124,13 @@ public class Carte extends JPanel implements Observer {
             // OUVERTURE FENETRE LIVRAISON
             // String message = choixIntersection.toString();
             System.out.println("nouvelleLivraison cliqué");
-            fenetreCreation.setIntersection(choixIntersection);
-            fenetreCreation.ouvrir();
+
+            // Cas où l'intersection a été trouvée
+            if(choixIntersection != null) {
+                fenetreCreation.setIntersection(choixIntersection);
+                fenetreCreation.ouvrir();
+            }
+            
             /*
              * JOptionPane.showMessageDialog(new JFrame(),
              * message,

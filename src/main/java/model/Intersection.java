@@ -1,27 +1,40 @@
 package model;
 
-import java.util.ArrayList;
+import model.algo.Dijkstra.Noeud;
+
+//import java.util.ArrayList;
 
 /**
  *
  * @author Yannick
  */
 
-public class Intersection {
+public class Intersection extends Noeud {
 
-    private String id;
+    // Ce sont l'ensemble des informations qui ne seront pas traités par Noeud
     private double longitude;
     private double latitude;
-    private ArrayList<Segment> listeSegmentOrigine;
+    //private ArrayList<Segment> listeSegmentOrigine;
+    private int horaireLivraison;
 
-    public Intersection() {
-    }
+    /**
+     * Attributs hérités de Noeud :
+     * - id : String
+     * - cheminPlusCourt : List<Noeud>
+     * - poids : double
+     * - noeudsAdjacents : Map<Noeud, Double>
+     * le poids correspond à la distance
+     */
+
+    /*public Intersection() {
+    }*/
 
     public Intersection(String i, double longi, double lat) {
-        this.id = i;
+        super(i);
         this.longitude = longi;
         this.latitude = lat;
-        this.listeSegmentOrigine = new ArrayList<Segment>();
+        //this.listeSegmentOrigine = new ArrayList<Segment>();
+        this.horaireLivraison = 99;
     }
 
     public double obtenirLongitude() {
@@ -32,13 +45,6 @@ public class Intersection {
         return latitude;
     }
 
-    public String obtenirId() {
-        return id;
-    }
-
-    public void modifierId(String i) {
-        this.id = i;
-    }
 
     public void modifierLongitude(double longi) {
         this.longitude = longi;
@@ -48,12 +54,14 @@ public class Intersection {
         this.latitude = lat;
     }
 
-    public void ajouterSegment(Segment segment) {
+    /*public void ajouterSegment(Segment segment) {
         this.listeSegmentOrigine.add(segment);
-    }
+    }*/
 
+    @Override
     public String toString() {
-        String description = "Id : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude;
+        String description = "Intersection : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude
+                                + "horaire de livraison : " + this.horaireLivraison;
         return description;
     }
 }

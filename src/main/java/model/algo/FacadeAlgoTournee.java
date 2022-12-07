@@ -53,8 +53,8 @@ public abstract class FacadeAlgoTournee {
         // On ajoute les segments dans la tournee
         for (int i = 0; i < ordreLivraison.length -1; i++) {
 
-            depart = ordreLivraison[i].obtenirNom();
-            arrivee = ordreLivraison[i + 1].obtenirNom();
+            depart = ordreLivraison[i].obtenirId();
+            arrivee = ordreLivraison[i + 1].obtenirId();
 
             for (Livraison liv : listeLivraisons) {
                 if (liv.obtenirLieu().obtenirId().equals(arrivee)) {
@@ -78,8 +78,8 @@ public abstract class FacadeAlgoTournee {
 
         // On ajoute les segments entre la derniere livraison et l'entrepôt dans la
         // tournee
-        depart = ordreLivraison[ordreLivraison.length - 1].obtenirNom();
-        arrivee = ordreLivraison[0].obtenirNom();
+        depart = ordreLivraison[ordreLivraison.length - 1].obtenirId();
+        arrivee = ordreLivraison[0].obtenirId();
         listeSegment.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
                 depart, arrivee));
 

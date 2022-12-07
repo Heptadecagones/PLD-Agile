@@ -54,12 +54,12 @@ public class Graphe {
         for (Segment segment : listeSegment) {
             c = 0;
             for (Noeud node : noeuds) {
-                if (node.obtenirNom().equals(segment.obtenirOrigine().obtenirId())) {
+                if (node.obtenirId().equals(segment.obtenirOrigine().obtenirId())) {
                     origine = node;
                     c++;
                 }
 
-                if (node.obtenirNom().equals(segment.obtenirDestination().obtenirId())) {
+                if (node.obtenirId().equals(segment.obtenirDestination().obtenirId())) {
                     destination = node;
                     c++;
                 }

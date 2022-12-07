@@ -12,42 +12,34 @@ import java.util.Map;
 
 public class Noeud {
 
-    private String nom;
-    private List<Noeud> cheminPlusCourt;
-    private double distance;
-    private Map<Noeud, Double> nodeAdjacentes;
-    private int horaireLivraison;
+    protected String id;
+    private List<Noeud> cheminPlusCourt;  // Mais c'est quoi au juste ?
+    protected double poids;
+    private Map<Noeud, Double> noeudsAdjacents;
 
-    public int obtenirHoraireLivraison() {
-        return horaireLivraison;
-    }
+    
 
-    public void modifierHoraireLivraison(int horaireLivraison) {
-        this.horaireLivraison = horaireLivraison;
-    }
-
-    public Noeud(String nom) {
-        this.nom = nom;
+    public Noeud(String id) {
+        this.id = id;
         this.cheminPlusCourt = new LinkedList<>();
-        this.distance = Integer.MAX_VALUE;
-        this.nodeAdjacentes = new HashMap<>();
-        this.horaireLivraison = 99;
+        this.poids = Integer.MAX_VALUE;
+        this.noeudsAdjacents = new HashMap<>();
     }
 
     // Constructeur par copie
     public Noeud(Noeud n) {
-        this.nom = n.obtenirNom();
+        this.id = n.obtenirId();
         this.cheminPlusCourt = n.obtenirCheminPlusCourt();
-        this.distance = n.obtenirDistance();
-        this.nodeAdjacentes = n.obtenirNoeudsAdjacents();
+        this.poids = n.obtenirPoids();
+        this.noeudsAdjacents = n.obtenirNoeudsAdjacents();
     }
 
-    public void ajouterDestination(Noeud destination, double distance) {
-        this.nodeAdjacentes.put(destination, distance);
+    public void ajouterDestination(Noeud destination, double poids) {
+        this.noeudsAdjacents.put(destination, poids);
     }
 
-    public String obtenirNom() {
-        return nom;
+    public String obtenirId() {
+        return id;
     }
 
     public List<Noeud> obtenirCheminPlusCourt() {
@@ -58,25 +50,25 @@ public class Noeud {
         this.cheminPlusCourt = cheminPlusCourt;
     }
 
-    public double obtenirDistance() {
-        return distance;
+    public double obtenirPoids() {
+        return poids;
     }
 
-    public void modifierDistance(double distance) {
-        this.distance = distance;
+    public void modifierPoids(double poids) {
+        this.poids = poids;
     }
 
     public Map<Noeud, Double> obtenirNoeudsAdjacents() {
-        return nodeAdjacentes;
+        return noeudsAdjacents;
     }
 
-    public void modifierNoeudAdjacentes(Map<Noeud, Double> nodeAdjacentes) {
-        this.nodeAdjacentes = nodeAdjacentes;
+    public void modifierNoeudAdjacentes(Map<Noeud, Double> noeudsAdjacents) {
+        this.noeudsAdjacents = noeudsAdjacents;
     }
 
     @Override
     public String toString() {
-        String s = "Noeud " + nom + ": " + horaireLivraison; 
+        String s = "Noeud " + id; 
         return s;
     }
 }
