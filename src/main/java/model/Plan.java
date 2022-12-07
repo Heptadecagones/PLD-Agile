@@ -52,10 +52,10 @@ public class Plan extends Graphe implements Cloneable {
         return listeSegment;
     }
 
-    public Graphe creerGrapheSimplifie() {
+    /*public Graphe creerGrapheSimplifie() {
         Graphe grapheSimplifie = new Graphe();
         // TODO : faire le graphe simplifier ici, paramètres à ajouter ?
         return grapheSimplifie;
-    }
+    }*/
 
 }

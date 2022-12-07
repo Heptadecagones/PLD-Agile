@@ -25,7 +25,8 @@ public abstract class FacadeAlgoTournee {
         
 
         // Obtention du graphe simplifié entre les points de livraison
-        DijkstraAlgo algo = new DijkstraAlgo(plan, livreur);
+        //DijkstraAlgo algo = new DijkstraAlgo(plan, livreur);
+        DijkstraAlgo algo = new DijkstraAlgo(plan);
         Graphe grapheSimplifie = algo.calculerGraphePourTSP();
 
         int minLiv = 24;

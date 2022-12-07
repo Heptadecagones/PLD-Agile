@@ -1,9 +1,13 @@
 package model.algo.Dijkstra;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import ch.qos.logback.core.joran.sanity.Pair;
+import model.Segment;
 
 /**
  *
@@ -17,6 +21,11 @@ public class Noeud {
     protected double poids;
     private Map<Noeud, Double> noeudsAdjacents;
     private int horaireLivraison;
+    /*
+     * A chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
+     * le coût pour aller à ce noeud (Double) 
+     */
+    private Map<Noeud, Pair<ArrayList<Segment>, Double>> arborescence;
     
 
     public Noeud(String id) {
@@ -25,6 +34,7 @@ public class Noeud {
         this.poids = Integer.MAX_VALUE;
         this.noeudsAdjacents = new HashMap<>();
         this.horaireLivraison = 99;
+        arborescence = null;
     }
 
     // Constructeur par copie
@@ -34,6 +44,7 @@ public class Noeud {
         this.poids = n.obtenirPoids();
         this.noeudsAdjacents = n.obtenirNoeudsAdjacents();
         this.horaireLivraison = n.obtenirHoraireLivraison();
+        arborescence = n.obtenirArborescence();
     }
 
     public void ajouterDestination(Noeud destination, double poids) {
@@ -76,9 +87,25 @@ public class Noeud {
         this.horaireLivraison = horaire;
     }
 
+    public boolean arborescenceNonNulle() {
+        boolean res = true;
+        if(this.arborescence == null) res = false;
+        return res;
+    }
+
+    public Map<Noeud, Pair<ArrayList<Segment>, Double>> obtenirArborescence() {
+        return arborescence;
+    }
+
+    public void modifierArborescence(Map<Noeud, Pair<ArrayList<Segment>, Double>> arbo) {
+        this.arborescence = arbo;
+    }
+
     @Override
     public String toString() {
         String s = "Noeud " + id + ", horaire de livraison : " + this.horaireLivraison; 
         return s;
     }
+
+
 }

@@ -80,7 +80,7 @@ public class PlanUsine {
                             break;
                     }
                     Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
-                    tempOrigine.ajouterSegment(tempSegment);
+                    //tempOrigine.ajouterSegment(tempSegment);
                     this.listeSegment.add(tempSegment);
                 }
             }

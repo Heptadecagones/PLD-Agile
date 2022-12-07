@@ -1,5 +1,6 @@
 package model.algo.Dijkstra;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -24,28 +25,33 @@ public class DijkstraAlgo {
     // ArrayList<Noeud> listeDestination;
     ArrayList<Livraison> listeLivraison;
     ArrayList<Segment> listeSegment;
-    Graphe grapheTSP;
+    Graphe graphe;
 
     // Initialise un graphe sans liste de destinations
+    // TODO : on supprime SVP, on n'utilisera jamais ça. On peut forcer à ne pas avoir de constructeur par défaut ?
     public DijkstraAlgo() {
 
         this.arborescenceParLivraison = new LinkedHashMap<>();
         this.listeSegment = new ArrayList<Segment>();
-        this.grapheTSP = new Graphe();
+        //this.grapheTSP = new Graphe();
+        this.graphe = new Graphe();
     }
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
-    public DijkstraAlgo(Plan plan, Livreur livreur) {
-
+    //public DijkstraAlgo(Plan plan, Livreur livreur) {
+    public DijkstraAlgo(Graphe graphe) {
+        this.graphe = graphe;
         // WARN: Copie superficielle dans listeSegment
-        this.listeSegment = plan.obtenirListeSegment();
-        this.arborescenceParLivraison = new LinkedHashMap<String, Graphe>();
-        this.grapheTSP = new Graphe();
+        //this.listeSegment = plan.obtenirListeSegment();
+        //this.arborescenceParLivraison = new LinkedHashMap<String, Graphe>();
+        //this.graphe = plan);
+        /*this.grapheTSP = new Graphe();
         // Met l'entrepôt en premier dans la liste des destinations
-        arborescenceParLivraison.put(plan.obtenirEntrepot().obtenirId(), plan.clone());
+        // Hugo : Il y est déjà par le constructeur de Graphe
+        //arborescenceParLivraison.put(plan.obtenirEntrepot().obtenirId(), plan.clone());
 
         // On ajoute l'entrepôt au graphe TSP en premier
-        Noeud entrepot = new Noeud(plan.obtenirEntrepot().obtenirId());
+        Noeud entrepot = plan.obtenirEntrepot();
         grapheTSP.ajouterNoeud(entrepot);
 
         // Met les livraisons du livreur spécifié dans la liste des destinations
@@ -55,7 +61,7 @@ public class DijkstraAlgo {
             Noeud temp = new Noeud(nomLivraison);
             temp.modifierHoraireLivraison(livraison.obtenirPlageHoraire());
             grapheTSP.ajouterNoeud(temp);
-        }
+        }*/
     }
 
     /**
@@ -82,7 +88,7 @@ public class DijkstraAlgo {
 
             // On récupère la source pour le graphe TSP, la node à qui on va ajouter des
             // valeurs
-            for (Noeud n : grapheTSP.obtenirNoeuds()) {
+            for (Noeud n : graphe.obtenirNoeuds()) {
                 if (n.obtenirId().equals(entreMap.getKey())) {
                     nodeSourceGrapheTSP = n;
                     break;
@@ -92,7 +98,7 @@ public class DijkstraAlgo {
             graphe = calculerPlusCourtCheminDepuisLaSource(graphe, nodeSourceGraphe);
 
             // Ajouter les noeuds/valeurs pour graphe TSP
-            for (Noeud destNoeud : grapheTSP.obtenirNoeuds()) {
+            for (Noeud destNoeud : graphe.obtenirNoeuds()) {
                 for (Noeud node : graphe.obtenirNoeuds()) {
                     if (destNoeud.obtenirId().equals(node.obtenirId()) && nodeSourceGrapheTSP != null) {
                         nodeSourceGrapheTSP.ajouterDestination(destNoeud, node.obtenirPoids());
@@ -102,7 +108,7 @@ public class DijkstraAlgo {
             }
         }
 
-        return grapheTSP;
+        return graphe;
 
         /*
          * TSP calculDeTournee = new TSP1();
@@ -226,5 +232,29 @@ public class DijkstraAlgo {
             }
         }
         return semgentsDuPlusCourtChemin;
+    }
+
+    /**
+     * Méthode qui calcule les arborescences pour chaque noeud donc chaque
+     * Intersection de livraison
+     * @param graphePourArbo
+     * @param noeudsACalculer
+     */
+    public void calculerArborescences(Graphe graphePourArbo, List<Noeud> noeudsACalculer) {
+        // noms à changer, graphe pour arbo pourrait ne pas être utile, voir constructuer
+        // noeudsACalculer c'est l'ensemble des noeuds pour lesquels on veut créer l'arborescence
+
+        for(Noeud noeudCalcul : noeudsACalculer) {
+            if(!noeudCalcul.arborescenceNonNulle()) {
+                calculerArborescenceDepuisNoeud(noeudCalcul);
+            }
+        }
+    }
+
+    private void calculerArborescenceDepuisNoeud(Noeud noeud) {
+        /*
+         * TODO : algo de dijkstra depuis ce noeud.
+         * Une fois l'arborescence calculée, la donner au noeud
+         */
     }
 }

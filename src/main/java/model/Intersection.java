@@ -15,6 +15,8 @@ public class Intersection extends Noeud {
     private double longitude;
     private double latitude;
     //private ArrayList<Segment> listeSegmentOrigine;
+
+    
     
 
     /**
