@@ -303,7 +303,7 @@ public class Carte extends JPanel implements Observer {
 
                 int livrCordX = REMBOURRAGE + (int) ((cordLivr.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
-
+                System.out.println("temps de livraison: "+s.obtenirPlageHoraire());
                 g2d.setColor(couleurIntersection);
                 g2d.fillOval(livrCordX - DIAMETRE_DEST_LIVRIAISON / 2, livrCordY - DIAMETRE_DEST_LIVRIAISON / 2,
                         DIAMETRE_DEST_LIVRIAISON, DIAMETRE_DEST_LIVRIAISON);
