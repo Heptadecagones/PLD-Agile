@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import com.rpieniazek.tabu.TabuSearch;
 
 import model.Segment;
+import model.Tournee;
 import model.algo.Dijkstra.*;
 import model.algo.TSP.TSP;
 import model.algo.TSP.TSP1;
 import model.Plan;
+import model.Livraison;
 import model.Livreur;
 
 /**
@@ -18,20 +20,32 @@ import model.Livreur;
  */
 
 public abstract class FacadeAlgoTournee {
-    public static ArrayList<Segment> calculerTournee(Plan plan, Livreur livreur) throws CloneNotSupportedException {
+    public static Tournee calculerTournee(Plan plan, Livreur livreur) throws CloneNotSupportedException {
 
-        ArrayList<Segment> tournee = new ArrayList<Segment>();
+        ArrayList<Segment> listeSegment = new ArrayList<Segment>();
+        ArrayList<Livraison> listeLivraisons = livreur.obtenirLivraisons();
+        
 
         // Obtention du graphe simplifié entre les points de livraison
         DijkstraAlgo algo = new DijkstraAlgo(plan, livreur);
         Graphe grapheSimplifie = algo.calculerGraphePourTSP();
 
+        int minLiv = 24;
 
-        TabuSearch ts = new TabuSearch(grapheSimplifie);
+        for(Livraison liv : livreur.obtenirLivraisons()) {
+            int heureLiv = liv.obtenirPlageHoraire();
+            if(heureLiv < minLiv)
+                minLiv = liv.obtenirPlageHoraire();
+        }
+
+        System.out.println(grapheSimplifie.toString());
+
+        TabuSearch ts = new TabuSearch(grapheSimplifie, minLiv);
         Noeud[] ordreLivraison = ts.soluceEnNoeuds();
 
         String depart = null;
         String arrivee = null;
+        int heure = minLiv;
 
         // On ajoute les segments dans la tournee
         for (int i = 0; i < ordreLivraison.length - 1; i++) {
@@ -39,7 +53,11 @@ public abstract class FacadeAlgoTournee {
             depart = ordreLivraison[i].obtenirNom();
             arrivee = ordreLivraison[i + 1].obtenirNom();
 
-            tournee.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
+            for (Livraison livraison : listeLivraisons) {
+                
+            }
+
+            listeSegment.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
                     depart, arrivee));
             // tournee.add(plan.obtenirSegmentsParIdsIntersections(depart, arrivee));
         }
@@ -48,7 +66,7 @@ public abstract class FacadeAlgoTournee {
         // tournee
         depart = ordreLivraison[ordreLivraison.length - 1].obtenirNom();
         arrivee = ordreLivraison[0].obtenirNom();
-        tournee.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
+        listeSegment.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
                 depart, arrivee));
 
         return tournee;
