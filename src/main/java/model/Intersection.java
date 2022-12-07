@@ -1,6 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import ch.qos.logback.core.joran.sanity.Pair;
 
 /**
  *
@@ -13,8 +17,9 @@ public class Intersection {
     private double longitude;
     private double latitude;
     private ArrayList<Segment> listeSegmentOrigine;
+    private Integer horaireLivraison;
 
-    private Integer trancheHoraireLivraison;
+    private Map<Intersection, Pair<ArrayList<Segment>, Double>> arborescence;
 
     public Intersection() {
     }
@@ -24,7 +29,14 @@ public class Intersection {
         this.longitude = longi;
         this.latitude = lat;
         this.listeSegmentOrigine = new ArrayList<Segment>();
-        trancheHoraireLivraison = null;
+        this.horaireLivraison = null;
+        this.arborescence = new HashMap<>();
+    }
+    
+    //TODO check return type
+    //TODO interface
+    public void () {
+
     }
 
     public double obtenirLongitude() {
@@ -55,6 +67,7 @@ public class Intersection {
         this.listeSegmentOrigine.add(segment);
     }
 
+
     public String toString() {
         String description = "Id : " + this.id + " longitude : " + this.longitude + " latitude : " + this.latitude;
         return description;
@@ -64,15 +77,15 @@ public class Intersection {
      * Méthode pour ajouter une tranche horaire passée en paramètres.
      * La tranche horaire est acceptée si elle appartient à [8;11] et refusée
      * sinon.
+     * 
      * @param trancheHoraire
      * @return true si la trancheHoraire est acceptée, false si elle est refusée
      */
     public boolean modifierTrancheHoraire(Integer trancheHoraire) {
-        if(trancheHoraire < 8 || trancheHoraire > 11) {
+        if (trancheHoraire < 8 || trancheHoraire > 11) {
             return false;
-        }
-        else {
-            trancheHoraireLivraison = trancheHoraire;
+        } else {
+            horaireLivraison = trancheHoraire;
             return true;
         }
     }
