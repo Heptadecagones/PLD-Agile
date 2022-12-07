@@ -71,6 +71,8 @@ public class Carte extends JPanel implements Observer {
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
 
+
+
     public Carte(int LARGEUR, int LONGUEUR) {
         this.LONGUEUR = LONGUEUR;
         this.LARGEUR = LARGEUR;
@@ -186,6 +188,12 @@ public class Carte extends JPanel implements Observer {
     // PAINT DE LA CARTE
     @Override
     public void paintComponent(Graphics g) {
+
+
+
+
+
+
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
@@ -295,7 +303,7 @@ public class Carte extends JPanel implements Observer {
 
                 int livrCordX = REMBOURRAGE + (int) ((cordLivr.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
                 int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (LARGEUR - 2 * REMBOURRAGE));
-
+                System.out.println("heure de livaison: "+s.obtenirPlageHoraire() + "h");
                 g2d.setColor(couleurIntersection);
                 g2d.fillOval(livrCordX - DIAMETRE_DEST_LIVRIAISON / 2, livrCordY - DIAMETRE_DEST_LIVRIAISON / 2,
                         DIAMETRE_DEST_LIVRIAISON, DIAMETRE_DEST_LIVRIAISON);
