@@ -46,7 +46,16 @@ public class PlanLivraison extends Observable {
     }
 
     public PlanLivraison() {
+        init();
+    }
+
+    /**
+     * Init les données / Reinit les données de l'ancienne carte
+     * Utilisée quand l'utilisateur charge une nouvelle carte
+     */
+    public void init() {
         this.plan = new Plan();
+        this.plan.init();
         this.listeLivreur = new ArrayList<Livreur>();
         this.listeLivreur.add(new Livreur(0));
         this.listeLivreur.add(new Livreur(1));

@@ -22,8 +22,17 @@ public class Plan {
     private long nombreIntersection;
     private long nombreSegment;
 
-    // chargement d'un plan( avec segments,intersections,entrepot) à partir d'un
-    // fichier XML
+    /**
+     * Init les données / Reinit les données de l'ancienne carte
+     * Utilisée quand l'utilisateur charge une nouvelle carte
+     */
+    public void init() {
+        entrepot = new Intersection();
+        listeIntersection = new ArrayList<Intersection>();
+        listeSegment = new ArrayList<Segment>();
+    }
+    
+    //chargement d'un plan( avec segments,intersections,entrepot) à partir d'un fichier XML
     public void chargerXML(String nomFichier) {
         try {
 

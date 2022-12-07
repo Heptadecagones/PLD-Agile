@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.BorderLayout;
+
 import java.util.Observable;
 import java.util.Observer;
 
