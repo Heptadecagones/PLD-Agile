@@ -47,15 +47,26 @@ public abstract class FacadeAlgoTournee {
         String arrivee = null;
         int heure = minLiv;
 
+        Livraison livraison = null;
+
         // On ajoute les segments dans la tournee
         for (int i = 0; i < ordreLivraison.length - 1; i++) {
 
             depart = ordreLivraison[i].obtenirNom();
             arrivee = ordreLivraison[i + 1].obtenirNom();
 
-            for (Livraison livraison : listeLivraisons) {
-                
+            for (Livraison liv : listeLivraisons) {
+                if (liv.obtenirLieu().obtenirId().equals(arrivee)) {
+                    livraison = liv;
+                    break;
+                }
             }
+
+            double longueur = ordreLivraison[i].obtenirNoeudsAdjacents().get(ordreLivraison[i+1].obtenirNom());
+            double temps = longueur / 15000;
+            heure += temps;
+
+            livraison.modifierHeureLivraison(heure);
 
             listeSegment.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
                     depart, arrivee));
@@ -69,6 +80,7 @@ public abstract class FacadeAlgoTournee {
         listeSegment.addAll(algo.obtenirSegmentsDuPluCourtCheminEntreDepartEtArrivee(
                 depart, arrivee));
 
+        Tournee tournee = new Tournee(listeSegment, listeLivraisons);
         return tournee;
     }
 }

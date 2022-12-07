@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Yannick
@@ -8,6 +10,7 @@ package model;
 public class Livraison {
 
     private int plageHoraire;
+    private double heureLivraison;
     private Intersection lieu;
     // inutile pour l'instant
     private Livreur livreur;
@@ -26,6 +29,7 @@ public class Livraison {
         this.plageHoraire = horaire;
         this.lieu = l;
         this.livreur = liv;
+        this.heureLivraison = null;
     }
 
     public int obtenirPlageHoraire() {
@@ -51,4 +55,14 @@ public class Livraison {
     public void modifierLivreur(Livreur livreur) {
         this.livreur = livreur;
     }
+
+    public double obtenirHeureLivraison() {
+        return heureLivraison;
+    }
+
+    public void modifierHeureLivraison(double heureLivraison) {
+        this.heureLivraison = heureLivraison;
+    }
+
+    
 }
