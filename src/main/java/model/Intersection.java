@@ -69,11 +69,11 @@ public class Intersection {
      */
     public boolean modifierTrancheHoraire(Integer trancheHoraire) {
         if(trancheHoraire < 8 || trancheHoraire > 11) {
-            trancheHoraireLivraison = trancheHoraire;
-            return true;
+            return false;
         }
         else {
-            return false;
+            trancheHoraireLivraison = trancheHoraire;
+            return true;
         }
     }
 

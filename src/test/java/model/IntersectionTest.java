@@ -1,7 +1,6 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +15,6 @@ public class IntersectionTest {
                                     (derniereTrancheHoraire - premiereTrancheHoraire + 1)); 
         boolean retourAjout = intersection.modifierTrancheHoraire(trancheHoraire);
         System.out.println(trancheHoraire);
-        assertEquals(trancheHoraire, 8);
         assertTrue(retourAjout);
     }
 }
