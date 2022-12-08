@@ -11,8 +11,20 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.awt.event.MouseListener;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
+
+
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+
+
 import javax.swing.border.TitledBorder;
 
 import model.Intersection;
@@ -23,7 +35,7 @@ import model.Segment;
 
 import java.awt.*;
 @SuppressWarnings("serial")
-public class Carte extends JPanel implements Observer {
+public class Carte extends JPanel implements Observer, MouseWheelListener, MouseListener, MouseMotionListener {
     /**
      * Tous les composants
      */
@@ -86,6 +98,22 @@ public class Carte extends JPanel implements Observer {
     private final Color couleurIntersection = Color.BLUE;
     private final Color couleurChoixIntersection = Color.GREEN;
 
+
+
+//liste de taha
+private double zoomFactor = 1;
+private double prevZoomFactor = 1;
+private boolean zoomer;
+private boolean dragger;
+private boolean released;
+private double xOffset = 0;
+private double yOffset = 0;
+private int xDiff;
+private int yDiff;
+private Point startPoint;
+
+
+
     public Carte(int largeur, int hauteur) {
         this.largeur = largeur;
         this.hauteur = hauteur;
@@ -97,6 +125,7 @@ public class Carte extends JPanel implements Observer {
         fenetreCreation.init();
 
         initDonnee();
+        initComponent();
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -114,6 +143,21 @@ public class Carte extends JPanel implements Observer {
             }
         });
     }
+
+/* taha
+ */
+
+
+private void initComponent() {
+    addMouseWheelListener(this);
+    addMouseMotionListener(this);
+    addMouseListener(this);
+}
+
+/////////////
+
+
+
 
     /**
      * (Re)Initialise les donnees de la carte 
@@ -237,6 +281,47 @@ public class Carte extends JPanel implements Observer {
         }
      
 
+
+
+
+
+
+        if (zoomer) {
+            AffineTransform at = new AffineTransform();
+
+            double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
+            double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
+
+            double zoomDiv = zoomFactor / prevZoomFactor;
+
+            xOffset = (zoomDiv) * (xOffset) + (1 - zoomDiv) * xRel;
+            yOffset = (zoomDiv) * (yOffset) + (1 - zoomDiv) * yRel;
+
+            at.translate(xOffset, yOffset);
+            at.scale(zoomFactor, zoomFactor);
+            prevZoomFactor = zoomFactor;
+            g2d.transform(at);
+            zoomer = false;
+        }
+
+        if (dragger) {
+            AffineTransform at = new AffineTransform();
+            at.translate(xOffset + xDiff, yOffset + yDiff);
+            at.scale(zoomFactor, zoomFactor);
+            g2d.transform(at);
+
+            if (released) {
+                xOffset += xDiff;
+                yOffset += yDiff;
+                dragger = false;
+            }
+
+        }
+
+
+
+
+
         // PEINTURE
         if (!listeSegment.isEmpty()) { 
             int i;
@@ -356,4 +441,69 @@ public class Carte extends JPanel implements Observer {
 
         return (new Point2D.Double(x, y));
     }
+
+
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+
+        zoomer = true;
+
+        //Zoom in
+        if (e.getWheelRotation() < 0) {
+            zoomFactor *= 1.1;
+            repaint();
+        }
+        //Zoom out
+        if (e.getWheelRotation() > 0) {
+            zoomFactor /= 1.1;
+            repaint();
+        }
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        Point curPoint = e.getLocationOnScreen();
+        xDiff = curPoint.x - startPoint.x;
+        yDiff = curPoint.y - startPoint.y;
+
+        dragger = true;
+        repaint();
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        released = false;
+        startPoint = MouseInfo.getPointerInfo().getLocation();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        released = true;
+        repaint();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+
+
+
 }
