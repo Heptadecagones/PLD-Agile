@@ -1,5 +1,5 @@
 package view;
-
+import java.awt.event.MouseMotionListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,14 +11,20 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseMotionAdapter;
+
 import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+
+import javafx.scene.input.MouseDragEvent;
+
 import java.awt.geom.AffineTransform;
 import model.Intersection;
 import model.Livraison;
@@ -68,6 +74,18 @@ public class Carte extends JPanel implements Observer {
     private final int DIAMETRE_CHOIX_INTERSECTION = 10;
     private final int DIAMETRE_DEST_LIVRIAISON = 10;
     
+    //liste de taha
+private double zoomFactor = 1;
+private double prevZoomFactor = 1;
+private boolean zoomer;
+private boolean dragger;
+private boolean released;
+private double xOffset = 0;
+private double yOffset = 0;
+private int xDiff;
+private int yDiff;
+private Point startPoint;
+
     private final int MAX_LIVREUR = 1000; // OBTIENT CE NOMBRE DEPUIS LE MODELE
     // La liste de couleur pour la route de livreur
     private Color[] tabCouleurLivreur = new Color[MAX_LIVREUR];
@@ -114,58 +132,49 @@ public class Carte extends JPanel implements Observer {
                     fenetreCreation.setIntersection(choixIntersection);
                     fenetreCreation.ouvrir();
                     repaint();}
-                if(e.getButton()==3){         
-                    System.out.println("droit cliqué");       
-                        int sourisX = e.getX();
-                        int sourisY = e.getY();
-                        offsetX= -((sourisX-LARGEUR/2));
-                        offsetY= -((sourisY-LARGEUR/2));
-                        repaint();}
             }
         });
+        /* taha
+ */
+
+
                 // Afficher le nom de la rue plus proche a la souris sur la carte
-        addMouseMotionListener(new MouseMotionAdapter() {
+       /* addMouseMotionListener(new MouseMotionAdapter() {
                     public void mouseMoved(MouseEvent e) {
                         String rue;
                         int mouseX = e.getX();
                         int mouseY = e.getY();
-                        /*rue = recupererRue(mouseX, mouseY, 100).obtenirNom();
+                        rue = recupererRue(mouseX, mouseY, 100).obtenirNom();
                         //System.out.println(rue);
                         if (rue != null) {
                             setToolTipText(rue);
-                        }*/
+                        }
                     }
-        });
+        });*/
         addMouseWheelListener(new MouseWheelListener() {
             public void mouseWheelMoved(MouseWheelEvent e){
-            //Zoom in
-                int sourisX = e.getX();
-                int sourisY = e.getY();
-                System.out.println(sourisX+" :;: "+sourisY+"\n");
-                if(e.getWheelRotation()<0){
-                    double oldWidth = LARGEUR * obtenirZoom();
-                    double newWidth = LARGEUR * 1.1 *obtenirZoom();
-                    modifierZoom(1.1*obtenirZoom());
-                    //offsetX+=0.1*LARGEUR;
-                    //offsetY+=0.1*LARGEUR;
-                    offsetX = offsetX +(oldWidth - newWidth)/(newWidth/(sourisX-offsetX*1.1));
-                    offsetY = offsetY +(oldWidth - newWidth)/(newWidth/(sourisY-offsetY*1.1));
+                zoomer = true;
+                if (e.getWheelRotation() < 0) {
+                    zoomFactor *= 1.1;
                     repaint();
                 }
                 //Zoom out
-                if(e.getWheelRotation()>0){
-                    double oldWidth = LARGEUR * obtenirZoom();
-                    double newWidth = LARGEUR * obtenirZoom()/1.1;
-                    modifierZoom(obtenirZoom()/1.1);
-                    //offsetX+=0.1*LARGEUR;
-                    //offsetY+=0.1*LARGEUR;
-                    double difWidth = (oldWidth - newWidth);
-                    offsetX += difWidth/(newWidth/(sourisX-offsetX/1.1));
-                    offsetY += difWidth/(newWidth/(sourisY-offsetY/1.1));
+                if (e.getWheelRotation() > 0) {
+                    zoomFactor /= 1.1;
                     repaint();
-                }   
-            }
-        });
+                }      
+        }});
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                if(e.getButton()==3){  
+                Point curPoint = e.getLocationOnScreen();
+                xDiff = curPoint.x - startPoint.x;
+                yDiff = curPoint.y - startPoint.y;
+        
+                dragger = true;
+                repaint();}
+        
+            }});
     }
 
     /**
@@ -309,13 +318,9 @@ public class Carte extends JPanel implements Observer {
 
         
         super.paintComponent(g);
-        AffineTransform at = new AffineTransform();
-        at.translate(offsetX, offsetY);
-        at.scale(zoom,zoom);
         
         System.out.println("offsetX"+offsetX+" offsetY "+offsetY);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setTransform(at);
         
         RenderingHints rh = new RenderingHints(
                 RenderingHints.KEY_ANTIALIASING,
@@ -325,7 +330,37 @@ public class Carte extends JPanel implements Observer {
                 RenderingHints.VALUE_RENDER_QUALITY);
 
         g2d.setRenderingHints(rh);
+        if (zoomer) {
+            AffineTransform at = new AffineTransform();
 
+            double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
+            double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
+
+            double zoomDiv = zoomFactor / prevZoomFactor;
+
+            xOffset = (zoomDiv) * (xOffset) + (1 - zoomDiv) * xRel;
+            yOffset = (zoomDiv) * (yOffset) + (1 - zoomDiv) * yRel;
+
+            at.translate(xOffset, yOffset);
+            at.scale(zoomFactor, zoomFactor);
+            prevZoomFactor = zoomFactor;
+            g2d.transform(at);
+            zoomer = false;
+        }
+
+        if (dragger) {
+            AffineTransform at = new AffineTransform();
+            at.translate(xOffset + xDiff, yOffset + yDiff);
+            at.scale(zoomFactor, zoomFactor);
+            g2d.transform(at);
+
+            if (released) {
+                xOffset += xDiff;
+                yOffset += yDiff;
+                dragger = false;
+            }
+
+        }
         // Calculer les coins de la carte
         if (entrepot.obtenirId() != null) {
             Point2D cordEntrepot = convertirLatLong(entrepot);
@@ -369,6 +404,16 @@ public class Carte extends JPanel implements Observer {
                 g2d.setStroke(new BasicStroke(1));
                 i = 0;
                 for(Livreur livr : listeLivreur){
+                    for (Livraison s : livr.obtenirLivraisons()) {
+                        Point2D cordLivr = convertirLatLong(s.obtenirLieu());
+        
+                        int livrCordX = REMBOURRAGE + (int) ((cordLivr.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+                        int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (LARGEUR - 2 * REMBOURRAGE));
+                        System.out.println("temps de livraison: "+s.obtenirPlageHoraire());
+                        g2d.setColor(couleurIntersection);
+                        g2d.fillOval(livrCordX - DIAMETRE_DEST_LIVRIAISON / 2, livrCordY - DIAMETRE_DEST_LIVRIAISON / 2,
+                                DIAMETRE_DEST_LIVRIAISON, DIAMETRE_DEST_LIVRIAISON);
+                    }
                     i++;
                     for (Segment s : livr.obtenirTournee().obtenirListeSegment()){
                         if (segment == s) {
