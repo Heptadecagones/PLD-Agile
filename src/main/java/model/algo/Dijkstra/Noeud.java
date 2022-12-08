@@ -25,13 +25,13 @@ public class Noeud {
      * A chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
      * le coût pour aller à ce noeud (Double) 
      */
-    private Map<Noeud, Pair<ArrayList<Segment>, Double>> arborescence;
+    private Map<Noeud, Lien> arborescence;
     
 
     public Noeud(String id) {
         this.id = id;
         this.cheminPlusCourtDepuisEntrepot = new LinkedList<>();
-        this.poids = Integer.MAX_VALUE;
+        this.poids = Double.MAX_VALUE;
         this.noeudsAdjacents = new HashMap<>();
         this.horaireLivraison = 99;
         arborescence = null;
@@ -93,11 +93,11 @@ public class Noeud {
         return res;
     }
 
-    public Map<Noeud, Pair<ArrayList<Segment>, Double>> obtenirArborescence() {
+    public Map<Noeud, Lien> obtenirArborescence() {
         return arborescence;
     }
 
-    public void modifierArborescence(Map<Noeud, Pair<ArrayList<Segment>, Double>> arbo) {
+    public void modifierArborescence(Map<Noeud, Lien> arbo) {
         this.arborescence = arbo;
     }
 

@@ -1,7 +1,9 @@
 package model.algo.Dijkstra;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import model.Intersection;
@@ -15,6 +17,12 @@ import model.Segment;
 public class Graphe {
 
     private Set<Noeud> noeuds;
+
+    // Map<origine, Map<destination, seg>>
+    /* Contient l'ensemble des noeuds adjacents (destination) d'un noeud 
+     * spécifique (origine) et leur lien (seg)
+    */
+    private Map<Noeud, Map<Noeud, Segment>> liensEntreNoeuds;
 
     @Override
     public String toString() {
@@ -72,6 +80,21 @@ public class Graphe {
                 origine.ajouterDestination(destination, segment.obtenirLongueur());
         }
 
+
+        // Creation de liensEntreNoeuds
+        liensEntreNoeuds = new HashMap<Noeud, Map<Noeud, Segment>>();
+        Noeud tempOrigine;
+        Noeud tempDestination;
+        for(Segment seg : listeSegment) {
+            
+            tempOrigine = seg.obtenirOrigine();
+            tempDestination = seg.obtenirDestination();
+
+            if(!liensEntreNoeuds.containsKey(tempOrigine)) {
+                liensEntreNoeuds.put(tempOrigine, new HashMap<Noeud, Segment>());
+            }
+            liensEntreNoeuds.get(tempOrigine).put(tempDestination, seg);
+        }
     }
 
     /**
@@ -93,6 +116,10 @@ public class Graphe {
      */
     public void modifierNoeuds(Set<Noeud> nodes) {
         this.noeuds = nodes;
+    }
+
+    public Map<Noeud, Map<Noeud, Segment>> obtenirLiensEntreNoeuds() {
+        return liensEntreNoeuds;
     }
 
 }

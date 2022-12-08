@@ -2,11 +2,15 @@ package model.algo.Dijkstra;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import ch.qos.logback.core.joran.sanity.Pair;
+
 import java.util.Set;
 
 import model.Livraison;
@@ -26,6 +30,7 @@ public class DijkstraAlgo {
     ArrayList<Livraison> listeLivraison;
     ArrayList<Segment> listeSegment;
     Graphe graphe;
+
 
     // Initialise un graphe sans liste de destinations
     // TODO : on supprime SVP, on n'utilisera jamais ça. On peut forcer à ne pas avoir de constructeur par défaut ?
@@ -256,5 +261,52 @@ public class DijkstraAlgo {
          * TODO : algo de dijkstra depuis ce noeud.
          * Une fois l'arborescence calculée, la donner au noeud
          */
+
+        // Rq : Map.Entry est un équivalent de Pair
+        Map<Noeud, Lien> arborescence = new HashMap<Noeud, Lien>();
+        Map<Noeud, Map<Noeud, Segment>> liensEntreNoeuds = graphe.obtenirLiensEntreNoeuds();
+
+
+        /* Preparation */
+        // Sommets "noirs" de l'algo
+        ArrayList<Noeud> noeudsTraites = new ArrayList<Noeud>();
+        // Sommets "gris" de l'algo (on a besoin d'une liste ordonnée, donc un hashset)
+        Set<Noeud> noeudsEnCours = new HashSet<Noeud>();
+        // Sommets "blanc" de l'algo
+        ArrayList<Noeud> noeudsAExplorer = new ArrayList<Noeud>();
+        noeudsAExplorer.addAll(graphe.obtenirNoeuds());
+        noeudsAExplorer.remove(noeud);  // On retire en premier le noeud origine
+        noeudsEnCours.add(noeud);
+
+        arborescence.put(noeud, new Lien(new ArrayList<Segment>(), (double) 0));
+
+        while(!noeudsEnCours.isEmpty()) {
+            // TODO : remplacer par une recherche de noeud ayant un coup minimal (utiliser arborescence)
+            Noeud noeudActuel = noeudsEnCours.iterator().next();
+
+            // On récupère tous les noeuds qui sont accessibles par noeudActuel
+            // avec keySet() (ensemble des clés d'une Map)
+            for(Noeud voisin : liensEntreNoeuds.get(noeudActuel).keySet()) {
+                // Si le noeud est "blanc" ou "gris"
+                if(!noeudsTraites.contains(voisin)) {
+                    // TODO : relachement, dont contribution à l'arborescence
+
+                    // "Coloriage" du noeud voisin en "gris"
+                    if(noeudsAExplorer.contains(voisin)) {
+                        noeudsAExplorer.remove(voisin);
+                        noeudsEnCours.add(voisin);
+                    }
+                }
+            }
+            // "Coloriage" du noeud actuel en "noir"
+            noeudsEnCours.remove(noeudActuel);
+            noeudsTraites.add(noeudActuel);
+        }
+
+        /* Mise à jour de l'arborescence */
+        // On enlève le lien entre le noeud et lui-même
+        arborescence.remove(noeud);
+        // On modifie l'arborescence du noeud
+        noeud.modifierArborescence(arborescence);
     }
 }
