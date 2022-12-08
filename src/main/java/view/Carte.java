@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -16,16 +15,11 @@ import java.awt.event.MouseListener;
 import java.awt.MouseInfo;
 import java.awt.Point;
 
-
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
-
-
-import javax.swing.border.TitledBorder;
 
 import model.Intersection;
 import model.Livraison;
@@ -97,6 +91,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
 
     // Attribut pour le zoom de la carte
+    private AffineTransform at = new AffineTransform();
     private double zoomFactor = 1;
     private double prevZoomFactor = 1;
     private boolean dragger;
@@ -298,9 +293,6 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
             diffX = maxX - minX;
             diffY = maxY - minY;
         }
-
-
-        AffineTransform at = new AffineTransform();
         
         // zoom
         double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
@@ -313,10 +305,18 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
         at.scale(zoomFactor, zoomFactor);
         prevZoomFactor = zoomFactor;
-
         at.translate(xOffset + xDiff, yOffset + yDiff);
+        
         g2d.transform(at);
+        AffineTransform atInverse = new AffineTransform();
+        try {
+            atInverse = at.createInverse();
+        } catch (Exception e) {
+            e.printStackTrace();//NoninvertibleTransformException
+        }
+        g2d.transform(atInverse);
 
+        // reset after painting
 
         // PEINTURE
         if (!listeSegment.isEmpty()) { 
@@ -410,6 +410,8 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
             g2d.setColor(couleurChoixIntersection);
             g2d.fillOval(cordChoixIntersectionX-DIAMETRE_CHOIX_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_CHOIX_INTERSECTION/2, DIAMETRE_CHOIX_INTERSECTION, DIAMETRE_CHOIX_INTERSECTION);
         }
+
+        //g2d.
     }
 
 
@@ -474,7 +476,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         rue = recupererRue(sourisX, sourisY, 30).obtenirNom();
         //System.out.println(rue);
         if (rue != null) {
-            setToolTipText(rue);
+            //setToolTipText(rue);
         }
 
     }
@@ -489,12 +491,12 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         
         choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
 
-        if (choixIntersection.obtenirId() != null) {
+        /*if (choixIntersection.obtenirId() != null) {
             System.out.println("nouvelleLivraison cliqué");
 
             fenetreCreation.setIntersection(choixIntersection);
             fenetreCreation.ouvrir();
-        }
+        }*/
     }
 
     @Override
