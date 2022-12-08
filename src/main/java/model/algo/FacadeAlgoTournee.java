@@ -19,6 +19,7 @@ import model.Livreur;
 
 public abstract class FacadeAlgoTournee {
     public static Tournee calculerTournee(Plan plan, Livreur livreur) throws CloneNotSupportedException {
+        // TODO : supprimer si inutile, refondre (refactor) sinon
 
         ArrayList<Segment> listeSegment = new ArrayList<Segment>();
         ArrayList<Livraison> listeLivraisons = livreur.obtenirLivraisons();

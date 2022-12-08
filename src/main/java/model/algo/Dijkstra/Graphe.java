@@ -55,6 +55,7 @@ public class Graphe {
             noeuds.add(tempNoeud);
         }
 
+        // Hugo (pour Thibaut): C'est quoi au juste cette partie
         Noeud origine = null;
         Noeud destination = null;
         int c = 0;
@@ -76,8 +77,9 @@ public class Graphe {
                     break;
             }
 
-            if (origine != null && destination != null)
-                origine.ajouterDestination(destination, segment.obtenirLongueur());
+            // TODO : vérifier si encore utile, on calcule les liens plus proprement juste après
+            /*if (origine != null && destination != null)
+                origine.ajouterDestination(destination, segment.obtenirLongueur());*/
         }
 
 

@@ -291,11 +291,6 @@ public class DijkstraAlgo {
         // noeudsACalculer c'est l'ensemble des noeuds pour lesquels on veut créer l'arborescence
 
         for(Noeud noeudCalcul : noeudsACalculer) {
-            for(Noeud noeudDuGraphe : graphe.obtenirNoeuds())
-            {
-                // On réinitialise le poids d'un noeud au maximum (potentiellement modifié précédement)
-                noeudDuGraphe.modifierPoids(Double.MAX_VALUE);
-            }
             if(!noeudCalcul.arborescenceNonNulle()) {
                 calculerArborescenceDepuisNoeud(noeudCalcul);
             }
@@ -325,7 +320,6 @@ public class DijkstraAlgo {
         noeudsEnCours.add(noeud);
 
         arborescence.put(noeud, new Lien(new ArrayList<Segment>(), (double) 0));
-        noeud.modifierPoids(0);
 
         ArrayList<Segment> nouveauChemin;
         double nouveauPoids;
@@ -339,7 +333,8 @@ public class DijkstraAlgo {
             for(Noeud voisin : liensEntreNoeuds.get(noeudActuel).keySet()) {
                 // Si le noeud est "blanc" ou "gris"
                 if(!noeudsTraites.contains(voisin)) {
-                    // TODO : relachement, dont contribution à l'arborescence
+                    
+                    /* Relachement de l'arc */
                     // noeudActuel = Si, voisin = Sj
                     if(arborescence.containsKey(voisin)) {
                         if(arborescence.get(voisin).obtenirPoids() >

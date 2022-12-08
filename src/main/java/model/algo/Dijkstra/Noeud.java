@@ -1,25 +1,25 @@
 package model.algo.Dijkstra;
 
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.List;*/
 import java.util.Map;
 
-import ch.qos.logback.core.joran.sanity.Pair;
-import model.Segment;
+/*import ch.qos.logback.core.joran.sanity.Pair;
+import model.Segment;*/
 
 /**
  *
- * @author Yannick
+ * @author Hugo, Yannick (initial, très fortement modifié depuis)
  */
 
 public class Noeud {
 
     protected String id;
-    private List<Noeud> cheminPlusCourtDepuisEntrepot;
+    /*private List<Noeud> cheminPlusCourtDepuisEntrepot;
     protected double poids;
-    private Map<Noeud, Double> noeudsAdjacents;
+    private Map<Noeud, Double> noeudsAdjacents;*/
     private int horaireLivraison;
     /*
      * A chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
@@ -30,9 +30,9 @@ public class Noeud {
 
     public Noeud(String id) {
         this.id = id;
-        this.cheminPlusCourtDepuisEntrepot = new LinkedList<>();
+        /*this.cheminPlusCourtDepuisEntrepot = new LinkedList<>();
         this.poids = Double.MAX_VALUE;
-        this.noeudsAdjacents = new HashMap<>();
+        this.noeudsAdjacents = new HashMap<>();*/
         this.horaireLivraison = 99;
         arborescence = null;
     }
@@ -40,22 +40,22 @@ public class Noeud {
     // Constructeur par copie
     public Noeud(Noeud n) {
         this.id = n.obtenirId();
-        this.cheminPlusCourtDepuisEntrepot = n.obtenirCheminPlusCourtDepuisEntrepot();
+        /*this.cheminPlusCourtDepuisEntrepot = n.obtenirCheminPlusCourtDepuisEntrepot();
         this.poids = n.obtenirPoids();
         this.noeudsAdjacents = n.obtenirNoeudsAdjacents();
-        this.horaireLivraison = n.obtenirHoraireLivraison();
+        this.horaireLivraison = n.obtenirHoraireLivraison();*/
         arborescence = n.obtenirArborescence();
     }
 
-    public void ajouterDestination(Noeud destination, double poids) {
+    /*public void ajouterDestination(Noeud destination, double poids) {
         this.noeudsAdjacents.put(destination, poids);
-    }
+    }*/
 
     public String obtenirId() {
         return id;
     }
 
-    public List<Noeud> obtenirCheminPlusCourtDepuisEntrepot() {
+    /*public List<Noeud> obtenirCheminPlusCourtDepuisEntrepot() {
         return cheminPlusCourtDepuisEntrepot;
     }
 
@@ -77,7 +77,7 @@ public class Noeud {
 
     public void modifierNoeudAdjacentes(Map<Noeud, Double> noeudsAdjacents) {
         this.noeudsAdjacents = noeudsAdjacents;
-    }
+    }*/
 
     public int obtenirHoraireLivraison() {
         return this.horaireLivraison;
