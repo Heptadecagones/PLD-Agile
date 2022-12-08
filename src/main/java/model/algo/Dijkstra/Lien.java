@@ -27,4 +27,12 @@ public class Lien {
     public double obtenirPoids() {
         return poids;
     }
+
+    public void modifierChemin(ArrayList<Segment> listeSeg) {
+        this.listeSegment = listeSeg;
+    }
+
+    public void modifierPoids(double poids) {
+        this.poids = poids;
+    }
 }
