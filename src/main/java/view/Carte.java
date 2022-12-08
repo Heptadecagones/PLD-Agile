@@ -121,7 +121,7 @@ private Point startPoint;
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if(e.getButton()==1){                
+                //if(e.getButton()==1){                
                     int sourisX = e.getX();
                     int sourisY = e.getY();
                     System.out.println(sourisX + "," + sourisY);
@@ -131,13 +131,31 @@ private Point startPoint;
                     System.out.println("nouvelleLivraison cliqué");
                     fenetreCreation.setIntersection(choixIntersection);
                     fenetreCreation.ouvrir();
-                    repaint();}
+                    repaint();//}      
             }
         });
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+               // if(e.getButton()==3){
+                    released = true;
+                    repaint();
+                 
+
+            }
+        });
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //if(e.getButton()==3){
+                    released = false;
+                    startPoint = MouseInfo.getPointerInfo().getLocation();
+                //}    
+            }
+        });
+
         /* taha
  */
-
-
                 // Afficher le nom de la rue plus proche a la souris sur la carte
        /* addMouseMotionListener(new MouseMotionAdapter() {
                     public void mouseMoved(MouseEvent e) {
@@ -166,13 +184,13 @@ private Point startPoint;
         }});
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
-                if(e.getButton()==3){  
+                //if(e.getButton()==3){  
                 Point curPoint = e.getLocationOnScreen();
                 xDiff = curPoint.x - startPoint.x;
                 yDiff = curPoint.y - startPoint.y;
         
                 dragger = true;
-                repaint();}
+                repaint();
         
             }});
     }
