@@ -19,9 +19,10 @@ public class Graphe {
     private Set<Noeud> noeuds;
 
     // Map<origine, Map<destination, seg>>
-    /* Contient l'ensemble des noeuds adjacents (destination) d'un noeud 
+    /*
+     * Contient l'ensemble des noeuds adjacents (destination) d'un noeud
      * spécifique (origine) et leur lien (seg)
-    */
+     */
     private Map<Noeud, Map<Noeud, Segment>> liensEntreNoeuds;
 
     @Override
@@ -44,7 +45,6 @@ public class Graphe {
     public Graphe(Set<Noeud> nodes) {
         this.noeuds = nodes;
     }
-
 
     public Graphe(ArrayList<Intersection> listeIntersection, ArrayList<Segment> listeSegment) {
 
@@ -77,22 +77,24 @@ public class Graphe {
                     break;
             }
 
-            // TODO : vérifier si encore utile, on calcule les liens plus proprement juste après
-            /*if (origine != null && destination != null)
-                origine.ajouterDestination(destination, segment.obtenirLongueur());*/
+            // TODO : vérifier si encore utile, on calcule les liens plus proprement juste
+            // après
+            /*
+             * if (origine != null && destination != null)
+             * origine.ajouterDestination(destination, segment.obtenirLongueur());
+             */
         }
-
 
         // Creation de liensEntreNoeuds
         liensEntreNoeuds = new HashMap<Noeud, Map<Noeud, Segment>>();
         Noeud tempOrigine;
         Noeud tempDestination;
-        for(Segment seg : listeSegment) {
-            
+        for (Segment seg : listeSegment) {
+
             tempOrigine = seg.obtenirOrigine();
             tempDestination = seg.obtenirDestination();
 
-            if(!liensEntreNoeuds.containsKey(tempOrigine)) {
+            if (!liensEntreNoeuds.containsKey(tempOrigine)) {
                 liensEntreNoeuds.put(tempOrigine, new HashMap<Noeud, Segment>());
             }
             liensEntreNoeuds.get(tempOrigine).put(tempDestination, seg);
