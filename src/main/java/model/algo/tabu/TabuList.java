@@ -1,4 +1,4 @@
-package com.rpieniazek.tabu;
+package model.algo.tabu;
 
 public class TabuList {
 

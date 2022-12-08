@@ -1,10 +1,11 @@
 package model;
 
-import model.algo.Dijkstra.Graphe;
+import model.algo.Graphe;
 
 import java.util.ArrayList;
 
-public class Plan extends Graphe implements Cloneable {
+//TODO Singleton Design pattern
+public class Plan extends Graphe {
     private Intersection entrepot;
 
     private static ArrayList<Intersection> listeIntersection;
@@ -12,25 +13,10 @@ public class Plan extends Graphe implements Cloneable {
 
     public Plan(ArrayList<Intersection> listeIntersection, ArrayList<Segment> listeSegment, Intersection entrepot) {
         super(listeIntersection, listeSegment); // C'est super
-        this.listeIntersection = listeIntersection;
-        this.listeSegment = listeSegment;
+        Plan.listeIntersection = listeIntersection;
+        Plan.listeSegment = listeSegment;
         this.entrepot = entrepot;
     }
-
-    @Override
-    public Plan clone() {
-        Plan clonedPlan = null;
-        try {
-            clonedPlan = (Plan) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-
-        return clonedPlan;
-    }
-
-    // chargement d'un plan( avec segments,intersections,entrepot) à partir d'un
-    // fichier XML
 
     public Intersection obtenirEntrepot() {
         return entrepot;
@@ -51,13 +37,4 @@ public class Plan extends Graphe implements Cloneable {
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;
     }
-
-    /*public Graphe creerGrapheSimplifie() {
-        Graphe grapheSimplifie = new Graphe();
-        // TODO : faire le graphe simplifier ici, paramètres à ajouter ?
-        return grapheSimplifie;
-    }*/
-
-    
-
 }

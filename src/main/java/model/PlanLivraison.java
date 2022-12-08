@@ -1,8 +1,13 @@
 package model;
 
 import java.util.Observable;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
-import model.algo.FacadeAlgoTournee;
+import java.util.List;
+
+import model.algo.Noeud;
+import model.algo.Solveur;
 
 /**
  *
@@ -17,27 +22,27 @@ public class PlanLivraison extends Observable {
     private Plan plan;
 
     // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
-    public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
+    public void nouvelleLivraison(String horaire, Intersection intersection, int numLivreur) {
         Livraison nouvelleLivraison = new Livraison(Integer.parseInt(horaire), intersection,
-                this.listeLivreur.get(Integer.parseInt(numLivreur)));
-        this.listeLivreur.get(Integer.parseInt(numLivreur)).obtenirLivraisons().add(nouvelleLivraison);
-        // System.out.println("Livreur:" +
-        // this.listeLivreur.get(Integer.parseInt(numLivreur)).toString());
-        // TODO: remplacer l'appel de DijkstraAlgo par un appel de FacadeAlgoTournee
-        // DijkstraAlgo dijal = new DijkstraAlgo(this,
-        // this.listeLivreur.get(Integer.parseInt(numLivreur)));
+                this.listeLivreur.get(numLivreur));
+        this.listeLivreur.get(numLivreur).obtenirLivraisons().add(nouvelleLivraison);
         Tournee t = new Tournee();
-        try {
-            t = FacadeAlgoTournee.calculerTournee(
-                    plan, this.listeLivreur.get(Integer.parseInt(numLivreur)));
-            // System.out.println("test\n:" + t.toString());
-        } catch (CloneNotSupportedException cnse) {
-            cnse.printStackTrace();
-        }
-        this.listeLivreur.get(Integer.parseInt(numLivreur)).obtenirTournee()
+        Solveur s = new Solveur(plan);
+        // Calculer l'arborescence de la nouvelle livraison
+        s.calculerArborescenceDepuisNoeud(intersection);
+        // Calcule le graphe simplifié
+        ArrayList<Livraison> livraisons = listeLivreur.get(numLivreur).obtenirLivraisons();
+        ArrayList<Intersection> intersections = valueGrabber(livraisons, liv -> liv.obtenirLieu());
+        s.calculerGrapheSimplifie(intersections);
+        // Appeler TabuSearch
+        this.listeLivreur.get(numLivreur).obtenirTournee()
                 .modifierListeSegment(t.obtenirListeSegment());
         this.setChanged();
         this.notifyObservers();
+    }
+
+    private static <C, T> ArrayList<T> valueGrabber(List<C> items, Function<C, T> func) {
+        return (ArrayList<T>) items.stream().map(func).collect(Collectors.toList());
     }
 
     public PlanLivraison(String xml) {

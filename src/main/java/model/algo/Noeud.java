@@ -17,22 +17,17 @@ import model.Segment;*/
 public class Noeud {
 
     protected String id;
-    /*private List<Noeud> cheminPlusCourtDepuisEntrepot;
-    protected double poids;
-    private Map<Noeud, Double> noeudsAdjacents;*/
     private int horaireLivraison;
+
     /*
      * A chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
      * le coût pour aller à ce noeud (Double) 
      */
-    private Map<Noeud, Lien> arborescence;
+    protected Map<Noeud, Lien> arborescence;
     
 
     public Noeud(String id) {
         this.id = id;
-        /*this.cheminPlusCourtDepuisEntrepot = new LinkedList<>();
-        this.poids = Double.MAX_VALUE;
-        this.noeudsAdjacents = new HashMap<>();*/
         this.horaireLivraison = 99;
         arborescence = null;
     }
@@ -40,44 +35,12 @@ public class Noeud {
     // Constructeur par copie
     public Noeud(Noeud n) {
         this.id = n.obtenirId();
-        /*this.cheminPlusCourtDepuisEntrepot = n.obtenirCheminPlusCourtDepuisEntrepot();
-        this.poids = n.obtenirPoids();
-        this.noeudsAdjacents = n.obtenirNoeudsAdjacents();
-        this.horaireLivraison = n.obtenirHoraireLivraison();*/
-        arborescence = n.obtenirArborescence();
+        arborescence = n.obtenirArborescence(); //WARN: Copie peu profonde
     }
-
-    /*public void ajouterDestination(Noeud destination, double poids) {
-        this.noeudsAdjacents.put(destination, poids);
-    }*/
 
     public String obtenirId() {
         return id;
     }
-
-    /*public List<Noeud> obtenirCheminPlusCourtDepuisEntrepot() {
-        return cheminPlusCourtDepuisEntrepot;
-    }
-
-    public void modifierCheminPlusCourtDepuisEntrepot(List<Noeud> cheminPlusCourtDepuisEntrepot) {
-        this.cheminPlusCourtDepuisEntrepot = cheminPlusCourtDepuisEntrepot;
-    }
-
-    public double obtenirPoids() {
-        return poids;
-    }
-
-    public void modifierPoids(double poids) {
-        this.poids = poids;
-    }
-
-    public Map<Noeud, Double> obtenirNoeudsAdjacents() {
-        return noeudsAdjacents;
-    }
-
-    public void modifierNoeudAdjacentes(Map<Noeud, Double> noeudsAdjacents) {
-        this.noeudsAdjacents = noeudsAdjacents;
-    }*/
 
     public int obtenirHoraireLivraison() {
         return this.horaireLivraison;

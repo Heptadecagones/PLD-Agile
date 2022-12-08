@@ -1,34 +1,23 @@
 package model.algo;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-/*import java.util.LinkedHashMap;
-import java.util.LinkedList;*/
+import java.util.List;
 import java.util.Map;
-/*import java.util.Map.Entry;
-
-import ch.qos.logback.core.joran.sanity.Pair;*/
-
 import java.util.Set;
 
 import model.Livraison;
-/*import model.Livreur;
-import model.Plan;*/
 import model.Segment;
 
 /**
  *
- * @author Yannick
+ * @author Hugo, Thibaut, Yannick
  */
 
+// TODO Singleton Design Pattern
 public class Solveur {
 
-    Map<String, Graphe> arborescenceParLivraison;
-    // ArrayList<Noeud> listeDestination;
-    ArrayList<Livraison> listeLivraison;
-    ArrayList<Segment> listeSegment;
     Graphe graphe;
 
     public Solveur() {
@@ -50,14 +39,13 @@ public class Solveur {
      * @return le nouveau chemin allant du noeud d'origine à noeudVoisin
      */
     private ArrayList<Segment> calculerNouveauChemin(Noeud noeudActuel,
-            Noeud noeudVoisin, Map<Noeud, Lien> arborescence,
-            Map<Noeud, Map<Noeud, Segment>> liensEntreNoeuds) {
+            Noeud noeudVoisin, Map<Noeud, Lien> arborescence, Segment chemin) {
         // On crée une nouvelle liste de références
         ArrayList<Segment> nouveauChemin = new ArrayList<Segment>();
         // On ajoute le chemin allant du noeud de référence au noeud actuel
         nouveauChemin.addAll(arborescence.get(noeudActuel).obtenirChemin());
         // Et on lui ajoute le segment de noeudActuel à voisin
-        nouveauChemin.add(liensEntreNoeuds.get(noeudActuel).get(noeudVoisin));
+        nouveauChemin.add(chemin);
 
         return nouveauChemin;
     }
@@ -71,13 +59,9 @@ public class Solveur {
      * @return le nouveau poids allant du noeud d'origine à noeudVoisin
      */
     private double calculerNouveauPoids(Noeud noeudActuel,
-            Noeud noeudVoisin, Map<Noeud, Lien> arborescence,
-            Map<Noeud, Map<Noeud, Segment>> liensEntreNoeuds) {
+            Noeud noeudVoisin, Map<Noeud, Lien> arborescence, Segment chemin) {
         // On récupère le nouveau poids
-        double nouveauPoids = arborescence.get(noeudActuel).obtenirPoids();
-        nouveauPoids += liensEntreNoeuds.get(noeudActuel).get(noeudVoisin).obtenirLongueur();
-
-        return nouveauPoids;
+        return arborescence.get(noeudActuel).obtenirPoids() + chemin.obtenirLongueur();
     }
 
     /**
@@ -100,7 +84,7 @@ public class Solveur {
         }
     }
 
-    private void calculerArborescenceDepuisNoeud(Noeud noeud) {
+    public void calculerArborescenceDepuisNoeud(Noeud noeud) {
         /*
          * TODO : algo de dijkstra depuis ce noeud.
          * Une fois l'arborescence calculée, la donner au noeud
@@ -108,7 +92,7 @@ public class Solveur {
 
         // Rq : Map.Entry est un équivalent de Pair
         Map<Noeud, Lien> arborescence = new HashMap<Noeud, Lien>();
-        Map<Noeud, Map<Noeud, Segment>> liensEntreNoeuds = graphe.obtenirLiensEntreNoeuds();
+        Map<Noeud, ArrayList<Segment>> liensEntreNoeuds = graphe.obtenirLiensEntreNoeuds();
 
         /* Preparation */
         // Sommets "noirs" de l'algo
@@ -127,13 +111,14 @@ public class Solveur {
         double nouveauPoids;
 
         while (!noeudsEnCours.isEmpty()) {
-            // TODO : remplacer par une recherche de noeud ayant un coup minimal (utiliser
+            // TODO: remplacer par une recherche de noeud ayant un coup minimal (utiliser
             // arborescence)
             Noeud noeudActuel = noeudsEnCours.iterator().next();
 
             // On récupère tous les noeuds qui sont accessibles par noeudActuel
             // avec keySet() (ensemble des clés d'une Map)
-            for (Noeud voisin : liensEntreNoeuds.get(noeudActuel).keySet()) {
+            for (Segment cheminVoisin : liensEntreNoeuds.get(noeudActuel)) {
+                Noeud voisin = cheminVoisin.obtenirDestination();
                 // Si le noeud est "blanc" ou "gris"
                 if (!noeudsTraites.contains(voisin)) {
 
@@ -141,10 +126,10 @@ public class Solveur {
                     // noeudActuel = Si, voisin = Sj
                     if (arborescence.containsKey(voisin)) {
                         if (arborescence.get(voisin).obtenirPoids() > arborescence.get(noeudActuel).obtenirPoids()
-                                + liensEntreNoeuds.get(noeudActuel).get(voisin).obtenirLongueur()) {
+                                + cheminVoisin.obtenirLongueur()) {
 
-                            nouveauChemin = calculerNouveauChemin(noeudActuel, voisin, arborescence, liensEntreNoeuds);
-                            nouveauPoids = calculerNouveauPoids(noeudActuel, voisin, arborescence, liensEntreNoeuds);
+                            nouveauChemin = calculerNouveauChemin(noeudActuel, voisin, arborescence, cheminVoisin);
+                            nouveauPoids = calculerNouveauPoids(noeudActuel, voisin, arborescence, cheminVoisin);
 
                             // On modifie l'arborescence actuelle
                             arborescence.get(noeudActuel).modifierChemin(nouveauChemin);
@@ -155,8 +140,8 @@ public class Solveur {
                          * Si on a pas voisin dans l'arborescence, c'est
                          * nécessairement que son poids était équivalent à +infini
                          */
-                        nouveauChemin = calculerNouveauChemin(noeudActuel, voisin, arborescence, liensEntreNoeuds);
-                        nouveauPoids = calculerNouveauPoids(noeudActuel, voisin, arborescence, liensEntreNoeuds);
+                        nouveauChemin = calculerNouveauChemin(noeudActuel, voisin, arborescence, cheminVoisin);
+                        nouveauPoids = calculerNouveauPoids(noeudActuel, voisin, arborescence, cheminVoisin);
 
                         // On crée le Lien avec les infos
                         Lien lienVersVoisin = new Lien(nouveauChemin, nouveauPoids);
@@ -182,5 +167,8 @@ public class Solveur {
         arborescence.remove(noeud);
         // On modifie l'arborescence du noeud
         noeud.modifierArborescence(arborescence);
+    }
+
+    public void calculerGrapheSimplifie(ArrayList<Noeud> noeudsCibles) {
     }
 }
