@@ -1,4 +1,4 @@
-package model.algo.Dijkstra;
+package model.algo;
 
 import java.util.List;
 import java.util.ArrayList;
