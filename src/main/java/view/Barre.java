@@ -48,18 +48,19 @@ public class Barre extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
 
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        //setMaximumSize(new Dimension(100, Integer.MAX_VALUE));
 
         // Init les boutons
         charger = creerBouton("Charger");
         sauvegarder = creerBouton("Sauvegarder");
 
         // Ajoute les composants
+        add(Box.createVerticalGlue());
         JPanel panelGauche = new JPanel(), panelDroit = new JPanel();
         panelGauche.add(charger);
         add(panelGauche);
 
-        add(Box.createHorizontalGlue());
+        add(Box.createVerticalGlue());
         panelDroit.add(sauvegarder);
         add(panelDroit);
 
