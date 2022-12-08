@@ -103,16 +103,24 @@ public class Carte extends JPanel implements Observer {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                int sourisX = e.getX();
-                int sourisY = e.getY();
-                System.out.println(sourisX + "," + sourisY);
-                int maxDistance = 100000;
-                
-                choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
-                System.out.println("nouvelleLivraison cliqué");
-                fenetreCreation.setIntersection(choixIntersection);
-                fenetreCreation.ouvrir();
-                repaint();
+                if(e.getButton()==1){                
+                    int sourisX = e.getX();
+                    int sourisY = e.getY();
+                    System.out.println(sourisX + "," + sourisY);
+                    int maxDistance = 100000;
+                    
+                    choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
+                    System.out.println("nouvelleLivraison cliqué");
+                    fenetreCreation.setIntersection(choixIntersection);
+                    fenetreCreation.ouvrir();
+                    repaint();}
+                if(e.getButton()==3){         
+                    System.out.println("droit cliqué");       
+                        int sourisX = e.getX();
+                        int sourisY = e.getY();
+                        offsetX= -((sourisX-LARGEUR/2));
+                        offsetY= -((sourisY-LARGEUR/2));
+                        repaint();}
             }
         });
                 // Afficher le nom de la rue plus proche a la souris sur la carte
