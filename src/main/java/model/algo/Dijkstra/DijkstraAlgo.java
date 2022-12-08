@@ -31,16 +31,9 @@ public class DijkstraAlgo {
     ArrayList<Segment> listeSegment;
     Graphe graphe;
 
-
-    // Initialise un graphe sans liste de destinations
-    // TODO : on supprime SVP, on n'utilisera jamais ça. On peut forcer à ne pas avoir de constructeur par défaut ?
-    /*public DijkstraAlgo() {
-
-        this.arborescenceParLivraison = new LinkedHashMap<>();
-        this.listeSegment = new ArrayList<Segment>();
-        //this.grapheTSP = new Graphe();
-        this.graphe = new Graphe();
-    }*/
+    public DijkstraAlgo() {
+        assert(false); // Fait crash le programme (cela évite qu'on construire un DA vide)
+    }
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
     //public DijkstraAlgo(Plan plan, Livreur livreur) {
@@ -291,7 +284,7 @@ public class DijkstraAlgo {
         // noeudsACalculer c'est l'ensemble des noeuds pour lesquels on veut créer l'arborescence
 
         for(Noeud noeudCalcul : noeudsACalculer) {
-            if(!noeudCalcul.arborescenceNonNulle()) {
+            if(noeudCalcul.obtenirArborescence() == null) {
                 calculerArborescenceDepuisNoeud(noeudCalcul);
             }
         }

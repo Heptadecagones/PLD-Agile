@@ -87,12 +87,6 @@ public class Noeud {
         this.horaireLivraison = horaire;
     }
 
-    public boolean arborescenceNonNulle() {
-        boolean res = true;
-        if(this.arborescence == null) res = false;
-        return res;
-    }
-
     public Map<Noeud, Lien> obtenirArborescence() {
         return arborescence;
     }
