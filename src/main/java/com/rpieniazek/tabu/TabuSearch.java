@@ -6,8 +6,9 @@ import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import model.algo.Dijkstra.Graphe;
-import model.algo.Dijkstra.Noeud;
+import model.algo.Graphe;
+import model.algo.Lien;
+import model.algo.Noeud;
 
 /**
  * Created by Rafal on 2015-12-02.
@@ -49,7 +50,7 @@ public class TabuSearch {
         for (Noeud orig : noeuds) {
 
             // On regarde ses voisins et on ajoute la paire orig -> dest à la matrice
-            for (Entry<Noeud, Double> dest : orig.obtenirNoeudsAdjacents().entrySet()) {
+            for (Entry<Noeud, Lien> dest : orig.obtenirArborescence().entrySet()) {
                 int origID = -1, destID = -1;
 
                 // Si on est déjà passés par cette node, on connaît son index
@@ -79,7 +80,7 @@ public class TabuSearch {
                 if (origTime == 99 && destTime > minLiv) {
                     continue;
                 } else if (origTime <= destTime) {
-                    preMatrice[origID][destID] = dest.getValue();
+                    preMatrice[origID][destID] = dest.getValue().obtenirPoids();
                 }
             }
         }
