@@ -169,6 +169,28 @@ public class Solveur {
         noeud.modifierArborescence(arborescence);
     }
 
-    public void calculerGrapheSimplifie(ArrayList<Noeud> noeudsCibles) {
+    /**
+     * 
+     * @param noeudsCibles
+     * @return
+     */
+    public Map<Noeud, Map<Noeud, Lien>> calculerGrapheSimplifie(ArrayList<Noeud> noeudsCibles) {
+        Map<Noeud, Map<Noeud, Lien>> grapheArborescence = new HashMap<Noeud, Map<Noeud, Lien>>();
+        Map<Noeud, Lien> tempArborescence;
+        /* Récupération des liens entre les noeuds cibles */
+        for(Noeud noeudTraite : noeudsCibles) {
+            tempArborescence = new HashMap<Noeud, Lien>();
+            Map<Noeud, Lien> arboNoeudTraite = noeudTraite.obtenirArborescence();
+            ArrayList<Noeud> autreNoeuds = new ArrayList<Noeud>();
+            autreNoeuds.addAll(noeudsCibles);
+            autreNoeuds.remove(noeudTraite);
+            for(Noeud n : autreNoeuds) {
+                tempArborescence.put(n, arboNoeudTraite.get(n));
+            }
+            grapheArborescence.put(noeudTraite, tempArborescence);
+        }
+
+        /* Suppression des liens entre noeuds d'horaire de livrasion différents */
+        return grapheArborescence;
     }
 }

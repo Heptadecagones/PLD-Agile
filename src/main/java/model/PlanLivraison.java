@@ -5,7 +5,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import model.algo.Lien;
 import model.algo.Noeud;
 import model.algo.Solveur;
 
@@ -32,8 +34,25 @@ public class PlanLivraison extends Observable {
         s.calculerArborescenceDepuisNoeud(intersection);
         // Calcule le graphe simplifié
         ArrayList<Livraison> livraisons = listeLivreur.get(numLivreur).obtenirLivraisons();
-        ArrayList<Intersection> intersections = valueGrabber(livraisons, liv -> liv.obtenirLieu());
-        s.calculerGrapheSimplifie(intersections);
+        ArrayList<Noeud> intersections = valueGrabber(livraisons, liv -> liv.obtenirLieu());
+        intersections.add(plan.obtenirEntrepot());
+        Map<Noeud, Map<Noeud, Lien>> grapheMinimal = s.calculerGrapheSimplifie(intersections);
+        // Minimalisation du graphe
+        /*for(Livraison liv : livraisons) {
+            for(Livraison liv2 : livraisons) {
+                if(!liv.equals(liv2)) {
+                    if(liv.obtenirPlageHoraire() > liv2.obtenirPlageHoraire()) {
+                        grapheMinimal.get(liv.obtenirLieu()).remove(liv2.obtenirLieu());
+                    }
+                    else {
+                        if(grapheMinimal.get(liv.obtenirLieu()).containsKey(plan.obtenirEntrepot())) {
+                            grapheMinimal.get(liv.obtenirLieu()).remove(plan.obtenirEntrepot());
+                        }
+                    }
+                }
+            }
+        }*/
+        
         // Appeler TabuSearch
         this.listeLivreur.get(numLivreur).obtenirTournee()
                 .modifierListeSegment(t.obtenirListeSegment());

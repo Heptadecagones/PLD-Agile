@@ -17,11 +17,9 @@ import model.Segment;
 public class Graphe {
 
     private Set<Noeud> noeuds;
-
-    // Map<origine, Map<destination, seg>>
+    
     /*
-     * Contient l'ensemble des noeuds adjacents (destination) d'un noeud
-     * spécifique (origine) et leur lien (seg)
+     * Pour un noeud contient l'ensemble des segments qui partent de celui-ci
      */
     private Map<Noeud, ArrayList<Segment>> liensEntreNoeuds;
 

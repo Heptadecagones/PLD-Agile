@@ -21,7 +21,7 @@ public class Noeud {
 
     /*
      * A chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
-     * le coût pour aller à ce noeud (Double) 
+     * le coût pour aller à ce noeud (Double) stockée dans Lien
      */
     protected Map<Noeud, Lien> arborescence;
     
