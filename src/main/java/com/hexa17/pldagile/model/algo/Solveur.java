@@ -85,12 +85,12 @@ public class Solveur {
     }
 
     public void calculerArborescenceDepuisNoeud(Noeud noeud) {
-        /*
-         * TODO : algo de dijkstra depuis ce noeud.
-         * Une fois l'arborescence calculée, la donner au noeud
-         */
 
-        // Rq : Map.Entry est un équivalent de Pair
+        // On ne calcule une arborescence qu'une fois
+        if(noeud.obtenirArborescence() != null) return;
+
+        // Rq : Lien est un équivalent de Pair<ArrayList<Segment>, Double>,
+        // voir classe Lien pour les méthodes
         Map<Noeud, Lien> arborescence = new HashMap<Noeud, Lien>();
         Map<Noeud, ArrayList<Segment>> liensEntreNoeuds = graphe.obtenirLiensEntreNoeuds();
 
