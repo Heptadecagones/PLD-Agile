@@ -11,7 +11,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
@@ -70,7 +72,11 @@ public class Carte extends JPanel implements Observer {
 
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
+    private Livraison livraisonClickee;
 
+    public void modifierLivraisonClickee(Livraison l){
+        livraisonClickee=l;
+    }
     public Carte(int LARGEUR, int LONGUEUR) {
         this.LONGUEUR = LONGUEUR;
         this.LARGEUR = LARGEUR;
@@ -95,6 +101,19 @@ public class Carte extends JPanel implements Observer {
                 repaint();
             }
         });
+                // Afficher le nom de la rue plus proche a la souris sur la carte
+                addMouseMotionListener(new MouseMotionAdapter() {
+                    public void mouseMoved(MouseEvent e) {
+                        String rue;
+                        int mouseX = e.getX();
+                        int mouseY = e.getY();
+                        rue = recupererRue(mouseX, mouseY, 100).obtenirNom();
+                        //System.out.println(rue);
+                        if (rue != null) {
+                            setToolTipText(rue);
+                        }
+                    }
+                });
     }
 
     /**
@@ -179,6 +198,56 @@ public class Carte extends JPanel implements Observer {
         return intersectionProche;
     }
 
+     /**
+     * @param X : 
+     * @param Y
+     * @param minmX : la distance maximale acceptable
+     * @return la rue le plus proche a la souris
+     */
+    public Segment recupererRue(int X, int Y, int minmX) {
+        Segment rue = new Segment();
+        int minMxDest = minmX;
+        Intersection choixIntersection = new Intersection();
+        if (!listeIntersection.isEmpty()) {
+            ArrayList<Point2D> points = new ArrayList<>();
+            for (Intersection intersection : listeIntersection) {
+                Point2D point = convertirLatLong(intersection);
+                points.add(point);
+
+            }
+
+            for (int i = 0; i < points.size(); i++) {
+                int coordX = REMBOURRAGE + (int) ((points.get(i).getX() - minX) / diffX * (LARGEUR - 2 * REMBOURRAGE));
+                int coordY = REMBOURRAGE + (int) ((points.get(i).getY() - minY) / diffY * (LARGEUR - 2 * REMBOURRAGE));
+
+                if ((Math.abs(X - coordX) + Math.abs(Y - coordY)) < minmX) {
+                    minmX = (Math.abs(X - coordX) + Math.abs(Y - coordY));
+                    choixIntersection = listeIntersection.get(i);
+                }
+            }
+
+            if (!listeIntersection.isEmpty()) {
+                if (choixIntersection.obtenirListeSegmentOrigine() != null) {
+                    for (Segment segment : choixIntersection.obtenirListeSegmentOrigine()) {
+                        Intersection destination = segment.obtenirDestination();
+                        Point2D point = convertirLatLong(destination);
+
+                        int coordoX = REMBOURRAGE
+                                + (int) ((point.getX() - minX) / diffX * (LARGEUR - 2 * REMBOURRAGE));
+                        int coordoY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (LARGEUR - 2 * REMBOURRAGE));
+
+                        if ((Math.abs(X - coordoX) + Math.abs(Y - coordoY)) < minMxDest) {
+                            rue = segment;
+                            minmX = (Math.abs(X - coordoX) + Math.abs(Y - coordoY));
+                        }
+
+                    }
+                }
+            }
+        }
+
+        return rue;
+    }
     public Creation obtenirFenetreCreation() {
         return fenetreCreation;
     }
@@ -252,6 +321,15 @@ public class Carte extends JPanel implements Observer {
                         }
                     }
                 }
+                if(livraisonClickee!=null){
+                for (Segment s : livraisonClickee.obtenirLivreur().obtenirTournee().obtenirListeSegment()){
+                        if (segment == s) {
+                            g2d.setColor(Color.RED);
+                            g2d.setStroke(new BasicStroke(5));
+                            break;
+                        }
+                }}
+                
                 
                 g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);   
             }
@@ -259,24 +337,16 @@ public class Carte extends JPanel implements Observer {
 
 
         if (!listeIntersection.isEmpty()) {
-            ArrayList<Point2D> points = new ArrayList<>();
             for (Intersection intersection : listeIntersection) {
                 Point2D point = convertirLatLong(intersection);
-                points.add(point);
-            }
-
-            g2d.setColor(couleurIntersection);
-
-            for (Point2D point : points) {
                 int coordX = REMBOURRAGE + (int) ((point.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
                 int coordY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (LARGEUR - 2 * REMBOURRAGE));
-
+                g2d.setColor(couleurIntersection);
                 g2d.fillOval(coordX - DIAMETRE_INTERSECTION / 2, coordY - DIAMETRE_INTERSECTION / 2,
                         DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
             }
         }
-
-
+            
         if (entrepot.obtenirId() != null) {
             System.out.println(entrepot.toString());
             Point2D cordEntrepot = convertirLatLong(entrepot);
@@ -306,6 +376,16 @@ public class Carte extends JPanel implements Observer {
         if (choixIntersection.obtenirId() != null) {
             Point2D cordChoixIntersection = convertirLatLong(choixIntersection);
 
+            int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
+            int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (LARGEUR - 2 * REMBOURRAGE));
+
+            System.out.println("cord = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
+            //g2d.setColor(couleurChoixIntersection);
+            g2d.fillOval(cordChoixIntersectionX-DIAMETRE_CHOIX_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_CHOIX_INTERSECTION/2, DIAMETRE_CHOIX_INTERSECTION, DIAMETRE_CHOIX_INTERSECTION);
+        }
+        if (livraisonClickee != null) {
+            Point2D cordChoixIntersection = convertirLatLong(livraisonClickee.obtenirLieu());
+            g2d.setColor(Color.YELLOW);
             int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (LONGUEUR - 2 * REMBOURRAGE));
             int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (LARGEUR - 2 * REMBOURRAGE));
 
