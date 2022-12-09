@@ -180,6 +180,7 @@ public class Solveur {
         /* Récupération des liens entre les noeuds cibles */
         for(Noeud noeudTraite : noeudsCibles) {
             tempArborescence = new HashMap<Noeud, Lien>();
+            //FIXME arboNoeudTraite est null lorsqu'on crée une livraison
             Map<Noeud, Lien> arboNoeudTraite = noeudTraite.obtenirArborescence();
             ArrayList<Noeud> autreNoeuds = new ArrayList<Noeud>();
             autreNoeuds.addAll(noeudsCibles);

@@ -38,21 +38,24 @@ public class PlanLivraison extends Observable {
         intersections.add(plan.obtenirEntrepot());
         Map<Noeud, Map<Noeud, Lien>> grapheMinimal = s.calculerGrapheSimplifie(intersections);
         // Minimalisation du graphe
-        /*for(Livraison liv : livraisons) {
-            for(Livraison liv2 : livraisons) {
-                if(!liv.equals(liv2)) {
-                    if(liv.obtenirPlageHoraire() > liv2.obtenirPlageHoraire()) {
-                        grapheMinimal.get(liv.obtenirLieu()).remove(liv2.obtenirLieu());
-                    }
-                    else {
-                        if(grapheMinimal.get(liv.obtenirLieu()).containsKey(plan.obtenirEntrepot())) {
-                            grapheMinimal.get(liv.obtenirLieu()).remove(plan.obtenirEntrepot());
-                        }
-                    }
-                }
-            }
-        }*/
-        
+        /*
+         * for(Livraison liv : livraisons) {
+         * for(Livraison liv2 : livraisons) {
+         * if(!liv.equals(liv2)) {
+         * if(liv.obtenirPlageHoraire() > liv2.obtenirPlageHoraire()) {
+         * grapheMinimal.get(liv.obtenirLieu()).remove(liv2.obtenirLieu());
+         * }
+         * else {
+         * if(grapheMinimal.get(liv.obtenirLieu()).containsKey(plan.obtenirEntrepot()))
+         * {
+         * grapheMinimal.get(liv.obtenirLieu()).remove(plan.obtenirEntrepot());
+         * }
+         * }
+         * }
+         * }
+         * }
+         */
+
         // Appeler TabuSearch
         this.listeLivreur.get(numLivreur).obtenirTournee()
                 .modifierListeSegment(t.obtenirListeSegment());
@@ -64,12 +67,29 @@ public class PlanLivraison extends Observable {
         return (ArrayList<T>) items.stream().map(func).collect(Collectors.toList());
     }
 
-    public PlanLivraison(String xml) {
+    public PlanLivraison() {
+        this.plan = null; 
+        this.listeLivreur = new ArrayList<Livreur>();
+        this.listeLivreur.add(new Livreur(0));
+        this.listeLivreur.add(new Livreur(1));
+        this.listeLivreur.add(new Livreur(2));
+        this.listeLivreur.add(new Livreur(3));
+    }
+
+    public void initPlan(String cheminXml) {
         PlanUsine pf = new PlanUsine();
-        pf.chargerXML(xml);
+        pf.chargerXML(cheminXml);
+        this.plan = pf.construirePlan();
         this.setChanged();
         this.notifyObservers();
+    }
+
+    public PlanLivraison(String cheminXml) {
+        PlanUsine pf = new PlanUsine();
+        pf.chargerXML(cheminXml);
         this.plan = pf.construirePlan();
+        this.setChanged();
+        this.notifyObservers();
 
         this.listeLivreur = new ArrayList<Livreur>();
         this.listeLivreur.add(new Livreur(0));

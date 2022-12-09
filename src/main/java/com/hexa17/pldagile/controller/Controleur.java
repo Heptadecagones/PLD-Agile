@@ -26,15 +26,18 @@ public class Controleur {
     public Controleur() {
         view = new IHM();
         view.init();
+        planLivraison = new PlanLivraison();
+        planLivraison.addObserver((Observer) view.obtenirCarte());
+        planLivraison.addObserver((Observer) view.obtenirDescription());
         ActionListener c = new ActionListener() {
 
             public void actionPerformed(ActionEvent arg0) {
                 String command = arg0.getActionCommand();
                 if ("Charger".equals(command)) {
-                    JFileChooser selecteur = new JFileChooser();
+                    JFileChooser selecteur = new JFileChooser("." + File.separator + "..");
 
                     // adapter le chemin vers les fichier XML
-                    String cheminXML = File.separator + "src" + File.separator + "main" + File.separator + "java";
+                    String cheminXML = File.separator + "data";
                     File repertoireProjet = new File(System.getProperty("user.dir") + cheminXML);
                     selecteur.setCurrentDirectory(repertoireProjet);
 
@@ -42,9 +45,7 @@ public class Controleur {
                         File file = selecteur.getSelectedFile();
                         if (file.exists()) {
                             if (file.getName().endsWith(".xml")) {
-                                planLivraison = new PlanLivraison(file.getPath());
-                                planLivraison.addObserver((Observer) view.obtenirCarte());
-                                planLivraison.addObserver((Observer) view.obtenirDescription());
+                                planLivraison.initPlan(file.getPath());
                             } else {
                                 System.out.println("Pas un fichier xml");
                             }
