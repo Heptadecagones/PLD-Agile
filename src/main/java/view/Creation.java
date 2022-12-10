@@ -8,8 +8,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,6 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 import model.Intersection;
+import model.Livreur;
 
 /**
  *
@@ -32,20 +35,28 @@ public class Creation {
     private final Font font = new Font("Arial", Font.PLAIN, 12);
 
     private String horaires[] = { "8", "9", "10", "11" };
-    private String livreurs[] = { "0", "1", "2" };
+
+    private String livreurs[];
     private JFrame f = new JFrame("Ajout Livraison");
 
     private JTextArea textIntersection = new JTextArea(10, 20);
     private JScrollPane defilerTextIntersection = new JScrollPane(textIntersection);
     private JComboBox textHoraire = new JComboBox(horaires);
-    private JComboBox textLivreur = new JComboBox(livreurs);
+    private JComboBox textLivreur = new JComboBox();
 
     private JPanel panelIntersection = new JPanel(new BorderLayout());
     private JPanel panelHoraire = new JPanel(new BorderLayout());
     private JPanel panelLivreur = new JPanel(new BorderLayout());
 
     private Intersection intersection;
-
+    public void modifierlivreurs(ArrayList<Livreur> livreursListe) {
+        livreurs = new String[livreursListe.size()];
+        for(int i=0;i<livreursListe.size();i++){
+            livreurs[i]=livreursListe.get(i).obtenirId()+";"+livreursListe.get(i).obtenirNom();
+        }
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( livreurs );
+        textLivreur.setModel(model);
+    }
     public Intersection obtenirIntersection() {
         return intersection;
     }
@@ -63,6 +74,9 @@ public class Creation {
     }
 
     public void init() {
+        for(int i=0;i<8;i++){
+        
+        }
         // Définir les propriétés des composants
         btnCreerLivraison = creerBouton("Creer");
         textIntersection.setFont(font);

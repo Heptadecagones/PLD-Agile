@@ -61,7 +61,7 @@ public class Controleur {
                 if ("Creer".equals(command)) {
                     planLivraison.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),
                             view.obtenirCarte().obtenirFenetreCreation().obtenirIntersection(),
-                            view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur());
+                            view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur().split(";")[0]);
                     System.out.println("Creer cliqué");
                 }
             }
