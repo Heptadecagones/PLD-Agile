@@ -78,7 +78,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
     private final int DIAMETRE_INTERSECTION = 2;
     private final int DIAMETRE_ENTREPOT = 12;
-    private final int DIAMETRE_CHOIX_INTERSECTION = 10;
+    private final int DIAMETRE_CHOIX_INTERSECTION = 6;
     private final int DIAMETRE_DEST_LIVRIAISON = 10;
 
     private final int MAX_LIVREUR = 100; // OBTIENT CE NOMBRE DEPUIS LE MODELE
@@ -192,27 +192,30 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     /**
      * @param sourisX
      * @param sourisY
-     * @param maxDistance : La distance maximale de l'intersection la plus proche
+     * @param maxDistance : La distance maximale acceptable
      * @return : L'intersection la plus proche de la souris
      */
-    public Intersection chercherIntersectionProche(int sourisX, int sourisY, int maxDistance) {
+    public Intersection chercherIntersectionProche(int sourisX, int sourisY, double maxDistance) {
         Intersection intersectionProche = new Intersection();
         if (!listeIntersection.isEmpty()) {
-            ArrayList<Point2D> points = new ArrayList<>();
             for (Intersection intersection : listeIntersection) {
                 Point2D point = convertirLatLong(intersection);
-                points.add(point);
-            }
 
-            for (int i = 0; i < points.size(); i++) {
-                int coordX = REMBOURRAGE + (int) ((points.get(i).getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
-                int coordY = REMBOURRAGE + (int) ((points.get(i).getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+                int coordX = REMBOURRAGE + (int) ((point.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                int coordY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+                Point2D pointEcran = new Point2D.Double(coordX, coordY);
 
-                if ((Math.abs(sourisX - coordX) + Math.abs(sourisY - coordY)) < maxDistance) {
-                    maxDistance = (Math.abs(sourisX - coordX) + Math.abs(sourisY - coordY));
-                    intersectionProche = listeIntersection.get(i);
+                // Prends en compte le zoom de la carte
+                Point2D pointEcranZoom = new Point2D.Double();
+                atCarte.transform(pointEcran, pointEcranZoom);
+
+                if ( (Math.abs(sourisX - pointEcranZoom.getX()) + Math.abs(sourisY - pointEcranZoom.getY())) < maxDistance*zoomFactor) {
+                    maxDistance = (Math.abs(sourisX - pointEcranZoom.getX()) + Math.abs(sourisY - pointEcranZoom.getY())) / zoomFactor;
+                    intersectionProche = intersection;
                 }
             }
+
+            System.out.println("maxDistance = " + maxDistance);
         }
         
         return intersectionProche;
@@ -224,7 +227,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
      * @param maxDistance : La distance maximale acceptable
      * @return : La rue le plus proche a la souris
      */
-    public Segment recupererRue(int sourisX, int sourisY, int maxDistance) {
+    public Segment recupererRue(int sourisX, int sourisY, double maxDistance) {
         Segment rue = new Segment();
         Intersection intersectionProche = chercherIntersectionProche(sourisX, sourisY, maxDistance);
 
@@ -236,12 +239,16 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 int coordDestX = REMBOURRAGE
                         + (int) ((point.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int coordDestY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+                Point2D pointEcran = new Point2D.Double(coordDestX, coordDestY);
 
-                if ((Math.abs(sourisX - coordDestX) + Math.abs(sourisY - coordDestY)) < maxDistance) {
+                // Prends en compte le zoom de la carte
+                Point2D pointEcranZoom = new Point2D.Double();
+                atCarte.transform(pointEcran, pointEcranZoom);
+
+                if ( (Math.abs(sourisX - pointEcranZoom.getX()) + Math.abs(sourisY - pointEcranZoom.getX())) < maxDistance*zoomFactor) {
                     rue = segment;
-                    maxDistance = (Math.abs(sourisX - coordDestX) + Math.abs(sourisY - coordDestY));
+                    maxDistance = (Math.abs(sourisX - pointEcranZoom.getX()) + Math.abs(sourisY - pointEcranZoom.getX())) / zoomFactor;
                 }
-
             }
         }
 
@@ -386,7 +393,6 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
 
         if (entrepot.obtenirId() != null) {
-            //System.out.println(entrepot.toString());
             Point2D cordEntrepot = convertirLatLong(entrepot);
             int entrCordX = REMBOURRAGE + (int) ((cordEntrepot.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
             int entrCordY = REMBOURRAGE + (int) ((cordEntrepot.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
@@ -417,7 +423,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
             int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
             int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
-            System.out.println("intersection proche = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
+            //System.out.println("intersection proche = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
             g2d.setColor(couleurChoixIntersection);
             g2d.fillOval(cordChoixIntersectionX-DIAMETRE_CHOIX_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_CHOIX_INTERSECTION/2, DIAMETRE_CHOIX_INTERSECTION, DIAMETRE_CHOIX_INTERSECTION);
         }
@@ -493,28 +499,25 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
         // chercher l'Intersection plus proche
-        /*int sourisX = e.getX();
+        int sourisX = e.getX();
         int sourisY = e.getY();
 
-        int maxDistance = 20;
+        double maxDistance = 20.0;
         
         choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
 
         if (choixIntersection.obtenirId() != null) {
-            System.out.println("nouvelleLivraison cliqué");
-
             fenetreCreation.setIntersection(choixIntersection);
             fenetreCreation.ouvrir();
-        }*/
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         released = false;
         startPoint = MouseInfo.getPointerInfo().getLocation();
-        //repaint();
+        repaint();
     }
 
     @Override
