@@ -40,7 +40,11 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
      */
     private int largeur = 650;
     private int hauteur = 650;
+    private Livraison livraisonClickee;
 
+    public void modifierLivraisonClickee(Livraison l){
+        livraisonClickee=l;
+    }
     public int obtenirLargeur() {
         return largeur;
     }
@@ -151,16 +155,18 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         // Init les couleurs de la route pour chaque livreur
         for (int i = 0; i < MAX_LIVREUR; ++i) {
             double total_coulour = 0 ;
-            int rouge;
-            int vert;
-            int bleu;
+            int check_white;
+            int rouge ;
+            int vert ;
+            int bleu ;
            
             do{
             rouge = Math.abs((int)(Math.random()*255));
             vert = Math.abs((int)(Math.random()*255));
             bleu = Math.abs((int)(Math.random()*255));
+            check_white = rouge + vert + bleu;
             total_coulour = 0.3*rouge + 0.59*vert + 0.11*bleu;}
-            while(total_coulour < 128.0);
+            while(total_coulour < 128.0 && check_white >= 763 );
 
             tabCouleurLivreur[i] = new Color(rouge, vert, bleu);
         }
@@ -376,7 +382,14 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                         }
                     }
                 }
-                
+                if(livraisonClickee!=null){
+                    for (Segment s : livraisonClickee.obtenirLivreur().obtenirTournee().obtenirListeSegment()){
+                            if (segment == s) {
+                                g2d.setColor(Color.RED);
+                                g2d.setStroke(new BasicStroke(5));
+                                break;
+                            }
+                    }}
                 // rue survole par la souris
                 if (segment == rueSurvole) {
                     g2d.setColor(couleurRueSurvole);
@@ -434,6 +447,16 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
             //System.out.println("intersection proche = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
             g2d.setColor(couleurChoixIntersection);
+            g2d.fillOval(cordChoixIntersectionX-DIAMETRE_CHOIX_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_CHOIX_INTERSECTION/2, DIAMETRE_CHOIX_INTERSECTION, DIAMETRE_CHOIX_INTERSECTION);
+        }
+        if (livraisonClickee != null) {
+            Point2D cordChoixIntersection = convertirLatLong(livraisonClickee.obtenirLieu());
+            g2d.setColor(Color.YELLOW);
+            int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+            int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+
+            System.out.println("cord = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
+            //g2d.setColor(couleurChoixIntersection);
             g2d.fillOval(cordChoixIntersectionX-DIAMETRE_CHOIX_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_CHOIX_INTERSECTION/2, DIAMETRE_CHOIX_INTERSECTION, DIAMETRE_CHOIX_INTERSECTION);
         }
     }

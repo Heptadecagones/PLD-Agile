@@ -57,10 +57,10 @@ public class PlanLivraison extends Observable {
         this.plan = new Plan();
         this.plan.init();
         this.listeLivreur = new ArrayList<Livreur>();
-        this.listeLivreur.add(new Livreur(0));
-        this.listeLivreur.add(new Livreur(1));
-        this.listeLivreur.add(new Livreur(2));
-        this.listeLivreur.add(new Livreur(3));
+        this.listeLivreur.add(new Livreur(0,"Jean Jean"));
+        this.listeLivreur.add(new Livreur(1,"Hervé Lapin"));
+        this.listeLivreur.add(new Livreur(2,"Jeanne-Annick Al-Pohou"));
+        this.listeLivreur.add(new Livreur(3,"Bertrand Turpin"));
     }
 
     public ArrayList<Livreur> obtenirListeLivreur() {
