@@ -86,7 +86,7 @@ public class Creation {
         textHoraire.setFont(font);
         textLivreur.setFont(font);
 
-        // Ajouter des composants dans la fenêtre
+        // Ajouter des composants
         JPanel panelMere = new JPanel();
         panelMere.setLayout(new BoxLayout(panelMere, BoxLayout.Y_AXIS));
 

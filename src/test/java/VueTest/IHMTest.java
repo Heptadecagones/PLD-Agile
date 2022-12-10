@@ -39,6 +39,6 @@ public class IHMTest {
         c.view.obtenirCarte().obtenirFenetreCreation().obtenirBtnCreerLivraison().doClick();
 
         assertTrue(c.planLivraison.obtenirListeLivreur().get(0).obtenirLivraisons().size() == 1);
-
+        
     }
 }
