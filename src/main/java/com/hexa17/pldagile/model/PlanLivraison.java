@@ -22,7 +22,7 @@ public class PlanLivraison extends Observable {
 
     private ArrayList<Livreur> listeLivreur;
     private Plan plan;
-    private final Solveur solveur;
+    private Solveur solveur;
 
     // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
     public void nouvelleLivraison(String horaire, Intersection intersection, int numLivreur) {
@@ -69,19 +69,21 @@ public class PlanLivraison extends Observable {
     }
 
     public PlanLivraison() {
-        this.plan = null; 
+        this.plan = null;
+        this.solveur = null; 
         this.listeLivreur = new ArrayList<Livreur>();
         this.listeLivreur.add(new Livreur(0));
         this.listeLivreur.add(new Livreur(1));
         this.listeLivreur.add(new Livreur(2));
         this.listeLivreur.add(new Livreur(3));
-        this.solveur = new Solveur();
     }
 
     public void initPlan(String cheminXml) {
         PlanUsine pf = new PlanUsine();
         pf.chargerXML(cheminXml);
         this.plan = pf.construirePlan();
+        this.solveur = new Solveur(plan);
+
         this.setChanged();
         this.notifyObservers();
 
@@ -101,7 +103,7 @@ public class PlanLivraison extends Observable {
         this.listeLivreur.add(new Livreur(2));
         this.listeLivreur.add(new Livreur(3));
 
-        this.solveur = new Solveur();
+        this.solveur = new Solveur(this.plan);
         // On calcul l'arborescence de l'entrepôt avant d'ajouter des livraisons
         solveur.calculerArborescenceDepuisNoeud(this.plan.obtenirEntrepot());
     }

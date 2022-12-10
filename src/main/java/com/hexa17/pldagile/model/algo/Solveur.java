@@ -20,10 +20,6 @@ public class Solveur {
 
     Graphe graphe;
 
-    public Solveur() {
-        assert (false); // Fait crash le programme (cela évite qu'on construire un DA vide)
-    }
-
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
     // public DijkstraAlgo(Plan plan, Livreur livreur) {
     public Solveur(Graphe graphe) {
@@ -87,7 +83,8 @@ public class Solveur {
     public void calculerArborescenceDepuisNoeud(Noeud noeud) {
 
         // On ne calcule une arborescence qu'une fois
-        if(noeud.obtenirArborescence() != null) return;
+        if (noeud.obtenirArborescence() != null)
+            return;
 
         // Rq : Lien est un équivalent de Pair<ArrayList<Segment>, Double>,
         // voir classe Lien pour les méthodes
@@ -178,14 +175,14 @@ public class Solveur {
         Map<Noeud, Map<Noeud, Lien>> grapheArborescence = new HashMap<Noeud, Map<Noeud, Lien>>();
         Map<Noeud, Lien> tempArborescence;
         /* Récupération des liens entre les noeuds cibles */
-        for(Noeud noeudTraite : noeudsCibles) {
+        for (Noeud noeudTraite : noeudsCibles) {
             tempArborescence = new HashMap<Noeud, Lien>();
-            //FIXME arboNoeudTraite est null lorsqu'on crée une livraison
+            // FIXME arboNoeudTraite est null lorsqu'on crée une livraison
             Map<Noeud, Lien> arboNoeudTraite = noeudTraite.obtenirArborescence();
             ArrayList<Noeud> autreNoeuds = new ArrayList<Noeud>();
             autreNoeuds.addAll(noeudsCibles);
             autreNoeuds.remove(noeudTraite);
-            for(Noeud n : autreNoeuds) {
+            for (Noeud n : autreNoeuds) {
                 tempArborescence.put(n, arboNoeudTraite.get(n));
             }
             grapheArborescence.put(noeudTraite, tempArborescence);
