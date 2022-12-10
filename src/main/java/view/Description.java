@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Dimension;
 import java.awt.BorderLayout;
 
 import java.util.Observable;
@@ -9,7 +8,6 @@ import java.util.Observer;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.TitledBorder;
 
 import model.Livreur;
 import model.PlanLivraison;

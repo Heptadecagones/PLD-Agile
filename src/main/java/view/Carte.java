@@ -75,20 +75,22 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
     // L'intersection la plus proche cliqué par la souris
     private Intersection choixIntersection = new Intersection();
+    // La rue la plus proche survole par la souris
+    private Segment rueSurvole = new Segment();
 
     private final int DIAMETRE_INTERSECTION = 2;
     private final int DIAMETRE_ENTREPOT = 12;
     private final int DIAMETRE_CHOIX_INTERSECTION = 6;
     private final int DIAMETRE_DEST_LIVRIAISON = 10;
 
-    private final int MAX_LIVREUR = 100; // OBTIENT CE NOMBRE DEPUIS LE MODELE
+    private final int MAX_LIVREUR = 30; // OBTIENT CE NOMBRE DEPUIS LE MODELE
     // La liste de couleur pour la route de livreur
     private Color[] tabCouleurLivreur = new Color[MAX_LIVREUR];
 
     private final Color couleurEntrepot = Color.RED;
     private final Color couleurIntersection = Color.BLUE;
     private final Color couleurChoixIntersection = Color.GREEN;
-
+    private final Color couleurRueSurvole = Color.MAGENTA;
 
     // Attribut pour zoomer et glisser la carte
     AffineTransform atCarte = new AffineTransform();
@@ -225,14 +227,14 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
                 int coordX = REMBOURRAGE + (int) ((point.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int coordY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
-                Point2D pointEcran = new Point2D.Double(coordX, coordY);
+                Point2D pointCarte = new Point2D.Double(coordX, coordY);
 
                 // Prends en compte le zoom de la carte
-                Point2D pointEcranZoom = new Point2D.Double();
-                atCarte.transform(pointEcran, pointEcranZoom);
+                Point2D pointCarteZoom = new Point2D.Double();
+                atCarte.transform(pointCarte, pointCarteZoom);
 
-                if ( (Math.abs(sourisX - pointEcranZoom.getX()) + Math.abs(sourisY - pointEcranZoom.getY())) < maxDistance*zoomFactor) {
-                    maxDistance = (Math.abs(sourisX - pointEcranZoom.getX()) + Math.abs(sourisY - pointEcranZoom.getY())) / zoomFactor;
+                if ( (Math.abs(sourisX - pointCarteZoom.getX()) + Math.abs(sourisY - pointCarteZoom.getY())) < maxDistance*zoomFactor) {
+                    maxDistance = (Math.abs(sourisX - pointCarteZoom.getX()) + Math.abs(sourisY - pointCarteZoom.getY())) / zoomFactor;
                     intersectionProche = intersection;
                 }
             }
@@ -249,26 +251,34 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
      */
     public Segment recupererRue(int sourisX, int sourisY, double maxDistance) {
         Segment rue = new Segment();
-        Intersection intersectionProche = chercherIntersectionProche(sourisX, sourisY, maxDistance);
+        if (!listeSegment.isEmpty()) {
+            for (Segment segment : listeSegment) {
+                Point2D origine = convertirLatLong(segment.obtenirOrigine());
+                Point2D destination = convertirLatLong(segment.obtenirDestination());
 
-        if (intersectionProche.obtenirListeSegmentOrigine() != null) {
-            for (Segment segment : intersectionProche.obtenirListeSegmentOrigine()) {
-                Intersection destination = segment.obtenirDestination();
-                Point2D point = convertirLatLong(destination);
+                int origineCordX = REMBOURRAGE
+                    + (int) ((origine.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                int origineCordY = REMBOURRAGE
+                    + (int) ((origine.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
-                int coordDestX = REMBOURRAGE
-                        + (int) ((point.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
-                int coordDestY = REMBOURRAGE 
-                        + (int) ((point.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
-                Point2D pointEcran = new Point2D.Double(coordDestX, coordDestY);
+                int destinationCordX = REMBOURRAGE
+                    + (int) ((destination.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                int destinationCordY = REMBOURRAGE
+                    + (int) ((destination.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+
+                Point2D origineCarte = new Point2D.Double(origineCordX, origineCordY);
+                Point2D destinationCarte = new Point2D.Double(destinationCordX, destinationCordY);
 
                 // Prends en compte le zoom de la carte
-                Point2D pointEcranZoom = new Point2D.Double();
-                atCarte.transform(pointEcran, pointEcranZoom);
+                Point2D origineCarteZoom = new Point2D.Double();
+                Point2D destinationCarteZoom = new Point2D.Double();
 
-                if ( (Math.abs(sourisX - pointEcranZoom.getX()) + Math.abs(sourisY - pointEcranZoom.getY())) < maxDistance*zoomFactor) {
+                atCarte.transform(origineCarte, origineCarteZoom);
+                atCarte.transform(destinationCarte, destinationCarteZoom);
+
+                if (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY()) < maxDistance*zoomFactor) {
                     rue = segment;
-                    maxDistance = (Math.abs(sourisX - pointEcranZoom.getX()) + Math.abs(sourisY - pointEcranZoom.getY())) / zoomFactor;
+                    maxDistance = (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY())) / zoomFactor;
                 }
             }
         }
@@ -343,14 +353,14 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 Point2D destination = convertirLatLong(segment.obtenirDestination());
 
                 int origineCordX = REMBOURRAGE
-                + (int) ((origine.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                    + (int) ((origine.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int origineCordY = REMBOURRAGE
-                + (int) ((origine.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+                    + (int) ((origine.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 int destinationCordX = REMBOURRAGE
-                + (int) ((destination.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                    + (int) ((destination.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int destinationCordY = REMBOURRAGE
-                + (int) ((destination.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+                    + (int) ((destination.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
                 
                 g2d.setColor(Color.BLACK);
                 g2d.setStroke(new BasicStroke(1));
@@ -367,7 +377,12 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                     }
                 }
                 
-                g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);   
+                // rue survole par la souris
+                if (segment == rueSurvole) {
+                    g2d.setColor(couleurRueSurvole);
+                    g2d.setStroke(new BasicStroke(3));
+                }
+                g2d.drawLine(origineCordX, origineCordY, destinationCordX, destinationCordY);
             }
         }
 
@@ -448,6 +463,41 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         return (new Point2D.Double(x, y));
     }
 
+    // La distance le plus courte d'un point à un point de droite (x0, y0) à un segment de droite composé de deux points (x1, y1), (x2, y2)
+    private double distancePointSegment(double x0, double y0, double x1, double y1, double x2, double y2) {
+        double space = 0;
+        double a, b, c;
+        a = lineSpace(x1, y1, x2, y2); // la longueur du segment
+        b = lineSpace(x1, y1, x0, y0); // la distance de (x0,y0) et (x1, y1)
+        c = lineSpace(x2, y2, x0, y0); // la distance de (x0,y0) et (x2, y2)
+        if (c <= 0.000001 || b <= 0.000001) {
+            space = 0;
+            return space;
+        }
+        if (a <= 0.000001) {
+            space = b;
+            return space;
+        }
+        if (c * c >= a * a + b * b) {
+            space = b;
+            return space;
+        }
+        if (b * b >= a * a + c * c) {
+            space = c;
+            return space;
+        }
+        double p = (a + b + c) / 2; // demi-circonférence
+        double s = Math.sqrt(p * (p-a) * (p-b) * (p-c)); // Formule de Héron pour calculer l'aire de triangle
+        space = 2 * s / a; // la distance du point à la ligne
+        return space;
+    }
+
+    // Calculate the distance between two points
+    private double lineSpace(double x1, double y1, double x2, double y2) {
+        double lineLength = 0;
+        lineLength = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+        return lineLength;
+    }
 
 
     @Override
@@ -482,12 +532,13 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         // Afficher le nom de la rue plus proche a la souris sur la carte
         int sourisX = e.getX();
         int sourisY = e.getY();
-        
-        String rue = recupererRue(sourisX, sourisY, 20.0).obtenirNom();
-        //System.out.println(rue);
-        if (rue != null) {
-            System.out.println(rue);
+        double maxDistance = 50.0;
+
+        rueSurvole = recupererRue(sourisX, sourisY, maxDistance);
+        if (rueSurvole.obtenirNom() != null) {
+            setToolTipText(rueSurvole.obtenirNom());
         }
+        repaint();
     }
 
     @Override
