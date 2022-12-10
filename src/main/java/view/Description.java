@@ -10,6 +10,7 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,7 +35,7 @@ public class Description extends JPanel implements Observer {
      */
     JTextArea descText;
     JScrollPane scrollPane;
-
+    private JLabel chargement=new JLabel("CHARGEMENT");
     JPanel panelbtnLivraison;
     ArrayList<JButton> btnLivraison = new ArrayList<JButton>();
     DefaultListModel btnName = new DefaultListModel();
@@ -48,7 +49,9 @@ public class Description extends JPanel implements Observer {
 
     public Description() {
     }
-
+    public JLabel obtenirChargement() {
+        return chargement;
+    }
     public void init(){
    
         final JList btnList = new JList(btnName);
@@ -58,6 +61,7 @@ public class Description extends JPanel implements Observer {
   
         JScrollPane btnListScrollPane = new JScrollPane(btnList);  
         btnListScrollPane.setPreferredSize(new Dimension(200, 200));
+        add(chargement);
         add(btnListScrollPane);       
         btnList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {

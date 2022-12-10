@@ -74,6 +74,7 @@ public class IHM {
         panel.add(barre);
 
         carte = new Carte();
+        
         panel.add(carte);
 
         description = new Description();

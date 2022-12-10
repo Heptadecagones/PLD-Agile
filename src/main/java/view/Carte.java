@@ -19,6 +19,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
+
 import javax.swing.JPanel;
 
 import model.Intersection;
@@ -41,14 +42,12 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private int largeur = 650;
     private int hauteur = 650;
     private Livraison livraisonClickee;
-
     public void modifierLivraisonClickee(Livraison l){
         livraisonClickee=l;
     }
     public int obtenirLargeur() {
         return largeur;
     }
-
     public void modifierLargeur(int largeur) {
         this.largeur = largeur;
     }
@@ -128,6 +127,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         
         initDonnee();
         
+
         addMouseWheelListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -215,8 +215,8 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
             diffX = maxX - minX;
             diffY = maxY - minY;
         }
-
         repaint();
+        
     }
 
     
