@@ -12,13 +12,17 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.TitledBorder;
+
+import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
 
 import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
-import java.awt.event.MouseEvent;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
+
 /**
  *
  * @author Equipe IHM
@@ -29,7 +33,8 @@ public class Description extends JPanel implements Observer {
     /**
      * Tous les composants
      */
-    private JLabel chargement=new JLabel("CHARGEMENT");
+    //private JLabel chargement=new JLabel("CHARGEMENT");
+    private TitledBorder chargement = new TitledBorder("CHARGEMENT");
     JPanel panelbtnLivraison;
     ArrayList<JButton> btnLivraison = new ArrayList<JButton>();
     DefaultListModel btnName = new DefaultListModel();
@@ -41,19 +46,22 @@ public class Description extends JPanel implements Observer {
 
     public Description() {
     }
-    public JLabel obtenirChargement() {
+
+    public TitledBorder obtenirChargement() {
         return chargement;
     }
     public void init() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        //setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(chargement);
+        setLayout(new BorderLayout());
         final JList btnList = new JList(btnName);
         btnList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         btnList.setSelectedIndex(0);
         //btnList.setVisibleRowCount(3);
   
         JScrollPane btnListScrollPane = new JScrollPane(btnList);  
-        btnListScrollPane.setPreferredSize(new Dimension(200, 200));
-        add(chargement);
+        //btnListScrollPane.setPreferredSize(new Dimension(200, 200));
+        //add(chargement);
         add(btnListScrollPane);
         
         btnList.addMouseListener(new MouseAdapter() {

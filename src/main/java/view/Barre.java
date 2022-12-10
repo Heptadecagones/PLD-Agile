@@ -77,7 +77,7 @@ public class Barre extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1;
-        gbc.insets = new Insets(15,5,15,5);
+        gbc.insets = new Insets(15,5,15, 0);
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = GridBagConstraints.REMAINDER;

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class Creation {
     private String livreurs[];
     private JFrame f = new JFrame("Ajout Livraison");
 
-    private JTextArea textIntersection = new JTextArea(10, 20);
+    private JTextArea textIntersection = new JTextArea(5, 15);
     private JScrollPane defilerTextIntersection = new JScrollPane(textIntersection);
     private JComboBox textHoraire = new JComboBox(horaires);
     private JComboBox textLivreur = new JComboBox();
@@ -85,6 +86,7 @@ public class Creation {
         textIntersection.setEditable(false);
         textHoraire.setFont(font);
         textLivreur.setFont(font);
+        btnCreerLivraison.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Ajouter des composants
         JPanel panelMere = new JPanel();
