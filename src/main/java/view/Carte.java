@@ -107,8 +107,10 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private int xDiff = 0;
     private int yDiff = 0;
     private Point startPoint;
-
-
+    private Description description;
+    public void modifierDescription(Description d){
+        this.description=d;
+    }
     @Override
     // Garantie la carree de la carte
     public Dimension getPreferredSize() {
@@ -574,7 +576,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         double maxDistance = 20.0;
         
         choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
-
+        this.description.surlignerLivraison(choixIntersection);
         if (choixIntersection.obtenirId() != null) {
             fenetreCreation.setIntersection(choixIntersection);
             fenetreCreation.ouvrir();
