@@ -81,7 +81,7 @@ public class IHM {
         description.init();
         description.modifierCarte(carte);
         panel.add(description);
-
+        
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);

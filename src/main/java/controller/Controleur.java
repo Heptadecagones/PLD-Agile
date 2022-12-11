@@ -59,12 +59,12 @@ public class Controleur {
                     }
                 }
                 if ("Creer".equals(command)) {
-                    view.obtenirDescription().obtenirChargement().setTitle("chargement");
+                    //view.obtenirDescription().modifierTitle("Chargement");
                     planLivraison.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),
                             view.obtenirCarte().obtenirFenetreCreation().obtenirIntersection(),
                             view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur().split(";")[0]);
                     System.out.println("Creer cliqué");
-                    view.obtenirDescription().obtenirChargement().setTitle("fin");
+                    view.obtenirDescription().modifierTitle("Fin");
                 }
             }
         };

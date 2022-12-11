@@ -39,25 +39,13 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     /**
      * La taille du panneau
      */
-    private int largeur = 650;
-    private int hauteur = 650;
+    private int largeur;
+    private int hauteur;
+
+
     private Livraison livraisonClickee;
     public void modifierLivraisonClickee(Livraison l){
         livraisonClickee=l;
-    }
-    public int obtenirLargeur() {
-        return largeur;
-    }
-    public void modifierLargeur(int largeur) {
-        this.largeur = largeur;
-    }
-
-    public int obtenirHauteur() {
-        return hauteur;
-    }
-
-    public void modifierHauteur(int hauteur) {
-        this.hauteur = hauteur;
     }
 
     /**
@@ -81,13 +69,12 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     // La rue la plus proche survole par la souris
     private Segment rueSurvole = new Segment();
 
-    private final int DIAMETRE_INTERSECTION = 2;
+    private final int DIAMETRE_INTERSECTION_DEFAULT = 2; // diamètre par default
+    private final int DIAMETRE_INTERSECTION = 10; // diamètre dans tous les scénarios sauf default
     private final int DIAMETRE_ENTREPOT = 12;
-    private final int DIAMETRE_CHOIX_INTERSECTION = 6;
-    private final int DIAMETRE_DEST_LIVRIAISON = 10;
 
     private final int MAX_LIVREUR = 30; // OBTIENT CE NOMBRE DEPUIS LE MODELE
-    // La liste de couleur pour la route de livreur
+    // La liste de couleur pour les tournées
     private Color[] tabCouleurLivreur = new Color[MAX_LIVREUR];
 
     private final Color couleurEntrepot = Color.RED;
@@ -97,8 +84,9 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
     // Attribut pour zoomer et glisser la carte
     AffineTransform atCarte = new AffineTransform();
-    private double zoomFactor = 1;
-    private double prevZoomFactor = 1;
+    private final double maxZoomFacteur = 5.0;
+    private double zoomFacteur = 1.0;
+    private double prevZoomFacteur = 1.0;
     private boolean zoomer = false;
     private boolean dragger = false;
     private boolean released = false;
@@ -174,8 +162,8 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
         // Init les donnees pour le zoom
         atCarte = new AffineTransform();
-        zoomFactor = 1;
-        prevZoomFactor = 1;
+        zoomFacteur = 1;
+        prevZoomFacteur = 1;
         zoomer = false;
         dragger = false;
         released = false;
@@ -240,8 +228,8 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 Point2D pointCarteZoom = new Point2D.Double();
                 atCarte.transform(pointCarte, pointCarteZoom);
 
-                if ( (Math.abs(sourisX - pointCarteZoom.getX()) + Math.abs(sourisY - pointCarteZoom.getY())) < maxDistance*zoomFactor) {
-                    maxDistance = (Math.abs(sourisX - pointCarteZoom.getX()) + Math.abs(sourisY - pointCarteZoom.getY())) / zoomFactor;
+                if ( (Math.abs(sourisX - pointCarteZoom.getX()) + Math.abs(sourisY - pointCarteZoom.getY())) < maxDistance*zoomFacteur) {
+                    maxDistance = (Math.abs(sourisX - pointCarteZoom.getX()) + Math.abs(sourisY - pointCarteZoom.getY())) / zoomFacteur;
                     intersectionProche = intersection;
                 }
             }
@@ -283,9 +271,9 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 atCarte.transform(origineCarte, origineCarteZoom);
                 atCarte.transform(destinationCarte, destinationCarteZoom);
 
-                if (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY()) < maxDistance*zoomFactor) {
+                if (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY()) < maxDistance*zoomFacteur) {
                     rue = segment;
-                    maxDistance = (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY())) / zoomFactor;
+                    maxDistance = (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY())) / zoomFacteur;
                 }
             }
         }
@@ -320,21 +308,21 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
             double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
             double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
 
-            double zoomDiv = zoomFactor / prevZoomFactor;
+            double zoomDiv = zoomFacteur / prevZoomFacteur;
 
             xOffset = (zoomDiv) * (xOffset) + (1 - zoomDiv) * xRel;
             yOffset = (zoomDiv) * (yOffset) + (1 - zoomDiv) * yRel;
 
             at.translate(xOffset, yOffset);
-            at.scale(zoomFactor, zoomFactor);
+            at.scale(zoomFacteur, zoomFacteur);
 
-            prevZoomFactor = zoomFactor;
+            prevZoomFacteur = zoomFacteur;
             g2d.transform(at);
             zoomer = false;
         } else if (dragger) {
             AffineTransform at = new AffineTransform();
             at.translate(xOffset + xDiff, yOffset + yDiff);
-            at.scale(zoomFactor, zoomFactor);
+            at.scale(zoomFacteur, zoomFacteur);
 
             g2d.transform(at);
 
@@ -390,7 +378,8 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                                 g2d.setStroke(new BasicStroke(5));
                                 break;
                             }
-                    }}
+                    }
+                }
                 // rue survole par la souris
                 if (segment == rueSurvole) {
                     g2d.setColor(couleurRueSurvole);
@@ -410,8 +399,8 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 int coordX = REMBOURRAGE + (int) ((point.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int coordY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
-                g2d.fillOval(coordX - DIAMETRE_INTERSECTION / 2, coordY - DIAMETRE_INTERSECTION / 2,
-                        DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
+                g2d.fillOval(coordX - DIAMETRE_INTERSECTION_DEFAULT / 2, coordY - DIAMETRE_INTERSECTION_DEFAULT / 2,
+                    DIAMETRE_INTERSECTION_DEFAULT, DIAMETRE_INTERSECTION_DEFAULT);
             }
         }
 
@@ -434,11 +423,20 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
                 //System.out.println("temps de livraison: "+s.obtenirPlageHoraire());
                 g2d.setColor(couleurIntersection);
-                g2d.fillOval(livrCordX - DIAMETRE_DEST_LIVRIAISON / 2, livrCordY - DIAMETRE_DEST_LIVRIAISON / 2,
-                        DIAMETRE_DEST_LIVRIAISON, DIAMETRE_DEST_LIVRIAISON);
+                g2d.fillOval(livrCordX - DIAMETRE_INTERSECTION / 2, livrCordY - DIAMETRE_INTERSECTION / 2,
+                    DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
             }
         }
 
+        if (livraisonClickee != null) {
+            Point2D cordChoixIntersection = convertirLatLong(livraisonClickee.obtenirLieu());
+            g2d.setColor(Color.YELLOW);
+            int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+            int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+
+            //System.out.println("cord = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
+            g2d.fillOval(cordChoixIntersectionX-DIAMETRE_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_INTERSECTION/2, DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
+        }
 
         if (choixIntersection.obtenirId() != null) {
             Point2D cordChoixIntersection = convertirLatLong(choixIntersection);
@@ -448,17 +446,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
             //System.out.println("intersection proche = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
             g2d.setColor(couleurChoixIntersection);
-            g2d.fillOval(cordChoixIntersectionX-DIAMETRE_CHOIX_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_CHOIX_INTERSECTION/2, DIAMETRE_CHOIX_INTERSECTION, DIAMETRE_CHOIX_INTERSECTION);
-        }
-        if (livraisonClickee != null) {
-            Point2D cordChoixIntersection = convertirLatLong(livraisonClickee.obtenirLieu());
-            g2d.setColor(Color.YELLOW);
-            int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
-            int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
-
-            System.out.println("cord = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
-            //g2d.setColor(couleurChoixIntersection);
-            g2d.fillOval(cordChoixIntersectionX-DIAMETRE_CHOIX_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_CHOIX_INTERSECTION/2, DIAMETRE_CHOIX_INTERSECTION, DIAMETRE_CHOIX_INTERSECTION);
+            g2d.fillOval(cordChoixIntersectionX-DIAMETRE_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_INTERSECTION/2, DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
         }
     }
 
@@ -531,12 +519,15 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
         //Zoom in
         if (e.getWheelRotation() < 0) {
-            zoomFactor *= cstZoom;
+            if (zoomFacteur * cstZoom <= maxZoomFacteur) {
+                zoomFacteur *= cstZoom;
+            }
+
             repaint();
         }
         //Zoom out
         if (e.getWheelRotation() > 0) {
-            zoomFactor /= cstZoom;
+            zoomFacteur /= cstZoom;
             repaint();
         }
     }

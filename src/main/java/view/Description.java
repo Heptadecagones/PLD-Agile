@@ -33,11 +33,12 @@ public class Description extends JPanel implements Observer {
     /**
      * Tous les composants
      */
-    //private JLabel chargement=new JLabel("CHARGEMENT");
-    private TitledBorder chargement = new TitledBorder("CHARGEMENT");
+    private TitledBorder chargement = new TitledBorder("Chargement");
     JPanel panelbtnLivraison;
     ArrayList<JButton> btnLivraison = new ArrayList<JButton>();
     DefaultListModel btnName = new DefaultListModel();
+    JList btnList;
+    JScrollPane btnListScrollPane;
     private Carte carte;
 
     public void modifierCarte(Carte carte) {
@@ -50,18 +51,21 @@ public class Description extends JPanel implements Observer {
     public TitledBorder obtenirChargement() {
         return chargement;
     }
+
+    public void modifierTitle(String title) {
+        this.chargement.setTitle(title);
+        setBorder(chargement);
+        revalidate();
+    }
     public void init() {
-        //setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(chargement);
         setLayout(new BorderLayout());
-        final JList btnList = new JList(btnName);
+        btnList = new JList(btnName);
         btnList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         btnList.setSelectedIndex(0);
         //btnList.setVisibleRowCount(3);
   
-        JScrollPane btnListScrollPane = new JScrollPane(btnList);  
-        //btnListScrollPane.setPreferredSize(new Dimension(200, 200));
-        //add(chargement);
+        btnListScrollPane = new JScrollPane(btnList);
         add(btnListScrollPane);
         
         btnList.addMouseListener(new MouseAdapter() {
@@ -73,7 +77,7 @@ public class Description extends JPanel implements Observer {
                 carte.modifierLivraisonClickee((Livraison)btnList.getSelectedValue());
                 carte.repaint();
             }
-        }); 
+        });
     }
 
     // Mise à jour des données : Ecriture de la liste des livraisons
