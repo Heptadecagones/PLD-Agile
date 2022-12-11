@@ -3,7 +3,6 @@ package com.hexa17.pldagile.model.algo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -94,7 +93,7 @@ public class Solveur {
         // Rq : Lien est un équivalent de Pair<ArrayList<Segment>, Double>,
         // voir classe Lien pour les méthodes
         Map<Noeud, Lien> arborescence = new HashMap<Noeud, Lien>();
-        Map<Noeud, ArrayList<Segment>> liensEntreNoeuds = graphe.obtenirLiensEntreNoeuds();
+        Map<Noeud, ArrayList<Segment>> liensEntreNoeuds = plan.obtenirLiensEntreNoeuds();
 
         /* Preparation */
         // Sommets "noirs" de l'algo
