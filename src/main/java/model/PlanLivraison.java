@@ -86,13 +86,13 @@ public class PlanLivraison extends Observable {
         return this.plan;
     }
     public void sauvegarder(){
-/* 
+ /* 
         listeIntersection = Intersection.obtenirListeIntersection();
-        listeSegment = planLivraison.obtenirPlan().obtenirListeSegment();
-        entrepot = planLivraison.obtenirPlan().obtenirEntrepot();
+        listeSegment = Segment.obtenirListeSegment();
+        entrepot = entrepot.obtenirEntrepot();
         listeLivreur = planLivraison.obtenirListeLivreur();
-*/
 
+*/
 
         try {
  
