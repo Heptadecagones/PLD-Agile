@@ -66,12 +66,17 @@ public class Controleur {
                     System.out.println("Creer cliqué");
                     view.obtenirDescription().modifierTitle("Fin");
                 }
+                if("Sauvegarder".equals(command)){
+                    planLivraison.sauvegarder();
+                    System.out.println("sauvegarder cliqué");
+                }
             }
         };
 
         this.view.obtenirBarre().obtenirCharger().addActionListener(c);
         this.view.obtenirCarte().obtenirFenetreCreation()
                 .obtenirBtnCreerLivraison().addActionListener(c);
+        this.view.obtenirBarre().obtenirSauvegarder().addActionListener(c);
     }
 
 }
