@@ -164,9 +164,12 @@ public class TabuSearch {
         Map<Integer, Noeud> invPlaces = inverser(places);
         Noeud[] soluce = new Noeud[soluceEnInt.length];
         double heure = horaireMinimale;
-        Noeud noeud = null;
 
-        for (int i = 0; i < soluceEnInt.length; i++) {
+        Noeud noeud = invPlaces.get(soluceEnInt[0]);
+        noeud.modifierHeureLivraison(heure);
+        soluce[0] = noeud;
+
+        for (int i = 1; i < soluceEnInt.length; i++) {
             noeud = invPlaces.get(soluceEnInt[i]);
 
             heure += noeud.obtenirArborescence().get(soluce[i-1]).obtenirPoids()/15000;
