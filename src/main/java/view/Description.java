@@ -97,6 +97,7 @@ public class Description extends JPanel implements Observer {
             if(((Livraison)(btnName.get(k))).obtenirLieu()==intersection){
                 tabIndices[nbSelection]=k;
                 nbSelection++;
+                this.carte.modifierLivraisonClickee((Livraison)(btnName.get(k)));
             }
         }
         int[] select=new int[nbSelection];
