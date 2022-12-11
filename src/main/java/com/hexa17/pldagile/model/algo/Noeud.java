@@ -18,6 +18,7 @@ public class Noeud {
 
     protected String id;
     private int horaireLivraison;
+    private double heureLivraison;
 
     /*
      * A chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
@@ -56,6 +57,16 @@ public class Noeud {
 
     public void modifierArborescence(Map<Noeud, Lien> arbo) {
         this.arborescence = arbo;
+    }
+
+    
+
+    public double obtenirHeureLivraison() {
+        return heureLivraison;
+    }
+
+    public void modifierHeureLivraison(double heureLivraison) {
+        this.heureLivraison = heureLivraison;
     }
 
     @Override

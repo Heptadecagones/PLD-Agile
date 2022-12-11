@@ -8,7 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 import com.hexa17.pldagile.model.Livraison;
+import com.hexa17.pldagile.model.Livreur;
+import com.hexa17.pldagile.model.Plan;
 import com.hexa17.pldagile.model.Segment;
+import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
 
 /**
  *
@@ -18,12 +21,14 @@ import com.hexa17.pldagile.model.Segment;
 // TODO Singleton Design Pattern
 public class Solveur {
 
-    Graphe graphe;
+    Plan plan;
+    ArrayList<Livraison> livraisons;
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
     // public DijkstraAlgo(Plan plan, Livreur livreur) {
-    public Solveur(Graphe graphe) {
-        this.graphe = graphe;
+    public Solveur(Plan plan, Livreur livreur) {
+        this.plan = plan;
+        this.livraisons = livreur.obtenirLivraisons();
     }
 
     /**
@@ -67,7 +72,7 @@ public class Solveur {
      * @param graphePourArbo
      * @param noeudsACalculer
      */
-    public void calculerArborescences(List<Noeud> noeudsACalculer) {
+    public void calculerArborescences(Set<Noeud> noeudsACalculer) {
         // noms à changer, graphe pour arbo pourrait ne pas être utile, voir
         // constructuer
         // noeudsACalculer c'est l'ensemble des noeuds pour lesquels on veut créer
@@ -98,7 +103,7 @@ public class Solveur {
         Set<Noeud> noeudsEnCours = new HashSet<Noeud>();
         // Sommets "blanc" de l'algo
         ArrayList<Noeud> noeudsAExplorer = new ArrayList<Noeud>();
-        noeudsAExplorer.addAll(graphe.obtenirNoeuds());
+        noeudsAExplorer.addAll(plan.obtenirNoeuds());
         noeudsAExplorer.remove(noeud); // On retire en premier le noeud origine
         noeudsEnCours.add(noeud);
 
@@ -166,29 +171,64 @@ public class Solveur {
         noeud.modifierArborescence(arborescence);
     }
 
-    /**
-     * 
-     * @param noeudsCibles
-     * @return
-     */
-    public Map<Noeud, Map<Noeud, Lien>> calculerGrapheSimplifie(ArrayList<Noeud> noeudsCibles) {
-        Map<Noeud, Map<Noeud, Lien>> grapheArborescence = new HashMap<Noeud, Map<Noeud, Lien>>();
-        Map<Noeud, Lien> tempArborescence;
-        /* Récupération des liens entre les noeuds cibles */
-        for (Noeud noeudTraite : noeudsCibles) {
-            tempArborescence = new HashMap<Noeud, Lien>();
-            // FIXME arboNoeudTraite est null lorsqu'on crée une livraison
-            Map<Noeud, Lien> arboNoeudTraite = noeudTraite.obtenirArborescence();
-            ArrayList<Noeud> autreNoeuds = new ArrayList<Noeud>();
-            autreNoeuds.addAll(noeudsCibles);
-            autreNoeuds.remove(noeudTraite);
-            for (Noeud n : autreNoeuds) {
-                tempArborescence.put(n, arboNoeudTraite.get(n));
-            }
-            grapheArborescence.put(noeudTraite, tempArborescence);
+    // /**
+    //  * 
+    //  * @param noeudsCibles
+    //  * @return
+    //  */
+    // public Map<Noeud, Map<Noeud, Lien>> calculerGrapheSimplifie(ArrayList<Noeud> noeudsCibles) {
+    //     Map<Noeud, Map<Noeud, Lien>> grapheArborescence = new HashMap<Noeud, Map<Noeud, Lien>>();
+    //     Map<Noeud, Lien> tempArborescence;
+    //     /* Récupération des liens entre les noeuds cibles */
+    //     for (Noeud noeudTraite : noeudsCibles) {
+    //         tempArborescence = new HashMap<Noeud, Lien>();
+    //         // FIXME arboNoeudTraite est null lorsqu'on crée une livraison
+    //         Map<Noeud, Lien> arboNoeudTraite = noeudTraite.obtenirArborescence();
+    //         ArrayList<Noeud> autreNoeuds = new ArrayList<Noeud>();
+    //         autreNoeuds.addAll(noeudsCibles);
+    //         autreNoeuds.remove(noeudTraite);
+    //         for (Noeud n : autreNoeuds) {
+    //             tempArborescence.put(n, arboNoeudTraite.get(n));
+    //         }
+    //         grapheArborescence.put(noeudTraite, tempArborescence);
+    //     }
+
+    //     /* Suppression des liens entre noeuds d'horaire de livrasion différents */
+    //     return grapheArborescence;
+    // }
+
+
+    public ArrayList<Segment> calculerTournee() {
+        
+        // Calcule le graphe simplifié
+        Set<Noeud> noeuds = new HashSet<>();
+        int minLiv = 99;
+
+        Noeud entrepot = plan.obtenirEntrepot();
+        entrepot.modifierHoraireLivraison(99);
+        entrepot.modifierArborescence(null);
+        entrepot.modifierHeureLivraison(0);
+        noeuds.add(entrepot);
+
+        for (Livraison liv : livraisons) {
+            Noeud noeud = liv.obtenirLieu(); 
+            noeud.modifierArborescence(null);
+            noeud.modifierHeureLivraison(0);
+            noeuds.add(noeud);
+            if (noeud.obtenirHoraireLivraison() < minLiv) minLiv = noeud.obtenirHoraireLivraison();
         }
 
-        /* Suppression des liens entre noeuds d'horaire de livrasion différents */
-        return grapheArborescence;
+        calculerArborescences(noeuds);
+        Graphe grapheSimplifie = new Graphe(noeuds);
+        TabuSearch tabu = new TabuSearch(grapheSimplifie, minLiv);
+        Noeud[] ordreLivraison = tabu.soluceEnNoeuds();
+
+        ArrayList<Segment> tournee = new ArrayList<Segment>();
+
+        // On ajoute les segments dans la tournee
+        for (int i = 0; i < ordreLivraison.length-1; i++) {
+            tournee.addAll(ordreLivraison[i+1].obtenirArborescence().get(ordreLivraison[i]).obtenirChemin());
+        }
+        return tournee;
     }
 }

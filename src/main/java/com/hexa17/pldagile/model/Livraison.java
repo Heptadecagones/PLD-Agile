@@ -7,7 +7,6 @@ package com.hexa17.pldagile.model;
 
 public class Livraison {
 
-    private int plageHoraire;
     private double heureLivraison;
     private Intersection lieu;
     // inutile pour l'instant
@@ -18,20 +17,16 @@ public class Livraison {
     }
 
     public String toString() {
-        String description = "Plage Horaire : " + this.plageHoraire + " lieu : " + this.lieu;
+        String description = "Plage Horaire : " + this.lieu.obtenirHoraireLivraison() + " lieu : " + this.lieu;
         return description;
     }
 
     public Livraison(int horaire, Intersection l, Livreur liv) {
 
-        this.plageHoraire = horaire;
         this.lieu = l;
         this.livreur = liv;
         this.heureLivraison = 0;
-    }
-
-    public int obtenirPlageHoraire() {
-        return plageHoraire;
+        this.lieu.modifierHoraireLivraison(horaire);
     }
 
     public Intersection obtenirLieu() {
@@ -40,10 +35,6 @@ public class Livraison {
 
     public Livreur obtenirLivreur() {
         return livreur;
-    }
-
-    public void modifierPlageHoraire(int plageHoraire) {
-        this.plageHoraire = plageHoraire;
     }
 
     public void modifierLieu(Intersection lieu) {

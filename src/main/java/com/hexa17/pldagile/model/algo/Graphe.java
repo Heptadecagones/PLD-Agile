@@ -44,6 +44,7 @@ public class Graphe {
         this.noeuds = nodes;
     }
 
+
     public Graphe(ArrayList<Intersection> listeIntersection, ArrayList<Segment> listeSegment) {
 
         this.noeuds = new LinkedHashSet<>();

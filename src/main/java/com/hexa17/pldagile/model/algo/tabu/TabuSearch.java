@@ -21,6 +21,7 @@ public class TabuSearch {
     int[] currSolution; // Solution actuelle
     int numberOfIterations; // Nombre maximal d'itérations
     int problemSize; // Taille du problème
+    double horaireMinimale;
 
     private Map<Noeud, Integer> places; // TODO Meilleur nom
 
@@ -29,7 +30,8 @@ public class TabuSearch {
 
     public TabuSearch(Graphe graphe, int minLiv) {
         this.places = new HashMap<>();
-        this.matrix = GrapheVersMatrice(graphe, minLiv);
+        this.horaireMinimale = minLiv;
+        this.matrix = GrapheVersMatrice(graphe);
         this.problemSize = matrix.getEdgeCount();
         this.numberOfIterations = problemSize * 10; // ?
         this.tabuList = new TabuList(problemSize);
@@ -39,7 +41,7 @@ public class TabuSearch {
     }
 
     // @author Thibaut
-    private Matrix GrapheVersMatrice(Graphe graphe, int minLiv) {
+    private Matrix GrapheVersMatrice(Graphe graphe) {
         Set<Noeud> noeuds = graphe.obtenirNoeuds();
         int taille = noeuds.size();
         double[][] preMatrice = new double[taille][taille];
@@ -77,9 +79,9 @@ public class TabuSearch {
                 int destTime = dest.getKey().obtenirHoraireLivraison();
 
                 //TODO bouger le code qui supprime des liens dans grapheTSP
-                if (origTime == 99 && destTime > minLiv) {
-                    continue;
-                } else if (origTime <= destTime) {
+                if (origTime == 99 && destTime > horaireMinimale || origTime >= destTime) {
+                    preMatrice[origID][destID] = Integer.MAX_VALUE;
+                } else {
                     preMatrice[origID][destID] = dest.getValue().obtenirPoids();
                 }
             }
@@ -139,6 +141,7 @@ public class TabuSearch {
         System.out.println("Search done! \nBest Solution cost found = " + bestCost +
                 "\nBest Solution :");
         printSolution(bestSolution);
+
         return bestSolution;
     }
 
@@ -160,9 +163,16 @@ public class TabuSearch {
         // On inverse la Map pour retrouver les noeuds en fonction des entiers
         Map<Integer, Noeud> invPlaces = inverser(places);
         Noeud[] soluce = new Noeud[soluceEnInt.length];
+        double heure = horaireMinimale;
+        Noeud noeud = null;
 
         for (int i = 0; i < soluceEnInt.length; i++) {
-            soluce[i] = invPlaces.get(soluceEnInt[i]);
+            noeud = invPlaces.get(soluceEnInt[i]);
+
+            heure += noeud.obtenirArborescence().get(soluce[i-1]).obtenirPoids()/15000;
+            noeud.modifierHeureLivraison(heure);
+
+            soluce[i] = noeud;
         }
 
         return soluce;

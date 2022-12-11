@@ -1,15 +1,19 @@
 package com.hexa17.pldagile.model;
 
 import java.util.Observable;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import com.hexa17.pldagile.model.algo.Graphe;
 import com.hexa17.pldagile.model.algo.Lien;
 import com.hexa17.pldagile.model.algo.Noeud;
 import com.hexa17.pldagile.model.algo.Solveur;
+import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
 
 /**
  *
@@ -35,9 +39,29 @@ public class PlanLivraison extends Observable {
         s.calculerArborescenceDepuisNoeud(intersection);
         // Calcule le graphe simplifié
         ArrayList<Livraison> livraisons = listeLivreur.get(numLivreur).obtenirLivraisons();
-        ArrayList<Noeud> intersections = valueGrabber(livraisons, liv -> liv.obtenirLieu());
-        intersections.add(plan.obtenirEntrepot());
-        Map<Noeud, Map<Noeud, Lien>> grapheMinimal = s.calculerGrapheSimplifie(intersections);
+        Set<Noeud> noeuds = new HashSet<>();
+        int minLiv = 99;
+
+        for (Livraison liv : livraisons) {
+            Noeud noeud = liv.obtenirLieu(); 
+            noeuds.add(noeud);
+
+            if (noeud.obtenirHoraireLivraison() < minLiv) minLiv = noeud.obtenirHoraireLivraison();
+        }
+        Noeud entrepot = plan.obtenirEntrepot();
+        entrepot.modifierHoraireLivraison(99);
+        noeuds.add(entrepot);
+        Graphe grapheSimplifie = new Graphe(noeuds);
+        TabuSearch tabu = new TabuSearch(grapheSimplifie, minLiv);
+        Noeud[] ordreLivraison = tabu.soluceEnNoeuds();
+
+        ArrayList<Segment> tournee = new ArrayList<Segment>();
+
+        // On ajoute les segments dans la tournee
+        for (int i = 0; i < ordreLivraison.length-1; i++) {
+            tournee.addAll(ordreLivraison[i+1].obtenirArborescence().get(ordreLivraison[i]).obtenirChemin());
+        }
+
         // Minimalisation du graphe
         /*
          * for(Livraison liv : livraisons) {
@@ -62,10 +86,6 @@ public class PlanLivraison extends Observable {
                 .modifierListeSegment(t.obtenirListeSegment());
         this.setChanged();
         this.notifyObservers();
-    }
-
-    private static <C, T> ArrayList<T> valueGrabber(List<C> items, Function<C, T> func) {
-        return (ArrayList<T>) items.stream().map(func).collect(Collectors.toList());
     }
 
     public PlanLivraison() {
