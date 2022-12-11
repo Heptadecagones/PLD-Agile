@@ -30,11 +30,12 @@ public class PlanLivraison extends Observable {
 
     // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
     public void nouvelleLivraison(String horaire, Intersection intersection, int numLivreur) {
+        Livreur livreurActuel = this.listeLivreur.get(numLivreur);
         Livraison nouvelleLivraison = new Livraison(Integer.parseInt(horaire), intersection,
-                this.listeLivreur.get(numLivreur));
+                livreurActuel);
         this.listeLivreur.get(numLivreur).obtenirLivraisons().add(nouvelleLivraison);
         Tournee t = new Tournee();
-        Solveur s = new Solveur(plan);
+        Solveur s = new Solveur(plan, livreurActuel);
         // Calculer l'arborescence de la nouvelle livraison
         s.calculerArborescenceDepuisNoeud(intersection);
         // Calcule le graphe simplifié
@@ -43,10 +44,11 @@ public class PlanLivraison extends Observable {
         int minLiv = 99;
 
         for (Livraison liv : livraisons) {
-            Noeud noeud = liv.obtenirLieu(); 
+            Noeud noeud = liv.obtenirLieu();
             noeuds.add(noeud);
 
-            if (noeud.obtenirHoraireLivraison() < minLiv) minLiv = noeud.obtenirHoraireLivraison();
+            if (noeud.obtenirHoraireLivraison() < minLiv)
+                minLiv = noeud.obtenirHoraireLivraison();
         }
         Noeud entrepot = plan.obtenirEntrepot();
         entrepot.modifierHoraireLivraison(99);
@@ -58,8 +60,8 @@ public class PlanLivraison extends Observable {
         ArrayList<Segment> tournee = new ArrayList<Segment>();
 
         // On ajoute les segments dans la tournee
-        for (int i = 0; i < ordreLivraison.length-1; i++) {
-            tournee.addAll(ordreLivraison[i+1].obtenirArborescence().get(ordreLivraison[i]).obtenirChemin());
+        for (int i = 0; i < ordreLivraison.length - 1; i++) {
+            tournee.addAll(ordreLivraison[i + 1].obtenirArborescence().get(ordreLivraison[i]).obtenirChemin());
         }
 
         // Minimalisation du graphe
@@ -90,7 +92,7 @@ public class PlanLivraison extends Observable {
 
     public PlanLivraison() {
         this.plan = null;
-        this.solveur = null; 
+        this.solveur = null;
         this.listeLivreur = new ArrayList<Livreur>();
         this.listeLivreur.add(new Livreur(0));
         this.listeLivreur.add(new Livreur(1));
@@ -102,6 +104,7 @@ public class PlanLivraison extends Observable {
         PlanUsine pf = new PlanUsine();
         pf.chargerXML(cheminXml);
         this.plan = pf.construirePlan();
+        //FIXME comment avoir le plan ici, on passe le plan en paramètre?? - Thibaut
         this.solveur = new Solveur(plan);
 
         this.setChanged();
@@ -123,6 +126,7 @@ public class PlanLivraison extends Observable {
         this.listeLivreur.add(new Livreur(2));
         this.listeLivreur.add(new Livreur(3));
 
+        //FIXME Même chose qu'au-dessus
         this.solveur = new Solveur(this.plan);
         // On calcul l'arborescence de l'entrepôt avant d'ajouter des livraisons
         solveur.calculerArborescenceDepuisNoeud(this.plan.obtenirEntrepot());
