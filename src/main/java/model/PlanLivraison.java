@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Observable;
+import java.util.WeakHashMap;
 import java.util.ArrayList;
 import model.algo.FacadeAlgoTournee;
 import java.io.File;
@@ -25,9 +26,6 @@ import org.w3c.dom.Element;
  */
 public class PlanLivraison extends Observable {
 
-    private Intersection entrepot;
-    private ArrayList<Intersection> listeIntersection = new ArrayList<>();
-    private ArrayList<Segment> listeSegment = new ArrayList<>();
     private ArrayList<Livreur> listeLivreur;
     private Plan plan;
 
@@ -86,14 +84,9 @@ public class PlanLivraison extends Observable {
         return this.plan;
     }
     public void sauvegarder(){
- /* 
-        listeIntersection = Intersection.obtenirListeIntersection();
-        listeSegment = Segment.obtenirListeSegment();
-        entrepot = entrepot.obtenirEntrepot();
-        listeLivreur = planLivraison.obtenirListeLivreur();
 
-*/
-
+        String ajout_parametre;
+     
         try {
  
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -102,49 +95,70 @@ public class PlanLivraison extends Observable {
             // élément de racine
             Document doc = docBuilder.newDocument();
             Element racine = doc.createElement("map");
-            doc.appendChild(racine);
-
             
+
+            doc.setTextContent("\n");
 
             // l'élément contact
             Element livreur = doc.createElement("livreur");
             racine.appendChild(livreur);
 
+            livreur.setTextContent("\n");
 
             Element warehouse = doc.createElement("warehouse");
             racine.appendChild(warehouse);
             
-
-            
-
+            warehouse.setTextContent("\n");
+            if (!plan.obtenirListeIntersection().isEmpty()) {
+            for(Intersection aff_intersection : plan.obtenirListeIntersection()){
+             
             // intersection
-
+            
             Element intersection = doc.createElement("intersection");
             
             racine.appendChild(intersection);
-            
-            intersection.setAttribute("id", "99");
-            intersection.setAttribute("latitude", "123");
-            intersection.setAttribute("longitude", "123");
-            // id
+            ajout_parametre = aff_intersection.obtenirId();
            
+            intersection.setAttribute("id", ajout_parametre);
+            ajout_parametre = String.valueOf(aff_intersection.obtenirLatitude());
+            intersection.setAttribute("latitude", ajout_parametre);
+            ajout_parametre = String.valueOf(aff_intersection.obtenirLongitude());
+            intersection.setAttribute("longitude", ajout_parametre);
+            // id
+            intersection.setTextContent("\n");
+            }
 
+        }
+       
+        if (!plan.obtenirListeSegment().isEmpty()) {
+        for(Segment aff_segment : plan.obtenirListeSegment()){
 
-          
-
-
-
+           
              //segment
              Element segment = doc.createElement("segment");
              racine.appendChild(segment);
              
-             segment.setAttribute("destination", "456");
-             segment.setAttribute("length", "456");
-             segment.setAttribute("name", "chil3ba");
-             segment.setAttribute("destination", "456");
+             ajout_parametre = String.valueOf(aff_segment.obtenirDestination().obtenirId());
+             segment.setAttribute("destination", ajout_parametre);
 
-         
-           
+            
+             ajout_parametre = String.valueOf(aff_segment.obtenirLongueur());
+             segment.setAttribute("length", ajout_parametre);
+
+
+
+             ajout_parametre = String.valueOf(aff_segment.obtenirNom());
+             segment.setAttribute("name", ajout_parametre);
+
+
+             ajout_parametre = String.valueOf(aff_segment.obtenirOrigine().obtenirId());
+             segment.setAttribute("origin", ajout_parametre);
+
+
+
+             segment.setTextContent("\n");
+        }}
+        doc.appendChild(racine);
             
             // write the content into xml file
             String cheminXML = File.separator + "src" + File.separator + "main" + File.separator + "java";
