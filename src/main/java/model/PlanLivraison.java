@@ -17,6 +17,21 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+
+
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.OutputStream;
+
+
 /**
  *
  * @author Henri
@@ -97,18 +112,22 @@ public class PlanLivraison extends Observable {
             Element racine = doc.createElement("map");
             
 
-            doc.setTextContent("\n");
+            //doc.setTextContent("\n");
+
 
             // l'élément contact
             Element livreur = doc.createElement("livreur");
             racine.appendChild(livreur);
 
-            livreur.setTextContent("\n");
+          //  doc.setTextContent("\n");
+           
+            
 
             Element warehouse = doc.createElement("warehouse");
+            warehouse.setAttribute("address", plan.obtenirEntrepot().obtenirId());
             racine.appendChild(warehouse);
             
-            warehouse.setTextContent("\n");
+          //  doc.setTextContent("\n");
             if (!plan.obtenirListeIntersection().isEmpty()) {
             for(Intersection aff_intersection : plan.obtenirListeIntersection()){
              
@@ -125,13 +144,15 @@ public class PlanLivraison extends Observable {
             ajout_parametre = String.valueOf(aff_intersection.obtenirLongitude());
             intersection.setAttribute("longitude", ajout_parametre);
             // id
-            intersection.setTextContent("\n");
+           // doc.setTextContent("\n");
+            
             }
 
         }
        
         if (!plan.obtenirListeSegment().isEmpty()) {
         for(Segment aff_segment : plan.obtenirListeSegment()){
+         
 
            
              //segment
@@ -156,9 +177,12 @@ public class PlanLivraison extends Observable {
 
 
 
-             segment.setTextContent("\n");
+          //   doc.setTextContent("\n");
+         
+            
         }}
         doc.appendChild(racine);
+        
             
             // write the content into xml file
             String cheminXML = File.separator + "src" + File.separator + "main" + File.separator + "java";
@@ -167,6 +191,7 @@ public class PlanLivraison extends Observable {
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
             StreamResult resultat = new StreamResult(new File((System.getProperty("user.dir") + cheminXML + File.separator + "monFichier.xml")));
             
