@@ -35,6 +35,7 @@ public class Controleur {
 
             public void actionPerformed(ActionEvent arg0) {
                 String command = arg0.getActionCommand();
+                
                 if ("Charger".equals(command)) {
                     JFileChooser selecteur = new JFileChooser();
 
@@ -73,6 +74,38 @@ public class Controleur {
                     planLivraison.sauvegarder(nom);
                     System.out.println("sauvegarder cliqué");
                 }
+
+
+
+                if("Charger une tournée".equals(command)){
+                    
+                    JFileChooser selecteur = new JFileChooser();
+
+                    // adapter le chemin vers les fichier XML
+                    String cheminXML = File.separator + "src" + File.separator + "main" + File.separator + "java";
+                    File repertoireProjet = new File(System.getProperty("user.dir") + cheminXML);
+                    selecteur.setCurrentDirectory(repertoireProjet);
+
+                    if (selecteur.showOpenDialog(view.obtenirBarre().obtenirCharger()) == JFileChooser.APPROVE_OPTION) {
+                        File file = selecteur.getSelectedFile();
+                        if (file.exists()) {
+                            if (file.getName().endsWith(".xml")) {
+                                // Init les données / Reinit les données de l'ancienne carte
+                                view.obtenirCarte().initDonnee();
+                                planLivraison.init();
+
+                                planLivraison.chargerLivraison(file.getPath());
+                            } else {
+                                System.out.println("Pas un fichier xml");
+                            }
+                        } else {
+                            System.out.println("Fichier n'existe pas");
+                        }
+                    }
+                
+                    
+
+                }
             }
         };
 
@@ -80,6 +113,7 @@ public class Controleur {
         this.view.obtenirCarte().obtenirFenetreCreation()
                 .obtenirBtnCreerLivraison().addActionListener(c);
         this.view.obtenirBarre().obtenirSauvegarder().addActionListener(c);
+        this.view.obtenirBarre().obtenirChargerTournee().addActionListener(c);
     }
 
 }

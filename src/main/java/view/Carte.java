@@ -551,7 +551,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
         rueSurvole = recupererRue(sourisX, sourisY, maxDistance);
         if (rueSurvole.obtenirNom() != null) {
-            setToolTipText(rueSurvole.obtenirNom());
+            //setToolTipText(rueSurvole.obtenirNom());
         }
         repaint();
     }

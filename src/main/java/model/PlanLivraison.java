@@ -17,6 +17,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import javax.xml.transform.*;
 
+import java.io.IOException;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 
 
 /**
@@ -255,5 +261,112 @@ public class PlanLivraison extends Observable {
 
 
             }
+
+
+
+
+
+            public void chargerLivraison(String nomFichier) {
+                try {
+        
+                    File file = new File(nomFichier);
+                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+                    Document document = db.parse(file);
+                    document.getDocumentElement().normalize();
+        
+                    NodeList listeInter = document.getElementsByTagName("intersection");
+                    plan.modifierNombreIntersection(listeInter.getLength()); 
+                    plan.modifierListeIntersection(new ArrayList<Intersection>());
+        
+                    for (int i = 0; i < plan.obtenirNombreIntersection(); i++) {
+                        Node nNode = listeInter.item(i);
+        
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            String tempId = eElement.getAttribute("id");
+                            double tempLong = Double.parseDouble(eElement.getAttribute("longitude"));
+                            double tempLat = Double.parseDouble(eElement.getAttribute("latitude"));
+                            Intersection tempInter = new Intersection(tempId, tempLong, tempLat);
+                            plan.obtenirListeIntersection().add(tempInter);
+                        }
+                    }
+        
+                    NodeList listeSeg = document.getElementsByTagName("segment");
+                    plan.modifierNombreSegment( listeSeg.getLength());
+                    plan.modifierListeSegment(new ArrayList<Segment>());
+        
+                    for (int i = 0; i < plan.obtenirNombreSegment(); i++) {
+                        Node nNode = listeSeg.item(i);
+        
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            String tempNom = eElement.getAttribute("name");
+                            String tempOrigineId = eElement.getAttribute("origin");
+                            String tempDestId = eElement.getAttribute("destination");
+                            double tempLongueur = Double.parseDouble(eElement.getAttribute("length"));
+                            Intersection tempOrigine = null;
+                            Intersection tempDest = null;
+        
+                            int compte = 0;
+                            for (int j = 0; j < plan.obtenirListeIntersection().size(); j++) {
+                                if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempOrigineId)) {
+                                    tempOrigine = plan.obtenirListeIntersection().get(j);
+                                    compte++;
+                                }
+        
+                                if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempDestId)) {
+                                    tempDest = plan.obtenirListeIntersection().get(j);
+                                    compte++;
+                                }
+        
+                                if (compte == 2)
+                                    break;
+                            }
+                            Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
+                            tempOrigine.ajouterSegment(tempSegment);
+                            plan.obtenirListeSegment().add(tempSegment);
+                        }
+                    }
+        
+                    NodeList listeEntrepot = document.getElementsByTagName("warehouse");
+                    Node nNode = listeEntrepot.item(0);
+        
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+                        String tempEntrepotId = eElement.getAttribute("address");
+                        plan.modifierEntrepot(null) ;
+        
+                        for (int j = 0; j < plan.obtenirListeIntersection().size(); j++) {
+                            if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempEntrepotId)) {
+                                plan.modifierEntrepot(plan.obtenirListeIntersection().get(j));
+                                break;
+                            }
+                        }
+                    }
+
+                    System.out.println(plan.obtenirEntrepot());
+                    System.out.println(plan.obtenirListeIntersection());
+                    System.out.println(plan.obtenirListeSegment());
+
+                    this.setChanged();
+                    this.notifyObservers();
+                } catch (IOException e) {
+                    System.out.println(e);
+                } catch (SAXException e) {
+                    System.out.println(e);
+                } catch (ParserConfigurationException e) {
+                    System.out.println(e);
+                }
+            }
+
+
+
+
+
+
+
+
+
         
 }
