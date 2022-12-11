@@ -13,23 +13,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-
-
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.OutputStream;
+
 
 
 /**
@@ -98,7 +85,7 @@ public class PlanLivraison extends Observable {
     public Plan obtenirPlan() {
         return this.plan;
     }
-    public void sauvegarder(){
+    public void sauvegarder(String nomFichier){
 
         String ajout_parametre;
      
@@ -116,8 +103,19 @@ public class PlanLivraison extends Observable {
 
 
             // l'élément contact
-            Element livreur = doc.createElement("livreur");
-            racine.appendChild(livreur);
+            String help;
+           
+            
+            
+            for(Livreur livr : obtenirListeLivreur()){
+                Element livreur = doc.createElement("livreur");
+                racine.appendChild(livreur);
+                help = String.valueOf(livr.obtenirId());
+            livreur.setAttribute("id", help);
+            }
+
+
+           
 
           //  doc.setTextContent("\n");
            
@@ -181,6 +179,55 @@ public class PlanLivraison extends Observable {
          
             
         }}
+
+
+
+
+
+        for(Livreur livr : obtenirListeLivreur()){
+            
+            for(Segment segment_livraison : livr.obtenirTournee().obtenirListeSegment()){
+            
+
+            
+                //segment
+                Element livraison = doc.createElement("livraison");
+                racine.appendChild(livraison);
+
+
+            
+
+                ajout_parametre = String.valueOf(livr.obtenirId());
+                livraison.setAttribute("id_livreur", ajout_parametre);
+
+                
+                ajout_parametre = String.valueOf(segment_livraison.obtenirDestination().obtenirId());
+                livraison.setAttribute("destination", ajout_parametre);
+
+            
+                ajout_parametre = String.valueOf(segment_livraison.obtenirOrigine().obtenirId());
+                livraison.setAttribute("origin", ajout_parametre);
+
+            }
+
+
+
+
+
+         //   doc.setTextContent("\n");
+        }
+           
+    
+
+
+
+
+
+
+
+
+
+
         doc.appendChild(racine);
         
             
@@ -193,7 +240,7 @@ public class PlanLivraison extends Observable {
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
-            StreamResult resultat = new StreamResult(new File((System.getProperty("user.dir") + cheminXML + File.separator + "monFichier.xml")));
+            StreamResult resultat = new StreamResult(new File((System.getProperty("user.dir") + cheminXML + File.separator + nomFichier + ".xml")));
             
             transformer.transform(source, resultat);
             

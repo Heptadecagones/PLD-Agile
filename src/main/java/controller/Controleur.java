@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.Observer;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import model.PlanLivraison;
 import view.IHM;
@@ -67,7 +69,8 @@ public class Controleur {
                     view.obtenirDescription().modifierTitle("Fin");
                 }
                 if("Sauvegarder".equals(command)){
-                    planLivraison.sauvegarder();
+                    String nom = JOptionPane.showInputDialog(new JFrame(), "Nommer fichier", null);
+                    planLivraison.sauvegarder(nom);
                     System.out.println("sauvegarder cliqué");
                 }
             }
