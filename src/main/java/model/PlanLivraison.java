@@ -391,7 +391,8 @@ public class PlanLivraison extends Observable {
                             for(Segment seg : plan.obtenirListeSegment()){
                                 if(tempDestId.equals(seg.obtenirDestination().obtenirId()) && tempOrigineId.equals(seg.obtenirOrigine().obtenirId())){
                                     segm.add(seg);
-                                   
+                                    for(Livreur liv : listeLivreur)
+                                    liv.obtenirTournee().obtenirListeSegment().add(seg);
                 
                                 }
                             }
@@ -404,8 +405,8 @@ public class PlanLivraison extends Observable {
                             plan.obtenirListeSegment().add(tempSegment);
                             */
                         }
-                        for(Segment seg : segm)
-                        plan.obtenirListeSegment().add(seg);
+                        
+
                     }
 
 
