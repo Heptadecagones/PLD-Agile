@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.hexa17.pldagile.model.Intersection;
 import com.hexa17.pldagile.model.Livraison;
 import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.Plan;
@@ -21,13 +22,13 @@ import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
 public class Solveur {
 
     Plan plan;
-    ArrayList<Livraison> livraisons;
+    Livreur livreur;
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
     // public DijkstraAlgo(Plan plan, Livreur livreur) {
     public Solveur(Plan plan, Livreur livreur) {
         this.plan = plan;
-        this.livraisons = livreur.obtenirLivraisons();
+        this.livreur = livreur;
     }
 
     /**
@@ -71,11 +72,17 @@ public class Solveur {
      * @param graphePourArbo
      * @param noeudsACalculer
      */
-    public void calculerArborescences(Set<Noeud> noeudsACalculer) {
+    public void calculerArborescences(ArrayList<Livraison> livraisons) {
         // noms à changer, graphe pour arbo pourrait ne pas être utile, voir
         // constructuer
         // noeudsACalculer c'est l'ensemble des noeuds pour lesquels on veut créer
         // l'arborescence
+
+        Set<Noeud> noeudsACalculer = new HashSet<Noeud>();
+
+        for (Livraison liv : livraisons) {
+            noeudsACalculer.add(liv.obtenirLieu());
+        }
 
         for (Noeud noeudCalcul : noeudsACalculer) {
             if (noeudCalcul.obtenirArborescence() == null) {
@@ -200,26 +207,15 @@ public class Solveur {
     public ArrayList<Segment> calculerTournee() {
         
         // Calcule le graphe simplifié
-        Set<Noeud> noeuds = new HashSet<>();
-        int minLiv = 99;
+        ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
+        livraisons.addAll(livreur.obtenirLivraisons());
 
-        Noeud entrepot = plan.obtenirEntrepot();
-        entrepot.modifierHoraireLivraison(99);
-        entrepot.modifierArborescence(null);
-        entrepot.modifierHeureLivraison(0);
-        noeuds.add(entrepot);
+        Intersection entrepot = plan.obtenirEntrepot();
+        Livraison livEntrepot = new Livraison(99, entrepot, livreur);
+        livraisons.add(livEntrepot);
 
-        for (Livraison liv : livraisons) {
-            Noeud noeud = liv.obtenirLieu(); 
-            noeud.modifierArborescence(null);
-            noeud.modifierHeureLivraison(0);
-            noeuds.add(noeud);
-            if (noeud.obtenirHoraireLivraison() < minLiv) minLiv = noeud.obtenirHoraireLivraison();
-        }
-
-        calculerArborescences(noeuds);
-        Graphe grapheSimplifie = new Graphe(noeuds);
-        TabuSearch tabu = new TabuSearch(grapheSimplifie, minLiv);
+        calculerArborescences(livraisons);
+        TabuSearch tabu = new TabuSearch(livraisons);
         Noeud[] ordreLivraison = tabu.soluceEnNoeuds();
 
         ArrayList<Segment> tournee = new ArrayList<Segment>();

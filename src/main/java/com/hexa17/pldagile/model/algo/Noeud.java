@@ -17,8 +17,6 @@ import model.Segment;*/
 public class Noeud {
 
     protected String id;
-    private int horaireLivraison;
-    private double heureLivraison;
 
     /*
      * A chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
@@ -29,7 +27,6 @@ public class Noeud {
 
     public Noeud(String id) {
         this.id = id;
-        this.horaireLivraison = 99;
         arborescence = null;
     }
 
@@ -43,14 +40,6 @@ public class Noeud {
         return id;
     }
 
-    public int obtenirHoraireLivraison() {
-        return this.horaireLivraison;
-    }
-
-    public void modifierHoraireLivraison(int horaire) {
-        this.horaireLivraison = horaire;
-    }
-
     public Map<Noeud, Lien> obtenirArborescence() {
         return arborescence;
     }
@@ -59,19 +48,9 @@ public class Noeud {
         this.arborescence = arbo;
     }
 
-    
-
-    public double obtenirHeureLivraison() {
-        return heureLivraison;
-    }
-
-    public void modifierHeureLivraison(double heureLivraison) {
-        this.heureLivraison = heureLivraison;
-    }
-
     @Override
     public String toString() {
-        String s = "Noeud " + id + ", horaire de livraison : " + this.horaireLivraison; 
+        String s = "Noeud " + id; 
         return s;
     }
 
