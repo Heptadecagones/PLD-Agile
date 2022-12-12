@@ -17,10 +17,38 @@ import org.xml.sax.SAXException;
 public class Plan {
     private Intersection entrepot;
 
+    public void modifierEntrepot(Intersection entrepot) {
+        this.entrepot = entrepot;
+    }
+
+
     private ArrayList<Intersection> listeIntersection;
+    public void modifierListeIntersection(ArrayList<Intersection> listeIntersection) {
+        this.listeIntersection = listeIntersection;
+    }
+
+
     private ArrayList<Segment> listeSegment;
+    public void modifierListeSegment(ArrayList<Segment> listeSegment) {
+        this.listeSegment = listeSegment;
+    }
+
+
     private long nombreIntersection;
+
+
+    public void modifierNombreIntersection(long nombreIntersection) {
+        this.nombreIntersection = nombreIntersection;
+    }
+
+   
     private long nombreSegment;
+
+    public void modifierNombreSegment(long nombreSegment) {
+        this.nombreSegment = nombreSegment;
+    }
+
+    
 
     /**
      * Init les données / Reinit les données de l'ancienne carte
@@ -140,4 +168,5 @@ public class Plan {
         return listeSegment;
     }
 
+    
 }

@@ -56,7 +56,7 @@ public class FacadeAlgoTourneeTest {
     public Livreur renvoiLivreuravecLivraisonsAleatoires(int nombreLivraisons) {
 
         // Initialiser le livreur
-        Livreur livreur = new Livreur(0);
+        Livreur livreur = new Livreur(0,"Jean Jean");
         ArrayList<Livraison> livrs = new ArrayList<>();
 
         // Construire une liste de livraisons aléatoires

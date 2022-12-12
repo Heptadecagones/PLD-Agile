@@ -1,13 +1,17 @@
 package view;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.Toolkit;
+import java.awt.Dimension;
+import java.awt.Insets;
 
-import java.awt.Color;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 /**
  *
  * @author Equipe IHM
@@ -15,10 +19,10 @@ import java.awt.Color;
 
 public class IHM {
     // position du coin supérieur gauche de l'application
-    private Barre barre; 
+
+    private Barre barre;
     private Description description;
     private Carte carte;
-    private JScrollPane panelCarte;
 
     public void modifierBarre(Barre barre) {
         this.barre = barre;
@@ -45,40 +49,43 @@ public class IHM {
     }
 
     public void init() {
-
-        JFrame frame = new JFrame("PLD AGILE");
-        frame.setLayout(null);
-        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);  
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(screenSize);
-        frame.setLocation(0, 0);
-              
-        this.carte=new Carte(frame.getBounds().height*8/10,frame.getBounds().height*8/10);
-        this.barre=new Barre(frame.getBounds().width, frame.getBounds().height*1/10);
-        this.description=new Description(frame.getBounds().width*1/4, frame.getBounds().height*8/10);
-       
-        barre.setLocation(0,0);
-        barre.setSize(frame.getBounds().width, frame.getBounds().height*1/10);
-        barre.setBackground(Color.BLUE);
-
-        description.setLocation(0,frame.getBounds().height*1/10);
-        description.setSize(frame.getBounds().width*1/4, frame.getBounds().height*8/10);
-        description.setBackground(Color.RED);
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
+        }
         
+        JFrame frame = new JFrame("PLD AGILE");
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setBounds(0, 0, (int)tailleEcran.getWidth(), (int)tailleEcran.getHeight());
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+        barre = new Barre();
         barre.init();
+        panel.add(barre);
+
+        carte = new Carte();
+        
+        panel.add(carte);
+
+        description = new Description();
         description.init();
         description.modifierCarte(carte);
+        carte.modifierDescription(description);
+        panel.add(description);
         
-        panelCarte = new JScrollPane(carte);
-        panelCarte.setLocation(frame.getBounds().width*1/4,frame.getBounds().height*1/10);
-        panelCarte.setSize(frame.getBounds().width*3/4, frame.getBounds().height*8/10);
-        panelCarte.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        panelCarte.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        panelCarte.setEnabled(true);
-
-        frame.add(barre);
-        frame.add(panelCarte);
-        frame.add(description);
+        frame.add(panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 
