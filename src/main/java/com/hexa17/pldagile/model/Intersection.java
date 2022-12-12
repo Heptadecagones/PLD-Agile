@@ -26,10 +26,10 @@ public class Intersection extends Noeud {
      * le poids correspond à la distance
      */
 
-    /*
-     * public Intersection() {
-     * }
-     */
+    public Intersection() {
+        
+    }
+    
 
     public Intersection(String i, double longi, double lat) {
         super(i);

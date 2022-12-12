@@ -23,7 +23,10 @@ public class Noeud {
      * le coût pour aller à ce noeud (Double) stockée dans Lien
      */
     protected Map<Noeud, Lien> arborescence;
-    
+
+    public Noeud() {
+
+    }
 
     public Noeud(String id) {
         this.id = id;
