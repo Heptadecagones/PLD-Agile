@@ -24,15 +24,10 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
-<<<<<<< HEAD:src/main/java/com/hexa17/pldagile/view/Description.java
-import com.hexa17.pldagile.model.Livreur;
-import com.hexa17.pldagile.model.PlanLivraison;
-=======
 import model.Intersection;
 import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
->>>>>>> 3fb72a959b485477d76addab70e049e076ddc254:src/main/java/view/Description.java
 
 /**
  *

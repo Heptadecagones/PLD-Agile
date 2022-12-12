@@ -22,12 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
-<<<<<<< HEAD:src/main/java/com/hexa17/pldagile/view/Creation.java
-import com.hexa17.pldagile.model.Intersection;
-=======
 import model.Intersection;
 import model.Livreur;
->>>>>>> 3fb72a959b485477d76addab70e049e076ddc254:src/main/java/view/Creation.java
 
 /**
  *
