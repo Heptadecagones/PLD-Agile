@@ -9,6 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import model.Livreur;
 import model.PlanLivraison;
 import view.IHM;
 
@@ -102,9 +103,12 @@ public class Controleur {
                             System.out.println("Fichier n'existe pas");
                         }
                     }
-                
-                    
 
+                }
+                if("Nouveau livreur".equals(command)){
+                    String nom = JOptionPane.showInputDialog(new JFrame(), "Entrer nom Livreur");
+                    planLivraison.ajouterLivreur(new Livreur(planLivraison.obtenirListeLivreur().size(),nom));
+                    System.out.println("nouveau livreur cliqué");
                 }
             }
         };
@@ -114,6 +118,7 @@ public class Controleur {
                 .obtenirBtnCreerLivraison().addActionListener(c);
         this.view.obtenirBarre().obtenirSauvegarder().addActionListener(c);
         this.view.obtenirBarre().obtenirChargerTournee().addActionListener(c);
+        this.view.obtenirBarre().obtenirAjouterLivreur().addActionListener(c);
     }
 
 }

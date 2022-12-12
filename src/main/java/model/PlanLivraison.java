@@ -65,7 +65,11 @@ public class PlanLivraison extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
-
+    public void ajouterLivreur(Livreur l){
+        this.listeLivreur.add(l);
+        this.setChanged();
+        this.notifyObservers();
+    }
     public PlanLivraison() {
         init();
     }

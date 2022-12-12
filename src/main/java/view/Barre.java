@@ -65,7 +65,7 @@ public class Barre extends JPanel {
     public void init() {
         // Init les boutons
         charger = creerBouton("Charger");
-        ajouterLivreur = creerBouton("Nouvelle livreur"); // à toi de decider le nom Henri
+        ajouterLivreur = creerBouton("Nouveau livreur"); // à toi de decider le nom Henri
         sauvegarder = creerBouton("Sauvegarder");
         chargerTournee = creerBouton("Charger une tournée");
 
