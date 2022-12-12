@@ -19,6 +19,12 @@ import java.awt.event.MouseEvent;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 
+import javax.swing.JTextArea;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.TitledBorder;
+
+import model.Intersection;
 import model.Livraison;
 import model.Livreur;
 import model.PlanLivraison;
@@ -37,10 +43,14 @@ public class Description extends JPanel implements Observer {
     JPanel panelbtnLivraison;
     ArrayList<JButton> btnLivraison = new ArrayList<JButton>();
     DefaultListModel btnName = new DefaultListModel();
-    JList btnList;
     JScrollPane btnListScrollPane;
-    private Carte carte;
 
+    JList<Livraison> btnList;
+    private Carte carte;
+    private Intersection intersectionChoisie;
+    /**
+     * la taille du panneau
+     */
     public void modifierCarte(Carte carte) {
         this.carte=carte;
     }
@@ -57,17 +67,22 @@ public class Description extends JPanel implements Observer {
         setBorder(chargement);
         revalidate();
     }
-    public void init() {
+
+        
+    public void init(){
         setBorder(chargement);
         setLayout(new BorderLayout());
-        btnList = new JList(btnName);
-        btnList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        btnList.setSelectedIndex(0);
         //btnList.setVisibleRowCount(3);
   
         btnListScrollPane = new JScrollPane(btnList);
         add(btnListScrollPane);
-        
+        btnList = new JList(btnName);
+        btnList.setSelectedIndex(0);
+        btnList.setVisibleRowCount(3);     
+        btnList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        JScrollPane btnListScrollPane = new JScrollPane(btnList);  
+        btnListScrollPane.setPreferredSize(new Dimension(200, 200));
+        add(btnListScrollPane);       
         btnList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 JList list = (JList)evt.getSource();
@@ -83,14 +98,36 @@ public class Description extends JPanel implements Observer {
     // Mise à jour des données : Ecriture de la liste des livraisons
     @Override
     public void update(Observable arg0, Object arg1) {
-        PlanLivraison p = (PlanLivraison) arg0;
-        btnName.clear();
-        for (Livreur li : p.obtenirListeLivreur()) {
-            for(Livraison ls:li.obtenirLivraisons()){
-                System.out.println(ls.toString() + "\n");
-                btnName.addElement(ls);
+            PlanLivraison p = (PlanLivraison) arg0;
+            btnName.clear();
+            for (Livreur li : p.obtenirListeLivreur()) {
+                for(Livraison ls:li.obtenirLivraisons()){
+                    btnName.addElement(ls);
+                }
+            }
+        
+    }
+    public void surlignerLivraison(Intersection intersection) {
+        int[] tabIndices=new int[btnName.size()];
+        int nbSelection=0;
+        for(int k=0;k<btnName.size();k++){
+            if(((Livraison)(btnName.get(k))).obtenirLieu()==intersection){
+                tabIndices[nbSelection]=k;
+                nbSelection++;
+                this.carte.modifierLivraisonClickee((Livraison)(btnName.get(k)));
             }
         }
-    }
+        int[] select=new int[nbSelection];
+        for(int k=0;k<nbSelection;k++){
+                select[k]=tabIndices[k];
 
+        }
+        for(int k=0;k<select.length;k++){
+            System.out.println("\n:"+select[k]);
+        }    
+        btnList.setSelectedIndices(select);
+    }
+        
+        
+        
 }

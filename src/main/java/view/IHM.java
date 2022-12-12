@@ -80,6 +80,7 @@ public class IHM {
         description = new Description();
         description.init();
         description.modifierCarte(carte);
+        carte.modifierDescription(description);
         panel.add(description);
         
         frame.add(panel);
