@@ -291,7 +291,7 @@ public class PlanLivraison extends Observable {
                             plan.obtenirListeIntersection().add(tempInter);
                         }
                     }
-        
+         
                     NodeList listeSeg = document.getElementsByTagName("segment");
                     plan.modifierNombreSegment( listeSeg.getLength());
                     plan.modifierListeSegment(new ArrayList<Segment>());
@@ -328,7 +328,7 @@ public class PlanLivraison extends Observable {
                             plan.obtenirListeSegment().add(tempSegment);
                         }
                     }
-        
+         
                     NodeList listeEntrepot = document.getElementsByTagName("warehouse");
                     Node nNode = listeEntrepot.item(0);
         
@@ -353,16 +353,25 @@ public class PlanLivraison extends Observable {
                         Node livNode = listeliv.item(i);
         
                         if (livNode.getNodeType() == Node.ELEMENT_NODE) {
-                            Element eElement = (Element) nNode;
-                            String tempDestId = eElement.getAttribute("destination");
+                            Element eElement = (Element) livNode;
+                            String tempDestId =   eElement.getAttribute("destination");
                             String tempIdLivreur = eElement.getAttribute("id_livreur");
                             String tempOrigineId = eElement.getAttribute("origin");
-                            Intersection tempOrigine = null;
-                            Intersection tempDest = null;
-        
+                            ArrayList<Segment> segm = new ArrayList<Segment>();
+                            ArrayList<Intersection> inter = new ArrayList<Intersection>();
+                            Intersection interHelp;
+
+
                             int compte = 0;
                             for (int j = 0; j < nombreLivraison; j++) {
 
+
+
+
+                                //System.out.println("exemple origin " + tempOrigineId + "\nexemple destination"+ tempDestId);
+
+                           /*      
+ 
                                 if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempOrigineId)) {
                                     tempOrigine = plan.obtenirListeIntersection().get(j);
                                     compte++;
@@ -375,32 +384,36 @@ public class PlanLivraison extends Observable {
         
                                 if (compte == 2)
                                     break;
-                            }
+     
+                                }
+*/
 
                             for(Segment seg : plan.obtenirListeSegment()){
                                 if(tempDestId.equals(seg.obtenirDestination().obtenirId()) && tempOrigineId.equals(seg.obtenirOrigine().obtenirId())){
-                            System.out.println("HHHHHHHHHOOOOOOOOOOOOOHHHHHHHHOOOOOOOOOO////////:" + seg);        
-
+                                    segm.add(seg);
+                                   
+                
                                 }
-
-
                             }
+
+                            
+                            
                             /* 
                             Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
                             tempOrigine.ajouterSegment(tempSegment);
                             plan.obtenirListeSegment().add(tempSegment);
                             */
                         }
+                        for(Segment seg : segm)
+                        plan.obtenirListeSegment().add(seg);
                     }
 
 
+                }
 
 
 
-
-                    System.out.println(plan.obtenirEntrepot());
-                    System.out.println(plan.obtenirListeIntersection());
-                    System.out.println(plan.obtenirListeSegment());
+                   
 
                     this.setChanged();
                     this.notifyObservers();
