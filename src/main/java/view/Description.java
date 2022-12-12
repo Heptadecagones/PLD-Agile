@@ -63,9 +63,11 @@ public class Description extends JPanel implements Observer {
         btnList = new JList(btnName);
         btnList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         btnList.setSelectedIndex(0);
-        //btnList.setVisibleRowCount(3);
+        btnList.setVisibleRowCount(3);
   
-        btnListScrollPane = new JScrollPane(btnList);
+        JScrollPane btnListScrollPane = new JScrollPane(btnList);  
+        btnListScrollPane.setPreferredSize(new Dimension(200, 200));
+        //add(chargement);
         add(btnListScrollPane);
         
         btnList.addMouseListener(new MouseAdapter() {
