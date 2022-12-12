@@ -42,7 +42,7 @@ public class PlanLivraison extends Observable {
         Livraison nouvelleLivraison = new Livraison(Integer.parseInt(horaire), intersection,
                 this.listeLivreur.get(Integer.parseInt(numLivreur)));
         this.listeLivreur.get(Integer.parseInt(numLivreur)).obtenirLivraisons().add(nouvelleLivraison);
-        System.out.println("Livreur:" + this.listeLivreur.get(Integer.parseInt(numLivreur)).toString());
+        //System.out.println("Livreur:" + this.listeLivreur.get(Integer.parseInt(numLivreur)).toString());
         // TODO: remplacer l'appel de DijkstraAlgo par un appel de FacadeAlgoTournee
         // DijkstraAlgo dijal = new DijkstraAlgo(this,
         // this.listeLivreur.get(Integer.parseInt(numLivreur)));
@@ -50,7 +50,7 @@ public class PlanLivraison extends Observable {
         try {
             t = new Tournee(FacadeAlgoTournee.calculerTournee(
                     plan, this.listeLivreur.get(Integer.parseInt(numLivreur))));
-            System.out.println("test\n:" + t.toString());
+            //System.out.println("test\n:" + t.toString());
         } catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace();
         }
@@ -402,9 +402,9 @@ public class PlanLivraison extends Observable {
 
 
 
-                    System.out.println(plan.obtenirEntrepot());
-                    System.out.println(plan.obtenirListeIntersection());
-                    System.out.println(plan.obtenirListeSegment());
+                    // System.out.println(plan.obtenirEntrepot());
+                    // System.out.println(plan.obtenirListeIntersection());
+                    // System.out.println(plan.obtenirListeSegment());
 
                     this.setChanged();
                     this.notifyObservers();
