@@ -34,8 +34,6 @@ public class Tournee {
         this.listeSegment.add(seg);
     }
 
-    
-
     public ArrayList<Livraison> obtenirListeLivraison() {
         return listeLivraison;
     }

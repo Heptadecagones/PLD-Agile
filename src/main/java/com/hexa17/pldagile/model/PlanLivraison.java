@@ -47,10 +47,10 @@ public class PlanLivraison extends Observable {
         this.plan = null;
         this.solveur = null;
         this.listeLivreur = new ArrayList<Livreur>();
-        this.listeLivreur.add(new Livreur(0));
-        this.listeLivreur.add(new Livreur(1));
-        this.listeLivreur.add(new Livreur(2));
-        this.listeLivreur.add(new Livreur(3));
+        this.listeLivreur.add(new Livreur(0, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(1, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(2, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(3, Integer.toString(1)));
     }
 
     public void initPlan(String cheminXml) {
@@ -72,10 +72,10 @@ public class PlanLivraison extends Observable {
         this.notifyObservers();
 
         this.listeLivreur = new ArrayList<Livreur>();
-        this.listeLivreur.add(new Livreur(0));
-        this.listeLivreur.add(new Livreur(1));
-        this.listeLivreur.add(new Livreur(2));
-        this.listeLivreur.add(new Livreur(3));
+        this.listeLivreur.add(new Livreur(0, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(1, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(2, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(3, Integer.toString(1)));
 
         // On calcul l'arborescence de l'entrepôt avant d'ajouter des livraisons
         solveur.calculerArborescenceDepuisNoeud(this.plan.obtenirEntrepot());
