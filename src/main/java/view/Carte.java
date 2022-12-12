@@ -183,6 +183,10 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         entrepot = planLivraison.obtenirPlan().obtenirEntrepot();
         listeLivreur = planLivraison.obtenirListeLivreur();
         fenetreCreation.modifierlivreurs(listeLivreur);
+        for (Livreur liv : listeLivreur) {
+            System.out.println(liv.obtenirLivraisons());
+            System.out.println(liv.obtenirTournee());
+        }
         // Calculer les coins de la carte
         if (entrepot.obtenirId() != null) {
             Point2D cordEntrepot = convertirLatLong(entrepot);

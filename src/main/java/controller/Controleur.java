@@ -92,7 +92,7 @@ public class Controleur {
                             if (file.getName().endsWith(".xml")) {
                                 // Init les données / Reinit les données de l'ancienne carte
                                 view.obtenirCarte().initDonnee();
-                                planLivraison.init();
+                                //planLivraison.init();
 
                                 planLivraison.chargerLivraison(file.getPath());
                             } else {
