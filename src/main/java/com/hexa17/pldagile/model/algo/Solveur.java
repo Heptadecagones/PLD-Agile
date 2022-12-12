@@ -3,14 +3,17 @@ package com.hexa17.pldagile.model.algo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import com.hexa17.pldagile.model.Intersection;
 import com.hexa17.pldagile.model.Livraison;
 import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.Plan;
 import com.hexa17.pldagile.model.Segment;
+import com.hexa17.pldagile.model.Tournee;
 import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
 
 /**
@@ -78,7 +81,7 @@ public class Solveur {
         // noeudsACalculer c'est l'ensemble des noeuds pour lesquels on veut créer
         // l'arborescence
 
-        Set<Noeud> noeudsACalculer = new HashSet<Noeud>();
+        Set<Noeud> noeudsACalculer = new LinkedHashSet<Noeud>();
 
         for (Livraison liv : livraisons) {
             noeudsACalculer.add(liv.obtenirLieu());
@@ -87,6 +90,9 @@ public class Solveur {
         for (Noeud noeudCalcul : noeudsACalculer) {
             if (noeudCalcul.obtenirArborescence() == null) {
                 calculerArborescenceDepuisNoeud(noeudCalcul);
+                for(Entry<Noeud, Lien> dest : noeudCalcul.obtenirArborescence().entrySet()) {
+                    System.out.println(dest.getKey() + " : " + dest.getValue().obtenirPoids());
+                }
             }
         }
     }
@@ -94,8 +100,7 @@ public class Solveur {
     public void calculerArborescenceDepuisNoeud(Noeud noeud) {
 
         // On ne calcule une arborescence qu'une fois
-        if (noeud.obtenirArborescence() != null)
-            return;
+        if (noeud.obtenirArborescence() != null) return;
 
         // Rq : Lien est un équivalent de Pair<ArrayList<Segment>, Double>,
         // voir classe Lien pour les méthodes
@@ -177,34 +182,8 @@ public class Solveur {
         noeud.modifierArborescence(arborescence);
     }
 
-    // /**
-    //  * 
-    //  * @param noeudsCibles
-    //  * @return
-    //  */
-    // public Map<Noeud, Map<Noeud, Lien>> calculerGrapheSimplifie(ArrayList<Noeud> noeudsCibles) {
-    //     Map<Noeud, Map<Noeud, Lien>> grapheArborescence = new HashMap<Noeud, Map<Noeud, Lien>>();
-    //     Map<Noeud, Lien> tempArborescence;
-    //     /* Récupération des liens entre les noeuds cibles */
-    //     for (Noeud noeudTraite : noeudsCibles) {
-    //         tempArborescence = new HashMap<Noeud, Lien>();
-    //         // FIXME arboNoeudTraite est null lorsqu'on crée une livraison
-    //         Map<Noeud, Lien> arboNoeudTraite = noeudTraite.obtenirArborescence();
-    //         ArrayList<Noeud> autreNoeuds = new ArrayList<Noeud>();
-    //         autreNoeuds.addAll(noeudsCibles);
-    //         autreNoeuds.remove(noeudTraite);
-    //         for (Noeud n : autreNoeuds) {
-    //             tempArborescence.put(n, arboNoeudTraite.get(n));
-    //         }
-    //         grapheArborescence.put(noeudTraite, tempArborescence);
-    //     }
 
-    //     /* Suppression des liens entre noeuds d'horaire de livrasion différents */
-    //     return grapheArborescence;
-    // }
-
-
-    public ArrayList<Segment> calculerTournee() {
+    public Tournee calculerTournee() {
         
         // Calcule le graphe simplifié
         ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
@@ -215,15 +194,26 @@ public class Solveur {
         livraisons.add(livEntrepot);
 
         calculerArborescences(livraisons);
-        TabuSearch tabu = new TabuSearch(livraisons);
-        Noeud[] ordreLivraison = tabu.soluceEnNoeuds();
 
-        ArrayList<Segment> tournee = new ArrayList<Segment>();
+        for (Livraison liv : livraisons) {
+            System.out.println(liv.obtenirLieu().obtenirId() + " : ");
+            for(Entry<Noeud, Lien> dest : liv.obtenirLieu().obtenirArborescence().entrySet()) {
+                System.out.println(dest.getKey() + " : " + dest.getValue().obtenirPoids());
+            }
+        }
+        TabuSearch tabu = new TabuSearch(livraisons);
+        Livraison[] ordreLivraison = tabu.soluceEnNoeuds();
+
+        ArrayList<Segment> listeSegment = new ArrayList<Segment>();
+        ArrayList<Livraison> listeLivraison = new ArrayList<Livraison>();
+
 
         // On ajoute les segments dans la tournee
         for (int i = 0; i < ordreLivraison.length-1; i++) {
-            tournee.addAll(ordreLivraison[i+1].obtenirArborescence().get(ordreLivraison[i]).obtenirChemin());
+            listeSegment.addAll(ordreLivraison[i+1].obtenirLieu().obtenirArborescence().get(ordreLivraison[i].obtenirLieu()).obtenirChemin());
+            if (i != 0) listeLivraison.add(ordreLivraison[i]);
         }
+        Tournee tournee = new Tournee(listeSegment, listeLivraison);
         return tournee;
     }
 }

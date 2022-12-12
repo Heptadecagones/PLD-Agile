@@ -45,6 +45,10 @@ public class Livreur {
         this.livraisons = livraisons;
     }
 
+    public void modifierTournee(Tournee tournee) {
+        this.tournee = tournee;
+    }
+
     public String toString() {
         String description = "id: " + this.id + " dispo: " + this.disponibilite + " ";
         for (Livraison l : this.livraisons) {

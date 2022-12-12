@@ -65,8 +65,6 @@ public class SolveurTest {
         }
 
         livreur.modifierLivraisons(livrs);
-
-        dijal = new Solveur(plan.obtenirPlan());
     }
 
     /**

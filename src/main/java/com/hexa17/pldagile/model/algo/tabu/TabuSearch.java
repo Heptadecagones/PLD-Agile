@@ -175,26 +175,26 @@ public class TabuSearch {
                 .collect(Collectors.toMap(Entry::getValue, Entry::getKey));
     }
 
-    public Noeud[] soluceEnNoeuds() {
+    public Livraison[] soluceEnNoeuds() {
         int[] soluceEnInt = invoke();
 
         // On inverse la Map pour retrouver les noeuds en fonction des entiers
         Map<Integer, Livraison> invPlaces = inverser(places);
-        Noeud[] soluce = new Noeud[soluceEnInt.length];
+        Livraison[] soluce = new Livraison[soluceEnInt.length];
         double heure = horaireMinimale;
 
         Livraison livraison = invPlaces.get(soluceEnInt[0]);
         livraison.modifierHeureLivraison(heure);
-        soluce[0] = livraison.obtenirLieu();
+        soluce[0] = livraison;
 
         for (int i = 1; i < soluceEnInt.length; i++) {
             livraison = invPlaces.get(soluceEnInt[i]);
 
-            heure += livraison.obtenirLieu().obtenirArborescence().get(soluce[i-1]).obtenirPoids()/15000;
+            heure += livraison.obtenirLieu().obtenirArborescence().get(soluce[i-1].obtenirLieu()).obtenirPoids()/15000;
             if (heure < livraison.obtenirHoraireLivraison()) heure = livraison.obtenirHoraireLivraison();
             livraison.modifierHeureLivraison(heure);
 
-            soluce[i] = livraison.obtenirLieu();
+            soluce[i] = livraison;
         }
 
         return soluce;

@@ -34,58 +34,11 @@ public class PlanLivraison extends Observable {
         Livraison nouvelleLivraison = new Livraison(Integer.parseInt(horaire), intersection,
                 livreurActuel);
         this.listeLivreur.get(numLivreur).obtenirLivraisons().add(nouvelleLivraison);
-        Tournee t = new Tournee();
+        Tournee tournee = new Tournee();
         Solveur s = new Solveur(plan, livreurActuel);
-        // Calculer l'arborescence de la nouvelle livraison
-        s.calculerArborescenceDepuisNoeud(intersection);
-        // Calcule le graphe simplifié
-        ArrayList<Livraison> livraisons = listeLivreur.get(numLivreur).obtenirLivraisons();
-        Set<Noeud> noeuds = new HashSet<>();
-        int minLiv = 99;
-
-        for (Livraison liv : livraisons) {
-            Noeud noeud = liv.obtenirLieu();
-            noeuds.add(noeud);
-
-            if (noeud.obtenirHoraireLivraison() < minLiv)
-                minLiv = noeud.obtenirHoraireLivraison();
-        }
-        Noeud entrepot = plan.obtenirEntrepot();
-        entrepot.modifierHoraireLivraison(99);
-        noeuds.add(entrepot);
-        Graphe grapheSimplifie = new Graphe(noeuds);
-        TabuSearch tabu = new TabuSearch(grapheSimplifie, minLiv);
-        Noeud[] ordreLivraison = tabu.soluceEnNoeuds();
-
-        ArrayList<Segment> tournee = new ArrayList<Segment>();
-
-        // On ajoute les segments dans la tournee
-        for (int i = 0; i < ordreLivraison.length - 1; i++) {
-            tournee.addAll(ordreLivraison[i + 1].obtenirArborescence().get(ordreLivraison[i]).obtenirChemin());
-        }
-
-        // Minimalisation du graphe
-        /*
-         * for(Livraison liv : livraisons) {
-         * for(Livraison liv2 : livraisons) {
-         * if(!liv.equals(liv2)) {
-         * if(liv.obtenirPlageHoraire() > liv2.obtenirPlageHoraire()) {
-         * grapheMinimal.get(liv.obtenirLieu()).remove(liv2.obtenirLieu());
-         * }
-         * else {
-         * if(grapheMinimal.get(liv.obtenirLieu()).containsKey(plan.obtenirEntrepot()))
-         * {
-         * grapheMinimal.get(liv.obtenirLieu()).remove(plan.obtenirEntrepot());
-         * }
-         * }
-         * }
-         * }
-         * }
-         */
-
-        // Appeler TabuSearch
-        this.listeLivreur.get(numLivreur).obtenirTournee()
-                .modifierListeSegment(t.obtenirListeSegment());
+        tournee = s.calculerTournee();
+        
+        this.listeLivreur.get(numLivreur).modifierTournee(tournee);
         this.setChanged();
         this.notifyObservers();
     }
@@ -104,8 +57,6 @@ public class PlanLivraison extends Observable {
         PlanUsine pf = new PlanUsine();
         pf.chargerXML(cheminXml);
         this.plan = pf.construirePlan();
-        //FIXME comment avoir le plan ici, on passe le plan en paramètre?? - Thibaut
-        this.solveur = new Solveur(plan);
 
         this.setChanged();
         this.notifyObservers();
@@ -126,8 +77,6 @@ public class PlanLivraison extends Observable {
         this.listeLivreur.add(new Livreur(2));
         this.listeLivreur.add(new Livreur(3));
 
-        //FIXME Même chose qu'au-dessus
-        this.solveur = new Solveur(this.plan);
         // On calcul l'arborescence de l'entrepôt avant d'ajouter des livraisons
         solveur.calculerArborescenceDepuisNoeud(this.plan.obtenirEntrepot());
     }
