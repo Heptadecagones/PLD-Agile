@@ -187,32 +187,60 @@ public class PlanLivraison extends Observable {
         }}
 
 
+        
+           
+    
 
-/* 
+
+
 
         for(Livreur livr : obtenirListeLivreur()){
+
+            for(Segment segment_livraison : livr.obtenirTournee().obtenirListeSegment()){
+            
+
+            
+                //segment
+                Element segment_tournee = doc.createElement("segment_tournee");
+                racine.appendChild(segment_tournee);
+
+
+            
+
+                ajout_parametre = String.valueOf(livr.obtenirId());
+                segment_tournee.setAttribute("id_livreur", ajout_parametre);
+
+                
+                ajout_parametre = String.valueOf(segment_livraison.obtenirDestination().obtenirId());
+                segment_tournee.setAttribute("destination", ajout_parametre);
+
+            
+                ajout_parametre = String.valueOf(segment_livraison.obtenirOrigine().obtenirId());
+                segment_tournee.setAttribute("origin", ajout_parametre);
+
+            }
             
             for(Livraison liv_livraison : livr.obtenirLivraisons()){
             
 
             
                 //segment
-                Element livraison = doc.createElement("livraison");
-                racine.appendChild(livraison);
+                Element listelivraison = doc.createElement("listelivraison");
+                racine.appendChild(listelivraison);
 
 
             
 
                 ajout_parametre = String.valueOf(livr.obtenirId());
-                livraison.setAttribute("id_livreur", ajout_parametre);
+                listelivraison.setAttribute("id_livreur", ajout_parametre);
 
                 
                 ajout_parametre = String.valueOf(liv_livraison.obtenirPlageHoraire());
-                livraison.setAttribute("plage_horaire", ajout_parametre);
+                listelivraison.setAttribute("plage_horaire", ajout_parametre);
 
             
                 ajout_parametre = String.valueOf(liv_livraison.obtenirLieu().obtenirId());
-                livraison.setAttribute("id_intersection", ajout_parametre);
+                listelivraison.setAttribute("id_intersection", ajout_parametre);
 
             }
 
@@ -227,7 +255,7 @@ public class PlanLivraison extends Observable {
 
 
 
-*/
+
 
 
 
@@ -354,9 +382,9 @@ public class PlanLivraison extends Observable {
         
                         if (livNode.getNodeType() == Node.ELEMENT_NODE) {
                             Element eElement = (Element) livNode;
-                            String tempDestId =   eElement.getAttribute("destination");
-                            String tempIdLivreur = eElement.getAttribute("id_livreur");
-                            String tempOrigineId = eElement.getAttribute("origin");
+                            String id_intersection =   eElement.getAttribute("id_intersection");
+                            String id_livreur = eElement.getAttribute("id_livreur");
+                            String plage_horaire = eElement.getAttribute("plage_horaire");
                             ArrayList<Segment> segm = new ArrayList<Segment>();
                             ArrayList<Intersection> inter = new ArrayList<Intersection>();
                             Intersection interHelp;
@@ -388,16 +416,10 @@ public class PlanLivraison extends Observable {
                                 }
 */
 
-                            for(Segment seg : plan.obtenirListeSegment()){
-                                if(tempDestId.equals(seg.obtenirDestination().obtenirId()) && tempOrigineId.equals(seg.obtenirOrigine().obtenirId())){
-                                    segm.add(seg);
-                                    for(Livreur liv : listeLivreur)
-                                    liv.obtenirTournee().obtenirListeSegment().add(seg);
-
-                                    
-
-                                }
-                            }
+                                for (Livreur livr : listeLivreur) {
+                                        for (Livraison s : livr.obtenirLivraisons()) {
+                                      
+                            }}
 
                             
                             
