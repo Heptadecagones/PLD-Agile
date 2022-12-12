@@ -152,7 +152,7 @@ public class Controleur {
             }
         };
 
-
+        
         this.view.obtenirBarre().obtenirCharger().addActionListener(c);
         this.view.obtenirFenetreCreation()
                 .obtenirBtnCreerLivraison().addActionListener(c);

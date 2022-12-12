@@ -16,12 +16,14 @@ import javax.swing.UIManager.LookAndFeelInfo;
  */
 
 public class IHM {
-    // position du coin supérieur gauche de l'application
-
+    
+    //4 parties de l'IHM
     private Barre barre;
     private Description description;
     private Carte carte;
     private Creation fenetreCreation;
+
+    //getters et setters des parties de l'IHM
     public void modifierBarre(Barre barre) {
         this.barre = barre;
     }
@@ -48,9 +50,10 @@ public class IHM {
     public Creation obtenirFenetreCreation() {
         return fenetreCreation;
     }
+
+    //creation de l'IHM
     public void init() {
-        fenetreCreation = new Creation();
-        fenetreCreation.init();
+
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -63,7 +66,6 @@ public class IHM {
         }
         
         JFrame frame = new JFrame("PLD AGILE");
-
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setBounds(0, 0, (int)tailleEcran.getWidth(), (int)tailleEcran.getHeight());
@@ -71,6 +73,9 @@ public class IHM {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
+        fenetreCreation = new Creation();
+        fenetreCreation.init();
+        
         barre = new Barre();
         barre.init();
         panel.add(barre);
