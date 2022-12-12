@@ -318,34 +318,43 @@ public class PlanLivraison extends Observable {
                 listeLivreur.add(new Livreur(id_livreur, nom, disponibilite));
             }
 
-            System.out.println(listeLivreur.size());
-
             // Ajoute les livraisons
             NodeList listeliv = document.getElementsByTagName("listelivraison");
             int nombreLivraison = listeliv.getLength();
-            //ArrayList<Livraison> listeLivraison = new ArrayList<Livraison>();
+            ArrayList<Livraison>[] listeLivraison = new ArrayList[nombreLivreur];
+            for (int i = 0; i < nombreLivreur; ++i) {
+                listeLivraison[i] = new ArrayList<Livraison>();
+            }
 
             for (int i = 0; i < nombreLivraison; i++) {
                 Node livNode = listeliv.item(i);
 
                 if (livNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) livNode;
-                    String id_intersection =   eElement.getAttribute("id_intersection");
+                    String id_intersection = eElement.getAttribute("id_intersection");
                     int id_livreur = Integer.valueOf(eElement.getAttribute("id_livreur"));
                     int plage_horaire = Integer.valueOf(eElement.getAttribute("plage_horaire"));
 
                     for (Intersection intersection : plan.obtenirListeIntersection()) {
-                        if (intersection.obtenirId() == id_intersection){
-                            listeLivreur.get(id_livreur).obtenirTournee(). obtenirListeLivraison().add(new Livraison(plage_horaire, intersection, listeLivreur.get(i)));
-                            listeLivreur.get(id_livreur).obtenirLivraisons().add(new Livraison(plage_horaire, intersection, listeLivreur.get(i)));
+                        if (intersection.obtenirId().equals(id_intersection)){
+                            listeLivraison[id_livreur].add(new Livraison(plage_horaire, intersection, listeLivreur.get(id_livreur)));
+                            break;
                         }
                     }
                 }
+            }
+            for (int i = 0; i < nombreLivreur; ++i) {
+                listeLivreur.get(i).modifierLivraisons(listeLivraison[i]);
+                listeLivreur.get(i).obtenirTournee().modifierListeLivraison(listeLivraison[i]);
             }
 
             // Ajoute les tournées
             NodeList segmentTournee = document.getElementsByTagName("segment_tournee");
             int nombreSegmentTournee = segmentTournee.getLength();
+            ArrayList<Segment>[] listeSegmentTournee = new ArrayList[nombreLivreur];
+            for (int i = 0; i < nombreLivreur; ++i) {
+                listeSegmentTournee[i] = new ArrayList<Segment>();
+            }
 
             for (int i = 0; i < nombreSegmentTournee; i++) {
                 Node livNode = segmentTournee.item(i);
@@ -356,16 +365,14 @@ public class PlanLivraison extends Observable {
                     String id_origin = (eElement.getAttribute("origin"));
 
                     for (Segment segment : plan.obtenirListeSegment()) {
-                        if (segment.obtenirDestination().obtenirId() == id_destination && segment.obtenirOrigine().obtenirId() == id_origin) {
-                            listeLivreur.get(id_livreur).obtenirTournee().obtenirListeSegment().add(segment);
+                        if (segment.obtenirDestination().obtenirId().equals(id_destination) && segment.obtenirOrigine().obtenirId().equals(id_origin)) {
+                            listeSegmentTournee[id_livreur].add(segment);
                         }
                     }
                 }
             }
-
-            for (Livreur liv : listeLivreur) {
-                System.out.println(liv.obtenirLivraisons());
-                System.out.println(liv.obtenirTournee());
+            for (int i = 0; i < nombreLivreur; ++i) {
+                listeLivreur.get(i).obtenirTournee().modifierListeSegment(listeSegmentTournee[i]);
             }
 
             this.setChanged();

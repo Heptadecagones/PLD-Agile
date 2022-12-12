@@ -43,10 +43,8 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private int hauteur;
 
 
-    private Livraison livraisonClickee;
-    public void modifierLivraisonClickee(Livraison l){
-        livraisonClickee=l;
-    }
+    
+    
 
     /**
      * Toutes les données de la carte
@@ -68,6 +66,11 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private Intersection choixIntersection = new Intersection();
     // La rue la plus proche survole par la souris
     private Segment rueSurvole = new Segment();
+    // La livraison clikee dans Description
+    private Livraison livraisonClickee;
+    public void modifierLivraisonClickee(Livraison l){
+        livraisonClickee=l;
+    }
 
     private final int DIAMETRE_INTERSECTION_DEFAULT = 2; // diamètre par default
     private final int DIAMETRE_INTERSECTION = 10; // diamètre dans tous les scénarios sauf default
@@ -138,6 +141,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         listeIntersection = new ArrayList<>();
         listeSegment = new ArrayList<>();
         listeLivreur = new ArrayList<>();
+        livraisonClickee = null;
 
         choixIntersection = new Intersection();
 
@@ -183,10 +187,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         entrepot = planLivraison.obtenirPlan().obtenirEntrepot();
         listeLivreur = planLivraison.obtenirListeLivreur();
         fenetreCreation.modifierlivreurs(listeLivreur);
-        for (Livreur liv : listeLivreur) {
-            System.out.println(liv.obtenirLivraisons());
-            System.out.println(liv.obtenirTournee());
-        }
+
         // Calculer les coins de la carte
         if (entrepot.obtenirId() != null) {
             Point2D cordEntrepot = convertirLatLong(entrepot);
