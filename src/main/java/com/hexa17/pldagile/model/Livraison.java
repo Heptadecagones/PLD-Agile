@@ -18,7 +18,7 @@ public class Livraison {
     }
 
     public String toString() {
-        String description = "Plage Horaire : " + this.obtenirHoraireLivraison() + " lieu : " + this.lieu;
+        String description = "Livreur : "+livreur.obtenirId() + livreur.obtenirNom() + "Plage Horaire : " + this.horaireLivraison + " lieu : " + this.lieu;
         return description;
     }
 

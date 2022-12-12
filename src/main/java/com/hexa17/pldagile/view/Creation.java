@@ -6,20 +6,28 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+<<<<<<< HEAD:src/main/java/com/hexa17/pldagile/view/Creation.java
 import com.hexa17.pldagile.model.Intersection;
+=======
+import model.Intersection;
+import model.Livreur;
+>>>>>>> 3fb72a959b485477d76addab70e049e076ddc254:src/main/java/view/Creation.java
 
 /**
  *
@@ -30,23 +38,31 @@ import com.hexa17.pldagile.model.Intersection;
 public class Creation {
     private JButton btnCreerLivraison;
 
-    private final Font font = new Font("Arial", Font.PLAIN, 16);
+    private final Font font = new Font("Arial", Font.PLAIN, 12);
 
     private String horaires[] = { "8", "9", "10", "11" };
-    private String livreurs[] = { "0", "1", "2" };
+
+    private String livreurs[];
     private JFrame f = new JFrame("Ajout Livraison");
 
-    private JTextArea textIntersection = new JTextArea(10, 20);
+    private JTextArea textIntersection = new JTextArea(5, 15);
     private JScrollPane defilerTextIntersection = new JScrollPane(textIntersection);
     private JComboBox textHoraire = new JComboBox(horaires);
-    private JComboBox textLivreur = new JComboBox(livreurs);
+    private JComboBox textLivreur = new JComboBox();
 
     private JPanel panelIntersection = new JPanel(new BorderLayout());
     private JPanel panelHoraire = new JPanel(new BorderLayout());
     private JPanel panelLivreur = new JPanel(new BorderLayout());
 
     private Intersection intersection;
-
+    public void modifierlivreurs(ArrayList<Livreur> livreursListe) {
+        livreurs = new String[livreursListe.size()];
+        for(int i=0;i<livreursListe.size();i++){
+            livreurs[i]=livreursListe.get(i).obtenirId()+";"+livreursListe.get(i).obtenirNom();
+        }
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( livreurs );
+        textLivreur.setModel(model);
+    }
     public Intersection obtenirIntersection() {
         return intersection;
     }
@@ -64,6 +80,9 @@ public class Creation {
     }
 
     public void init() {
+        for(int i=0;i<8;i++){
+        
+        }
         // Définir les propriétés des composants
         btnCreerLivraison = creerBouton("Creer");
         textIntersection.setFont(font);
@@ -71,8 +90,9 @@ public class Creation {
         textIntersection.setEditable(false);
         textHoraire.setFont(font);
         textLivreur.setFont(font);
+        btnCreerLivraison.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Ajouter des composants dans la fenêtre
+        // Ajouter des composants
         JPanel panelMere = new JPanel();
         panelMere.setLayout(new BoxLayout(panelMere, BoxLayout.Y_AXIS));
 
@@ -105,7 +125,7 @@ public class Creation {
         f.add(panelMere);
 
         // Définir les propriétés de la fenêtre
-        f.setLocation(200, 200);
+        //f.setLocation(200, 200);
         f.setResizable(false);
         f.pack();
         f.setVisible(false);

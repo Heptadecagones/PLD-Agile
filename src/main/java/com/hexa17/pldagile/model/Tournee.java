@@ -29,6 +29,13 @@ public class Tournee {
     public void modifierListeSegment(ArrayList<Segment> listeSegment) {
         this.listeSegment = listeSegment;
     }
+    public ArrayList<Livraison> obtenirListeLivraison() {
+        return listeLivraison;
+    }
+
+    public void modifierListeLivraison(ArrayList<Livraison> listeLivraison) {
+        this.listeLivraison = listeLivraison;
+    }
 
     public void ajouterSegment(Segment seg) {
         this.listeSegment.add(seg);
