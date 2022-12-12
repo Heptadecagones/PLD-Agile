@@ -1,4 +1,4 @@
-package view;
+package com.hexa17.pldagile.view;
 
 import java.util.ArrayList;
 import java.util.Observable;

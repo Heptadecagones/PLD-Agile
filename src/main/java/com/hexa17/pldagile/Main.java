@@ -1,6 +1,6 @@
 package com.hexa17.pldagile;
 
-import controller.Controleur;
+import com.hexa17.pldagile.controller.Controleur;
 
 /**
  *

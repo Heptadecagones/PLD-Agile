@@ -1,4 +1,4 @@
-package model;
+package com.hexa17.pldagile.model;
 
 /**
  *

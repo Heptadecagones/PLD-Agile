@@ -1,5 +1,6 @@
-package view;
+package com.hexa17.pldagile.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;

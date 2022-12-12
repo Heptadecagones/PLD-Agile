@@ -1,4 +1,4 @@
-package controller;
+package com.hexa17.pldagile.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,8 +9,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import model.PlanLivraison;
-import view.IHM;
+import com.hexa17.pldagile.model.PlanLivraison;
+import com.hexa17.pldagile.view.IHM;
 
 /**
  *
@@ -26,9 +26,9 @@ public class Controleur {
      * Constructeur qui initialise un plan et une vue
      */
     public Controleur() {
-        planLivraison = new PlanLivraison();
         view = new IHM();
         view.init();
+        planLivraison = new PlanLivraison();
         planLivraison.addObserver((Observer) view.obtenirCarte());
         planLivraison.addObserver((Observer) view.obtenirDescription());
         ActionListener c = new ActionListener() {
@@ -37,10 +37,10 @@ public class Controleur {
                 String command = arg0.getActionCommand();
                 
                 if ("Charger".equals(command)) {
-                    JFileChooser selecteur = new JFileChooser();
+                    JFileChooser selecteur = new JFileChooser("." + File.separator + "..");
 
                     // adapter le chemin vers les fichier XML
-                    String cheminXML = File.separator + "src" + File.separator + "main" + File.separator + "java";
+                    String cheminXML = File.separator + "data";
                     File repertoireProjet = new File(System.getProperty("user.dir") + cheminXML);
                     selecteur.setCurrentDirectory(repertoireProjet);
 

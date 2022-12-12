@@ -1,4 +1,4 @@
-package model;
+package com.hexa17.pldagile.model;
 
 import java.util.ArrayList;
 import java.io.File;
@@ -14,8 +14,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Plan {
-    private Intersection entrepot;
+public class PlanUsine {
 
     public void modifierEntrepot(Intersection entrepot) {
         this.entrepot = entrepot;
@@ -71,10 +70,9 @@ public class Plan {
             document.getDocumentElement().normalize();
 
             NodeList listeInter = document.getElementsByTagName("intersection");
-            this.nombreIntersection = listeInter.getLength();
             this.listeIntersection = new ArrayList<Intersection>();
 
-            for (int i = 0; i < this.nombreIntersection; i++) {
+            for (int i = 0; i < listeInter.getLength(); i++) {
                 Node nNode = listeInter.item(i);
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -88,10 +86,9 @@ public class Plan {
             }
 
             NodeList listeSeg = document.getElementsByTagName("segment");
-            this.nombreSegment = listeSeg.getLength();
             this.listeSegment = new ArrayList<Segment>();
 
-            for (int i = 0; i < this.nombreSegment; i++) {
+            for (int i = 0; i < listeSeg.getLength(); i++) {
                 Node nNode = listeSeg.item(i);
 
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -119,7 +116,7 @@ public class Plan {
                             break;
                     }
                     Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
-                    tempOrigine.ajouterSegment(tempSegment);
+                    //tempOrigine.ajouterSegment(tempSegment);
                     this.listeSegment.add(tempSegment);
                 }
             }
@@ -130,7 +127,6 @@ public class Plan {
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
                 String tempEntrepotId = eElement.getAttribute("address");
-                this.entrepot = null;
 
                 for (int j = 0; j < this.listeIntersection.size(); j++) {
                     if (this.listeIntersection.get(j).obtenirId().equals(tempEntrepotId)) {

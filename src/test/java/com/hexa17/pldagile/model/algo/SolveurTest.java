@@ -1,25 +1,29 @@
-package model.algo.Dijkstra;
+package com.hexa17.pldagile.model.algo;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
-import model.Intersection;
-import model.Livraison;
-import model.Livreur;
-import model.PlanLivraison;
+import com.hexa17.pldagile.model.Intersection;
+import com.hexa17.pldagile.model.Livraison;
+import com.hexa17.pldagile.model.Livreur;
+import com.hexa17.pldagile.model.PlanLivraison;
 
 /**
- * Unit test for graphs.
+ * Unit tests for graphs.
  * 
  * @author Thibaut
  */
-public class DijkstraAlgoTest {
+public class SolveurTest {
 
     static PlanLivraison plan;
-    static DijkstraAlgo dijal;
+    static Solveur dijal;
 
     /**
      * Construit une livraison aléatoire
@@ -38,9 +42,7 @@ public class DijkstraAlgoTest {
      */
     @BeforeAll
     public static void initPlan() {
-        // Initialiser le plan
-        plan = new PlanLivraison();
-        plan.ouvrirPlan("src/main/java/largeMap.xml");
+        plan = new PlanLivraison("src/main/java/largeMap.xml");
     }
 
     /**
@@ -54,7 +56,7 @@ public class DijkstraAlgoTest {
         ArrayList<Livraison> livrs = new ArrayList<>();
 
         // Construire une liste de livraisons aléatoires
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             Intersection inter = construireLivraisonAleatoire(plan);
             int horaire = ((int) (Math.random() * 3)) + 8;
 
@@ -64,7 +66,7 @@ public class DijkstraAlgoTest {
 
         livreur.modifierLivraisons(livrs);
 
-        dijal = new DijkstraAlgo(plan.obtenirPlan(), livreur);
+        dijal = new Solveur(plan.obtenirPlan());
     }
 
     /**
@@ -75,8 +77,16 @@ public class DijkstraAlgoTest {
         dijal = null;
     }
 
+    // @Test
+    // public void testTabu() throws CloneNotSupportedException {
+    //     this.dijResult = dijal.calculerGraphePourTSP();
+    //     
+    //     new TabuWrapper(dijResult);
+
+    // }
+
     /*
-     * TODO : Le test est déprécié, ce n'est Pls DijkstraAlgo qui renvoi la tournée.
+     * TODO : Le test est déprécié, ce n'est Pls Solveur qui renvoi la tournée.
      * Remplacer avec un autre test.
      */
     /*

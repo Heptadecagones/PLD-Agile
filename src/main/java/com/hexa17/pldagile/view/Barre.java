@@ -1,4 +1,4 @@
-package view;
+package com.hexa17.pldagile.view;
 
 import java.awt.Dimension;
 import java.awt.Font;
