@@ -52,7 +52,7 @@ public class SolveurTest {
     public void initAlgo() {
 
         // Initialiser le livreur
-        Livreur livreur = new Livreur(69);
+        Livreur livreur = new Livreur(69,"Jean Jean");
         ArrayList<Livraison> livrs = new ArrayList<>();
 
         // Construire une liste de livraisons aléatoires

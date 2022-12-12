@@ -13,18 +13,25 @@ public class Livreur {
     private boolean disponibilite;
     private ArrayList<Livraison> livraisons;
     private Tournee tournee;
+    private String nom;
 
-    public Livreur(int id) {
+    public Livreur(int id,String nom) {
         this.id = id;
         this.disponibilite = true;
         this.livraisons = new ArrayList<Livraison>();
         this.tournee = new Tournee();
+        this.nom=nom;
     }
 
     public int obtenirId() {
         return id;
     }
-
+    public String obtenirNom() {
+        return nom;
+    }
+    public void modifierNom(String nom) {
+        this.nom=nom;
+    }
     public void modifierId(int id) {
         this.id = id;
     }

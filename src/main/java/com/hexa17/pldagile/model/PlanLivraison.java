@@ -47,13 +47,16 @@ public class PlanLivraison extends Observable {
             Noeud noeud = liv.obtenirLieu();
             noeuds.add(noeud);
 
-            if (noeud.obtenirHoraireLivraison() < minLiv)
-                minLiv = noeud.obtenirHoraireLivraison();
+            if (liv.obtenirHoraireLivraison() < minLiv)
+                minLiv = liv.obtenirHoraireLivraison();
         }
         Noeud entrepot = plan.obtenirEntrepot();
+        //TODO changer l'heure de livraison de l'entrepôt à 99 (peut-être plus nécessaire) - T
         entrepot.modifierHoraireLivraison(99);
         noeuds.add(entrepot);
         Graphe grapheSimplifie = new Graphe(noeuds);
+
+        //TODO finir d'adapter TabuSearch
         TabuSearch tabu = new TabuSearch(grapheSimplifie, minLiv);
         Noeud[] ordreLivraison = tabu.soluceEnNoeuds();
 
@@ -94,10 +97,10 @@ public class PlanLivraison extends Observable {
         this.plan = null;
         this.solveur = null;
         this.listeLivreur = new ArrayList<Livreur>();
-        this.listeLivreur.add(new Livreur(0));
-        this.listeLivreur.add(new Livreur(1));
-        this.listeLivreur.add(new Livreur(2));
-        this.listeLivreur.add(new Livreur(3));
+        this.listeLivreur.add(new Livreur(0, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(1, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(2, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(3, Integer.toString(1)));
     }
 
     public void initPlan(String cheminXml) {
@@ -121,10 +124,10 @@ public class PlanLivraison extends Observable {
         this.notifyObservers();
 
         this.listeLivreur = new ArrayList<Livreur>();
-        this.listeLivreur.add(new Livreur(0));
-        this.listeLivreur.add(new Livreur(1));
-        this.listeLivreur.add(new Livreur(2));
-        this.listeLivreur.add(new Livreur(3));
+        this.listeLivreur.add(new Livreur(0, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(1, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(2, Integer.toString(1)));
+        this.listeLivreur.add(new Livreur(3, Integer.toString(1)));
 
         //FIXME Même chose qu'au-dessus
         this.solveur = new Solveur(this.plan);

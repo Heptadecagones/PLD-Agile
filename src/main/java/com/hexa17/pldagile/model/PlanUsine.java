@@ -16,7 +16,16 @@ import org.xml.sax.SAXException;
 
 public class PlanUsine {
 
+    public void modifierEntrepot(Intersection entrepot) {
+        this.entrepot = entrepot;
+    }
+
     private ArrayList<Intersection> listeIntersection;
+
+    public void modifierListeIntersection(ArrayList<Intersection> listeIntersection) {
+        this.listeIntersection = listeIntersection;
+    }
+
     private ArrayList<Segment> listeSegment;
     private Intersection entrepot;
 
@@ -24,6 +33,35 @@ public class PlanUsine {
         return new Plan(listeIntersection, listeSegment, entrepot);
     }
 
+    public void modifierListeSegment(ArrayList<Segment> listeSegment) {
+        this.listeSegment = listeSegment;
+    }
+
+    private long nombreIntersection;
+
+    public void modifierNombreIntersection(long nombreIntersection) {
+        this.nombreIntersection = nombreIntersection;
+    }
+
+    private long nombreSegment;
+
+    public void modifierNombreSegment(long nombreSegment) {
+        this.nombreSegment = nombreSegment;
+    }
+
+    // FIXME je sais pas ce que ça fout là
+    /**
+     * Init les données / Reinit les données de l'ancienne carte
+     * Utilisée quand l'utilisateur charge une nouvelle carte
+     */
+    public void init() {
+        entrepot = new Intersection();
+        listeIntersection = new ArrayList<Intersection>();
+        listeSegment = new ArrayList<Segment>();
+    }
+
+    // chargement d'un plan( avec segments,intersections,entrepot) à partir d'un
+    // fichier XML
     public void chargerXML(String nomFichier) {
         try {
 
@@ -80,7 +118,7 @@ public class PlanUsine {
                             break;
                     }
                     Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
-                    //tempOrigine.ajouterSegment(tempSegment);
+                    // tempOrigine.ajouterSegment(tempSegment);
                     this.listeSegment.add(tempSegment);
                 }
             }
@@ -106,5 +144,25 @@ public class PlanUsine {
         } catch (ParserConfigurationException e) {
             System.out.println(e);
         }
+    }
+
+    public Intersection obtenirEntrepot() {
+        return entrepot;
+    }
+
+    public long obtenirNombreIntersection() {
+        return nombreIntersection;
+    }
+
+    public long obtenirNombreSegment() {
+        return nombreSegment;
+    }
+
+    public ArrayList<Intersection> obtenirListeIntersection() {
+        return listeIntersection;
+    }
+
+    public ArrayList<Segment> obtenirListeSegment() {
+        return listeSegment;
     }
 }
