@@ -551,9 +551,10 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
         rueSurvole = recupererRue(sourisX, sourisY, maxDistance);
         if (rueSurvole.obtenirNom() != null) {
-            setToolTipText(rueSurvole.obtenirNom());
+            repaint();
+            //setToolTipText(rueSurvole.obtenirNom());
         }
-        repaint();
+        
     }
 
     @Override
@@ -576,6 +577,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     public void mousePressed(MouseEvent e) {
         released = false;
         startPoint = MouseInfo.getPointerInfo().getLocation();
+        System.out.println("pressed");
         repaint();
     }
 

@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
+import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.Dimension;
@@ -59,15 +60,15 @@ public class Description extends JPanel implements Observer {
     }
     public void init() {
         setBorder(chargement);
+        setFocusable(false);
         setLayout(new BorderLayout());
         btnList = new JList(btnName);
         btnList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         btnList.setSelectedIndex(0);
         btnList.setVisibleRowCount(3);
-  
         JScrollPane btnListScrollPane = new JScrollPane(btnList);  
         btnListScrollPane.setPreferredSize(new Dimension(200, 200));
-        //add(chargement);
+        btnListScrollPane.setFocusable(false);
         add(btnListScrollPane);
         
         btnList.addMouseListener(new MouseAdapter() {

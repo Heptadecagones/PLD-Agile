@@ -72,6 +72,7 @@ public class Barre extends JPanel {
         // Ajoute les composants
         setLayout(new GridBagLayout());
         setOpaque(false);
+        setFocusable(false);
 
         setMaximumSize(new Dimension(80, Integer.MAX_VALUE));
 
@@ -120,6 +121,7 @@ public class Barre extends JPanel {
     public JButton creerBouton(String nom) {
         JButton bouton = new JButton(nom);
         bouton.setFont(font);
+        bouton.setFocusable(false);
         bouton.setFocusPainted(false);
         return bouton;
     }
