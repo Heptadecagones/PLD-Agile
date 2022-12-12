@@ -108,7 +108,7 @@ public class Controleur {
                 if("Nouveau livreur".equals(command)){
                     String nom = JOptionPane.showInputDialog(new JFrame(), "Entrer nom Livreur");
                     planLivraison.ajouterLivreur(new Livreur(planLivraison.obtenirListeLivreur().size(),nom));
-                    System.out.println("nouveau livreur cliqué");
+                    //System.out.println("nouveau  livreur cliqué");
                 }
             }
         };
