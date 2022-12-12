@@ -1,19 +1,27 @@
 package com.hexa17.pldagile.model;
-
 import java.util.Observable;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.WeakHashMap;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import javax.xml.transform.*;
 
-import com.hexa17.pldagile.model.algo.Graphe;
-import com.hexa17.pldagile.model.algo.Lien;
-import com.hexa17.pldagile.model.algo.Noeud;
-import com.hexa17.pldagile.model.algo.Solveur;
-import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
+import java.io.IOException;
+
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+
 
 /**
  *
@@ -26,110 +34,52 @@ public class PlanLivraison extends Observable {
 
     private ArrayList<Livreur> listeLivreur;
     private Plan plan;
-    private Solveur solveur;
 
     // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
-    public void nouvelleLivraison(String horaire, Intersection intersection, int numLivreur) {
-        Livreur livreurActuel = this.listeLivreur.get(numLivreur);
+    public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
         Livraison nouvelleLivraison = new Livraison(Integer.parseInt(horaire), intersection,
-                livreurActuel);
-        this.listeLivreur.get(numLivreur).obtenirLivraisons().add(nouvelleLivraison);
+                this.listeLivreur.get(Integer.parseInt(numLivreur)));
+        this.listeLivreur.get(Integer.parseInt(numLivreur)).obtenirLivraisons().add(nouvelleLivraison);
+        System.out.println("Livreur:" + this.listeLivreur.get(Integer.parseInt(numLivreur)).toString());
+        // TODO: remplacer l'appel de DijkstraAlgo par un appel de FacadeAlgoTournee
+        // DijkstraAlgo dijal = new DijkstraAlgo(this,
+        // this.listeLivreur.get(Integer.parseInt(numLivreur)));
         Tournee t = new Tournee();
-        Solveur s = new Solveur(plan, livreurActuel);
-        // Calculer l'arborescence de la nouvelle livraison
-        s.calculerArborescenceDepuisNoeud(intersection);
-        // Calcule le graphe simplifié
-        ArrayList<Livraison> livraisons = listeLivreur.get(numLivreur).obtenirLivraisons();
-        Set<Noeud> noeuds = new HashSet<>();
-        int minLiv = 99;
-
-        for (Livraison liv : livraisons) {
-            Noeud noeud = liv.obtenirLieu();
-            noeuds.add(noeud);
-
-            if (noeud.obtenirHoraireLivraison() < minLiv)
-                minLiv = noeud.obtenirHoraireLivraison();
+        try {
+            t = new Tournee(FacadeAlgoTournee.calculerTournee(
+                    plan, this.listeLivreur.get(Integer.parseInt(numLivreur))));
+            System.out.println("test\n:" + t.toString());
+        } catch (CloneNotSupportedException cnse) {
+            cnse.printStackTrace();
         }
-        Noeud entrepot = plan.obtenirEntrepot();
-        entrepot.modifierHoraireLivraison(99);
-        noeuds.add(entrepot);
-        Graphe grapheSimplifie = new Graphe(noeuds);
-        TabuSearch tabu = new TabuSearch(grapheSimplifie, minLiv);
-        Noeud[] ordreLivraison = tabu.soluceEnNoeuds();
-
-        ArrayList<Segment> tournee = new ArrayList<Segment>();
-
-        // On ajoute les segments dans la tournee
-        for (int i = 0; i < ordreLivraison.length - 1; i++) {
-            tournee.addAll(ordreLivraison[i + 1].obtenirArborescence().get(ordreLivraison[i]).obtenirChemin());
-        }
-
-        // Minimalisation du graphe
-        /*
-         * for(Livraison liv : livraisons) {
-         * for(Livraison liv2 : livraisons) {
-         * if(!liv.equals(liv2)) {
-         * if(liv.obtenirPlageHoraire() > liv2.obtenirPlageHoraire()) {
-         * grapheMinimal.get(liv.obtenirLieu()).remove(liv2.obtenirLieu());
-         * }
-         * else {
-         * if(grapheMinimal.get(liv.obtenirLieu()).containsKey(plan.obtenirEntrepot()))
-         * {
-         * grapheMinimal.get(liv.obtenirLieu()).remove(plan.obtenirEntrepot());
-         * }
-         * }
-         * }
-         * }
-         * }
-         */
-
-        // Appeler TabuSearch
-        this.listeLivreur.get(numLivreur).obtenirTournee()
+        this.listeLivreur.get(Integer.parseInt(numLivreur)).obtenirTournee()
                 .modifierListeSegment(t.obtenirListeSegment());
         this.setChanged();
         this.notifyObservers();
     }
 
+    public void ouvrirPlan(String XML) {
+        this.plan.chargerXML(XML);
+        this.setChanged();
+        this.notifyObservers();
+    }
+
     public PlanLivraison() {
-        this.plan = null;
-        this.solveur = null;
-        this.listeLivreur = new ArrayList<Livreur>();
-        this.listeLivreur.add(new Livreur(0));
-        this.listeLivreur.add(new Livreur(1));
-        this.listeLivreur.add(new Livreur(2));
-        this.listeLivreur.add(new Livreur(3));
+        init();
     }
 
-    public void initPlan(String cheminXml) {
-        PlanUsine pf = new PlanUsine();
-        pf.chargerXML(cheminXml);
-        this.plan = pf.construirePlan();
-        //FIXME comment avoir le plan ici, on passe le plan en paramètre?? - Thibaut
-        this.solveur = new Solveur(plan);
-
-        this.setChanged();
-        this.notifyObservers();
-
-        solveur.calculerArborescenceDepuisNoeud(this.plan.obtenirEntrepot());
-    }
-
-    public PlanLivraison(String cheminXml) {
-        PlanUsine pf = new PlanUsine();
-        pf.chargerXML(cheminXml);
-        this.plan = pf.construirePlan();
-        this.setChanged();
-        this.notifyObservers();
-
+    /**
+     * Init les données / Reinit les données de l'ancienne carte
+     * Utilisée quand l'utilisateur charge une nouvelle carte
+     */
+    public void init() {
+        this.plan = new Plan();
+        this.plan.init();
         this.listeLivreur = new ArrayList<Livreur>();
-        this.listeLivreur.add(new Livreur(0));
-        this.listeLivreur.add(new Livreur(1));
-        this.listeLivreur.add(new Livreur(2));
-        this.listeLivreur.add(new Livreur(3));
-
-        //FIXME Même chose qu'au-dessus
-        this.solveur = new Solveur(this.plan);
-        // On calcul l'arborescence de l'entrepôt avant d'ajouter des livraisons
-        solveur.calculerArborescenceDepuisNoeud(this.plan.obtenirEntrepot());
+        this.listeLivreur.add(new Livreur(0,"Jean Jean"));
+        this.listeLivreur.add(new Livreur(1,"Hervé Lapin"));
+        this.listeLivreur.add(new Livreur(2,"Jeanne-Annick Al-Pohou"));
+        this.listeLivreur.add(new Livreur(3,"Bertrand Turpin"));
     }
 
     public ArrayList<Livreur> obtenirListeLivreur() {
@@ -139,4 +89,335 @@ public class PlanLivraison extends Observable {
     public Plan obtenirPlan() {
         return this.plan;
     }
+    public void sauvegarder(String nomFichier){
+
+        String ajout_parametre;
+     
+        try {
+ 
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
+            
+            // élément de racine
+            Document doc = docBuilder.newDocument();
+            Element racine = doc.createElement("map");
+            
+
+            //doc.setTextContent("\n");
+
+
+            // l'élément contact
+            String help;
+           
+            
+            
+            for(Livreur livr : obtenirListeLivreur()){
+                Element livreur = doc.createElement("livreur");
+                racine.appendChild(livreur);
+                help = String.valueOf(livr.obtenirId());
+            livreur.setAttribute("id", help);
+            }
+
+
+           
+
+          //  doc.setTextContent("\n");
+           
+            
+
+            Element warehouse = doc.createElement("warehouse");
+            warehouse.setAttribute("address", plan.obtenirEntrepot().obtenirId());
+            racine.appendChild(warehouse);
+            
+          //  doc.setTextContent("\n");
+            if (!plan.obtenirListeIntersection().isEmpty()) {
+            for(Intersection aff_intersection : plan.obtenirListeIntersection()){
+             
+            // intersection
+            
+            Element intersection = doc.createElement("intersection");
+            
+            racine.appendChild(intersection);
+            ajout_parametre = aff_intersection.obtenirId();
+           
+            intersection.setAttribute("id", ajout_parametre);
+            ajout_parametre = String.valueOf(aff_intersection.obtenirLatitude());
+            intersection.setAttribute("latitude", ajout_parametre);
+            ajout_parametre = String.valueOf(aff_intersection.obtenirLongitude());
+            intersection.setAttribute("longitude", ajout_parametre);
+            // id
+           // doc.setTextContent("\n");
+            
+            }
+
+        }
+       
+        if (!plan.obtenirListeSegment().isEmpty()) {
+        for(Segment aff_segment : plan.obtenirListeSegment()){
+         
+
+           
+             //segment
+             Element segment = doc.createElement("segment");
+             racine.appendChild(segment);
+             
+             ajout_parametre = String.valueOf(aff_segment.obtenirDestination().obtenirId());
+             segment.setAttribute("destination", ajout_parametre);
+
+            
+             ajout_parametre = String.valueOf(aff_segment.obtenirLongueur());
+             segment.setAttribute("length", ajout_parametre);
+
+
+
+             ajout_parametre = String.valueOf(aff_segment.obtenirNom());
+             segment.setAttribute("name", ajout_parametre);
+
+
+             ajout_parametre = String.valueOf(aff_segment.obtenirOrigine().obtenirId());
+             segment.setAttribute("origin", ajout_parametre);
+
+
+
+          //   doc.setTextContent("\n");
+         
+            
+        }}
+
+
+
+
+
+        for(Livreur livr : obtenirListeLivreur()){
+            
+            for(Segment segment_livraison : livr.obtenirTournee().obtenirListeSegment()){
+            
+
+            
+                //segment
+                Element livraison = doc.createElement("livraison");
+                racine.appendChild(livraison);
+
+
+            
+
+                ajout_parametre = String.valueOf(livr.obtenirId());
+                livraison.setAttribute("id_livreur", ajout_parametre);
+
+                
+                ajout_parametre = String.valueOf(segment_livraison.obtenirDestination().obtenirId());
+                livraison.setAttribute("destination", ajout_parametre);
+
+            
+                ajout_parametre = String.valueOf(segment_livraison.obtenirOrigine().obtenirId());
+                livraison.setAttribute("origin", ajout_parametre);
+
+            }
+
+
+
+
+
+         //   doc.setTextContent("\n");
+        }
+           
+    
+
+
+
+
+
+
+
+
+
+
+        doc.appendChild(racine);
+        
+            
+            // write the content into xml file
+            String cheminXML = File.separator + "src" + File.separator + "main" + File.separator + "java";
+            //File repertoireProjet = new File(System.getProperty("user.dir") + cheminXML);
+           
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            DOMSource source = new DOMSource(doc);
+            StreamResult resultat = new StreamResult(new File((System.getProperty("user.dir") + cheminXML + File.separator + nomFichier + ".xml")));
+            
+            transformer.transform(source, resultat);
+            
+            System.out.println("Fichier sauvegardé avec succès!");
+            
+            } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+            } catch (TransformerException tfe) {
+            tfe.printStackTrace();
+            }
+
+
+
+            }
+
+
+
+
+
+            public void chargerLivraison(String nomFichier) {
+                try {
+        
+                    File file = new File(nomFichier);
+                    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+                    Document document = db.parse(file);
+                    document.getDocumentElement().normalize();
+        
+                    NodeList listeInter = document.getElementsByTagName("intersection");
+                    plan.modifierNombreIntersection(listeInter.getLength()); 
+                    plan.modifierListeIntersection(new ArrayList<Intersection>());
+        
+                    for (int i = 0; i < plan.obtenirNombreIntersection(); i++) {
+                        Node nNode = listeInter.item(i);
+        
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            String tempId = eElement.getAttribute("id");
+                            double tempLong = Double.parseDouble(eElement.getAttribute("longitude"));
+                            double tempLat = Double.parseDouble(eElement.getAttribute("latitude"));
+                            Intersection tempInter = new Intersection(tempId, tempLong, tempLat);
+                            plan.obtenirListeIntersection().add(tempInter);
+                        }
+                    }
+        
+                    NodeList listeSeg = document.getElementsByTagName("segment");
+                    plan.modifierNombreSegment( listeSeg.getLength());
+                    plan.modifierListeSegment(new ArrayList<Segment>());
+        
+                    for (int i = 0; i < plan.obtenirNombreSegment(); i++) {
+                        Node nNode = listeSeg.item(i);
+        
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            String tempNom = eElement.getAttribute("name");
+                            String tempOrigineId = eElement.getAttribute("origin");
+                            String tempDestId = eElement.getAttribute("destination");
+                            double tempLongueur = Double.parseDouble(eElement.getAttribute("length"));
+                            Intersection tempOrigine = null;
+                            Intersection tempDest = null;
+        
+                            int compte = 0;
+                            for (int j = 0; j < plan.obtenirListeIntersection().size(); j++) {
+                                if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempOrigineId)) {
+                                    tempOrigine = plan.obtenirListeIntersection().get(j);
+                                    compte++;
+                                }
+        
+                                if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempDestId)) {
+                                    tempDest = plan.obtenirListeIntersection().get(j);
+                                    compte++;
+                                }
+        
+                                if (compte == 2)
+                                    break;
+                            }
+                            Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
+                            tempOrigine.ajouterSegment(tempSegment);
+                            plan.obtenirListeSegment().add(tempSegment);
+                        }
+                    }
+        
+                    NodeList listeEntrepot = document.getElementsByTagName("warehouse");
+                    Node nNode = listeEntrepot.item(0);
+        
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+                        String tempEntrepotId = eElement.getAttribute("address");
+                        plan.modifierEntrepot(null) ;
+        
+                        for (int j = 0; j < plan.obtenirListeIntersection().size(); j++) {
+                            if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempEntrepotId)) {
+                                plan.modifierEntrepot(plan.obtenirListeIntersection().get(j));
+                                break;
+                            }
+                        }
+                    }
+
+                    NodeList listeliv = document.getElementsByTagName("livraison");
+                    int nombreLivraison = listeliv.getLength();
+                    ArrayList<Livraison> listeLivraison = new ArrayList<Livraison>();
+        
+                    for (int i = 0; i < nombreLivraison; i++) {
+                        Node livNode = listeliv.item(i);
+        
+                        if (livNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            String tempDestId = eElement.getAttribute("destination");
+                            String tempIdLivreur = eElement.getAttribute("id_livreur");
+                            String tempOrigineId = eElement.getAttribute("origin");
+                            Intersection tempOrigine = null;
+                            Intersection tempDest = null;
+        
+                            int compte = 0;
+                            for (int j = 0; j < nombreLivraison; j++) {
+
+                                if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempOrigineId)) {
+                                    tempOrigine = plan.obtenirListeIntersection().get(j);
+                                    compte++;
+                                }
+        
+                                if (plan.obtenirListeIntersection().get(j).obtenirId().equals(tempDestId)) {
+                                    tempDest = plan.obtenirListeIntersection().get(j);
+                                    compte++;
+                                }
+        
+                                if (compte == 2)
+                                    break;
+                            }
+
+                            for(Segment seg : plan.obtenirListeSegment()){
+                                if(tempDestId.equals(seg.obtenirDestination().obtenirId()) && tempOrigineId.equals(seg.obtenirOrigine().obtenirId())){
+                            System.out.println("HHHHHHHHHOOOOOOOOOOOOOHHHHHHHHOOOOOOOOOO////////:" + seg);        
+
+                                }
+
+
+                            }
+                            /* 
+                            Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
+                            tempOrigine.ajouterSegment(tempSegment);
+                            plan.obtenirListeSegment().add(tempSegment);
+                            */
+                        }
+                    }
+
+
+
+
+
+
+                    System.out.println(plan.obtenirEntrepot());
+                    System.out.println(plan.obtenirListeIntersection());
+                    System.out.println(plan.obtenirListeSegment());
+
+                    this.setChanged();
+                    this.notifyObservers();
+                } catch (IOException e) {
+                    System.out.println(e);
+                } catch (SAXException e) {
+                    System.out.println(e);
+                } catch (ParserConfigurationException e) {
+                    System.out.println(e);
+                }
+            }
+
+
+
+
+
+
+
+
+
+        
 }
