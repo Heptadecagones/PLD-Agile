@@ -23,7 +23,7 @@ public class IHM {
     private Barre barre;
     private Description description;
     private Carte carte;
-
+    private Creation fenetreCreation;
     public void modifierBarre(Barre barre) {
         this.barre = barre;
     }
@@ -47,8 +47,12 @@ public class IHM {
     public Carte obtenirCarte() {
         return carte;
     }
-
+    public Creation obtenirFenetreCreation() {
+        return fenetreCreation;
+    }
     public void init() {
+        fenetreCreation = new Creation();
+        fenetreCreation.init();
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -74,13 +78,10 @@ public class IHM {
         panel.add(barre);
 
         carte = new Carte();
-        
         panel.add(carte);
 
         description = new Description();
         description.init();
-        description.modifierCarte(carte);
-        carte.modifierDescription(description);
         panel.add(description);
         
         frame.add(panel);

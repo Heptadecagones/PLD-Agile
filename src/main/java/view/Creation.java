@@ -10,6 +10,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -24,6 +26,7 @@ import javax.swing.border.TitledBorder;
 
 import model.Intersection;
 import model.Livreur;
+import model.PlanLivraison;
 
 /**
  *
@@ -31,7 +34,7 @@ import model.Livreur;
  */
 
 @SuppressWarnings("serial")
-public class Creation {
+public class Creation  implements Observer{
     private JButton btnCreerLivraison;
 
     private final Font font = new Font("Arial", Font.PLAIN, 12);
@@ -51,6 +54,12 @@ public class Creation {
     private JPanel panelLivreur = new JPanel(new BorderLayout());
 
     private Intersection intersection;
+    @Override
+    public void update(Observable arg0, Object arg1) {
+        PlanLivraison planLivraison = (PlanLivraison) arg0;
+        modifierlivreurs(planLivraison.obtenirListeLivreur());
+    }
+
     public void modifierlivreurs(ArrayList<Livreur> livreursListe) {
         livreurs = new String[livreursListe.size()];
         for(int i=0;i<livreursListe.size();i++){

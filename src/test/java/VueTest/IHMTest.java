@@ -36,7 +36,7 @@ public class IHMTest {
         robot.delay(100);
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
         robot.delay(1000);
-        c.view.obtenirCarte().obtenirFenetreCreation().obtenirBtnCreerLivraison().doClick();
+        c.view.obtenirFenetreCreation().obtenirBtnCreerLivraison().doClick();
 
         assertTrue(c.planLivraison.obtenirListeLivreur().get(0).obtenirLivraisons().size() == 1);
         

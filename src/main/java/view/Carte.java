@@ -34,7 +34,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     /**
      * Tous les composants
      */
-    private Creation fenetreCreation;
+  
 
     /**
      * La taille du panneau
@@ -95,10 +95,6 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private int xDiff = 0;
     private int yDiff = 0;
     private Point startPoint;
-    private Description description;
-    public void modifierDescription(Description d){
-        this.description=d;
-    }
     @Override
     // Garantie la carree de la carte
     public Dimension getPreferredSize() {
@@ -111,13 +107,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
 
     public Carte() {
-        fenetreCreation = new Creation();
-        fenetreCreation.modifierlivreurs(listeLivreur);
-        fenetreCreation.init();
-        
         initDonnee();
-        
-
         addMouseWheelListener(this);
         addMouseMotionListener(this);
         addMouseListener(this);
@@ -184,7 +174,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         listeSegment = planLivraison.obtenirPlan().obtenirListeSegment();
         entrepot = planLivraison.obtenirPlan().obtenirEntrepot();
         listeLivreur = planLivraison.obtenirListeLivreur();
-        fenetreCreation.modifierlivreurs(listeLivreur);
+        //fenetreCreation.modifierlivreurs(listeLivreur);
         System.out.println(listeLivreur);
         // Calculer les coins de la carte
         if (entrepot.obtenirId() != null) {
@@ -284,9 +274,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         return rue;
     }
 
-    public Creation obtenirFenetreCreation() {
-        return fenetreCreation;
-    }
+
 
     // PAINT DE LA CARTE
     @Override
@@ -558,21 +546,22 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         }
         repaint();
     }
+    public Intersection carteCliquee(MouseEvent e){
+        int sourisX = e.getX();
+        int sourisY = e.getY();
 
+        double maxDistance = 20.0;
+        choixIntersection=chercherIntersectionProche(sourisX, sourisY, maxDistance);
+        return(choixIntersection);
+    }
     @Override
     public void mouseClicked(MouseEvent e) {
-        // chercher l'Intersection plus proche
         int sourisX = e.getX();
         int sourisY = e.getY();
 
         double maxDistance = 20.0;
         
         choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
-        this.description.surlignerLivraison(choixIntersection);
-        if (choixIntersection.obtenirId() != null) {
-            fenetreCreation.setIntersection(choixIntersection);
-            fenetreCreation.ouvrir();
-        }
     }
 
     @Override

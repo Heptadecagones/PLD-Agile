@@ -46,15 +46,12 @@ public class Description extends JPanel implements Observer {
     JScrollPane btnListScrollPane;
 
     JList<Livraison> btnList;
-    private Carte carte;
-    private Intersection intersectionChoisie;
     /**
      * la taille du panneau
      */
-    public void modifierCarte(Carte carte) {
-        this.carte=carte;
+    public JList<Livraison> obtenirBtnList(){
+        return btnList;
     }
-
     public Description() {
     }
 
@@ -83,16 +80,6 @@ public class Description extends JPanel implements Observer {
         JScrollPane btnListScrollPane = new JScrollPane(btnList);  
         btnListScrollPane.setPreferredSize(new Dimension(200, 200));
         add(btnListScrollPane);       
-        btnList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                JList list = (JList)evt.getSource();
-                int index = list.locationToIndex(evt.getPoint());
-                System.out.println(index);
-                System.out.println("test+ "+btnList.getSelectedValue());
-                carte.modifierLivraisonClickee((Livraison)btnList.getSelectedValue());
-                carte.repaint();
-            }
-        });
     }
 
     // Mise à jour des données : Ecriture de la liste des livraisons
@@ -107,14 +94,15 @@ public class Description extends JPanel implements Observer {
             }
         
     }
-    public void surlignerLivraison(Intersection intersection) {
+    public Livraison surlignerLivraison(Intersection intersection) {
         int[] tabIndices=new int[btnName.size()];
         int nbSelection=0;
+        Livraison retour=new Livraison();
         for(int k=0;k<btnName.size();k++){
             if(((Livraison)(btnName.get(k))).obtenirLieu()==intersection){
                 tabIndices[nbSelection]=k;
                 nbSelection++;
-                this.carte.modifierLivraisonClickee((Livraison)(btnName.get(k)));
+                retour=(Livraison)(btnName.get(k));
             }
         }
         int[] select=new int[nbSelection];
@@ -126,6 +114,7 @@ public class Description extends JPanel implements Observer {
             System.out.println("\n:"+select[k]);
         }    
         btnList.setSelectedIndices(select);
+        return retour;
     }
         
         
