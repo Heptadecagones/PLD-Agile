@@ -188,11 +188,11 @@ public class PlanLivraison extends Observable {
 
 
 
-
+/* 
 
         for(Livreur livr : obtenirListeLivreur()){
             
-            for(Segment segment_livraison : livr.obtenirTournee().obtenirListeSegment()){
+            for(Livraison liv_livraison : livr.obtenirLivraisons()){
             
 
             
@@ -207,12 +207,12 @@ public class PlanLivraison extends Observable {
                 livraison.setAttribute("id_livreur", ajout_parametre);
 
                 
-                ajout_parametre = String.valueOf(segment_livraison.obtenirDestination().obtenirId());
-                livraison.setAttribute("destination", ajout_parametre);
+                ajout_parametre = String.valueOf(liv_livraison.obtenirPlageHoraire());
+                livraison.setAttribute("plage_horaire", ajout_parametre);
 
             
-                ajout_parametre = String.valueOf(segment_livraison.obtenirOrigine().obtenirId());
-                livraison.setAttribute("origin", ajout_parametre);
+                ajout_parametre = String.valueOf(liv_livraison.obtenirLieu().obtenirId());
+                livraison.setAttribute("id_intersection", ajout_parametre);
 
             }
 
@@ -227,7 +227,7 @@ public class PlanLivraison extends Observable {
 
 
 
-
+*/
 
 
 
@@ -393,7 +393,9 @@ public class PlanLivraison extends Observable {
                                     segm.add(seg);
                                     for(Livreur liv : listeLivreur)
                                     liv.obtenirTournee().obtenirListeSegment().add(seg);
-                
+
+                                    
+
                                 }
                             }
 
