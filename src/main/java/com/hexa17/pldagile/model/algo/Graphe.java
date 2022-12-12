@@ -18,10 +18,10 @@ public class Graphe {
 
     private Set<Noeud> noeuds;
     
-    /*
+    /* 
      * Pour un noeud contient l'ensemble des segments qui partent de celui-ci
      */
-    private Map<Noeud, ArrayList<Segment>> liensEntreNoeuds;
+    protected Map<Noeud, ArrayList<Segment>> liensEntreNoeuds;
 
     @Override
     public String toString() {
@@ -44,25 +44,10 @@ public class Graphe {
         this.noeuds = nodes;
     }
 
+    
 
-    public Graphe(ArrayList<Intersection> listeIntersection, ArrayList<Segment> listeSegment) {
-
-        this.noeuds = new LinkedHashSet<>();
-
-        // Creation de liensEntreNoeuds
-        liensEntreNoeuds = new HashMap<Noeud, ArrayList<Segment>>();
-
-        Noeud tempOrigine;
-
-        for (Segment seg : listeSegment) {
-
-            tempOrigine = seg.obtenirOrigine();
-
-            if (!liensEntreNoeuds.containsKey(tempOrigine)) {
-                liensEntreNoeuds.put(tempOrigine, new ArrayList<Segment>());
-            }
-            liensEntreNoeuds.get(tempOrigine).add(seg);
-        }
+    public Graphe(Map<Noeud, ArrayList<Segment>> liensEntreNoeuds) {
+        this.liensEntreNoeuds = liensEntreNoeuds;
     }
 
     /**

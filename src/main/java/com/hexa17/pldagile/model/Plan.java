@@ -1,20 +1,22 @@
 package com.hexa17.pldagile.model;
 
 import com.hexa17.pldagile.model.algo.Graphe;
+import com.hexa17.pldagile.model.algo.Noeud;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 //TODO Singleton Design pattern
 public class Plan extends Graphe {
     private Intersection entrepot;
 
-    private static ArrayList<Intersection> listeIntersection;
-    private static ArrayList<Segment> listeSegment;
+    private ArrayList<Intersection> listeIntersection;
+    private ArrayList<Segment> listeSegment;
 
-    public Plan(ArrayList<Intersection> listeIntersection, ArrayList<Segment> listeSegment, Intersection entrepot) {
-        super(listeIntersection, listeSegment); // C'est super
-        Plan.listeIntersection = listeIntersection;
-        Plan.listeSegment = listeSegment;
+    public Plan(ArrayList<Intersection> listeIntersection, ArrayList<Segment> listeSegment, Intersection entrepot, Map<Noeud, ArrayList<Segment>> liensEntreNoeuds) {
+        super(liensEntreNoeuds);
+        this.listeIntersection = listeIntersection;
+        this.listeSegment = listeSegment;
         this.entrepot = entrepot;
     }
 

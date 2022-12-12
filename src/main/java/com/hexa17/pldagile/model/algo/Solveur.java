@@ -25,47 +25,11 @@ import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
 public class Solveur {
 
     Plan plan;
-    Livreur livreur;
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
     // public DijkstraAlgo(Plan plan, Livreur livreur) {
-    public Solveur(Plan plan, Livreur livreur) {
+    public Solveur(Plan plan) {
         this.plan = plan;
-        this.livreur = livreur;
-    }
-
-    /**
-     * 
-     * @param noeudActuel
-     * @param noeudVoisin
-     * @param arborescence     arborescence du noeud d'origine
-     * @param liensEntreNoeuds
-     * @return le nouveau chemin allant du noeud d'origine à noeudVoisin
-     */
-    private ArrayList<Segment> calculerNouveauChemin(Noeud noeudActuel,
-            Noeud noeudVoisin, Map<Noeud, Lien> arborescence, Segment chemin) {
-        // On crée une nouvelle liste de références
-        ArrayList<Segment> nouveauChemin = new ArrayList<Segment>();
-        // On ajoute le chemin allant du noeud de référence au noeud actuel
-        nouveauChemin.addAll(arborescence.get(noeudActuel).obtenirChemin());
-        // Et on lui ajoute le segment de noeudActuel à voisin
-        nouveauChemin.add(chemin);
-
-        return nouveauChemin;
-    }
-
-    /**
-     * 
-     * @param noeudActuel
-     * @param noeudVoisin
-     * @param arborescence     arborescence du noeud d'origine
-     * @param liensEntreNoeuds
-     * @return le nouveau poids allant du noeud d'origine à noeudVoisin
-     */
-    private double calculerNouveauPoids(Noeud noeudActuel,
-            Noeud noeudVoisin, Map<Noeud, Lien> arborescence, Segment chemin) {
-        // On récupère le nouveau poids
-        return arborescence.get(noeudActuel).obtenirPoids() + chemin.obtenirLongueur();
     }
 
     /**
@@ -90,17 +54,14 @@ public class Solveur {
         for (Noeud noeudCalcul : noeudsACalculer) {
             if (noeudCalcul.obtenirArborescence() == null) {
                 calculerArborescenceDepuisNoeud(noeudCalcul);
-                for(Entry<Noeud, Lien> dest : noeudCalcul.obtenirArborescence().entrySet()) {
-                    System.out.println(dest.getKey() + " : " + dest.getValue().obtenirPoids());
-                }
             }
         }
     }
 
-    public void calculerArborescenceDepuisNoeud(Noeud noeud) {
+    public void calculerArborescenceDepuisNoeud(Noeud source) {
 
         // On ne calcule une arborescence qu'une fois
-        if (noeud.obtenirArborescence() != null) return;
+        if (source.obtenirArborescence() != null) return;
 
         // Rq : Lien est un équivalent de Pair<ArrayList<Segment>, Double>,
         // voir classe Lien pour les méthodes
@@ -114,94 +75,85 @@ public class Solveur {
         Set<Noeud> noeudsEnCours = new HashSet<Noeud>();
         // Sommets "blanc" de l'algo
         ArrayList<Noeud> noeudsAExplorer = new ArrayList<Noeud>();
-        noeudsAExplorer.addAll(plan.obtenirNoeuds());
-        noeudsAExplorer.remove(noeud); // On retire en premier le noeud origine
-        noeudsEnCours.add(noeud);
 
-        arborescence.put(noeud, new Lien(new ArrayList<Segment>(), (double) 0));
+        arborescence.put(source, new Lien(new ArrayList<Segment>(), (double) 0));
 
-        ArrayList<Segment> nouveauChemin;
-        double nouveauPoids;
+        
+        for (Noeud n : plan.obtenirListeIntersection()) {
+            if (n != source) {
+                noeudsAExplorer.add(n);
+                arborescence.put(n,new Lien(new ArrayList<Segment>(), (double) Integer.MAX_VALUE));
+            }
+        }
+        
+        noeudsEnCours.add(source);
 
         while (!noeudsEnCours.isEmpty()) {
             // TODO: remplacer par une recherche de noeud ayant un coup minimal (utiliser
             // arborescence)
-            Noeud noeudActuel = noeudsEnCours.iterator().next();
+            Noeud noeudActuel = rechercheNoeudDistanceMin(arborescence, noeudsEnCours);
+            noeudsEnCours.remove(noeudActuel);
+            noeudsTraites.add(noeudActuel);
 
             // On récupère tous les noeuds qui sont accessibles par noeudActuel
             // avec keySet() (ensemble des clés d'une Map)
+            if (!liensEntreNoeuds.containsKey(noeudActuel)) continue;
             for (Segment cheminVoisin : liensEntreNoeuds.get(noeudActuel)) {
+
                 Noeud voisin = cheminVoisin.obtenirDestination();
                 // Si le noeud est "blanc" ou "gris"
                 if (!noeudsTraites.contains(voisin)) {
 
-                    /* Relachement de l'arc */
-                    // noeudActuel = Si, voisin = Sj
-                    if (arborescence.containsKey(voisin)) {
-                        if (arborescence.get(voisin).obtenirPoids() > arborescence.get(noeudActuel).obtenirPoids()
-                                + cheminVoisin.obtenirLongueur()) {
-
-                            nouveauChemin = calculerNouveauChemin(noeudActuel, voisin, arborescence, cheminVoisin);
-                            nouveauPoids = calculerNouveauPoids(noeudActuel, voisin, arborescence, cheminVoisin);
-
-                            // On modifie l'arborescence actuelle
-                            arborescence.get(noeudActuel).modifierChemin(nouveauChemin);
-                            arborescence.get(noeudActuel).modifierPoids(nouveauPoids);
-                        }
-                    } else {
-                        /*
-                         * Si on a pas voisin dans l'arborescence, c'est
-                         * nécessairement que son poids était équivalent à +infini
-                         */
-                        nouveauChemin = calculerNouveauChemin(noeudActuel, voisin, arborescence, cheminVoisin);
-                        nouveauPoids = calculerNouveauPoids(noeudActuel, voisin, arborescence, cheminVoisin);
-
-                        // On crée le Lien avec les infos
-                        Lien lienVersVoisin = new Lien(nouveauChemin, nouveauPoids);
-                        // On ajoute voisin dans l'arborescence
-
-                        arborescence.put(noeudActuel, lienVersVoisin);
-                    }
-
-                    // "Coloriage" du noeud voisin en "gris"
                     if (noeudsAExplorer.contains(voisin)) {
                         noeudsAExplorer.remove(voisin);
                         noeudsEnCours.add(voisin);
                     }
+
+                    double temp = arborescence.get(noeudActuel).obtenirPoids() + cheminVoisin.obtenirLongueur();
+
+                    if (temp < arborescence.get(voisin).obtenirPoids()) {
+                        arborescence.get(voisin).modifierPoids(temp);
+                        arborescence.get(voisin).modifierChemin(new ArrayList<Segment>());
+                        arborescence.get(voisin).obtenirChemin().addAll(arborescence.get(noeudActuel).obtenirChemin());
+                        arborescence.get(voisin).obtenirChemin().add(cheminVoisin);
+                    }
                 }
             }
-            // "Coloriage" du noeud actuel en "noir"
-            noeudsEnCours.remove(noeudActuel);
-            noeudsTraites.add(noeudActuel);
         }
 
-        /* Mise à jour de l'arborescence */
-        // On enlève le lien entre le noeud et lui-même
-        arborescence.remove(noeud);
-        // On modifie l'arborescence du noeud
-        noeud.modifierArborescence(arborescence);
+        source.modifierArborescence(arborescence);
+    }
+
+    private Noeud rechercheNoeudDistanceMin(Map<Noeud, Lien> arborescence, Set<Noeud> noeudsGris) {
+        Noeud noeudMin = null;
+        double dist = 0;
+        double distMin = Integer.MAX_VALUE;
+
+        for (Noeud n : noeudsGris) {
+            dist = arborescence.get(n).obtenirPoids();
+            if (dist <= distMin) {
+                distMin = dist;
+                noeudMin = n;
+            }
+        }
+        return noeudMin;
     }
 
 
-    public Tournee calculerTournee() {
+    public Tournee calculerTournee(Livreur livreur) {
         
         // Calcule le graphe simplifié
-        ArrayList<Livraison> livraisons = new ArrayList<Livraison>();
-        livraisons.addAll(livreur.obtenirLivraisons());
+        ArrayList<Livraison> destinations = new ArrayList<Livraison>();
 
         Intersection entrepot = plan.obtenirEntrepot();
         Livraison livEntrepot = new Livraison(99, entrepot, livreur);
-        livraisons.add(livEntrepot);
 
-        calculerArborescences(livraisons);
+        destinations.add(livEntrepot);
+        destinations.addAll(livreur.obtenirLivraisons());
 
-        for (Livraison liv : livraisons) {
-            System.out.println(liv.obtenirLieu().obtenirId() + " : ");
-            for(Entry<Noeud, Lien> dest : liv.obtenirLieu().obtenirArborescence().entrySet()) {
-                System.out.println(dest.getKey() + " : " + dest.getValue().obtenirPoids());
-            }
-        }
-        TabuSearch tabu = new TabuSearch(livraisons);
+        calculerArborescences(destinations);
+
+        TabuSearch tabu = new TabuSearch(destinations);
         Livraison[] ordreLivraison = tabu.soluceEnNoeuds();
 
         ArrayList<Segment> listeSegment = new ArrayList<Segment>();
@@ -213,6 +165,12 @@ public class Solveur {
             listeSegment.addAll(ordreLivraison[i+1].obtenirLieu().obtenirArborescence().get(ordreLivraison[i].obtenirLieu()).obtenirChemin());
             if (i != 0) listeLivraison.add(ordreLivraison[i]);
         }
+
+        // for (Livraison liv : listeLivraison) {
+        //     System.out.println(liv.obtenirHoraireLivraison());
+        //     System.out.println(liv.obtenirHeureLivraison());
+        // }
+
         Tournee tournee = new Tournee(listeSegment, listeLivraison);
         return tournee;
     }

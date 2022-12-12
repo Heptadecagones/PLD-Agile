@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import controller.Controleur;
+import com.hexa17.pldagile.controller.Controleur;
 
 public class IHMTest {
     @Test
@@ -27,7 +27,7 @@ public class IHMTest {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         // c.view.obtenirBarre().obtenirCharger().doClick();
-        c.planLivraison.ouvrirPlan("src/main/java/largeMap.xml");
+        c.planLivraison.initPlan("src/main/java/largeMap.xml");
 
         Robot robot = new Robot();
         robot.delay(1000);
@@ -36,7 +36,7 @@ public class IHMTest {
         robot.delay(100);
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
         robot.delay(1000);
-        c.view.obtenirCarte().obtenirFenetreCreation().obtenirBtnCreerLivraison().doClick();
+        c.view.obtenirFenetreCreation().obtenirBtnCreerLivraison().doClick();
 
         assertTrue(c.planLivraison.obtenirListeLivreur().get(0).obtenirLivraisons().size() == 1);
         

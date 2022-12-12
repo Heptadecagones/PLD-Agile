@@ -1,6 +1,8 @@
 package com.hexa17.pldagile.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.File;
 import java.io.IOException;
 
@@ -14,39 +16,29 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.hexa17.pldagile.model.algo.Noeud;
+
 public class PlanUsine {
+
+    private ArrayList<Intersection> listeIntersection;
+    private ArrayList<Segment> listeSegment;
+    private Map<Noeud, ArrayList<Segment>> liensEntreNoeuds;
+    private Intersection entrepot;
 
     public void modifierEntrepot(Intersection entrepot) {
         this.entrepot = entrepot;
     }
 
-    private ArrayList<Intersection> listeIntersection;
-
     public void modifierListeIntersection(ArrayList<Intersection> listeIntersection) {
         this.listeIntersection = listeIntersection;
     }
 
-    private ArrayList<Segment> listeSegment;
-    private Intersection entrepot;
-
     public Plan construirePlan() {
-        return new Plan(listeIntersection, listeSegment, entrepot);
+        return new Plan(listeIntersection, listeSegment, entrepot, liensEntreNoeuds);
     }
 
     public void modifierListeSegment(ArrayList<Segment> listeSegment) {
         this.listeSegment = listeSegment;
-    }
-
-    private long nombreIntersection;
-
-    public void modifierNombreIntersection(long nombreIntersection) {
-        this.nombreIntersection = nombreIntersection;
-    }
-
-    private long nombreSegment;
-
-    public void modifierNombreSegment(long nombreSegment) {
-        this.nombreSegment = nombreSegment;
     }
 
     // FIXME je sais pas ce que ça fout là
@@ -58,6 +50,7 @@ public class PlanUsine {
         entrepot = new Intersection();
         listeIntersection = new ArrayList<Intersection>();
         listeSegment = new ArrayList<Segment>();
+        liensEntreNoeuds = new HashMap<Noeud, ArrayList<Segment>>();
     }
 
     // chargement d'un plan( avec segments,intersections,entrepot) à partir d'un
@@ -89,6 +82,7 @@ public class PlanUsine {
 
             NodeList listeSeg = document.getElementsByTagName("segment");
             this.listeSegment = new ArrayList<Segment>();
+            this.liensEntreNoeuds = new HashMap<Noeud, ArrayList<Segment>>();
 
             for (int i = 0; i < listeSeg.getLength(); i++) {
                 Node nNode = listeSeg.item(i);
@@ -118,8 +112,13 @@ public class PlanUsine {
                             break;
                     }
                     Segment tempSegment = new Segment(tempNom, tempOrigine, tempDest, tempLongueur);
-                    // tempOrigine.ajouterSegment(tempSegment);
+                    //tempOrigine.obtenirListeSegmentOrigine().add(tempSegment);
                     this.listeSegment.add(tempSegment);
+
+                    if (!liensEntreNoeuds.containsKey(tempOrigine)) {
+                        liensEntreNoeuds.put(tempOrigine, new ArrayList<Segment>());
+                    }
+                    liensEntreNoeuds.get(tempOrigine).add(tempSegment);
                 }
             }
 
@@ -148,14 +147,6 @@ public class PlanUsine {
 
     public Intersection obtenirEntrepot() {
         return entrepot;
-    }
-
-    public long obtenirNombreIntersection() {
-        return nombreIntersection;
-    }
-
-    public long obtenirNombreSegment() {
-        return nombreSegment;
     }
 
     public ArrayList<Intersection> obtenirListeIntersection() {

@@ -1,34 +1,23 @@
 package com.hexa17.pldagile.view;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 
+import com.hexa17.pldagile.model.Intersection;
+import com.hexa17.pldagile.model.Livraison;
 import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.PlanLivraison;
-import com.hexa17.pldagile.model.Livraison;
-import com.hexa17.pldagile.model.Intersection;
-
-import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-
-import javax.swing.JTextArea;
-import javax.swing.ListModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.TitledBorder;
-
 
 /**
  *
@@ -37,26 +26,18 @@ import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 public class Description extends JPanel implements Observer {
-    /**
-     * Tous les composants
-     */
+
     private TitledBorder chargement = new TitledBorder("Chargement");
+
+    //Composants pour la liste des Livraisons
     JPanel panelbtnLivraison;
     ArrayList<JButton> btnLivraison = new ArrayList<JButton>();
     DefaultListModel btnName = new DefaultListModel();
     JScrollPane btnListScrollPane;
-
     JList<Livraison> btnList;
-    private Carte carte;
-    private Intersection intersectionChoisie;
-    /**
-     * la taille du panneau
-     */
-    public void modifierCarte(Carte carte) {
-        this.carte=carte;
-    }
 
-    public Description() {
+    public JList<Livraison> obtenirBtnList(){
+        return btnList;
     }
 
     public TitledBorder obtenirChargement() {
@@ -69,66 +50,69 @@ public class Description extends JPanel implements Observer {
         revalidate();
     }
 
-        
+    public Description() {
+    }
+
     public void init(){
+
         setBorder(chargement);
         setLayout(new BorderLayout());
-        //btnList.setVisibleRowCount(3);
-  
+
+        //Initialisation de la JList des livraisons
         btnListScrollPane = new JScrollPane(btnList);
         add(btnListScrollPane);
         btnList = new JList(btnName);
         btnList.setSelectedIndex(0);
         btnList.setVisibleRowCount(3);     
         btnList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
         JScrollPane btnListScrollPane = new JScrollPane(btnList);  
         btnListScrollPane.setPreferredSize(new Dimension(200, 200));
         add(btnListScrollPane);       
-        btnList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                JList list = (JList)evt.getSource();
-                int index = list.locationToIndex(evt.getPoint());
-                System.out.println(index);
-                System.out.println("test+ "+btnList.getSelectedValue());
-                carte.modifierLivraisonClickee((Livraison)btnList.getSelectedValue());
-                carte.repaint();
-            }
-        });
     }
 
     // Mise à jour des données : Ecriture de la liste des livraisons
     @Override
     public void update(Observable arg0, Object arg1) {
-            PlanLivraison p = (PlanLivraison) arg0;
-            btnName.clear();
-            for (Livreur li : p.obtenirListeLivreur()) {
-                for(Livraison ls:li.obtenirLivraisons()){
-                    btnName.addElement(ls);
-                }
+        PlanLivraison p = (PlanLivraison) arg0;
+        btnName.clear();
+        for (Livreur li : p.obtenirListeLivreur()) {
+            for(Livraison ls:li.obtenirLivraisons()){
+                btnName.addElement(ls);
             }
-        
+        }        
     }
-    public void surlignerLivraison(Intersection intersection) {
+
+     /**
+     * @autor Henri
+     * @param Intersection : Intersection cliquée sur la carte
+     * @return Livraison   : Livraison qui correspond à l'intersection
+     * @description méthode appelée par le contrôleur après un click sur une intersection
+     * on surligne dans la description la livraison qui correspond et on la renvoie au contrôleur
+     */
+    public Livraison surlignerLivraison(Intersection intersection) {
+
         int[] tabIndices=new int[btnName.size()];
         int nbSelection=0;
+        Livraison retour=new Livraison();
+
+        //recherche des livraisons qui correspondent à l'intersection
         for(int k=0;k<btnName.size();k++){
             if(((Livraison)(btnName.get(k))).obtenirLieu()==intersection){
                 tabIndices[nbSelection]=k;
                 nbSelection++;
-                this.carte.modifierLivraisonClickee((Livraison)(btnName.get(k)));
+                retour=(Livraison)(btnName.get(k));
             }
         }
+
+        //surlignage (selection) dans la JList
         int[] select=new int[nbSelection];
         for(int k=0;k<nbSelection;k++){
                 select[k]=tabIndices[k];
-
-        }
-        for(int k=0;k<select.length;k++){
-            System.out.println("\n:"+select[k]);
-        }    
+        }  
         btnList.setSelectedIndices(select);
+
+        return retour;
     }
-        
-        
-        
+              
 }

@@ -9,8 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import com.hexa17.pldagile.model.algo.Solveur;
 import com.hexa17.pldagile.model.Intersection;
+import com.hexa17.pldagile.model.Livraison;
+import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.PlanLivraison;
 import com.hexa17.pldagile.model.PlanUsine;
+import com.hexa17.pldagile.model.Segment;
 
 /**
  * Tests du patron de conception Facade pour la partie algorithmique
@@ -76,20 +79,5 @@ public class FacadeAlgoTourneeTest {
      * Vérifie que la tournée n'est pas vide lorsqu'on lui donne une livraison
      * aléatoire
      */
-    @Test
-    void testTourneeNonVide() {
-        int nombreLivraison = 4;
-        Livreur livreur = renvoiLivreuravecLivraisonsAleatoires(nombreLivraison);
-        ArrayList<Segment> tournee = null;
-        try {
-            tournee = FacadeAlgoTournee.calculerTournee(plan.obtenirPlan(), livreur);
-        } catch (CloneNotSupportedException cnse) {
-            cnse.printStackTrace();
-            // Si l'exception arrive on ne veut pas voir de
-            assertTrue(false);
-        }
-
-        assertTrue(tournee.size() > 0);
-    }
     // TODO : implanter un test vérifiant un parcours connu (testé depuis main)
 }

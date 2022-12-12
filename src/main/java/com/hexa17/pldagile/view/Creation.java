@@ -2,21 +2,22 @@
 package com.hexa17.pldagile.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,6 +25,7 @@ import javax.swing.border.TitledBorder;
 
 import com.hexa17.pldagile.model.Intersection;
 import com.hexa17.pldagile.model.Livreur;
+import com.hexa17.pldagile.model.PlanLivraison;
 
 /**
  *
@@ -31,15 +33,17 @@ import com.hexa17.pldagile.model.Livreur;
  */
 
 @SuppressWarnings("serial")
-public class Creation {
-    private JButton btnCreerLivraison;
+public class Creation  implements Observer{
+
+    private String horaires[] = { "8", "9", "10", "11" };
+    private String livreurs[];
+    private Intersection intersection;
 
     private final Font font = new Font("Arial", Font.PLAIN, 12);
 
-    private String horaires[] = { "8", "9", "10", "11" };
-
-    private String livreurs[];
     private JFrame f = new JFrame("Ajout Livraison");
+
+    private JButton btnCreerLivraison;
 
     private JTextArea textIntersection = new JTextArea(5, 15);
     private JScrollPane defilerTextIntersection = new JScrollPane(textIntersection);
@@ -50,7 +54,13 @@ public class Creation {
     private JPanel panelHoraire = new JPanel(new BorderLayout());
     private JPanel panelLivreur = new JPanel(new BorderLayout());
 
-    private Intersection intersection;
+    //update de la liste des livreurs 
+    @Override
+    public void update(Observable arg0, Object arg1) {
+        PlanLivraison planLivraison = (PlanLivraison) arg0;
+        modifierlivreurs(planLivraison.obtenirListeLivreur());
+    }
+   
     public void modifierlivreurs(ArrayList<Livreur> livreursListe) {
         livreurs = new String[livreursListe.size()];
         for(int i=0;i<livreursListe.size();i++){
@@ -59,11 +69,12 @@ public class Creation {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( livreurs );
         textLivreur.setModel(model);
     }
+
     public Intersection obtenirIntersection() {
         return intersection;
     }
 
-    public void setIntersection(Intersection intersection) {
+    public void modifierIntersection(Intersection intersection) {
         this.intersection = intersection;
     }
 
@@ -71,8 +82,38 @@ public class Creation {
         return btnCreerLivraison;
     }
 
-    public Creation() {
+    public String obtenirTextHoraire() {
+        return (String) textHoraire.getSelectedItem();
+    }
 
+    public String obtenirTextLivreur() {
+        return textLivreur.getSelectedItem().toString();
+    }
+
+    //Ouvrir la fenêtre
+    public void ouvrir() {
+        textIntersection.setText(this.intersection.toString());
+        this.f.setVisible(true);
+    }
+
+    //Fermer la fenêtre
+    public void fermer() {
+        this.f.setVisible(false);
+    }
+        /**
+     * Renvoie un bouton avec des propriétés de base (police, etc)
+     * 
+     * @param nom
+     * @return JButton
+     */
+    public JButton creerBouton(String nom) {
+        JButton bouton = new JButton(nom);
+        bouton.setFont(font);
+        bouton.setFocusPainted(false);
+        return bouton;
+    }
+    
+    public Creation() {
     }
 
     public void init() {
@@ -121,7 +162,6 @@ public class Creation {
         f.add(panelMere);
 
         // Définir les propriétés de la fenêtre
-        //f.setLocation(200, 200);
         f.setResizable(false);
         f.pack();
         f.setVisible(false);
@@ -134,45 +174,5 @@ public class Creation {
             }
         };
         btnCreerLivraison.addActionListener(action);
-    }
-
-    public String obtenirTextHoraire() {
-        return (String) textHoraire.getSelectedItem();
-    }
-
-    public String obtenirTextLivreur() {
-        return textLivreur.getSelectedItem().toString();
-    }
-
-    public String obtenirTextIntersection() {
-        return textIntersection.getText();
-    }
-
-    /**
-     * Ouvrir la fenêtre
-     */
-    public void ouvrir() {
-        textIntersection.setText(this.intersection.toString());
-        this.f.setVisible(true);
-    }
-
-    /**
-     * Fermer la fenêtre
-     */
-    public void fermer() {
-        this.f.setVisible(false);
-    }
-
-    /**
-     * Renvoie un bouton avec des propriétés de base (police, etc)
-     * 
-     * @param nom
-     * @return JButton
-     */
-    public JButton creerBouton(String nom) {
-        JButton bouton = new JButton(nom);
-        bouton.setFont(font);
-        bouton.setFocusPainted(false);
-        return bouton;
     }
 }

@@ -9,6 +9,24 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import com.hexa17.pldagile.model.Livreur;
+import com.hexa17.pldagile.model.PlanLivraison;
+import com.hexa17.pldagile.view.IHM;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.Observer;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import java.awt.event.MouseAdapter;
+import com.hexa17.pldagile.model.Intersection;
+import com.hexa17.pldagile.model.Livraison;
+import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.PlanLivraison;
 import com.hexa17.pldagile.view.IHM;
 
@@ -48,9 +66,10 @@ public class Controleur {
                         File file = selecteur.getSelectedFile();
                         if (file.exists()) {
                             if (file.getName().endsWith(".xml")) {
-                                planLivraison.initPlan(file.getPath());
                                 // Init les données / Reinit les données de l'ancienne carte
                                 view.obtenirCarte().initDonnee();
+                                planLivraison.initPlan(file.getPath());
+                                
                             } else {
                                 System.out.println("Pas un fichier xml");
                             }
@@ -61,11 +80,10 @@ public class Controleur {
                 }
                 if ("Creer".equals(command)) {
                     //view.obtenirDescription().modifierTitle("Chargement");
-                    planLivraison.nouvelleLivraison(view.obtenirCarte().obtenirFenetreCreation().obtenirTextHoraire(),
-                            view.obtenirCarte().obtenirFenetreCreation().obtenirIntersection(),
-                            Integer.parseInt(view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur()));
-                            // Ligne supprimée pdt le merge
-                            //view.obtenirCarte().obtenirFenetreCreation().obtenirTextLivreur().split(";")[0]);
+                    
+                    planLivraison.nouvelleLivraison(view.obtenirFenetreCreation().obtenirTextHoraire(),
+                            view.obtenirFenetreCreation().obtenirIntersection(),
+                            view.obtenirFenetreCreation().obtenirTextLivreur().split(";")[0]);
                     System.out.println("Creer cliqué");
                     view.obtenirDescription().modifierTitle("Fin");
                 }
@@ -102,18 +120,69 @@ public class Controleur {
                             System.out.println("Fichier n'existe pas");
                         }
                     }
-                
-                    
+                }
 
+                if("Nouveau livreur".equals(command)){
+                    String nom = JOptionPane.showInputDialog(new JFrame(), "Entrer nom Livreur");
+                    planLivraison.ajouterLivreur(new Livreur(planLivraison.obtenirListeLivreur().size(),nom));
+                    //System.out.println("nouveau  livreur cliqué");
                 }
             }
         };
 
+        MouseListener m = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                view.obtenirFenetreCreation().modifierlivreurs(planLivraison.obtenirListeLivreur());
+                Intersection choixIntersection=view.obtenirCarte().carteCliquee(e);
+                if (choixIntersection.obtenirId() != null) {
+                    view.obtenirFenetreCreation().modifierIntersection(choixIntersection);
+                    view.obtenirDescription().surlignerLivraison(choixIntersection);
+                    for (Livreur livr : planLivraison.obtenirListeLivreur()) {
+                        for (Livraison s : livr.obtenirLivraisons()) {
+                            if(s.obtenirLieu()==choixIntersection){
+                                view.obtenirCarte().modifierLivraisonClickee(s);
+                            }
+                        }
+                    }
+                    view.obtenirFenetreCreation().ouvrir();
+                    view.obtenirCarte().repaint();
+
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent arg0) {
+            }
+            @Override
+            public void mouseExited(MouseEvent arg0) {
+            }
+            @Override
+            public void mousePressed(MouseEvent arg0) {   
+            }
+            @Override
+            public void mouseReleased(MouseEvent arg0) {  
+            }
+        };
+
+
         this.view.obtenirBarre().obtenirCharger().addActionListener(c);
-        this.view.obtenirCarte().obtenirFenetreCreation()
+        this.view.obtenirFenetreCreation()
                 .obtenirBtnCreerLivraison().addActionListener(c);
+        this.view.obtenirCarte()
+                .addMouseListener(m);
         this.view.obtenirBarre().obtenirSauvegarder().addActionListener(c);
         this.view.obtenirBarre().obtenirChargerTournee().addActionListener(c);
-    }
+        this.view.obtenirBarre().obtenirAjouterLivreur().addActionListener(c);
 
+        this.view.obtenirDescription().obtenirBtnList().addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                JList list = (JList)evt.getSource();
+                int index = list.locationToIndex(evt.getPoint());
+                System.out.println(index);
+                System.out.println("test+ "+view.obtenirDescription().obtenirBtnList().getSelectedValue());
+                view.obtenirCarte().modifierLivraisonClickee((Livraison)view.obtenirDescription().obtenirBtnList().getSelectedValue());
+                view.obtenirCarte().repaint();
+            }
+        });
+    }
 }

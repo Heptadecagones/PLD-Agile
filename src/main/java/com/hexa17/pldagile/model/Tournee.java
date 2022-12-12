@@ -12,6 +12,8 @@ public class Tournee {
     private ArrayList<Segment> listeSegment;
     private ArrayList<Livraison> listeLivraison;
 
+
+
     public Tournee() {
         this.listeSegment = new ArrayList<Segment>();
         this.listeLivraison = new ArrayList<Livraison>();
@@ -21,6 +23,8 @@ public class Tournee {
         this.listeSegment = listeSegment;
         this.listeLivraison = listeLivraison;
     }
+
+    
 
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;

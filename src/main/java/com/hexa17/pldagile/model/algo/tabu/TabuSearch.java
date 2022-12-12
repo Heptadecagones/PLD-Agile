@@ -3,16 +3,10 @@ package com.hexa17.pldagile.model.algo.tabu;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import com.hexa17.pldagile.model.Livraison;
-import com.hexa17.pldagile.model.algo.Graphe;
-import com.hexa17.pldagile.model.algo.Lien;
-import com.hexa17.pldagile.model.algo.Noeud;
-
-import javafx.scene.control.ListViewBuilder;
 
 /**
  * Created by Rafal on 2015-12-02.
@@ -33,11 +27,6 @@ public class TabuSearch {
     private int bestCost;
 
     public TabuSearch(ArrayList<Livraison> livraisons) {
-        this.places = new HashMap<>();
-        this.matrix = livraisonsVersMatrice(livraisons);
-        this.problemSize = matrix.getEdgeCount();
-        this.numberOfIterations = problemSize * 10; // ?
-        this.tabuList = new TabuList(problemSize);
 
         int minLiv = 24;
         for (Livraison liv : livraisons) {
@@ -45,6 +34,11 @@ public class TabuSearch {
         }
 
         this.horaireMinimale = minLiv;
+        this.places = new HashMap<>();
+        this.matrix = livraisonsVersMatrice(livraisons);
+        this.problemSize = matrix.getEdgeCount();
+        this.numberOfIterations = problemSize * 10; // ?
+        this.tabuList = new TabuList(problemSize);
 
         setupCurrentSolution();
         setupBestSolution();
@@ -61,17 +55,11 @@ public class TabuSearch {
         for (Livraison oriLiv : livraisons) {
 
             // On regarde ses voisins et on ajoute la paire orig -> dest à la matrice
-            for (Entry<Noeud, Lien> dest : oriLiv.obtenirLieu().obtenirArborescence().entrySet()) {
+            for (Livraison destLiv : livraisons) {
+
+                if (destLiv == oriLiv) continue;
+
                 int origID = -1, destID = -1;
-
-                Livraison destLiv = null;
-
-                for(Livraison livraison : livraisons) {
-                    if (livraison.obtenirLieu().obtenirId().equals(dest.getKey().obtenirId())) {
-                        destLiv = livraison;
-                        break;
-                    }
-                }
 
                 // Si on est déjà passés par cette node, on connaît son index
                 if (places.containsKey(oriLiv)) {
@@ -96,15 +84,15 @@ public class TabuSearch {
                 int origTime = oriLiv.obtenirHoraireLivraison();
                 int destTime = destLiv.obtenirHoraireLivraison();
 
+
                 //TODO bouger le code qui supprime des liens dans grapheTSP
-                if (origTime == 99 && destTime > horaireMinimale || origTime >= destTime) {
+                if ((origTime == 99 && destTime > horaireMinimale) || (origTime != 99 && origTime > destTime)) {
                     preMatrice[origID][destID] = Integer.MAX_VALUE;
                 } else {
-                    preMatrice[origID][destID] = dest.getValue().obtenirPoids();
+                    preMatrice[origID][destID] = oriLiv.obtenirLieu().obtenirArborescence().get(destLiv.obtenirLieu()).obtenirPoids();
                 }
             }
         }
-
         Matrix m = new Matrix(preMatrice);
         return m;
     }
@@ -120,13 +108,6 @@ public class TabuSearch {
         for (int i = 0; i < problemSize; i++)
             currSolution[i] = i;
         currSolution[problemSize] = 0;
-    }
-
-    private void printSolution(int[] solution) {
-        for (int i = 0; i < solution.length; i++) {
-            System.out.print(solution[i] + " ");
-        }
-        System.out.println();
     }
 
     public int[] invoke() {
@@ -156,9 +137,7 @@ public class TabuSearch {
             }
         }
 
-        System.out.println("Search done! \nBest Solution cost found = " + bestCost +
-                "\nBest Solution :");
-        printSolution(bestSolution);
+        System.out.println("Search done! \nBest Solution cost found = " + bestCost);
 
         return bestSolution;
     }
@@ -190,7 +169,7 @@ public class TabuSearch {
         for (int i = 1; i < soluceEnInt.length; i++) {
             livraison = invPlaces.get(soluceEnInt[i]);
 
-            heure += livraison.obtenirLieu().obtenirArborescence().get(soluce[i-1].obtenirLieu()).obtenirPoids()/15000;
+            heure += 5/60 + livraison.obtenirLieu().obtenirArborescence().get(soluce[i-1].obtenirLieu()).obtenirPoids()/15000;
             if (heure < livraison.obtenirHoraireLivraison()) heure = livraison.obtenirHoraireLivraison();
             livraison.modifierHeureLivraison(heure);
 
