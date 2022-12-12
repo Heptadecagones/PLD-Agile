@@ -124,7 +124,7 @@ public class Controleur {
                 view.obtenirFenetreCreation().modifierlivreurs(planLivraison.obtenirListeLivreur());
                 Intersection choixIntersection=view.obtenirCarte().carteCliquee(e);
                 if (choixIntersection.obtenirId() != null) {
-                    view.obtenirFenetreCreation().setIntersection(choixIntersection);
+                    view.obtenirFenetreCreation().modifierIntersection(choixIntersection);
                     view.obtenirDescription().surlignerLivraison(choixIntersection);
                     for (Livreur livr : planLivraison.obtenirListeLivreur()) {
                         for (Livraison s : livr.obtenirLivraisons()) {
@@ -152,7 +152,7 @@ public class Controleur {
             }
         };
 
-        
+
         this.view.obtenirBarre().obtenirCharger().addActionListener(c);
         this.view.obtenirFenetreCreation()
                 .obtenirBtnCreerLivraison().addActionListener(c);

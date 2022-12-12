@@ -1,24 +1,23 @@
 package view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.awt.event.MouseListener;
-
 import java.awt.MouseInfo;
 import java.awt.Point;
-
+import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
@@ -28,30 +27,15 @@ import model.Livreur;
 import model.PlanLivraison;
 import model.Segment;
 
-import java.awt.*;
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer, MouseWheelListener, MouseListener, MouseMotionListener {
     /**
-     * Tous les composants
+     * Toutes les données de la carte pour l'affichage du plan
      */
-  
 
-    /**
-     * La taille du panneau
-     */
     private int largeur;
     private int hauteur;
 
-
-    private Livraison livraisonClickee;
-    public void modifierLivraisonClickee(Livraison l){
-        livraisonClickee=l;
-    }
-
-    /**
-     * Toutes les données de la carte
-     */
-    // Le rembourrage de la carte par rapport au panneau
     private final int REMBOURRAGE = 5;
 
     // La coordonnée du 4 coins de la carte
@@ -59,20 +43,9 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     // La différence entre les coordonnées max et min
     private double diffX = -1.0, diffY = -1.0;
 
-    private Intersection entrepot;
-    private ArrayList<Intersection> listeIntersection = new ArrayList<>();
-    private ArrayList<Segment> listeSegment = new ArrayList<>();
-    private ArrayList<Livreur> listeLivreur = new ArrayList<>();
-
-    // L'intersection la plus proche cliqué par la souris
-    private Intersection choixIntersection = new Intersection();
-    // La rue la plus proche survole par la souris
-    private Segment rueSurvole = new Segment();
-
     private final int DIAMETRE_INTERSECTION_DEFAULT = 2; // diamètre par default
     private final int DIAMETRE_INTERSECTION = 10; // diamètre dans tous les scénarios sauf default
     private final int DIAMETRE_ENTREPOT = 12;
-
     private final int MAX_LIVREUR = 30; // OBTIENT CE NOMBRE DEPUIS LE MODELE
     // La liste de couleur pour les tournées
     private Color[] tabCouleurLivreur = new Color[MAX_LIVREUR];
@@ -81,7 +54,6 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private final Color couleurIntersection = Color.BLUE;
     private final Color couleurChoixIntersection = Color.GREEN;
     private final Color couleurRueSurvole = Color.MAGENTA;
-
     // Attribut pour zoomer et glisser la carte
     AffineTransform atCarte = new AffineTransform();
     private final double maxZoomFacteur = 5.0;
@@ -95,8 +67,25 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private int xDiff = 0;
     private int yDiff = 0;
     private Point startPoint;
+
+    /**
+     * Toutes les données de la carte pour l'application
+     */
+    private Intersection entrepot;
+    private ArrayList<Intersection> listeIntersection = new ArrayList<>();
+    private ArrayList<Segment> listeSegment = new ArrayList<>();
+    private ArrayList<Livreur> listeLivreur = new ArrayList<>();
+
+    // L'intersection la plus proche cliqué par la souris
+    private Intersection choixIntersection = new Intersection();
+    // La rue la plus proche survole par la souris
+    private Segment rueSurvole = new Segment();
+    // La livraison sur la carte selectionné par l'utilisateur
+    private Livraison livraisonClickee;
+
+
     @Override
-    // Garantie la carree de la carte
+    // Garantie d'une carte carrée
     public Dimension getPreferredSize() {
         Dimension d = getParent().getSize();
         int min = Math.min((int)d.getWidth(), (int)d.getHeight());
@@ -104,6 +93,9 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         this.hauteur = min;
 
         return new Dimension(min, min);
+    }
+    public void modifierLivraisonClickee(Livraison l){
+        livraisonClickee=l;
     }
 
     public Carte() {
@@ -174,8 +166,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         listeSegment = planLivraison.obtenirPlan().obtenirListeSegment();
         entrepot = planLivraison.obtenirPlan().obtenirEntrepot();
         listeLivreur = planLivraison.obtenirListeLivreur();
-        //fenetreCreation.modifierlivreurs(listeLivreur);
-        System.out.println(listeLivreur);
+
         // Calculer les coins de la carte
         if (entrepot.obtenirId() != null) {
             Point2D cordEntrepot = convertirLatLong(entrepot);
@@ -371,7 +362,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                             }
                     }
                 }
-                // rue survole par la souris
+                // rue survolee par la souris
                 if (segment == rueSurvole) {
                     g2d.setColor(couleurRueSurvole);
                     g2d.setStroke(new BasicStroke(3));
@@ -405,37 +396,33 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                     DIAMETRE_ENTREPOT, DIAMETRE_ENTREPOT);
         }
     
-
         for (Livreur livr : listeLivreur) {
             for (Livraison s : livr.obtenirLivraisons()) {
                 Point2D cordLivr = convertirLatLong(s.obtenirLieu());
 
                 int livrCordX = REMBOURRAGE + (int) ((cordLivr.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
-                //System.out.println("temps de livraison: "+s.obtenirPlageHoraire());
                 g2d.setColor(couleurIntersection);
                 g2d.fillOval(livrCordX - DIAMETRE_INTERSECTION / 2, livrCordY - DIAMETRE_INTERSECTION / 2,
                     DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
             }
         }
 
+        //Colorier en jaune la livraison cliquée
         if (livraisonClickee != null) {
             Point2D cordChoixIntersection = convertirLatLong(livraisonClickee.obtenirLieu());
             g2d.setColor(Color.YELLOW);
             int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
             int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
-
-            //System.out.println("cord = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
             g2d.fillOval(cordChoixIntersectionX-DIAMETRE_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_INTERSECTION/2, DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
         }
-
+        //Colorier en vert l'intersection choisie
         if (choixIntersection.obtenirId() != null) {
             Point2D cordChoixIntersection = convertirLatLong(choixIntersection);
 
             int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
             int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
-            //System.out.println("intersection proche = " + cordChoixIntersectionX + " " + cordChoixIntersectionY);
             g2d.setColor(couleurChoixIntersection);
             g2d.fillOval(cordChoixIntersectionX-DIAMETRE_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_INTERSECTION/2, DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
         }

@@ -2,11 +2,9 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -85,30 +83,6 @@ public class Barre extends JPanel {
         add(ajouterLivreur, gbc);
         add(sauvegarder, gbc);
         add(chargerTournee, gbc);
-
-        ActionListener action = new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                if (evt.getSource() == charger) {
-                    System.out.println("Charger cliqué");
-                }
-
-                /*
-                 * if (evt.getSource() == nouvelleLivraison) {
-                 * System.out.println("nouvelleLivraison cliqué");
-                 * fenetreCreation.ouvrir();
-                 * }
-                 */
-
-                if (evt.getSource() == sauvegarder) {
-                    System.out.println("Sauvegarder cliqué");
-                }
-            }
-        };
-
-        charger.addActionListener(action);
-        ajouterLivreur.addActionListener(action);
-        sauvegarder.addActionListener(action);
-        chargerTournee.addActionListener(action);
     }
 
     /**

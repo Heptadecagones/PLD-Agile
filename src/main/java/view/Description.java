@@ -109,10 +109,7 @@ public class Description extends JPanel implements Observer {
         int[] select=new int[nbSelection];
         for(int k=0;k<nbSelection;k++){
                 select[k]=tabIndices[k];
-        }
-        for(int k=0;k<select.length;k++){
-            System.out.println("\n:"+select[k]);
-        }    
+        }  
         btnList.setSelectedIndices(select);
 
         return retour;
