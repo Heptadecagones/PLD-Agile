@@ -191,6 +191,7 @@ public class TabuSearch {
             livraison = invPlaces.get(soluceEnInt[i]);
 
             heure += livraison.obtenirLieu().obtenirArborescence().get(soluce[i-1]).obtenirPoids()/15000;
+            if (heure < livraison.obtenirHoraireLivraison()) heure = livraison.obtenirHoraireLivraison();
             livraison.modifierHeureLivraison(heure);
 
             soluce[i] = livraison.obtenirLieu();
