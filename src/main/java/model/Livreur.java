@@ -21,7 +21,13 @@ public class Livreur {
         this.tournee = new Tournee();
         this.nom=nom;
     }
-
+    public Livreur(int id,String nom, boolean disponibilite) {
+        this.id = id;
+        this.disponibilite = disponibilite;
+        this.livraisons = new ArrayList<Livraison>();
+        this.tournee = new Tournee();
+        this.nom=nom;
+    }
     public int obtenirId() {
         return id;
     }

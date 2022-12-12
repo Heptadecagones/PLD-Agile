@@ -41,7 +41,7 @@ public class Controleur {
             public void actionPerformed(ActionEvent arg0) {
                 String command = arg0.getActionCommand();
                 
-                if ("Charger".equals(command)) {
+                if ("Charger une carte".equals(command)) {
                     JFileChooser selecteur = new JFileChooser();
 
                     // adapter le chemin vers les fichier XML
@@ -98,7 +98,7 @@ public class Controleur {
                             if (file.getName().endsWith(".xml")) {
                                 // Init les données / Reinit les données de l'ancienne carte
                                 view.obtenirCarte().initDonnee();
-                                planLivraison.init();
+                                //planLivraison.init();
 
                                 planLivraison.chargerLivraison(file.getPath());
                             } else {
@@ -108,6 +108,7 @@ public class Controleur {
                             System.out.println("Fichier n'existe pas");
                         }
                     }
+                 
 
                 }
                 if("Nouveau livreur".equals(command)){
