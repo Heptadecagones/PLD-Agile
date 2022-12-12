@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ public class IHM {
     private Barre barre;
     private Description description;
     private Carte carte;
+    private NomRue nomRue;
 
     public void modifierBarre(Barre barre) {
         this.barre = barre;
@@ -77,10 +79,17 @@ public class IHM {
         
         panel.add(carte);
 
+        JPanel panelDroit = new JPanel(new GridLayout(2,1));
+        nomRue = new NomRue();
+        nomRue.init();
+        carte.modifierNomRue(nomRue);
+        panelDroit.add(nomRue);
+
         description = new Description();
         description.init();
         description.modifierCarte(carte);
-        panel.add(description);
+        panelDroit.add(description);
+        panel.add(panelDroit);
         
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

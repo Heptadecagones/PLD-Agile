@@ -35,6 +35,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
      * Tous les composants
      */
     private Creation fenetreCreation;
+    private NomRue nomRue;
 
     /**
      * La taille du panneau
@@ -96,6 +97,9 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private int yDiff = 0;
     private Point startPoint;
 
+    public void miseAJourNomRue(String rue) {
+        nomRue.setText(rue);
+    }
 
     @Override
     // Garantie la carree de la carte
@@ -552,6 +556,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         rueSurvole = recupererRue(sourisX, sourisY, maxDistance);
         if (rueSurvole.obtenirNom() != null) {
             repaint();
+            miseAJourNomRue(rueSurvole.obtenirNom());
             //setToolTipText(rueSurvole.obtenirNom());
         }
         
@@ -595,5 +600,9 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public void modifierNomRue(NomRue nomRue) {
+        this.nomRue = nomRue;
     }
 }
