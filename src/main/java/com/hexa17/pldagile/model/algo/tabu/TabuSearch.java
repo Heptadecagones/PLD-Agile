@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.hexa17.pldagile.model.Livraison;
 
 /**
- * Created by Rafal on 2015-12-02.
+ * Créé par Rafal on 2015-12-02.
  *
  * @author omi
  * @version $Id: $Id
@@ -24,21 +24,24 @@ public class TabuSearch {
     int problemSize; // Taille du problème
     int horaireMinimale;
 
-    private Map<Livraison, Integer> places; // TODO Meilleur nom
+    private Map<Livraison, Integer> places;
 
     private int[] bestSolution;
     private int bestCost;
 
     /**
-     * <p>Constructor for TabuSearch.</p>
+     * <p>
+     * Constructeur de TabuSearch.
+     * </p>
      *
-     * @param livraisons a {@link java.util.ArrayList} object
+     * @param livraisons, une {@link java.util.ArrayList} de {@link com.hexa17.pldagile.model.Livraison}
      */
     public TabuSearch(ArrayList<Livraison> livraisons) {
 
         int minLiv = 24;
         for (Livraison liv : livraisons) {
-            if (liv.obtenirHoraireLivraison() < minLiv) minLiv = liv.obtenirHoraireLivraison();
+            if (liv.obtenirHoraireLivraison() < minLiv)
+                minLiv = liv.obtenirHoraireLivraison();
         }
 
         this.horaireMinimale = minLiv;
@@ -65,7 +68,8 @@ public class TabuSearch {
             // On regarde ses voisins et on ajoute la paire orig -> dest à la matrice
             for (Livraison destLiv : livraisons) {
 
-                if (destLiv == oriLiv) continue;
+                if (destLiv == oriLiv)
+                    continue;
 
                 int origID = -1, destID = -1;
 
@@ -92,12 +96,12 @@ public class TabuSearch {
                 int origTime = oriLiv.obtenirHoraireLivraison();
                 int destTime = destLiv.obtenirHoraireLivraison();
 
-
-                //TODO bouger le code qui supprime des liens dans grapheTSP
+                // TODO bouger le code qui supprime des liens dans grapheTSP
                 if ((origTime == 99 && destTime > horaireMinimale) || (origTime != 99 && origTime > destTime)) {
                     preMatrice[origID][destID] = Integer.MAX_VALUE;
                 } else {
-                    preMatrice[origID][destID] = oriLiv.obtenirLieu().obtenirArborescence().get(destLiv.obtenirLieu()).obtenirPoids();
+                    preMatrice[origID][destID] = oriLiv.obtenirLieu().obtenirArborescence().get(destLiv.obtenirLieu())
+                            .obtenirPoids();
                 }
             }
         }
@@ -119,7 +123,9 @@ public class TabuSearch {
     }
 
     /**
-     * <p>invoke.</p>
+     * <p>
+     * invoke.
+     * </p>
      *
      * @return an array of {@link int} objects
      */
@@ -162,7 +168,9 @@ public class TabuSearch {
     }
 
     /**
-     * <p>inverser.</p>
+     * <p>
+     * inverser.
+     * </p>
      *
      * @param map a {@link java.util.Map} object
      * @param <V> a V class
@@ -176,7 +184,9 @@ public class TabuSearch {
     }
 
     /**
-     * <p>soluceEnNoeuds.</p>
+     * <p>
+     * soluceEnNoeuds.
+     * </p>
      *
      * @return an array of {@link com.hexa17.pldagile.model.Livraison} objects
      */
@@ -194,10 +204,13 @@ public class TabuSearch {
 
         for (int i = 1; i < soluceEnInt.length; i++) {
             livraison = invPlaces.get(soluceEnInt[i]);
-            if ( i != 1) heure+= 5.0/60.0;
+            if (i != 1)
+                heure += 5.0 / 60.0;
 
-            heure += livraison.obtenirLieu().obtenirArborescence().get(soluce[i-1].obtenirLieu()).obtenirPoids()/15000;
-            if (heure < livraison.obtenirHoraireLivraison()) heure = livraison.obtenirHoraireLivraison();
+            heure += livraison.obtenirLieu().obtenirArborescence().get(soluce[i - 1].obtenirLieu()).obtenirPoids()
+                    / 15000;
+            if (heure < livraison.obtenirHoraireLivraison())
+                heure = livraison.obtenirHoraireLivraison();
             livraison.modifierHeureLivraison(heure);
 
             soluce[i] = livraison;
