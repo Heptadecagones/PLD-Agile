@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import com.hexa17.pldagile.model.Intersection;
 import com.hexa17.pldagile.model.Livraison;
@@ -17,33 +16,35 @@ import com.hexa17.pldagile.model.Tournee;
 import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
 
 /**
- * <p>Solveur class.</p>
+ * <p>Class solveur.
+ * <br/>
+ * Classe responsable du calcul des plus courts chemins entre les intersections du plan
+ * et du calcul des tournées.</p>
  *
  * @author Hugo, Thibaut, Yannick
- * @version $Id: $Id
+ * @version $Id: 1.0
  */
 
-// TODO Singleton Design Pattern
+
 public class Solveur {
 
     Plan plan;
 
-    // Initialise un graphe avec toutes les destinations d'un livreur de marquées
-    // public DijkstraAlgo(Plan plan, Livreur livreur) {
     /**
-     * <p>Constructor for Solveur.</p>
+     * <p>Constructeur parametré de la classe Solveur.</p>
      *
-     * @param plan a {@link com.hexa17.pldagile.model.Plan} object
+     * @param plan l'instance de {@link com.hexa17.pldagile.model.Plan} sur laquelle on souhaite effectuer des tournées
      */
     public Solveur(Plan plan) {
         this.plan = plan;
     }
 
     /**
-     * Méthode qui calcule les arborescences pour chaque noeud donc chaque
-     * Intersection de livraison
+     * Méthode qui calcule les arborescences pour chaque noeud de la liste en paramètre
      *
-     * @param livraisons a {@link java.util.ArrayList} object
+     * @param livraisons une {@link java.util.ArrayList} de {@link com.hexa17.pldagile.model.Livraison} 
+correspondant à la liste des livraisons pour lesquelle on soihaite calculer l'arborescence des intersections 
+à livrer
      */
     public void calculerArborescences(ArrayList<Livraison> livraisons) {
         // noms à changer, graphe pour arbo pourrait ne pas être utile, voir
@@ -65,9 +66,15 @@ public class Solveur {
     }
 
     /**
-     * <p>calculerArborescenceDepuisNoeud.</p>
+     * <p>Méthode qui calcule l' arborescence du {@link com.hexa17.pldagile.model.algo.Noeud} 
+passé en paramètre
+     * <br/>Une arborescence est l'ensemble des plus courts chemins et leur poids
+ (stockée dans une instance de {@link com.hexa17.pldagile.model.algo.Lien}) 
+menant aux {@link com.hexa17.pldagile.model.algo.Noeud} atteignables depuis le 
+{@link com.hexa17.pldagile.model.algo.Noeud} en paramètre</p>
      *
-     * @param source a {@link com.hexa17.pldagile.model.algo.Noeud} object
+     * @param source le {@link com.hexa17.pldagile.model.algo.Noeud} dont on 
+souhaite calculer l'arborescence
      */
     public void calculerArborescenceDepuisNoeud(Noeud source) {
 
@@ -100,8 +107,6 @@ public class Solveur {
         noeudsEnCours.add(source);
 
         while (!noeudsEnCours.isEmpty()) {
-            // TODO: remplacer par une recherche de noeud ayant un coup minimal (utiliser
-            // arborescence)
             Noeud noeudActuel = rechercheNoeudDistanceMin(arborescence, noeudsEnCours);
             noeudsEnCours.remove(noeudActuel);
             noeudsTraites.add(noeudActuel);
@@ -159,10 +164,12 @@ public class Solveur {
 
 
     /**
-     * <p>calculerTournee.</p>
+     * <p>Méthode calculant la {@link com.hexa17.pldagile.model.Tournee} d'un 
+{@link com.hexa17.pldagile.model.Livreur}, otpimisée pour être terminer le plus 
+tôt possible </p>
      *
-     * @param livreur a {@link com.hexa17.pldagile.model.Livreur} object
-     * @return a {@link com.hexa17.pldagile.model.Tournee} object
+     * @param livreur le {@link com.hexa17.pldagile.model.Livreur} dont on souhaite calculer la {@link com.hexa17.pldagile.model.Tournee}
+     * @return la {@link com.hexa17.pldagile.model.Tournee} du {@link com.hexa17.pldagile.model.Livreur}
      */
     public Tournee calculerTournee(Livreur livreur) {
         
