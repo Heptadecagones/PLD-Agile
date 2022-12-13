@@ -71,6 +71,23 @@ public class PlanLivraison extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
+    public void supprimerLivraison(Livraison livraison) {
+        if (livraison == null) return;
+        Livreur livreur = livraison.obtenirLivreur();
+        Tournee tournee = new Tournee();
+
+        livreur.obtenirLivraisons().remove(livraison);
+        livraison.modifierLivreur(null);
+
+        if(!livreur.obtenirLivraisons().isEmpty()) {  
+            Solveur solveur = new Solveur(plan);
+            tournee = solveur.calculerTournee(livreur);
+        }
+        livreur.modifierTournee(tournee);
+
+        this.setChanged();
+        this.notifyObservers();
+    }
 
     public PlanLivraison() {
         init();

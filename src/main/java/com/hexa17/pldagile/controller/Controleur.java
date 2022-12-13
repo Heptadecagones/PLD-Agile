@@ -79,7 +79,7 @@ public class Controleur {
                     }
                 }
                 if ("Creer".equals(command)) {
-                    //view.obtenirDescription().modifierTitle("Chargement");
+                    view.obtenirDescription().modifierTitle("Chargement");
                     
                     planLivraison.nouvelleLivraison(view.obtenirFenetreCreation().obtenirTextHoraire(),
                             view.obtenirFenetreCreation().obtenirIntersection(),
@@ -121,6 +121,12 @@ public class Controleur {
                         }
                     }
                 }
+                if("Supprimer".equals(command)){
+                    Livraison livraisonSuppr=view.obtenirDescription().obtenirChoixLivraison();
+                    view.obtenirDescription().obtenirSupprimerLivraison().setVisible(false);   
+                    view.obtenirCarte().modifierLivraisonClickee(null);
+                    planLivraison.supprimerLivraison(livraisonSuppr);
+                }
 
                 if("Nouveau livreur".equals(command)){
                     String nom = JOptionPane.showInputDialog(new JFrame(), "Entrer nom Livreur");
@@ -133,6 +139,7 @@ public class Controleur {
         MouseListener m = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                view.obtenirDescription().obtenirSupprimerLivraison().setVisible(false);   
                 view.obtenirFenetreCreation().modifierlivreurs(planLivraison.obtenirListeLivreur());
                 Intersection choixIntersection=view.obtenirCarte().carteCliquee(e);
                 if (choixIntersection.obtenirId() != null) {
@@ -144,6 +151,9 @@ public class Controleur {
                                 view.obtenirCarte().modifierLivraisonClickee(s);
                             }
                         }
+                    }
+                    if(view.obtenirCarte().obtenirLivraisonClickee()!=null){
+                        view.obtenirDescription().obtenirSupprimerLivraison().setVisible(true);  
                     }
                     view.obtenirFenetreCreation().ouvrir();
                     view.obtenirCarte().repaint();
@@ -171,14 +181,17 @@ public class Controleur {
         this.view.obtenirCarte()
                 .addMouseListener(m);
         this.view.obtenirBarre().obtenirSauvegarder().addActionListener(c);
+        this.view.obtenirDescription().obtenirSupprimerLivraison().addActionListener(c);
         this.view.obtenirBarre().obtenirChargerTournee().addActionListener(c);
         this.view.obtenirBarre().obtenirAjouterLivreur().addActionListener(c);
 
         this.view.obtenirDescription().obtenirBtnList().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 JList list = (JList)evt.getSource();
+                view.obtenirDescription().obtenirSupprimerLivraison().setVisible(true);   
                 int index = list.locationToIndex(evt.getPoint());
                 System.out.println(index);
+                view.obtenirDescription().modifierChoixLivraison((Livraison)view.obtenirDescription().obtenirBtnList().getSelectedValue());
                 System.out.println("test+ "+view.obtenirDescription().obtenirBtnList().getSelectedValue());
                 view.obtenirCarte().modifierLivraisonClickee((Livraison)view.obtenirDescription().obtenirBtnList().getSelectedValue());
                 view.obtenirCarte().repaint();

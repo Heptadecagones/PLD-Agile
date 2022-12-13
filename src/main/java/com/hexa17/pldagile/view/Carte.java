@@ -93,6 +93,9 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     public void modifierLivraisonClickee(Livraison l){
         livraisonClickee=l;
     }
+    public Livraison obtenirLivraisonClickee(){
+        return livraisonClickee;
+    }
 
     public Carte() {
         initDonnee();
@@ -529,6 +532,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         repaint();
     }
     public Intersection carteCliquee(MouseEvent e){
+        livraisonClickee=null;
         int sourisX = e.getX();
         int sourisY = e.getY();
 
@@ -538,6 +542,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
     @Override
     public void mouseClicked(MouseEvent e) {
+        livraisonClickee=null;
         int sourisX = e.getX();
         int sourisY = e.getY();
 

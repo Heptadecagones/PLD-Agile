@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
+import java.awt.Color;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -35,7 +35,17 @@ public class Description extends JPanel implements Observer {
     DefaultListModel btnName = new DefaultListModel();
     JScrollPane btnListScrollPane;
     JList<Livraison> btnList;
-
+    JButton supprimerLivraison;
+    Livraison choixLivraison=new Livraison();
+    public Livraison obtenirChoixLivraison(){
+        return choixLivraison;
+    }
+    public JButton obtenirSupprimerLivraison(){
+        return supprimerLivraison;
+    }
+    public void modifierSupprimerLivraison(JButton jb) {
+        supprimerLivraison=jb;
+    }
     public JList<Livraison> obtenirBtnList(){
         return btnList;
     }
@@ -57,7 +67,7 @@ public class Description extends JPanel implements Observer {
 
         setBorder(chargement);
         setLayout(new BorderLayout());
-
+        supprimerLivraison=new JButton("Supprimer");
         //Initialisation de la JList des livraisons
         btnListScrollPane = new JScrollPane(btnList);
         add(btnListScrollPane);
@@ -67,8 +77,11 @@ public class Description extends JPanel implements Observer {
         btnList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         JScrollPane btnListScrollPane = new JScrollPane(btnList);  
-        btnListScrollPane.setPreferredSize(new Dimension(200, 200));
-        add(btnListScrollPane);       
+        add(btnListScrollPane);
+        supprimerLivraison.setBackground(Color.RED);
+        supprimerLivraison.setForeground(Color.WHITE);
+        add(supprimerLivraison,BorderLayout.SOUTH);   
+        supprimerLivraison.setVisible(false);    
     }
 
     // Mise à jour des données : Ecriture de la liste des livraisons
@@ -111,8 +124,11 @@ public class Description extends JPanel implements Observer {
                 select[k]=tabIndices[k];
         }  
         btnList.setSelectedIndices(select);
-
+        choixLivraison=retour;
         return retour;
+    }
+    public void modifierChoixLivraison(Livraison l) {
+        choixLivraison=l;
     }
               
 }
