@@ -33,7 +33,6 @@ public class FacadeAlgoTourneeTest {
      * @return une intersection du plan
      */
 
-    // TODO : vérifier si utile pour les tests
     public Intersection construireLivraisonAleatoire(PlanLivraison p) {
         ArrayList<Intersection> interList = p.obtenirPlan().obtenirListeIntersection();
         int index = (int) (Math.random() * interList.size());
@@ -74,10 +73,4 @@ public class FacadeAlgoTourneeTest {
 
         return livreur;
     }
-
-    /**
-     * Vérifie que la tournée n'est pas vide lorsqu'on lui donne une livraison
-     * aléatoire
-     */
-    // TODO : implanter un test vérifiant un parcours connu (testé depuis main)
 }

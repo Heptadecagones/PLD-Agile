@@ -33,13 +33,6 @@
 //      * @return une intersection du plan
 //      */
 
-//     // TODO : vérifier si utile pour les tests
-//     public Intersection construireLivraisonAleatoire(PlanLivraison p) {
-//         ArrayList<Intersection> interList = p.obtenirPlan().obtenirListeIntersection();
-//         int index = (int) (Math.random() * interList.size());
-//         return interList.get(index);
-//     }
-
 //     /**
 //      * Génère le plan nécessaire aux tests de l'algorithme.
 //      */
@@ -92,5 +85,4 @@
 //         assertTrue(t.obtenirListeLivraison().size() > 0);
 //         // System.out.println(t);
 //     }
-//     // TODO : implanter un test vérifiant un parcours connu (testé depuis main)
 // }

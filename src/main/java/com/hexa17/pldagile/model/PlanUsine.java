@@ -67,7 +67,6 @@ public class PlanUsine {
         this.listeSegment = listeSegment;
     }
 
-    // FIXME je sais pas ce que ça fout là
     /**
      * Init les données / Reinit les données de l'ancienne carte
      * Utilisée quand l'utilisateur charge une nouvelle carte

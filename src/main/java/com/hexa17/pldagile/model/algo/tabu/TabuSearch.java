@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 import com.hexa17.pldagile.model.Livraison;
 
 /**
- * Créé par Rafal le 2015-12-02.
+ * Classe implantant la recherche Tabou.
+ * Code original par Rafal créé le 2015-12-02.
  *
  * @see <a href=https://github.com/w4-pwr/TSP-Tabu-search>Source originale</a>
  * @author omi
@@ -100,11 +101,9 @@ public class TabuSearch {
                 // Test de santé mentale
                 assert (origID != -1 && destID != -1);
 
-                // WARN: Edge case
                 int origTime = oriLiv.obtenirHoraireLivraison();
                 int destTime = destLiv.obtenirHoraireLivraison();
 
-                // TODO bouger le code qui supprime des liens dans grapheTSP
                 if ((origTime == 99 && destTime > horaireMinimale) || (origTime != 99 && origTime > destTime)) {
                     preMatrice[origID][destID] = Integer.MAX_VALUE;
                 } else {

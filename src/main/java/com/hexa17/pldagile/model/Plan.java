@@ -6,7 +6,6 @@ import com.hexa17.pldagile.model.algo.Noeud;
 import java.util.ArrayList;
 import java.util.Map;
 
-//TODO Singleton Design pattern
 /**
  * <p>Plan class.</p>
  *

@@ -50,7 +50,7 @@ public class Noeud {
      */
     public Noeud(Noeud n) {
         this.id = n.obtenirId();
-        arborescence = n.obtenirArborescence(); //WARN: Copie peu profonde
+        arborescence = n.obtenirArborescence(); 
     }
 
     /**
