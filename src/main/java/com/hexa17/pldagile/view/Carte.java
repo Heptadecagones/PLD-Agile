@@ -478,6 +478,17 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
 
     // La distance le plus courte d'un point à un point de droite (x0, y0) à un segment de droite composé de deux points (x1, y1), (x2, y2)
+    /**
+     * <p>distancePointSegment.</p>
+     *
+     * @param x0 a double
+     * @param y0 a double
+     * @param x1 a double
+     * @param y1 a double
+     * @param x2 a double
+     * @param y2 a double
+     * @return a double
+     */
     private double distancePointSegment(double x0, double y0, double x1, double y1, double x2, double y2) {
         double space = 0;
         double a, b, c;
@@ -507,6 +518,15 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
 
     // Calculate the distance between two points
+    /**
+     * <p>lineSpace.</p>
+     *
+     * @param x1 a double
+     * @param y1 a double
+     * @param x2 a double
+     * @param y2 a double
+     * @return a double
+     */
     private double lineSpace(double x1, double y1, double x2, double y2) {
         double lineLength = 0;
         lineLength = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));

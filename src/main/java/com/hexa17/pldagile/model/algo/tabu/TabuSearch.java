@@ -9,8 +9,9 @@ import java.util.stream.Collectors;
 import com.hexa17.pldagile.model.Livraison;
 
 /**
- * Créé par Rafal on 2015-12-02.
+ * Créé par Rafal le 2015-12-02. ()
  *
+ * @see <a href=https://github.com/w4-pwr/TSP-Tabu-search>Source originale</a>
  * @author omi
  * @version $Id: $Id
  */
@@ -55,7 +56,14 @@ public class TabuSearch {
         setupBestSolution();
     }
 
-    // @author Thibaut
+    /**
+     * <p>
+     * Transforme une liste de livraisons en matrice d'adjacence.
+     * </p>
+     *
+     * @param livraisons a {@link java.util.ArrayList} object
+     * @return a {@link com.hexa17.pldagile.model.algo.tabu.Matrix} object
+     */
     private Matrix livraisonsVersMatrice(ArrayList<Livraison> livraisons) {
         int taille = livraisons.size();
         double[][] preMatrice = new double[taille][taille];
@@ -109,12 +117,18 @@ public class TabuSearch {
         return m;
     }
 
+    /**
+     * <p>setupBestSolution.</p>
+     */
     private void setupBestSolution() {
         bestSolution = new int[problemSize + 1];
         System.arraycopy(currSolution, 0, bestSolution, 0, bestSolution.length);
         bestCost = matrix.calculateDistance(bestSolution);
     }
 
+    /**
+     * <p>setupCurrentSolution.</p>
+     */
     private void setupCurrentSolution() {
         currSolution = new int[problemSize + 1];
         for (int i = 0; i < problemSize; i++)
@@ -161,6 +175,12 @@ public class TabuSearch {
         return bestSolution;
     }
 
+    /**
+     * <p>swap.</p>
+     *
+     * @param i a int
+     * @param k a int
+     */
     private void swap(int i, int k) {
         int temp = currSolution[i];
         currSolution[i] = currSolution[k];
@@ -204,7 +224,8 @@ public class TabuSearch {
 
         for (int i = 1; i < soluceEnInt.length; i++) {
             livraison = invPlaces.get(soluceEnInt[i]);
-            if (i != 1 && livraison.obtenirLieu() != soluce[i-1].obtenirLieu()) heure+= 5.0/60.0;
+            if (i != 1 && livraison.obtenirLieu() != soluce[i - 1].obtenirLieu())
+                heure += 5.0 / 60.0;
 
             heure += livraison.obtenirLieu().obtenirArborescence().get(soluce[i - 1].obtenirLieu()).obtenirPoids()
                     / 15000;

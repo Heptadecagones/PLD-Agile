@@ -89,8 +89,8 @@ public class Matrix {
 
     /**
      * Génère une matrice aléatoire
-     * 
-     * @param taille
+     *
+     * @param size a int
      */
     private void generateMatrix(int size) {
         Random random = new Random();

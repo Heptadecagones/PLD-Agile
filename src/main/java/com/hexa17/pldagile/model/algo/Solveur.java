@@ -135,6 +135,13 @@ public class Solveur {
         source.modifierArborescence(arborescence);
     }
 
+    /**
+     * <p>rechercheNoeudDistanceMin.</p>
+     *
+     * @param arborescence a {@link java.util.Map} object
+     * @param noeudsGris a {@link java.util.Set} object
+     * @return a {@link com.hexa17.pldagile.model.algo.Noeud} object
+     */
     private Noeud rechercheNoeudDistanceMin(Map<Noeud, Lien> arborescence, Set<Noeud> noeudsGris) {
         Noeud noeudMin = null;
         double dist = 0;
