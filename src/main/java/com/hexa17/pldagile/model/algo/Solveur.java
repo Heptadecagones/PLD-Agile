@@ -175,7 +175,7 @@ tôt possible </p>
      */
     public Tournee calculerTournee(Livreur livreur) {
         
-        // Calcule le graphe simplifié
+        // Calcule l'arborescence de chaque destination
         ArrayList<Livraison> destinations = new ArrayList<Livraison>();
 
         Intersection entrepot = plan.obtenirEntrepot();
@@ -186,6 +186,8 @@ tôt possible </p>
 
         calculerArborescences(destinations);
 
+        // Calcule le meilleur trajet
+
         TabuSearch tabu = new TabuSearch(destinations);
         Livraison[] ordreLivraison = tabu.soluceEnLivraisons();
 
@@ -193,16 +195,11 @@ tôt possible </p>
         ArrayList<Livraison> listeLivraison = new ArrayList<Livraison>();
 
 
-        // On ajoute les segments dans la tournee
+        // On ajoute les segments et liste de livraison dans la tournee
         for (int i = 0; i < ordreLivraison.length-1; i++) {
             listeSegment.addAll(ordreLivraison[i+1].obtenirLieu().obtenirArborescence().get(ordreLivraison[i].obtenirLieu()).obtenirChemin());
             if (i != 0) listeLivraison.add(ordreLivraison[i]);
         }
-
-        // for (Livraison liv : listeLivraison) {
-        //     System.out.println(liv.obtenirHoraireLivraison());
-        //     System.out.println(liv.obtenirHeureLivraison());
-        // }
 
         Tournee tournee = new Tournee(listeSegment, listeLivraison);
         return tournee;

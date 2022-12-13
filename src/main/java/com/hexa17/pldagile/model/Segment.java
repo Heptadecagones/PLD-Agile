@@ -8,10 +8,10 @@ package com.hexa17.pldagile.model;
  */
 public class Segment {
 
-    private String nom;
-    private Intersection origine;
-    private Intersection destination;
-    private double longueur;
+    private String nom; //Nom de rue
+    private Intersection origine; //Intersection d'origine
+    private Intersection destination; //Intersection de destination
+    private double longueur; //Longueur du segment
 
     /**
      * <p>Constructor for Segment.</p>

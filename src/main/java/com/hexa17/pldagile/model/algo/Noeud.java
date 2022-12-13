@@ -1,13 +1,6 @@
 package com.hexa17.pldagile.model.algo;
 
-/*import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;*/
 import java.util.Map;
-
-/*import ch.qos.logback.core.joran.sanity.Pair;
-import model.Segment;*/
 
 /**
  * <p>Noeud class.</p>
@@ -86,6 +79,4 @@ public class Noeud {
         String s = "Noeud " + id; 
         return s;
     }
-
-
 }

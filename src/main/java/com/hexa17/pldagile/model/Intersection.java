@@ -13,18 +13,18 @@ import com.hexa17.pldagile.model.algo.Noeud;
 public class Intersection extends Noeud {
 
     // Ce sont l'ensemble des informations qui ne seront pas traités par Noeud
+    //Coordonnée de l'intersection
     private double longitude;
     private double latitude;
-    // private ArrayList<Segment> listeSegmentOrigine;
 
     /**
      * Attributs hérités de Noeud :
      * - id : String
-     * - cheminPlusCourtDepuisEntrepot : List<Noeud>
-     * - poids : double
-     * - noeudsAdjacents : Map<Noeud, Double>
-     * - horaireLivrasion : int
-     * le poids correspond à la distance
+     * - arborescence : Map<Noeud, Lien>
+     */
+
+     /**
+     * <p>Constructeur pour Intersection.</p>
      */
     public Intersection() {
         
@@ -32,7 +32,7 @@ public class Intersection extends Noeud {
     
 
     /**
-     * <p>Constructor for Intersection.</p>
+     * <p>Constructeur pour Intersection.</p>
      *
      * @param i a {@link java.lang.String} object
      * @param longi a double
@@ -42,7 +42,6 @@ public class Intersection extends Noeud {
         super(i);
         this.longitude = longi;
         this.latitude = lat;
-        // this.listeSegmentOrigine = new ArrayList<Segment>();
     }
 
     /**
@@ -80,12 +79,6 @@ public class Intersection extends Noeud {
     public void modifierLatitude(double lat) {
         this.latitude = lat;
     }
-
-    /*
-     * public void ajouterSegment(Segment segment) {
-     * this.listeSegmentOrigine.add(segment);
-     * }
-     */
 
     /** {@inheritDoc} */
     @Override

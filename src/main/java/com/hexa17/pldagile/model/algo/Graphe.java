@@ -1,12 +1,8 @@
 package com.hexa17.pldagile.model.algo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
-import com.hexa17.pldagile.model.Intersection;
 import com.hexa17.pldagile.model.Segment;
 
 /**
@@ -16,8 +12,6 @@ import com.hexa17.pldagile.model.Segment;
  * @version $Id: $Id
  */
 public class Graphe {
-
-    private Set<Noeud> noeuds;
     
     /* 
      * Pour un noeud contient l'ensemble des segments qui partent de celui-ci
@@ -29,11 +23,6 @@ public class Graphe {
     public String toString() {
         String s = super.toString() + "\n";
 
-        for (Noeud n : noeuds) {
-            s += "|| " + n.toString() + '\n';
-        }
-        s += "\\/";
-
         return s;
     }
 
@@ -41,20 +30,7 @@ public class Graphe {
      * <p>Constructor for Graphe.</p>
      */
     public Graphe() {
-        this.noeuds = new LinkedHashSet<>();
     }
-
-    // Constructeur à partir d'un ensemble de nodes
-    /**
-     * <p>Constructor for Graphe.</p>
-     *
-     * @param nodes a {@link java.util.Set} object
-     */
-    public Graphe(Set<Noeud> nodes) {
-        this.noeuds = nodes;
-    }
-
-    
 
     /**
      * <p>Constructor for Graphe.</p>
@@ -63,33 +39,6 @@ public class Graphe {
      */
     public Graphe(Map<Noeud, ArrayList<Segment>> liensEntreNoeuds) {
         this.liensEntreNoeuds = liensEntreNoeuds;
-    }
-
-    /**
-     * <p>ajouterNoeud.</p>
-     *
-     * @param nodeA a {@link com.hexa17.pldagile.model.algo.Noeud} object
-     */
-    public void ajouterNoeud(Noeud nodeA) {
-        noeuds.add(nodeA);
-    }
-
-    /**
-     * <p>obtenirNoeuds.</p>
-     *
-     * @return a {@link java.util.Set} object
-     */
-    public Set<Noeud> obtenirNoeuds() {
-        return noeuds;
-    }
-
-    /**
-     * <p>modifierNoeuds.</p>
-     *
-     * @param nodes a {@link java.util.Set} object
-     */
-    public void modifierNoeuds(Set<Noeud> nodes) {
-        this.noeuds = nodes;
     }
 
     /**

@@ -10,7 +10,11 @@ import java.util.ArrayList;
  */
 public class Tournee {
 
+    //Liste de segment correspondant à tous les segments par lesquels doivent passer le livreur
+    //afin de réaliser l'ensemble de ses livraisons
     private ArrayList<Segment> listeSegment;
+
+    //Liste de livraison correspondant à l'ordre dans lequel les livraisons seront réalisées
     private ArrayList<Livraison> listeLivraison;
 
 

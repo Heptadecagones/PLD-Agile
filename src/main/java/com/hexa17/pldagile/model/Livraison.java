@@ -8,13 +8,20 @@ package com.hexa17.pldagile.model;
  */
 public class Livraison {
 
+    //Heure de livraison
     private double heureLivraison;
+
+    //Horaire de livraison
     private int horaireLivraison;
+
+    //Intersection correspondant au lieu de la livraison
     private Intersection lieu;
+
+    //Vrai si l'heure de livraison est dans la plage horaire de livraison
     private boolean valide;
-    // inutile pour l'instant
+
+    //Livreur qui doit faire cette livraison 
     private Livreur livreur;
-    //
 
     /**
      * <p>Constructor for Livraison.</p>

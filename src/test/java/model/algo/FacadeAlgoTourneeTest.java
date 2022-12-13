@@ -46,7 +46,7 @@ public class FacadeAlgoTourneeTest {
     public static void initPlan() {
         // Initialiser le plan
         PlanUsine pu = new PlanUsine();
-        pu.chargerXML("data/largeMap.xml");
+        pu.chargerXML("data/largeMap.xml",false);
         plan = new PlanLivraison();
 
     }
