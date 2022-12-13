@@ -105,6 +105,11 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     public void modifierLivraisonClickee(Livraison l){
         livraisonClickee=l;
     }
+    /**
+     * <p>obtenirLivraisonClickee.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.model.Livraison} object
+     */
     public Livraison obtenirLivraisonClickee(){
         return livraisonClickee;
     }

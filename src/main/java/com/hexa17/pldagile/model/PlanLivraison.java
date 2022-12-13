@@ -80,6 +80,11 @@ public class PlanLivraison extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
+    /**
+     * <p>supprimerLivraison.</p>
+     *
+     * @param livraison a {@link com.hexa17.pldagile.model.Livraison} object
+     */
     public void supprimerLivraison(Livraison livraison) {
         if (livraison == null) return;
         Livreur livreur = livraison.obtenirLivreur();

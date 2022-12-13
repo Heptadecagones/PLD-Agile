@@ -34,7 +34,7 @@ public class TabuSearch {
      * Constructeur de TabuSearch.
      * </p>
      *
-     * @param livraisons, une {@link java.util.ArrayList} de {@link com.hexa17.pldagile.model.Livraison}
+     * @param livraisons a {@link java.util.ArrayList} object
      */
     public TabuSearch(ArrayList<Livraison> livraisons) {
 

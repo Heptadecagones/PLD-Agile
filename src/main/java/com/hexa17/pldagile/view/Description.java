@@ -50,18 +50,38 @@ public class Description extends JPanel implements Observer {
     JButton supprimerLivraison;
     Livraison choixLivraison = new Livraison();
 
+    /**
+     * <p>obtenirChoixLivraison.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.model.Livraison} object
+     */
     public Livraison obtenirChoixLivraison() {
         return choixLivraison;
     }
 
+    /**
+     * <p>obtenirSupprimerLivraison.</p>
+     *
+     * @return a {@link javax.swing.JButton} object
+     */
     public JButton obtenirSupprimerLivraison() {
         return supprimerLivraison;
     }
 
+    /**
+     * <p>modifierSupprimerLivraison.</p>
+     *
+     * @param jb a {@link javax.swing.JButton} object
+     */
     public void modifierSupprimerLivraison(JButton jb) {
         supprimerLivraison = jb;
     }
 
+    /**
+     * <p>obtenirBtnList.</p>
+     *
+     * @return a {@link javax.swing.JList} object
+     */
     public JList<Livraison> obtenirBtnList() {
         return btnList;
     }
@@ -175,6 +195,11 @@ public class Description extends JPanel implements Observer {
         return retour;
     }
 
+    /**
+     * <p>modifierChoixLivraison.</p>
+     *
+     * @param l a {@link com.hexa17.pldagile.model.Livraison} object
+     */
     public void modifierChoixLivraison(Livraison l) {
         choixLivraison = l;
     }
