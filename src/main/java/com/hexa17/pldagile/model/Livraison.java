@@ -18,8 +18,10 @@ public class Livraison {
     }
 
     public String toString() {
-        String description = "Livreur : " + livreur.obtenirId() + livreur.obtenirNom() + "Plage Horaire : "
-                + this.heureLivraison + " lieu : " + this.lieu;
+        final long HH = (long)(this.heureLivraison);
+        final long MM = (long)(HH - this.heureLivraison * 60);
+        String description = "Livreur : " + livreur.obtenirId() + livreur.obtenirNom() + "Heure d'arrivée: "
+                + HH + "h" + MM + " lieu : " + this.lieu;
         return description;
     }
 
