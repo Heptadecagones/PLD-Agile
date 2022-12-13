@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-
+import java.awt.Color;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -20,7 +20,9 @@ import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.PlanLivraison;
 
 /**
- * <p>Description class.</p>
+ * <p>
+ * Description class.
+ * </p>
  *
  * @author Equipe IHM
  * @version $Id: $Id
@@ -31,7 +33,7 @@ public class Description extends JPanel implements Observer {
 
     private TitledBorder chargement = new TitledBorder("Chargement");
 
-    //Composants pour la liste des Livraisons
+    // Composants pour la liste des Livraisons
     JPanel panelbtnLivraison;
     ArrayList<JButton> btnLivraison = new ArrayList<JButton>();
     DefaultListModel btnName = new DefaultListModel();
@@ -39,16 +41,35 @@ public class Description extends JPanel implements Observer {
     JList<Livraison> btnList;
 
     /**
-     * <p>obtenirBtnList.</p>
+     * <p>
+     * obtenirBtnList.
+     * </p>
      *
      * @return a {@link javax.swing.JList} object
      */
-    public JList<Livraison> obtenirBtnList(){
+    JButton supprimerLivraison;
+    Livraison choixLivraison = new Livraison();
+
+    public Livraison obtenirChoixLivraison() {
+        return choixLivraison;
+    }
+
+    public JButton obtenirSupprimerLivraison() {
+        return supprimerLivraison;
+    }
+
+    public void modifierSupprimerLivraison(JButton jb) {
+        supprimerLivraison = jb;
+    }
+
+    public JList<Livraison> obtenirBtnList() {
         return btnList;
     }
 
     /**
-     * <p>obtenirChargement.</p>
+     * <p>
+     * obtenirChargement.
+     * </p>
      *
      * @return a {@link javax.swing.border.TitledBorder} object
      */
@@ -57,7 +78,9 @@ public class Description extends JPanel implements Observer {
     }
 
     /**
-     * <p>modifierTitle.</p>
+     * <p>
+     * modifierTitle.
+     * </p>
      *
      * @param title a {@link java.lang.String} object
      */
@@ -68,30 +91,37 @@ public class Description extends JPanel implements Observer {
     }
 
     /**
-     * <p>Constructor for Description.</p>
+     * <p>
+     * Constructor for Description.
+     * </p>
      */
     public Description() {
     }
 
     /**
-     * <p>init.</p>
+     * <p>
+     * init.
+     * </p>
      */
-    public void init(){
+    public void init() {
 
         setBorder(chargement);
         setLayout(new BorderLayout());
-
-        //Initialisation de la JList des livraisons
+        supprimerLivraison = new JButton("Supprimer");
+        // Initialisation de la JList des livraisons
         btnListScrollPane = new JScrollPane(btnList);
         add(btnListScrollPane);
         btnList = new JList(btnName);
         btnList.setSelectedIndex(0);
-        btnList.setVisibleRowCount(3);     
+        btnList.setVisibleRowCount(3);
         btnList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        JScrollPane btnListScrollPane = new JScrollPane(btnList);  
-        btnListScrollPane.setPreferredSize(new Dimension(200, 200));
-        add(btnListScrollPane);       
+        JScrollPane btnListScrollPane = new JScrollPane(btnList);
+        add(btnListScrollPane);
+        supprimerLivraison.setBackground(Color.RED);
+        supprimerLivraison.setForeground(Color.WHITE);
+        add(supprimerLivraison, BorderLayout.SOUTH);
+        supprimerLivraison.setVisible(false);
     }
 
     // Mise à jour des données : Ecriture de la liste des livraisons
@@ -101,44 +131,52 @@ public class Description extends JPanel implements Observer {
         PlanLivraison p = (PlanLivraison) arg0;
         btnName.clear();
         for (Livreur li : p.obtenirListeLivreur()) {
-            for(Livraison ls:li.obtenirTournee().obtenirListeLivraison()){
+            for (Livraison ls : li.obtenirTournee().obtenirListeLivraison()) {
                 btnName.addElement(ls);
             }
-        }        
+        }
     }
 
     /**
-     * <p>surlignerLivraison.</p>
+     * <p>
+     * surlignerLivraison.
+     * </p>
      *
      * @autor Henri
-     * @return Livraison   : Livraison qui correspond à l'intersection
-     * @description méthode appelée par le contrôleur après un click sur une intersection
-     * on surligne dans la description la livraison qui correspond et on la renvoie au contrôleur
+     * @return Livraison : Livraison qui correspond à l'intersection
+     * @description méthode appelée par le contrôleur après un click sur une
+     *              intersection
+     *              on surligne dans la description la livraison qui correspond et
+     *              on la renvoie au contrôleur
      * @param intersection a {@link com.hexa17.pldagile.model.Intersection} object
      */
     public Livraison surlignerLivraison(Intersection intersection) {
 
-        int[] tabIndices=new int[btnName.size()];
-        int nbSelection=0;
-        Livraison retour=new Livraison();
+        int[] tabIndices = new int[btnName.size()];
+        int nbSelection = 0;
+        Livraison retour = new Livraison();
 
-        //recherche des livraisons qui correspondent à l'intersection
-        for(int k=0;k<btnName.size();k++){
-            if(((Livraison)(btnName.get(k))).obtenirLieu()==intersection){
-                tabIndices[nbSelection]=k;
+        // recherche des livraisons qui correspondent à l'intersection
+        for (int k = 0; k < btnName.size(); k++) {
+            if (((Livraison) (btnName.get(k))).obtenirLieu() == intersection) {
+                tabIndices[nbSelection] = k;
                 nbSelection++;
-                retour=(Livraison)(btnName.get(k));
+                retour = (Livraison) (btnName.get(k));
             }
         }
 
-        //surlignage (selection) dans la JList
-        int[] select=new int[nbSelection];
-        for(int k=0;k<nbSelection;k++){
-                select[k]=tabIndices[k];
-        }  
+        // surlignage (selection) dans la JList
+        int[] select = new int[nbSelection];
+        for (int k = 0; k < nbSelection; k++) {
+            select[k] = tabIndices[k];
+        }
         btnList.setSelectedIndices(select);
-
+        choixLivraison = retour;
         return retour;
     }
-              
+
+    public void modifierChoixLivraison(Livraison l) {
+        choixLivraison = l;
+    }
+
 }

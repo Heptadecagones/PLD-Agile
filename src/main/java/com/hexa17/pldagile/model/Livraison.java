@@ -30,7 +30,12 @@ public class Livraison {
     public String toString() {
         final long HH = (long)(this.heureLivraison);
         final long MM = (long)((this.heureLivraison - HH) * 60);
-        String description = "Livreur : " + livreur.obtenirId() + livreur.obtenirNom() + "Heure d'arrivée: "
+        String description="";
+        if(!valide){
+            description+="INVALIDE ";
+        }
+
+        description+= "Livreur : " + livreur.obtenirId()+ " " + livreur.obtenirNom() + " Heure d'arrivée: "
                 + HH + "h" + MM + " lieu : " + this.lieu;
         return description;
     }
@@ -64,8 +69,8 @@ public class Livraison {
         this.livreur = liv;
         this.heureLivraison = 0;
         this.horaireLivraison = horaire;
-        this.valide = true;
         this.heureLivraison=heure;
+        this.valide = (heureLivraison < horaireLivraison+1);
     }
 
     /**
@@ -119,6 +124,7 @@ public class Livraison {
      * @param heureLivraison a double
      */
     public void modifierHeureLivraison(double heureLivraison) {
+        this.valide = (heureLivraison < horaireLivraison+1);
         this.heureLivraison = heureLivraison;
     }
 
@@ -157,7 +163,5 @@ public class Livraison {
     public void modifierValide(boolean valide) {
         this.valide = valide;
     }
-
-    
 
 }

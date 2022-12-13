@@ -105,6 +105,9 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     public void modifierLivraisonClickee(Livraison l){
         livraisonClickee=l;
     }
+    public Livraison obtenirLivraisonClickee(){
+        return livraisonClickee;
+    }
 
     /**
      * <p>Constructor for Carte.</p>
@@ -559,6 +562,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
      * @return a {@link com.hexa17.pldagile.model.Intersection} object
      */
     public Intersection carteCliquee(MouseEvent e){
+        livraisonClickee=null;
         int sourisX = e.getX();
         int sourisY = e.getY();
 
@@ -569,6 +573,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     /** {@inheritDoc} */
     @Override
     public void mouseClicked(MouseEvent e) {
+        livraisonClickee=null;
         int sourisX = e.getX();
         int sourisY = e.getY();
 
