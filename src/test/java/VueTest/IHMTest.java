@@ -27,7 +27,7 @@ public class IHMTest {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         // c.view.obtenirBarre().obtenirCharger().doClick();
-        c.planLivraison.initPlan("src/main/java/largeMap.xml");
+        c.planLivraison.initPlan("data/largeMap.xml");
 
         Robot robot = new Robot();
         robot.delay(1000);
