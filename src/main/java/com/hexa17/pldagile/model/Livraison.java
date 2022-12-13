@@ -10,6 +10,7 @@ public class Livraison {
     private double heureLivraison;
     private int horaireLivraison;
     private Intersection lieu;
+    private boolean valide;
     // inutile pour l'instant
     private Livreur livreur;
     //
@@ -19,7 +20,7 @@ public class Livraison {
 
     public String toString() {
         final long HH = (long)(this.heureLivraison);
-        final long MM = (long)(HH - this.heureLivraison * 60);
+        final long MM = (long)((this.heureLivraison - HH) * 60);
         String description = "Livreur : " + livreur.obtenirId() + livreur.obtenirNom() + "Heure d'arrivée: "
                 + HH + "h" + MM + " lieu : " + this.lieu;
         return description;
@@ -31,6 +32,7 @@ public class Livraison {
         this.livreur = liv;
         this.heureLivraison = 0;
         this.horaireLivraison = horaire;
+        this.valide = true;
     }
 
     public Intersection obtenirLieu() {
@@ -64,5 +66,15 @@ public class Livraison {
     public void modifierHoraireLivraison(int horaireLivraison) {
         this.horaireLivraison = horaireLivraison;
     }
+
+    public boolean estValide() {
+        return valide;
+    }
+
+    public void modifierValide(boolean valide) {
+        this.valide = valide;
+    }
+
+    
 
 }

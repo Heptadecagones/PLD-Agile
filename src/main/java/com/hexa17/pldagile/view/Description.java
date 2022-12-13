@@ -77,7 +77,7 @@ public class Description extends JPanel implements Observer {
         PlanLivraison p = (PlanLivraison) arg0;
         btnName.clear();
         for (Livreur li : p.obtenirListeLivreur()) {
-            for(Livraison ls:li.obtenirLivraisons()){
+            for(Livraison ls:li.obtenirTournee().obtenirListeLivraison()){
                 btnName.addElement(ls);
             }
         }        

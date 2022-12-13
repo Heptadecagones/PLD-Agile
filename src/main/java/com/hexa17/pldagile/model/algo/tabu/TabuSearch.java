@@ -168,8 +168,9 @@ public class TabuSearch {
 
         for (int i = 1; i < soluceEnInt.length; i++) {
             livraison = invPlaces.get(soluceEnInt[i]);
+            if ( i != 1) heure+= 5.0/60.0;
 
-            heure += 5/60 + livraison.obtenirLieu().obtenirArborescence().get(soluce[i-1].obtenirLieu()).obtenirPoids()/15000;
+            heure += livraison.obtenirLieu().obtenirArborescence().get(soluce[i-1].obtenirLieu()).obtenirPoids()/15000;
             if (heure < livraison.obtenirHoraireLivraison()) heure = livraison.obtenirHoraireLivraison();
             livraison.modifierHeureLivraison(heure);
 
