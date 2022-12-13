@@ -1,10 +1,12 @@
 package com.hexa17.pldagile.model.algo.tabu;
 
 /**
- * <p>CelluleMatrice class.</p>
+ * <p>
+ * Classe CelluleMatrice.
+ * </p>
  *
- * @author omi
- * @version $Id: $Id
+ * @author Yannick
+ * @version 1.0
  */
 public class CelluleMatrice {
 
@@ -12,17 +14,20 @@ public class CelluleMatrice {
     private int horaire;
 
     /**
-     * <p>Constructor for CelluleMatrice.</p>
+     * <p>
+     * Constructeur vide de CelluleMatrice.
+     * </p>
      */
     public CelluleMatrice() {
-
     }
 
     /**
-     * <p>Constructor for CelluleMatrice.</p>
+     * <p>
+     * Constructeur complet de CelluleMatrice.
+     * </p>
      *
-     * @param poids a double
-     * @param horaire a int
+     * @param poids   un double
+     * @param horaire un int
      */
     public CelluleMatrice(double poids, int horaire) {
         this.poids = poids;
@@ -30,7 +35,9 @@ public class CelluleMatrice {
     }
 
     /**
-     * <p>obtenirPoids.</p>
+     * <p>
+     * Getter pour le champ <code>poids</code>.
+     * </p>
      *
      * @return a double
      */
@@ -39,27 +46,33 @@ public class CelluleMatrice {
     }
 
     /**
-     * <p>modifierPoids.</p>
+     * <p>
+     * Setter pour le champ <code>poids</code>.
+     * </p>
      *
-     * @param poids a double
+     * @param poids un double
      */
     public void modifierPoids(double poids) {
         this.poids = poids;
     }
 
     /**
-     * <p>obtenirHoraire.</p>
+     * <p>
+     * Getter pour le champ <code>obtenirHoraire</code>.
+     * </p>
      *
-     * @return a int
+     * @return un int
      */
     public int obtenirHoraire() {
         return horaire;
     }
 
     /**
-     * <p>modifierHoraire.</p>
+     * <p>
+     * Setter pour le champ <code>obtenirHoraire</code>.
+     * </p>
      *
-     * @param horaire a int
+     * @param horaire un int
      */
     public void modifierHoraire(int horaire) {
         this.horaire = horaire;

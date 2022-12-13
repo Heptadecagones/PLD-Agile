@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.hexa17.pldagile.model.Livraison;
 
 /**
- * Créé par Rafal le 2015-12-02. ()
+ * Créé par Rafal le 2015-12-02.
  *
  * @see <a href=https://github.com/w4-pwr/TSP-Tabu-search>Source originale</a>
  * @author omi
@@ -17,18 +17,18 @@ import com.hexa17.pldagile.model.Livraison;
  */
 public class TabuSearch {
 
-    private TabuList tabuList; // Liste tabou
-    private Matrix matrix; // Matrice d'adjacence
+    private TabuListe listeTabu; // Liste tabou
+    private Matrice matrix; // Matrice d'adjacence
 
-    int[] currSolution; // Solution actuelle
+    int[] soluceActuelle; // Solution actuelle
     int numberOfIterations; // Nombre maximal d'itérations
     int problemSize; // Taille du problème
     int horaireMinimale;
 
     private Map<Livraison, Integer> places;
 
-    private int[] bestSolution;
-    private int bestCost;
+    private int[] meilleureSoluce;
+    private int meilleurCout;
 
     /**
      * <p>
@@ -48,12 +48,12 @@ public class TabuSearch {
         this.horaireMinimale = minLiv;
         this.places = new HashMap<>();
         this.matrix = livraisonsVersMatrice(livraisons);
-        this.problemSize = matrix.getEdgeCount();
+        this.problemSize = matrix.getNbAretes();
         this.numberOfIterations = problemSize * 10; // ?
-        this.tabuList = new TabuList(problemSize);
+        this.listeTabu = new TabuListe(problemSize);
 
-        setupCurrentSolution();
-        setupBestSolution();
+        initSolutionActuelle();
+        initMeilleureSolution();
     }
 
     /**
@@ -62,9 +62,9 @@ public class TabuSearch {
      * </p>
      *
      * @param livraisons a {@link java.util.ArrayList} object
-     * @return a {@link com.hexa17.pldagile.model.algo.tabu.Matrix} object
+     * @return a {@link com.hexa17.pldagile.model.algo.tabu.Matrice} object
      */
-    private Matrix livraisonsVersMatrice(ArrayList<Livraison> livraisons) {
+    private Matrice livraisonsVersMatrice(ArrayList<Livraison> livraisons) {
         int taille = livraisons.size();
         double[][] preMatrice = new double[taille][taille];
 
@@ -113,83 +113,89 @@ public class TabuSearch {
                 }
             }
         }
-        Matrix m = new Matrix(preMatrice);
+        Matrice m = new Matrice(preMatrice);
         return m;
     }
 
     /**
-     * <p>setupBestSolution.</p>
+     * <p>
+     * Initialise la meilleure solution.
+     * </p>
      */
-    private void setupBestSolution() {
-        bestSolution = new int[problemSize + 1];
-        System.arraycopy(currSolution, 0, bestSolution, 0, bestSolution.length);
-        bestCost = matrix.calculateDistance(bestSolution);
-    }
-
-    /**
-     * <p>setupCurrentSolution.</p>
-     */
-    private void setupCurrentSolution() {
-        currSolution = new int[problemSize + 1];
-        for (int i = 0; i < problemSize; i++)
-            currSolution[i] = i;
-        currSolution[problemSize] = 0;
+    private void initMeilleureSolution() {
+        meilleureSoluce = new int[problemSize + 1];
+        System.arraycopy(soluceActuelle, 0, meilleureSoluce, 0, meilleureSoluce.length);
+        meilleurCout = matrix.calculerDistance(meilleureSoluce);
     }
 
     /**
      * <p>
-     * invoke.
+     * Initialise la solution actuelle.
+     * </p>
+     */
+    private void initSolutionActuelle() {
+        soluceActuelle = new int[problemSize + 1];
+        for (int i = 0; i < problemSize; i++)
+            soluceActuelle[i] = i;
+        soluceActuelle[problemSize] = 0;
+    }
+
+    /**
+     * <p>
+     * Coeur de l'algorithme Tabu, qui calcule un ordre de passage optimisé.
      * </p>
      *
      * @return an array of {@link int} objects
      */
-    public int[] invoke() {
+    public int[] invoquer() {
 
         for (int i = 0; i < numberOfIterations; i++) {
-            int city1 = 0;
-            int city2 = 0;
+            int ville1 = 0;
+            int ville2 = 0;
 
-            for (int j = 1; j < currSolution.length - 1; j++) {
-                for (int k = 2; k < currSolution.length - 1; k++) {
+            for (int j = 1; j < soluceActuelle.length - 1; j++) {
+                for (int k = 2; k < soluceActuelle.length - 1; k++) {
                     if (j != k) {
-                        swap(j, k);
-                        int currCost = matrix.calculateDistance(currSolution);
-                        if ((currCost < bestCost) && tabuList.tabuList[j][k] == 0) {
-                            city1 = j;
-                            city2 = k;
-                            System.arraycopy(currSolution, 0, bestSolution, 0, bestSolution.length);
-                            bestCost = currCost;
+                        echanger(j, k);
+                        int coutActuel = matrix.calculerDistance(soluceActuelle);
+                        if ((coutActuel < meilleurCout) && listeTabu.tabuListe[j][k] == 0) {
+                            ville1 = j;
+                            ville2 = k;
+                            System.arraycopy(soluceActuelle, 0, meilleureSoluce, 0, meilleureSoluce.length);
+                            meilleurCout = coutActuel;
                         }
                     }
                 }
             }
 
-            if (city1 != 0) {
-                tabuList.decrementTabu();
-                tabuList.tabuMove(city1, city2);
+            if (ville1 != 0) {
+                listeTabu.decrementerTabu();
+                listeTabu.tabuDeplacer(ville1, ville2);
             }
         }
 
-        System.out.println("Search done! \nBest Solution cost found = " + bestCost);
+        System.out.println("[TABU] Meilleure solution: " + meilleurCout);
 
-        return bestSolution;
-    }
-
-    /**
-     * <p>swap.</p>
-     *
-     * @param i a int
-     * @param k a int
-     */
-    private void swap(int i, int k) {
-        int temp = currSolution[i];
-        currSolution[i] = currSolution[k];
-        currSolution[k] = temp;
+        return meilleureSoluce;
     }
 
     /**
      * <p>
-     * inverser.
+     * Echange deux ints.
+     * </p>
+     *
+     * @param i a int
+     * @param k a int
+     */
+    private void echanger(int i, int k) {
+        int temp = soluceActuelle[i];
+        soluceActuelle[i] = soluceActuelle[k];
+        soluceActuelle[k] = temp;
+    }
+
+    /**
+     * <p>
+     * Inverse la clé et la valeur d'un objet Map.
      * </p>
      *
      * @param map a {@link java.util.Map} object
@@ -205,13 +211,14 @@ public class TabuSearch {
 
     /**
      * <p>
-     * soluceEnNoeuds.
+     * Reconstruit des livraisons à partir de l'ordre de passage calculé par
+     * Tabu.
      * </p>
      *
      * @return an array of {@link com.hexa17.pldagile.model.Livraison} objects
      */
-    public Livraison[] soluceEnNoeuds() {
-        int[] soluceEnInt = invoke();
+    public Livraison[] soluceEnLivraisons() {
+        int[] soluceEnInt = invoquer();
 
         // On inverse la Map pour retrouver les noeuds en fonction des entiers
         Map<Integer, Livraison> invPlaces = inverser(places);

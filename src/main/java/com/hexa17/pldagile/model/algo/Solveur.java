@@ -185,7 +185,7 @@ tôt possible </p>
         calculerArborescences(destinations);
 
         TabuSearch tabu = new TabuSearch(destinations);
-        Livraison[] ordreLivraison = tabu.soluceEnNoeuds();
+        Livraison[] ordreLivraison = tabu.soluceEnLivraisons();
 
         ArrayList<Segment> listeSegment = new ArrayList<Segment>();
         ArrayList<Livraison> listeLivraison = new ArrayList<Livraison>();
