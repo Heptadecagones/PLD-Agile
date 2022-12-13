@@ -96,7 +96,7 @@ public class Controleur {
 
 
                 if("Charger une tournée".equals(command)){
-                    
+
                     JFileChooser selecteur = new JFileChooser();
 
                     // adapter le chemin vers les fichier XML

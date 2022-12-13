@@ -34,6 +34,15 @@ public class Livraison {
         this.horaireLivraison = horaire;
         this.valide = true;
     }
+    public Livraison(double heure,int horaire, Intersection l, Livreur liv) {
+
+        this.lieu = l;
+        this.livreur = liv;
+        this.heureLivraison = 0;
+        this.horaireLivraison = horaire;
+        this.valide = true;
+        this.heureLivraison=heure;
+    }
 
     public Intersection obtenirLieu() {
         return lieu;

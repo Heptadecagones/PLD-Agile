@@ -77,6 +77,7 @@ public class PlanLivraison extends Observable {
     }
 
     public void initPlan(String cheminXml) {
+        init();
         PlanUsine pf = new PlanUsine();
         pf.chargerXML(cheminXml);
         this.plan = pf.construirePlan();
@@ -139,42 +140,46 @@ public class PlanLivraison extends Observable {
 
             // l'élément contact
             String help;
-                    
+            
             for(Livreur livr : obtenirListeLivreur()){
                 Element livreur = doc.createElement("livreur");
                 racine.appendChild(livreur);
+
                 help = String.valueOf(livr.obtenirId());
                 livreur.setAttribute("id", help);
+
+                help = String.valueOf(livr.estDisponible());
+                livreur.setAttribute("disponibilite", help);
+
+                help = String.valueOf(livr.obtenirNom());
+                livreur.setAttribute("nom", help);
             }
 
             Element warehouse = doc.createElement("warehouse");
             warehouse.setAttribute("address", plan.obtenirEntrepot().obtenirId());
             racine.appendChild(warehouse);
             
-            //  doc.setTextContent("\n");
+          //  doc.setTextContent("\n");
             if (!plan.obtenirListeIntersection().isEmpty()) {
                 for(Intersection aff_intersection : plan.obtenirListeIntersection()){
-                    
-                    // intersection
-                    
-                    Element intersection = doc.createElement("intersection");
-                    
-                    racine.appendChild(intersection);
-                    ajout_parametre = aff_intersection.obtenirId();
+             
+                // intersection
                 
-                    intersection.setAttribute("id", ajout_parametre);
-                    ajout_parametre = String.valueOf(aff_intersection.obtenirLatitude());
-                    intersection.setAttribute("latitude", ajout_parametre);
-                    ajout_parametre = String.valueOf(aff_intersection.obtenirLongitude());
-                    intersection.setAttribute("longitude", ajout_parametre);
-                    // id
-                    // doc.setTextContent("\n");
+                Element intersection = doc.createElement("intersection");
+                
+                racine.appendChild(intersection);
+                ajout_parametre = aff_intersection.obtenirId();
+            
+                intersection.setAttribute("id", ajout_parametre);
+                ajout_parametre = String.valueOf(aff_intersection.obtenirLatitude());
+                intersection.setAttribute("latitude", ajout_parametre);
+                ajout_parametre = String.valueOf(aff_intersection.obtenirLongitude());
+                intersection.setAttribute("longitude", ajout_parametre);
                 }
             }
        
             if (!plan.obtenirListeSegment().isEmpty()) {
                 for(Segment aff_segment : plan.obtenirListeSegment()){
-            
                     //segment
                     Element segment = doc.createElement("segment");
                     racine.appendChild(segment);
@@ -182,11 +187,9 @@ public class PlanLivraison extends Observable {
                     ajout_parametre = String.valueOf(aff_segment.obtenirDestination().obtenirId());
                     segment.setAttribute("destination", ajout_parametre);
 
-                    
+                
                     ajout_parametre = String.valueOf(aff_segment.obtenirLongueur());
                     segment.setAttribute("length", ajout_parametre);
-
-
 
                     ajout_parametre = String.valueOf(aff_segment.obtenirNom());
                     segment.setAttribute("name", ajout_parametre);
@@ -194,39 +197,52 @@ public class PlanLivraison extends Observable {
 
                     ajout_parametre = String.valueOf(aff_segment.obtenirOrigine().obtenirId());
                     segment.setAttribute("origin", ajout_parametre);
-                //   doc.setTextContent("\n");    
                 }
             }
 
             for(Livreur livr : obtenirListeLivreur()){
-                
-                for(Segment segment_livraison : livr.obtenirTournee().obtenirListeSegment()){
-                
 
-                
+                for(Segment segment_livraison : livr.obtenirTournee().obtenirListeSegment()){
                     //segment
-                    Element livraison = doc.createElement("livraison");
-                    racine.appendChild(livraison);
+                    Element segment_tournee = doc.createElement("segment_tournee");
+                    racine.appendChild(segment_tournee);
 
                     ajout_parametre = String.valueOf(livr.obtenirId());
-                    livraison.setAttribute("id_livreur", ajout_parametre);
-    
+                    segment_tournee.setAttribute("id_livreur", ajout_parametre);
+
                     ajout_parametre = String.valueOf(segment_livraison.obtenirDestination().obtenirId());
-                    livraison.setAttribute("destination", ajout_parametre);
+                    segment_tournee.setAttribute("destination", ajout_parametre);
                 
                     ajout_parametre = String.valueOf(segment_livraison.obtenirOrigine().obtenirId());
-                    livraison.setAttribute("origin", ajout_parametre);
-
+                    segment_tournee.setAttribute("origin", ajout_parametre);
                 }
-            //   doc.setTextContent("\n");
+                
+                for(Livraison liv_livraison : livr.obtenirLivraisons()){
+                    //segment
+                    Element listelivraison = doc.createElement("listelivraison");
+                    racine.appendChild(listelivraison);
+
+                    ajout_parametre = String.valueOf(livr.obtenirId());
+                    listelivraison.setAttribute("id_livreur", ajout_parametre);
+
+                    ajout_parametre = String.valueOf(liv_livraison.obtenirHoraireLivraison());
+                    listelivraison.setAttribute("plage_horaire", ajout_parametre);
+
+                    ajout_parametre = String.valueOf(liv_livraison.obtenirHeureLivraison());
+                    listelivraison.setAttribute("heure_livraison", ajout_parametre);
+
+                    ajout_parametre = String.valueOf(liv_livraison.obtenirLieu().obtenirId());
+                    listelivraison.setAttribute("id_intersection", ajout_parametre);
+                }
             }
+
             doc.appendChild(racine);
         
-        
+            
             // write the content into xml file
             String cheminXML = File.separator + "src" + File.separator + "main" + File.separator + "java";
             //File repertoireProjet = new File(System.getProperty("user.dir") + cheminXML);
-            
+           
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -237,7 +253,7 @@ public class PlanLivraison extends Observable {
             transformer.transform(source, resultat);
             
             System.out.println("Fichier sauvegardé avec succès!");
-        
+            
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
         } catch (TransformerException tfe) {
@@ -247,8 +263,11 @@ public class PlanLivraison extends Observable {
 
     public void chargerLivraison(String cheminXml) {
         PlanUsine pf = new PlanUsine();
-        pf.chargerXML(cheminXml);
+        this.listeLivreur = pf.chargerLivraisonXML(cheminXml);
         this.plan = pf.construirePlan();
+        for(Livreur e:listeLivreur){
+            System.out.println(e);
+        }
 
         this.setChanged();
         this.notifyObservers();
