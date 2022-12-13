@@ -23,6 +23,12 @@ import javax.swing.JPanel;
 
 import com.hexa17.pldagile.model.*;
 
+/**
+ * <p>Carte class.</p>
+ *
+ * @author omi
+ * @version $Id: $Id
+ */
 @SuppressWarnings("serial")
 public class Carte extends JPanel implements Observer, MouseWheelListener, MouseListener, MouseMotionListener {
     /**
@@ -80,6 +86,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     private Livraison livraisonClickee;
 
 
+    /** {@inheritDoc} */
     @Override
     // Garantie d'une carte carrée
     public Dimension getPreferredSize() {
@@ -90,10 +97,18 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
         return new Dimension(min, min);
     }
+    /**
+     * <p>modifierLivraisonClickee.</p>
+     *
+     * @param l a {@link com.hexa17.pldagile.model.Livraison} object
+     */
     public void modifierLivraisonClickee(Livraison l){
         livraisonClickee=l;
     }
 
+    /**
+     * <p>Constructor for Carte.</p>
+     */
     public Carte() {
         initDonnee();
         addMouseWheelListener(this);
@@ -102,7 +117,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
 
     /**
-     * (Re)Initialise les donnees de la carte 
+     * (Re)Initialise les donnees de la carte
      * Utilisée quand l'utilisateur charge une nouvelle carte
      */
     public void initDonnee() {
@@ -155,6 +170,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
 
     // MISE À JOUR AU CHANGEMENT DES DONNÉES DU MODÈLE
+    /** {@inheritDoc} */
     @Override
     public void update(Observable arg0, Object arg1) {
         PlanLivraison planLivraison = (PlanLivraison) arg0;
@@ -188,8 +204,10 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
     
     /**
-     * @param sourisX
-     * @param sourisY
+     * <p>chercherIntersectionProche.</p>
+     *
+     * @param sourisX a int
+     * @param sourisY a int
      * @param maxDistance : La distance Manhattan maximale acceptable
      * @return : L'intersection la plus proche de la souris
      */
@@ -218,8 +236,10 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
 
     /**
-     * @param sourisX
-     * @param sourisY
+     * <p>recupererRue.</p>
+     *
+     * @param sourisX a int
+     * @param sourisY a int
      * @param maxDistance : La distance Manhattan maximale acceptable
      * @return : La rue le plus proche a la souris
      */
@@ -263,6 +283,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
 
     // PAINT DE LA CARTE
+    /** {@inheritDoc} */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -427,8 +448,8 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     /**
      * Projection de Mercator
      * Convertir de latitude et longitude en coordonnée 2d
-     * 
-     * @param intersection
+     *
+     * @param intersection a {@link com.hexa17.pldagile.model.Intersection} object
      * @return Point2D
      */
     public Point2D convertirLatLong(Intersection intersection) {
@@ -485,6 +506,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     }
 
 
+    /** {@inheritDoc} */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         final double cstZoom = 1.1;
@@ -505,6 +527,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mouseDragged(MouseEvent e) {
         Point curPoint = e.getLocationOnScreen();
@@ -515,6 +538,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         repaint();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mouseMoved(MouseEvent e) {
         // Afficher le nom de la rue plus proche a la souris sur la carte
@@ -528,6 +552,12 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         }
         repaint();
     }
+    /**
+     * <p>carteCliquee.</p>
+     *
+     * @param e a {@link java.awt.event.MouseEvent} object
+     * @return a {@link com.hexa17.pldagile.model.Intersection} object
+     */
     public Intersection carteCliquee(MouseEvent e){
         int sourisX = e.getX();
         int sourisY = e.getY();
@@ -536,6 +566,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         choixIntersection=chercherIntersectionProche(sourisX, sourisY, maxDistance);
         return(choixIntersection);
     }
+    /** {@inheritDoc} */
     @Override
     public void mouseClicked(MouseEvent e) {
         int sourisX = e.getX();
@@ -546,6 +577,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mousePressed(MouseEvent e) {
         released = false;
@@ -553,17 +585,20 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         repaint();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mouseReleased(MouseEvent e) {
         released = true;
         repaint();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
 
+    /** {@inheritDoc} */
     @Override
     public void mouseExited(MouseEvent e) {
 

@@ -18,6 +18,12 @@ import org.xml.sax.SAXException;
 
 import com.hexa17.pldagile.model.algo.Noeud;
 
+/**
+ * <p>PlanUsine class.</p>
+ *
+ * @author omi
+ * @version $Id: $Id
+ */
 public class PlanUsine {
 
     private ArrayList<Intersection> listeIntersection;
@@ -25,18 +31,38 @@ public class PlanUsine {
     private Map<Noeud, ArrayList<Segment>> liensEntreNoeuds;
     private Intersection entrepot;
 
+    /**
+     * <p>modifierEntrepot.</p>
+     *
+     * @param entrepot a {@link com.hexa17.pldagile.model.Intersection} object
+     */
     public void modifierEntrepot(Intersection entrepot) {
         this.entrepot = entrepot;
     }
 
+    /**
+     * <p>modifierListeIntersection.</p>
+     *
+     * @param listeIntersection a {@link java.util.ArrayList} object
+     */
     public void modifierListeIntersection(ArrayList<Intersection> listeIntersection) {
         this.listeIntersection = listeIntersection;
     }
 
+    /**
+     * <p>construirePlan.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.model.Plan} object
+     */
     public Plan construirePlan() {
         return new Plan(listeIntersection, listeSegment, entrepot, liensEntreNoeuds);
     }
 
+    /**
+     * <p>modifierListeSegment.</p>
+     *
+     * @param listeSegment a {@link java.util.ArrayList} object
+     */
     public void modifierListeSegment(ArrayList<Segment> listeSegment) {
         this.listeSegment = listeSegment;
     }
@@ -55,6 +81,11 @@ public class PlanUsine {
 
     // chargement d'un plan( avec segments,intersections,entrepot) à partir d'un
     // fichier XML
+    /**
+     * <p>chargerXML.</p>
+     *
+     * @param nomFichier a {@link java.lang.String} object
+     */
     public void chargerXML(String nomFichier) {
         try {
 
@@ -145,6 +176,12 @@ public class PlanUsine {
         }
     }
 
+    /**
+     * <p>chargerLivraisonXML.</p>
+     *
+     * @param nomFichier a {@link java.lang.String} object
+     * @return a {@link java.util.ArrayList} object
+     */
     public ArrayList<Livreur> chargerLivraisonXML(String nomFichier) {
 
         ArrayList<Livreur> listeLivreur = new ArrayList<Livreur>();
@@ -310,14 +347,29 @@ public class PlanUsine {
         return listeLivreur;
     }
 
+    /**
+     * <p>obtenirEntrepot.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.model.Intersection} object
+     */
     public Intersection obtenirEntrepot() {
         return entrepot;
     }
 
+    /**
+     * <p>obtenirListeIntersection.</p>
+     *
+     * @return a {@link java.util.ArrayList} object
+     */
     public ArrayList<Intersection> obtenirListeIntersection() {
         return listeIntersection;
     }
 
+    /**
+     * <p>obtenirListeSegment.</p>
+     *
+     * @return a {@link java.util.ArrayList} object
+     */
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;
     }

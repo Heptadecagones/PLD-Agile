@@ -45,11 +45,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * <p>PlanLivraison class.</p>
  *
  * @author Henri
  *         Voir diagramme des classes
  *         Classe avec un Plan et une liste de Livreur, permet de faire le lien
  *         entre le plan et les livraisons
+ * @version $Id: $Id
  */
 public class PlanLivraison extends Observable {
 
@@ -57,6 +59,13 @@ public class PlanLivraison extends Observable {
     private Plan plan;
 
     // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
+    /**
+     * <p>nouvelleLivraison.</p>
+     *
+     * @param horaire a {@link java.lang.String} object
+     * @param intersection a {@link com.hexa17.pldagile.model.Intersection} object
+     * @param numLivreur a {@link java.lang.String} object
+     */
     public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
 
         Livreur livreurActuel = this.listeLivreur.get(Integer.parseInt(numLivreur));
@@ -72,10 +81,18 @@ public class PlanLivraison extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * <p>Constructor for PlanLivraison.</p>
+     */
     public PlanLivraison() {
         init();
     }
 
+    /**
+     * <p>initPlan.</p>
+     *
+     * @param cheminXml a {@link java.lang.String} object
+     */
     public void initPlan(String cheminXml) {
         init();
         PlanUsine pf = new PlanUsine();
@@ -86,6 +103,11 @@ public class PlanLivraison extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * <p>Constructor for PlanLivraison.</p>
+     *
+     * @param cheminXml a {@link java.lang.String} object
+     */
     public PlanLivraison(String cheminXml) {
         PlanUsine pf = new PlanUsine();
         pf.chargerXML(cheminXml);
@@ -102,20 +124,38 @@ public class PlanLivraison extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * <p>obtenirListeLivreur.</p>
+     *
+     * @return a {@link java.util.ArrayList} object
+     */
     public ArrayList<Livreur> obtenirListeLivreur() {
         return this.listeLivreur;
     }
 
+    /**
+     * <p>obtenirPlan.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.model.Plan} object
+     */
     public Plan obtenirPlan() {
         return this.plan;
     }
 
+    /**
+     * <p>ajouterLivreur.</p>
+     *
+     * @param l a {@link com.hexa17.pldagile.model.Livreur} object
+     */
     public void ajouterLivreur(Livreur l){
         this.listeLivreur.add(l);
         this.setChanged();
         this.notifyObservers();
     }
 
+    /**
+     * <p>init.</p>
+     */
     public void init() {
         this.plan = null;
         this.listeLivreur = new ArrayList<Livreur>();
@@ -125,6 +165,11 @@ public class PlanLivraison extends Observable {
         this.listeLivreur.add(new Livreur(3,"Bertrand Turpin"));
     }
 
+    /**
+     * <p>sauvegarder.</p>
+     *
+     * @param nomFichier a {@link java.lang.String} object
+     */
     public void sauvegarder(String nomFichier){
 
         String ajout_parametre;
@@ -261,6 +306,11 @@ public class PlanLivraison extends Observable {
         }
     }
 
+    /**
+     * <p>chargerLivraison.</p>
+     *
+     * @param cheminXml a {@link java.lang.String} object
+     */
     public void chargerLivraison(String cheminXml) {
         PlanUsine pf = new PlanUsine();
         this.listeLivreur = pf.chargerLivraisonXML(cheminXml);

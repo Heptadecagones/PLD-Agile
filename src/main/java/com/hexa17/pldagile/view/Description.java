@@ -20,8 +20,10 @@ import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.PlanLivraison;
 
 /**
+ * <p>Description class.</p>
  *
  * @author Equipe IHM
+ * @version $Id: $Id
  */
 
 @SuppressWarnings("serial")
@@ -36,23 +38,44 @@ public class Description extends JPanel implements Observer {
     JScrollPane btnListScrollPane;
     JList<Livraison> btnList;
 
+    /**
+     * <p>obtenirBtnList.</p>
+     *
+     * @return a {@link javax.swing.JList} object
+     */
     public JList<Livraison> obtenirBtnList(){
         return btnList;
     }
 
+    /**
+     * <p>obtenirChargement.</p>
+     *
+     * @return a {@link javax.swing.border.TitledBorder} object
+     */
     public TitledBorder obtenirChargement() {
         return chargement;
     }
 
+    /**
+     * <p>modifierTitle.</p>
+     *
+     * @param title a {@link java.lang.String} object
+     */
     public void modifierTitle(String title) {
         this.chargement.setTitle(title);
         setBorder(chargement);
         revalidate();
     }
 
+    /**
+     * <p>Constructor for Description.</p>
+     */
     public Description() {
     }
 
+    /**
+     * <p>init.</p>
+     */
     public void init(){
 
         setBorder(chargement);
@@ -72,6 +95,7 @@ public class Description extends JPanel implements Observer {
     }
 
     // Mise à jour des données : Ecriture de la liste des livraisons
+    /** {@inheritDoc} */
     @Override
     public void update(Observable arg0, Object arg1) {
         PlanLivraison p = (PlanLivraison) arg0;
@@ -83,12 +107,14 @@ public class Description extends JPanel implements Observer {
         }        
     }
 
-     /**
+    /**
+     * <p>surlignerLivraison.</p>
+     *
      * @autor Henri
-     * @param Intersection : Intersection cliquée sur la carte
      * @return Livraison   : Livraison qui correspond à l'intersection
      * @description méthode appelée par le contrôleur après un click sur une intersection
      * on surligne dans la description la livraison qui correspond et on la renvoie au contrôleur
+     * @param intersection a {@link com.hexa17.pldagile.model.Intersection} object
      */
     public Livraison surlignerLivraison(Intersection intersection) {
 

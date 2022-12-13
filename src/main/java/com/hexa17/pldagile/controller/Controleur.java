@@ -31,10 +31,11 @@ import com.hexa17.pldagile.model.PlanLivraison;
 import com.hexa17.pldagile.view.IHM;
 
 /**
+ * <p>Controleur class.</p>
  *
  * @author Henri
+ * @version $Id: $Id
  */
-
 public class Controleur {
 
     public PlanLivraison planLivraison;

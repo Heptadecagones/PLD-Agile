@@ -10,8 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
+ * <p>Barre class.</p>
  *
  * @author Equipe IHM
+ * @version $Id: $Id
  */
 
 @SuppressWarnings("serial")
@@ -24,41 +26,87 @@ public class Barre extends JPanel {
     // La police de toutes les composants
     private final Font font = new Font("Arial", Font.PLAIN, 16);
 
+    /**
+     * <p>modifierSauvegarder.</p>
+     *
+     * @param Sauvegarder a {@link javax.swing.JButton} object
+     */
     public void modifierSauvegarder(JButton Sauvegarder) {
         this.sauvegarder = Sauvegarder;
     }
 
+    /**
+     * <p>modifierCharger.</p>
+     *
+     * @param Charger a {@link javax.swing.JButton} object
+     */
     public void modifierCharger(JButton Charger) {
         this.charger = Charger;
     }
 
+    /**
+     * <p>modifierChargerTournee.</p>
+     *
+     * @param chargerTournee a {@link javax.swing.JButton} object
+     */
     public void modifierChargerTournee(JButton chargerTournee) {
         this.chargerTournee = chargerTournee;
     }
 
+    /**
+     * <p>modifierAjouterLivreur.</p>
+     *
+     * @param ajouterLivreur a {@link javax.swing.JButton} object
+     */
     public void modifierAjouterLivreur(JButton ajouterLivreur) {
         this.ajouterLivreur = ajouterLivreur;
     }
 
+    /**
+     * <p>obtenirSauvegarder.</p>
+     *
+     * @return a {@link javax.swing.JButton} object
+     */
     public JButton obtenirSauvegarder() {
         return sauvegarder;
     }
 
+    /**
+     * <p>obtenirCharger.</p>
+     *
+     * @return a {@link javax.swing.JButton} object
+     */
     public JButton obtenirCharger() {
         return charger;
     }
 
+    /**
+     * <p>obtenirChargerTournee.</p>
+     *
+     * @return a {@link javax.swing.JButton} object
+     */
     public JButton obtenirChargerTournee() {
         return chargerTournee;
     }
 
+    /**
+     * <p>obtenirAjouterLivreur.</p>
+     *
+     * @return a {@link javax.swing.JButton} object
+     */
     public JButton obtenirAjouterLivreur() {
         return ajouterLivreur;
     }
 
+    /**
+     * <p>Constructor for Barre.</p>
+     */
     public Barre() {
     }
 
+    /**
+     * <p>init.</p>
+     */
     public void init() {
         // Init les boutons
         charger = creerBouton("Charger");
@@ -87,7 +135,8 @@ public class Barre extends JPanel {
 
     /**
      * Renvoie un bouton avec des propriétés de base (police, etc)
-     * @param nom
+     *
+     * @param nom a {@link java.lang.String} object
      * @return JButton
      */
     public JButton creerBouton(String nom) {

@@ -28,8 +28,10 @@ import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.PlanLivraison;
 
 /**
+ * <p>Creation class.</p>
  *
  * @author Equipe IHM
+ * @version $Id: $Id
  */
 
 @SuppressWarnings("serial")
@@ -55,12 +57,18 @@ public class Creation  implements Observer{
     private JPanel panelLivreur = new JPanel(new BorderLayout());
 
     //update de la liste des livreurs 
+    /** {@inheritDoc} */
     @Override
     public void update(Observable arg0, Object arg1) {
         PlanLivraison planLivraison = (PlanLivraison) arg0;
         modifierlivreurs(planLivraison.obtenirListeLivreur());
     }
    
+    /**
+     * <p>modifierlivreurs.</p>
+     *
+     * @param livreursListe a {@link java.util.ArrayList} object
+     */
     public void modifierlivreurs(ArrayList<Livreur> livreursListe) {
         livreurs = new String[livreursListe.size()];
         for(int i=0;i<livreursListe.size();i++){
@@ -70,40 +78,71 @@ public class Creation  implements Observer{
         textLivreur.setModel(model);
     }
 
+    /**
+     * <p>obtenirIntersection.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.model.Intersection} object
+     */
     public Intersection obtenirIntersection() {
         return intersection;
     }
 
+    /**
+     * <p>modifierIntersection.</p>
+     *
+     * @param intersection a {@link com.hexa17.pldagile.model.Intersection} object
+     */
     public void modifierIntersection(Intersection intersection) {
         this.intersection = intersection;
     }
 
+    /**
+     * <p>obtenirBtnCreerLivraison.</p>
+     *
+     * @return a {@link javax.swing.JButton} object
+     */
     public JButton obtenirBtnCreerLivraison() {
         return btnCreerLivraison;
     }
 
+    /**
+     * <p>obtenirTextHoraire.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String obtenirTextHoraire() {
         return (String) textHoraire.getSelectedItem();
     }
 
+    /**
+     * <p>obtenirTextLivreur.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String obtenirTextLivreur() {
         return textLivreur.getSelectedItem().toString();
     }
 
     //Ouvrir la fenêtre
+    /**
+     * <p>ouvrir.</p>
+     */
     public void ouvrir() {
         textIntersection.setText(this.intersection.toString());
         this.f.setVisible(true);
     }
 
     //Fermer la fenêtre
+    /**
+     * <p>fermer.</p>
+     */
     public void fermer() {
         this.f.setVisible(false);
     }
-        /**
+    /**
      * Renvoie un bouton avec des propriétés de base (police, etc)
-     * 
-     * @param nom
+     *
+     * @param nom a {@link java.lang.String} object
      * @return JButton
      */
     public JButton creerBouton(String nom) {
@@ -113,9 +152,15 @@ public class Creation  implements Observer{
         return bouton;
     }
     
+    /**
+     * <p>Constructor for Creation.</p>
+     */
     public Creation() {
     }
 
+    /**
+     * <p>init.</p>
+     */
     public void init() {
         for(int i=0;i<8;i++){
         

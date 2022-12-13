@@ -2,6 +2,12 @@ package com.hexa17.pldagile.model.algo.tabu;
 
 import java.util.Random;
 
+/**
+ * <p>Matrix class.</p>
+ *
+ * @author omi
+ * @version $Id: $Id
+ */
 public class Matrix {
 
     private double[][] matrix;
@@ -10,8 +16,8 @@ public class Matrix {
 
     /**
      * Constructeur à valeurs aléatoires
-     * 
-     * @param taille
+     *
+     * @param size a int
      */
     public Matrix(int size) {
         edgeCount = size;
@@ -21,34 +27,56 @@ public class Matrix {
 
     /**
      * Constructeur par copie
-     * 
-     * @param matrice
+     *
+     * @param matrix an array of {@link double} objects
      */
     public Matrix(double[][] matrix) {
         edgeCount = matrix.length;
         this.matrix = matrix;
     }
 
+    /**
+     * <p>Getter for the field <code>edgeCount</code>.</p>
+     *
+     * @return a int
+     */
     public int getEdgeCount() {
         return edgeCount;
     }
 
+    /**
+     * <p>getWeight.</p>
+     *
+     * @param from a int
+     * @param to a int
+     * @return a double
+     */
     public double getWeight(int from, int to) {
         return matrix[from][to];
     }
 
+    /**
+     * <p>Getter for the field <code>matrix</code>.</p>
+     *
+     * @return an array of {@link double} objects
+     */
     public double[][] getMatrix() {
         return matrix;
     }
 
+    /**
+     * <p>getSize.</p>
+     *
+     * @return a int
+     */
     public int getSize() {
         return edgeCount;
     }
 
     /**
      * Calcule la distance totale d'une solution
-     * 
-     * @param solution
+     *
+     * @param solution an array of {@link int} objects
      * @return la distance entière
      */
     public int calculateDistance(int solution[]) {
@@ -77,6 +105,7 @@ public class Matrix {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         String s = "";

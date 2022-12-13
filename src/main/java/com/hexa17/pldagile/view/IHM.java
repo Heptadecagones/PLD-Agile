@@ -11,10 +11,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
+ * <p>IHM class.</p>
  *
  * @author Equipe IHM
+ * @version $Id: $Id
  */
-
 public class IHM {
     
     //4 parties de l'IHM
@@ -24,34 +25,72 @@ public class IHM {
     private Creation fenetreCreation;
 
     //getters et setters des parties de l'IHM
+    /**
+     * <p>modifierBarre.</p>
+     *
+     * @param barre a {@link com.hexa17.pldagile.view.Barre} object
+     */
     public void modifierBarre(Barre barre) {
         this.barre = barre;
     }
 
+    /**
+     * <p>modifierDescription.</p>
+     *
+     * @param description a {@link com.hexa17.pldagile.view.Description} object
+     */
     public void modifierDescription(Description description) {
         this.description = description;
     }
 
+    /**
+     * <p>modifierCarte.</p>
+     *
+     * @param carte a {@link com.hexa17.pldagile.view.Carte} object
+     */
     public void modifierCarte(Carte carte) {
         this.carte = carte;
     }
 
+    /**
+     * <p>obtenirBarre.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.view.Barre} object
+     */
     public Barre obtenirBarre() {
         return barre;
     }
 
+    /**
+     * <p>obtenirDescription.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.view.Description} object
+     */
     public Description obtenirDescription() {
         return description;
     }
 
+    /**
+     * <p>obtenirCarte.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.view.Carte} object
+     */
     public Carte obtenirCarte() {
         return carte;
     }
+    /**
+     * <p>obtenirFenetreCreation.</p>
+     *
+     * @return a {@link com.hexa17.pldagile.view.Creation} object
+     */
     public Creation obtenirFenetreCreation() {
         return fenetreCreation;
     }
 
     //creation de l'IHM
+    /**
+     * <p>init.</p>
+     */
     public void init() {
 
         try {

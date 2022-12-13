@@ -10,6 +10,9 @@ import com.hexa17.pldagile.model.Livraison;
 
 /**
  * Created by Rafal on 2015-12-02.
+ *
+ * @author omi
+ * @version $Id: $Id
  */
 public class TabuSearch {
 
@@ -26,6 +29,11 @@ public class TabuSearch {
     private int[] bestSolution;
     private int bestCost;
 
+    /**
+     * <p>Constructor for TabuSearch.</p>
+     *
+     * @param livraisons a {@link java.util.ArrayList} object
+     */
     public TabuSearch(ArrayList<Livraison> livraisons) {
 
         int minLiv = 24;
@@ -110,6 +118,11 @@ public class TabuSearch {
         currSolution[problemSize] = 0;
     }
 
+    /**
+     * <p>invoke.</p>
+     *
+     * @return an array of {@link int} objects
+     */
     public int[] invoke() {
 
         for (int i = 0; i < numberOfIterations; i++) {
@@ -148,12 +161,25 @@ public class TabuSearch {
         currSolution[k] = temp;
     }
 
+    /**
+     * <p>inverser.</p>
+     *
+     * @param map a {@link java.util.Map} object
+     * @param <V> a V class
+     * @param <K> a K class
+     * @return a {@link java.util.Map} object
+     */
     public static <V, K> Map<V, K> inverser(Map<K, V> map) {
         return map.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Entry::getValue, Entry::getKey));
     }
 
+    /**
+     * <p>soluceEnNoeuds.</p>
+     *
+     * @return an array of {@link com.hexa17.pldagile.model.Livraison} objects
+     */
     public Livraison[] soluceEnNoeuds() {
         int[] soluceEnInt = invoke();
 

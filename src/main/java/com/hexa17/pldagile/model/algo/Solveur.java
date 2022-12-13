@@ -17,8 +17,10 @@ import com.hexa17.pldagile.model.Tournee;
 import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
 
 /**
+ * <p>Solveur class.</p>
  *
  * @author Hugo, Thibaut, Yannick
+ * @version $Id: $Id
  */
 
 // TODO Singleton Design Pattern
@@ -28,6 +30,11 @@ public class Solveur {
 
     // Initialise un graphe avec toutes les destinations d'un livreur de marquées
     // public DijkstraAlgo(Plan plan, Livreur livreur) {
+    /**
+     * <p>Constructor for Solveur.</p>
+     *
+     * @param plan a {@link com.hexa17.pldagile.model.Plan} object
+     */
     public Solveur(Plan plan) {
         this.plan = plan;
     }
@@ -35,9 +42,8 @@ public class Solveur {
     /**
      * Méthode qui calcule les arborescences pour chaque noeud donc chaque
      * Intersection de livraison
-     * 
-     * @param graphePourArbo
-     * @param noeudsACalculer
+     *
+     * @param livraisons a {@link java.util.ArrayList} object
      */
     public void calculerArborescences(ArrayList<Livraison> livraisons) {
         // noms à changer, graphe pour arbo pourrait ne pas être utile, voir
@@ -58,6 +64,11 @@ public class Solveur {
         }
     }
 
+    /**
+     * <p>calculerArborescenceDepuisNoeud.</p>
+     *
+     * @param source a {@link com.hexa17.pldagile.model.algo.Noeud} object
+     */
     public void calculerArborescenceDepuisNoeud(Noeud source) {
 
         // On ne calcule une arborescence qu'une fois
@@ -140,6 +151,12 @@ public class Solveur {
     }
 
 
+    /**
+     * <p>calculerTournee.</p>
+     *
+     * @param livreur a {@link com.hexa17.pldagile.model.Livreur} object
+     * @return a {@link com.hexa17.pldagile.model.Tournee} object
+     */
     public Tournee calculerTournee(Livreur livreur) {
         
         // Calcule le graphe simplifié
