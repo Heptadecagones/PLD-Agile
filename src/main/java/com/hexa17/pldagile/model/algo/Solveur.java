@@ -16,7 +16,7 @@ import com.hexa17.pldagile.model.Tournee;
 import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
 
 /**
- * <p>Class solveur.
+ * <p>Classe Solveur
  * <br/>
  * Classe responsable du calcul des plus courts chemins entre les intersections du plan
  * et du calcul des tournées.</p>
@@ -39,9 +39,9 @@ public class Solveur {
         this.plan = plan;
     }
 
-    /**
+    /**<p>
      * Méthode qui calcule les arborescences pour chaque noeud de la liste en paramètre
-     *
+     *</p>
      * @param livraisons une {@link java.util.ArrayList} de {@link com.hexa17.pldagile.model.Livraison} 
 correspondant à la liste des livraisons pour lesquelle on soihaite calculer l'arborescence des intersections 
 à livrer
@@ -141,11 +141,13 @@ souhaite calculer l'arborescence
     }
 
     /**
-     * <p>rechercheNoeudDistanceMin.</p>
+     * <p>Méthode renvoyant le noeud le plus proche (de poids minimal) du noeud étudié</p>
      *
-     * @param arborescence a {@link java.util.Map} object
-     * @param noeudsGris a {@link java.util.Set} object
-     * @return a {@link com.hexa17.pldagile.model.algo.Noeud} object
+     * @param arborescence, l'arborescence du noeud étudié de type {@link java.util.Map}<
+{@link com.hexa17.pldagile.model.algo.Noeud}, {@link com.hexa17.pldagile.model.algo.Lien}>
+     * @param noeudsGris un {@link java.util.Set} de {@link com.hexa17.pldagile.model.algo.Noeud} 
+qui ont été découverts
+     * @return le {@link com.hexa17.pldagile.model.algo.Noeud} le plus proche du noeud étudié
      */
     private Noeud rechercheNoeudDistanceMin(Map<Noeud, Lien> arborescence, Set<Noeud> noeudsGris) {
         Noeud noeudMin = null;
