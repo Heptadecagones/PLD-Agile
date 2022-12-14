@@ -10,7 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * <p>Barre class.</p>
+ * <p>
+ * Barre class.
+ * </p>
  *
  * @author Equipe IHM
  * @version $Id: $Id
@@ -27,43 +29,53 @@ public class Barre extends JPanel {
     private final Font font = new Font("Arial", Font.PLAIN, 16);
 
     /**
-     * <p>modifierSauvegarder.</p>
+     * <p>
+     * modifierSauvegarder.
+     * </p>
      *
-     * @param Sauvegarder objet {@link javax.swing.JButton} 
+     * @param Sauvegarder objet {@link javax.swing.JButton}
      */
     public void modifierSauvegarder(JButton Sauvegarder) {
         this.sauvegarder = Sauvegarder;
     }
 
     /**
-     * <p>modifierCharger.</p>
+     * <p>
+     * modifierCharger.
+     * </p>
      *
-     * @param Charger objet {@link javax.swing.JButton} 
+     * @param Charger objet {@link javax.swing.JButton}
      */
     public void modifierCharger(JButton Charger) {
         this.charger = Charger;
     }
 
     /**
-     * <p>modifierChargerTournee.</p>
+     * <p>
+     * modifierChargerTournee.
+     * </p>
      *
-     * @param chargerTournee objet {@link javax.swing.JButton} 
+     * @param chargerTournee objet {@link javax.swing.JButton}
      */
     public void modifierChargerTournee(JButton chargerTournee) {
         this.chargerTournee = chargerTournee;
     }
 
     /**
-     * <p>modifierAjouterLivreur.</p>
+     * <p>
+     * modifierAjouterLivreur.
+     * </p>
      *
-     * @param ajouterLivreur objet {@link javax.swing.JButton} 
+     * @param ajouterLivreur objet {@link javax.swing.JButton}
      */
     public void modifierAjouterLivreur(JButton ajouterLivreur) {
         this.ajouterLivreur = ajouterLivreur;
     }
 
     /**
-     * <p>obtenirSauvegarder.</p>
+     * <p>
+     * obtenirSauvegarder.
+     * </p>
      *
      * @return objet {@link javax.swing.JButton} object
      */
@@ -72,43 +84,53 @@ public class Barre extends JPanel {
     }
 
     /**
-     * <p>obtenirCharger.</p>
+     * <p>
+     * obtenirCharger.
+     * </p>
      *
-     * @return objet {@link javax.swing.JButton} 
+     * @return objet {@link javax.swing.JButton}
      */
     public JButton obtenirCharger() {
         return charger;
     }
 
     /**
-     * <p>obtenirChargerTournee.</p>
+     * <p>
+     * obtenirChargerTournee.
+     * </p>
      *
-     * @return objet {@link javax.swing.JButton} 
+     * @return objet {@link javax.swing.JButton}
      */
     public JButton obtenirChargerTournee() {
         return chargerTournee;
     }
 
     /**
-     * <p>obtenirAjouterLivreur.</p>
+     * <p>
+     * obtenirAjouterLivreur.
+     * </p>
      *
-     * @returner objet {@link javax.swing.JButton} 
+     * @returner objet {@link javax.swing.JButton}
      */
     public JButton obtenirAjouterLivreur() {
         return ajouterLivreur;
     }
 
     /**
-     * <p>Constructeur pour Barre.</p>
+     * <p>
+     * Constructeur de la partie Barre qui contient les bouttons.
+     * </p>
      */
     public Barre() {
     }
 
     /**
-     * <p>init.</p>
+     * <p>
+     * Initialiser les bouttons
+     * </p>
      */
     public void init() {
-        // Init les boutons
+        // Initialiser les boutons
         charger = creerBouton("Charger");
         ajouterLivreur = creerBouton("Nouveau livreur"); // à toi de decider le nom Henri
         sauvegarder = creerBouton("Sauvegarder");
@@ -122,7 +144,7 @@ public class Barre extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = 1;
-        gbc.insets = new Insets(15,5,15, 0);
+        gbc.insets = new Insets(15, 5, 15, 0);
         gbc.ipady = 15;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = GridBagConstraints.REMAINDER;

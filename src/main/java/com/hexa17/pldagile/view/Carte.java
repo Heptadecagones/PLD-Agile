@@ -25,7 +25,9 @@ import com.hexa17.pldagile.controller.PlanLivraison;
 import com.hexa17.pldagile.model.*;
 
 /**
- * <p>Carte class.</p>
+ * <p>
+ * Carte class.
+ * </p>
  *
  * @author omi
  * @version $Id: $Id
@@ -86,37 +88,44 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
     // La livraison sur la carte selectionné par l'utilisateur
     private Livraison livraisonClickee;
 
-
     /** {@inheritDoc} */
     @Override
     // Garantie d'une carte carrée
     public Dimension getPreferredSize() {
         Dimension d = getParent().getSize();
-        int min = Math.min((int)d.getWidth(), (int)d.getHeight());
+        int min = Math.min((int) d.getWidth(), (int) d.getHeight());
         this.largeur = min;
         this.hauteur = min;
 
         return new Dimension(min, min);
     }
+
     /**
-     * <p>modifierLivraisonClickee.</p>
+     * <p>
+     * modifierLivraisonClickee.
+     * </p>
      *
      * @param l a {@link com.hexa17.pldagile.model.Livraison} object
      */
-    public void modifierLivraisonClickee(Livraison l){
-        livraisonClickee=l;
+    public void modifierLivraisonClickee(Livraison l) {
+        livraisonClickee = l;
     }
+
     /**
-     * <p>obtenirLivraisonClickee.</p>
+     * <p>
+     * obtenirLivraisonClickee.
+     * </p>
      *
      * @return a {@link com.hexa17.pldagile.model.Livraison} object
      */
-    public Livraison obtenirLivraisonClickee(){
+    public Livraison obtenirLivraisonClickee() {
         return livraisonClickee;
     }
 
     /**
-     * <p>Constructor for Carte.</p>
+     * <p>
+     * Constructor for Carte.
+     * </p>
      */
     public Carte() {
         initDonnee();
@@ -134,7 +143,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         maxX = 0.0;
         minY = Double.MAX_VALUE;
         maxY = 0.0;
-        
+
         diffX = -1.0;
         diffY = -1.0;
 
@@ -147,19 +156,19 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
         // Init les couleurs de la route pour chaque livreur
         for (int i = 0; i < MAX_LIVREUR; ++i) {
-            double total_coulour = 0 ;
+            double total_coulour = 0;
             int check_white;
-            int rouge ;
-            int vert ;
-            int bleu ;
-           
-            do{
-            rouge = Math.abs((int)(Math.random()*255));
-            vert = Math.abs((int)(Math.random()*255));
-            bleu = Math.abs((int)(Math.random()*255));
-            check_white = rouge + vert + bleu;
-            total_coulour = 0.3*rouge + 0.59*vert + 0.11*bleu;}
-            while(total_coulour < 128.0 && check_white >= 763 );
+            int rouge;
+            int vert;
+            int bleu;
+
+            do {
+                rouge = Math.abs((int) (Math.random() * 255));
+                vert = Math.abs((int) (Math.random() * 255));
+                bleu = Math.abs((int) (Math.random() * 255));
+                check_white = rouge + vert + bleu;
+                total_coulour = 0.3 * rouge + 0.59 * vert + 0.11 * bleu;
+            } while (total_coulour < 128.0 && check_white >= 763);
 
             tabCouleurLivreur[i] = new Color(rouge, vert, bleu);
         }
@@ -196,7 +205,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
             minY = Math.min(minY, cordEntrepot.getY());
             maxY = Math.max(maxY, cordEntrepot.getY());
         }
-        if (!listeIntersection.isEmpty()) { 
+        if (!listeIntersection.isEmpty()) {
 
             for (Intersection intersection : listeIntersection) {
                 Point2D point = convertirLatLong(intersection);
@@ -211,12 +220,14 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         }
         repaint();
     }
-    
+
     /**
-     * <p>chercherIntersectionProche.</p>
+     * <p>
+     * chercherIntersectionProche.
+     * </p>
      *
-     * @param sourisX a int
-     * @param sourisY a int
+     * @param sourisX     a int
+     * @param sourisY     a int
      * @param maxDistance : La distance Manhattan maximale acceptable
      * @return : L'intersection la plus proche de la souris
      */
@@ -234,21 +245,25 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 Point2D pointCarteZoom = new Point2D.Double();
                 atCarte.transform(pointCarte, pointCarteZoom);
 
-                if ( (Math.abs(sourisX - pointCarteZoom.getX()) + Math.abs(sourisY - pointCarteZoom.getY())) < maxDistance*zoomFacteur) {
-                    maxDistance = (Math.abs(sourisX - pointCarteZoom.getX()) + Math.abs(sourisY - pointCarteZoom.getY())) / zoomFacteur;
+                if ((Math.abs(sourisX - pointCarteZoom.getX())
+                        + Math.abs(sourisY - pointCarteZoom.getY())) < maxDistance * zoomFacteur) {
+                    maxDistance = (Math.abs(sourisX - pointCarteZoom.getX())
+                            + Math.abs(sourisY - pointCarteZoom.getY())) / zoomFacteur;
                     intersectionProche = intersection;
                 }
             }
         }
-        
+
         return intersectionProche;
     }
 
     /**
-     * <p>recupererRue.</p>
+     * <p>
+     * recupererRue.
+     * </p>
      *
-     * @param sourisX a int
-     * @param sourisY a int
+     * @param sourisX     a int
+     * @param sourisY     a int
      * @param maxDistance : La distance Manhattan maximale acceptable
      * @return : La rue le plus proche a la souris
      */
@@ -260,14 +275,14 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 Point2D destination = convertirLatLong(segment.obtenirDestination());
 
                 int origineCordX = REMBOURRAGE
-                    + (int) ((origine.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                        + (int) ((origine.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int origineCordY = REMBOURRAGE
-                    + (int) ((origine.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+                        + (int) ((origine.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 int destinationCordX = REMBOURRAGE
-                    + (int) ((destination.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                        + (int) ((destination.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int destinationCordY = REMBOURRAGE
-                    + (int) ((destination.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+                        + (int) ((destination.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 Point2D origineCarte = new Point2D.Double(origineCordX, origineCordY);
                 Point2D destinationCarte = new Point2D.Double(destinationCordX, destinationCordY);
@@ -279,17 +294,18 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 atCarte.transform(origineCarte, origineCarteZoom);
                 atCarte.transform(destinationCarte, destinationCarteZoom);
 
-                if (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY()) < maxDistance*zoomFacteur) {
+                if (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(),
+                        destinationCarteZoom.getX(), destinationCarteZoom.getY()) < maxDistance * zoomFacteur) {
                     rue = segment;
-                    maxDistance = (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(), origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY())) / zoomFacteur;
+                    maxDistance = (distancePointSegment(sourisX, sourisY, origineCarteZoom.getX(),
+                            origineCarteZoom.getY(), destinationCarteZoom.getX(), destinationCarteZoom.getY()))
+                            / zoomFacteur;
                 }
             }
         }
 
         return rue;
     }
-
-
 
     // PAINT DE LA CARTE
     /** {@inheritDoc} */
@@ -307,7 +323,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 RenderingHints.VALUE_RENDER_QUALITY);
 
         g2d.setRenderingHints(rh);
-        
+
         // traiter zoom et glissement
         if (zoomer) {
             AffineTransform at = new AffineTransform();
@@ -348,7 +364,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         atCarte = g2d.getTransform();
 
         // PEINTURE
-        if (!listeSegment.isEmpty()) { 
+        if (!listeSegment.isEmpty()) {
 
             int i;
             for (Segment segment : listeSegment) {
@@ -356,36 +372,36 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 Point2D destination = convertirLatLong(segment.obtenirDestination());
 
                 int origineCordX = REMBOURRAGE
-                    + (int) ((origine.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                        + (int) ((origine.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int origineCordY = REMBOURRAGE
-                    + (int) ((origine.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+                        + (int) ((origine.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 int destinationCordX = REMBOURRAGE
-                    + (int) ((destination.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+                        + (int) ((destination.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
                 int destinationCordY = REMBOURRAGE
-                    + (int) ((destination.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
-                
+                        + (int) ((destination.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+
                 g2d.setColor(Color.BLACK);
                 g2d.setStroke(new BasicStroke(1));
                 i = 0;
-                for(Livreur livr : listeLivreur){
+                for (Livreur livr : listeLivreur) {
                     i++;
-                    for (Segment s : livr.obtenirTournee().obtenirListeSegment()){
+                    for (Segment s : livr.obtenirTournee().obtenirListeSegment()) {
                         if (segment == s) {
-                            //System.out.println(t.toString()+i+tabColor[i]);
+                            // System.out.println(t.toString()+i+tabColor[i]);
                             g2d.setColor(tabCouleurLivreur[i]);
                             g2d.setStroke(new BasicStroke(3));
                             break;
                         }
                     }
                 }
-                if(livraisonClickee!=null){
-                    for (Segment s : livraisonClickee.obtenirLivreur().obtenirTournee().obtenirListeSegment()){
-                            if (segment == s) {
-                                g2d.setColor(Color.RED);
-                                g2d.setStroke(new BasicStroke(5));
-                                break;
-                            }
+                if (livraisonClickee != null) {
+                    for (Segment s : livraisonClickee.obtenirLivreur().obtenirTournee().obtenirListeSegment()) {
+                        if (segment == s) {
+                            g2d.setColor(Color.RED);
+                            g2d.setStroke(new BasicStroke(5));
+                            break;
+                        }
                     }
                 }
                 // rue survolee par la souris
@@ -407,7 +423,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 int coordY = REMBOURRAGE + (int) ((point.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
                 g2d.fillOval(coordX - DIAMETRE_INTERSECTION_DEFAULT / 2, coordY - DIAMETRE_INTERSECTION_DEFAULT / 2,
-                    DIAMETRE_INTERSECTION_DEFAULT, DIAMETRE_INTERSECTION_DEFAULT);
+                        DIAMETRE_INTERSECTION_DEFAULT, DIAMETRE_INTERSECTION_DEFAULT);
             }
         }
 
@@ -420,7 +436,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
             g2d.fillOval(entrCordX - DIAMETRE_ENTREPOT / 2, entrCordY - DIAMETRE_ENTREPOT / 2,
                     DIAMETRE_ENTREPOT, DIAMETRE_ENTREPOT);
         }
-    
+
         for (Livreur livr : listeLivreur) {
             for (Livraison s : livr.obtenirLivraisons()) {
                 Point2D cordLivr = convertirLatLong(s.obtenirLieu());
@@ -429,33 +445,38 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
                 int livrCordY = REMBOURRAGE + (int) ((cordLivr.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
                 g2d.setColor(couleurIntersection);
                 g2d.fillOval(livrCordX - DIAMETRE_INTERSECTION / 2, livrCordY - DIAMETRE_INTERSECTION / 2,
-                    DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
+                        DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
             }
         }
 
-        //Colorier en jaune la livraison cliquée
+        // Colorier en jaune la livraison cliquée
         if (livraisonClickee != null) {
             Point2D cordChoixIntersection = convertirLatLong(livraisonClickee.obtenirLieu());
             g2d.setColor(Color.YELLOW);
-            int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
-            int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
-            g2d.fillOval(cordChoixIntersectionX-DIAMETRE_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_INTERSECTION/2, DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
+            int cordChoixIntersectionX = REMBOURRAGE
+                    + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+            int cordChoixIntersectionY = REMBOURRAGE
+                    + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+            g2d.fillOval(cordChoixIntersectionX - DIAMETRE_INTERSECTION / 2,
+                    cordChoixIntersectionY - DIAMETRE_INTERSECTION / 2, DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
         }
-        //Colorier en vert l'intersection choisie
+        // Colorier en vert l'intersection choisie
         if (choixIntersection.obtenirId() != null) {
             Point2D cordChoixIntersection = convertirLatLong(choixIntersection);
 
-            int cordChoixIntersectionX = REMBOURRAGE + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
-            int cordChoixIntersectionY = REMBOURRAGE + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
+            int cordChoixIntersectionX = REMBOURRAGE
+                    + (int) ((cordChoixIntersection.getX() - minX) / diffX * (largeur - 2 * REMBOURRAGE));
+            int cordChoixIntersectionY = REMBOURRAGE
+                    + (int) ((cordChoixIntersection.getY() - minY) / diffY * (hauteur - 2 * REMBOURRAGE));
 
             g2d.setColor(couleurChoixIntersection);
-            g2d.fillOval(cordChoixIntersectionX-DIAMETRE_INTERSECTION/2, cordChoixIntersectionY-DIAMETRE_INTERSECTION/2, DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
+            g2d.fillOval(cordChoixIntersectionX - DIAMETRE_INTERSECTION / 2,
+                    cordChoixIntersectionY - DIAMETRE_INTERSECTION / 2, DIAMETRE_INTERSECTION, DIAMETRE_INTERSECTION);
         }
     }
 
-
     /**
-     * Projection de Mercator
+     * 
      * Convertir de latitude et longitude en coordonnée 2d
      *
      * @param intersection a {@link com.hexa17.pldagile.model.Intersection} object
@@ -465,7 +486,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         double longitude = intersection.obtenirLongitude();
         double latitude = intersection.obtenirLatitude();
 
-        // obtenir x-coordonnée
+        // convertir de degré en radian
         double x = (longitude + 180) * (largeur / 360);
 
         // convertir de degré en radian
@@ -478,9 +499,11 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         return (new Point2D.Double(x, y));
     }
 
-    // La distance le plus courte d'un point à un point de droite (x0, y0) à un segment de droite composé de deux points (x1, y1), (x2, y2)
     /**
-     * <p>distancePointSegment.</p>
+     * <p>
+     * La distance le plus courte d'un point à un point de droite (x0, y0) à un
+     * segment de droite composé de deux points (x1, y1), (x2, y2).
+     * </p>
      *
      * @param x0 a double
      * @param y0 a double
@@ -513,14 +536,15 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
             return space;
         }
         double p = (a + b + c) / 2; // demi-circonférence
-        double s = Math.sqrt(p * (p-a) * (p-b) * (p-c)); // Formule de Héron pour calculer l'aire de triangle
+        double s = Math.sqrt(p * (p - a) * (p - b) * (p - c)); // Formule de Héron pour calculer l'aire de triangle
         space = 2 * s / a; // la distance du point à la ligne
         return space;
     }
 
-    // Calculate the distance between two points
     /**
-     * <p>lineSpace.</p>
+     * <p>
+     * Calculer la distance entre deux points points
+     * </p>
      *
      * @param x1 a double
      * @param y1 a double
@@ -534,14 +558,13 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         return lineLength;
     }
 
-
     /** {@inheritDoc} */
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         final double cstZoom = 1.1;
         zoomer = true;
 
-        //Zoom in
+        // Zoom in
         if (e.getWheelRotation() < 0) {
             if (zoomFacteur * cstZoom <= maxZoomFacteur) {
                 zoomFacteur *= cstZoom;
@@ -549,7 +572,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
             repaint();
         }
-        //Zoom out
+        // Zoom out
         if (e.getWheelRotation() > 0) {
             zoomFacteur /= cstZoom;
             repaint();
@@ -581,30 +604,34 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
         }
         repaint();
     }
+
     /**
-     * <p>carteCliquee.</p>
+     * <p>
+     * récuperre les cliques sur la carte.
+     * </p>
      *
      * @param e a {@link java.awt.event.MouseEvent} object
      * @return a {@link com.hexa17.pldagile.model.Intersection} object
      */
-    public Intersection carteCliquee(MouseEvent e){
-        livraisonClickee=null;
+    public Intersection carteCliquee(MouseEvent e) {
+        livraisonClickee = null;
         int sourisX = e.getX();
         int sourisY = e.getY();
 
         double maxDistance = 20.0;
-        choixIntersection=chercherIntersectionProche(sourisX, sourisY, maxDistance);
-        return(choixIntersection);
+        choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
+        return (choixIntersection);
     }
+
     /** {@inheritDoc} */
     @Override
     public void mouseClicked(MouseEvent e) {
-        livraisonClickee=null;
+        livraisonClickee = null;
         int sourisX = e.getX();
         int sourisY = e.getY();
 
         double maxDistance = 20.0;
-        
+
         choixIntersection = chercherIntersectionProche(sourisX, sourisY, maxDistance);
     }
 
