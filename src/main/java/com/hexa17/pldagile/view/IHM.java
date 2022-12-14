@@ -104,7 +104,7 @@ public class IHM {
             ex.printStackTrace();
         }
         
-        JFrame frame = new JFrame("PLD AGILE");
+        JFrame frame = new JFrame("COL'IF");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setBounds(0, 0, (int)tailleEcran.getWidth(), (int)tailleEcran.getHeight());
