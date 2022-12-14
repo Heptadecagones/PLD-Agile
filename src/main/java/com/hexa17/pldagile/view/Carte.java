@@ -21,6 +21,7 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import com.hexa17.pldagile.controller.PlanLivraison;
 import com.hexa17.pldagile.model.*;
 
 /**
