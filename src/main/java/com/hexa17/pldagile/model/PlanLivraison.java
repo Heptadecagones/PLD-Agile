@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
 import com.hexa17.pldagile.model.algo.Solveur;
 
 /**
- * <p>PlanLivraison class.</p>
+ * <p>PlanLivraison classe.</p>
  *
  * @author Henri
  *         Voir diagramme des classes
@@ -34,7 +34,7 @@ public class PlanLivraison extends Observable {
     private Plan plan;
 
     /**
-     * <p>init.</p>
+     * <p>initialisation des livreurs du plan.</p>
      */
     public void init() {
         this.plan = null;
@@ -46,16 +46,16 @@ public class PlanLivraison extends Observable {
     }
 
     /**
-     * <p>Constructor for PlanLivraison.</p>
+     * <p>Constructeur pour PlanLivraison.</p>
      */
     public PlanLivraison() {
         init();
     }
 
     /**
-     * <p>Constructor for PlanLivraison.</p>
+     * <p>Constructeur pour PlanLivraison.</p>
      *
-     * @param cheminXml a {@link java.lang.String} object
+     * @param cheminXml un {@link java.lang.String} objet
      */
     public PlanLivraison(String cheminXml) {
         PlanUsine pf = new PlanUsine();
@@ -76,7 +76,7 @@ public class PlanLivraison extends Observable {
     /**
      * <p>initPlan.</p>
      *
-     * @param cheminXml a {@link java.lang.String} object
+     * @param cheminXml un {@link java.lang.String} objet
      */
 
      //Initialisation du plan lorsqu'un fichier est chargé
@@ -97,30 +97,29 @@ public class PlanLivraison extends Observable {
     }
 
     /**
-     * <p>obtenirListeLivreur.</p>
+     * <p>Accesseur ListeLivreur.</p>
      *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Livreur> obtenirListeLivreur() {
         return this.listeLivreur;
     }
 
     /**
-     * <p>obtenirPlan.</p>
+     * <p>Accesseur Plan.</p>
      *
-     * @return a {@link com.hexa17.pldagile.model.Plan} object
+     * @return un {@link com.hexa17.pldagile.model.Plan} objet
      */
     public Plan obtenirPlan() {
         return this.plan;
     }
 
-    // AJOUT DUNE LIVRAISON, METHODE APPELEE PAR LE CONTROLLEUR
     /**
-     * <p>nouvelleLivraison.</p>
+     * <p>Création d'une nouvelle livraison.</p>
      *
-     * @param horaire a {@link java.lang.String} object
-     * @param intersection a {@link com.hexa17.pldagile.model.Intersection} object
-     * @param numLivreur a {@link java.lang.String} object
+     * @param horaire un {@link java.lang.String} objet
+     * @param intersection un {@link com.hexa17.pldagile.model.Intersection} objet
+     * @param numLivreur un {@link java.lang.String} objet
      */
     public void nouvelleLivraison(String horaire, Intersection intersection, String numLivreur) {
 
@@ -142,9 +141,9 @@ public class PlanLivraison extends Observable {
     }
 
     /**
-     * <p>supprimerLivraison.</p>
+     * <p>Suppression d'une livraison.</p>
      *
-     * @param livraison a {@link com.hexa17.pldagile.model.Livraison} object
+     * @param livraison un {@link com.hexa17.pldagile.model.Livraison} objet
      */
     public void supprimerLivraison(Livraison livraison) {
 
@@ -170,9 +169,9 @@ public class PlanLivraison extends Observable {
     }
 
     /**
-     * <p>ajouterLivreur.</p>
+     * <p>Ajout d'un livreur.</p>
      *
-     * @param l a {@link com.hexa17.pldagile.model.Livreur} object
+     * @param l un {@link com.hexa17.pldagile.model.Livreur} objet
      */
     public void ajouterLivreur(Livreur l){
         this.listeLivreur.add(l);
@@ -181,12 +180,11 @@ public class PlanLivraison extends Observable {
     }
 
     /**
-     * <p>chargerLivraison.</p>
+     * <p>Charger un fichier enregistré.</p>
      *
-     * @param cheminXml a {@link java.lang.String} object
+     * @param cheminXml un {@link java.lang.String} objet
      */
 
-     //Charger le plan/Livraison d'un fichier enregistré
      public void chargerLivraison(String cheminXml) {
 
         //Récupération des données
@@ -201,9 +199,9 @@ public class PlanLivraison extends Observable {
     }
 
     /**
-     * <p>sauvegarder.</p>
+     * <p>sauvegarder dans un fichier l'état du plan.</p>
      *
-     * @param nomFichier a {@link java.lang.String} object
+     * @param nomFichier un {@link java.lang.String} objet
      */
     public void sauvegarder(String nomFichier){
 

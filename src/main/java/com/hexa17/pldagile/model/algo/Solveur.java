@@ -89,7 +89,7 @@ souhaite calculer l'arborescence
         /* Preparation */
         // Sommets "noirs" de l'algo
         ArrayList<Noeud> noeudsTraites = new ArrayList<Noeud>();
-        // Sommets "gris" de l'algo (on a besoin d'une liste ordonnée, donc un hashset)
+        // Sommets "gris" de l'algo (on un besoin d'une liste ordonnée, donc un hashset)
         Set<Noeud> noeudsEnCours = new HashSet<Noeud>();
         // Sommets "blanc" de l'algo
         ArrayList<Noeud> noeudsAExplorer = new ArrayList<Noeud>();

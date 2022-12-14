@@ -27,24 +27,24 @@ public class Graphe {
     }
 
     /**
-     * <p>Constructor for Graphe.</p>
+     * <p>Constructeur pour Graphe.</p>
      */
     public Graphe() {
     }
 
     /**
-     * <p>Constructor for Graphe.</p>
+     * <p>Constructeur pour Graphe.</p>
      *
-     * @param liensEntreNoeuds a {@link java.util.Map} object
+     * @param liensEntreNoeuds un {@link java.util.Map} objet
      */
     public Graphe(Map<Noeud, ArrayList<Segment>> liensEntreNoeuds) {
         this.liensEntreNoeuds = liensEntreNoeuds;
     }
 
     /**
-     * <p>obtenirLiensEntreNoeuds.</p>
+     * <p>Accesseur LiensEntreNoeuds.</p>
      *
-     * @return a {@link java.util.Map} object
+     * @return un {@link java.util.Map} objet
      */
     public Map<Noeud, ArrayList<Segment>> obtenirLiensEntreNoeuds() {
         return liensEntreNoeuds;

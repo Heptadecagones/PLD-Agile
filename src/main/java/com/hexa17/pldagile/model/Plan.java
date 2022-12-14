@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * <p>Plan class.</p>
+ * <p>Plan classe.</p>
  *
  * @author omi
  * @version $Id: $Id
@@ -19,12 +19,12 @@ public class Plan extends Graphe {
     private ArrayList<Segment> listeSegment;
 
     /**
-     * <p>Constructor for Plan.</p>
+     * <p>Constructeur pour Plan.</p>
      *
-     * @param listeIntersection a {@link java.util.ArrayList} object
-     * @param listeSegment a {@link java.util.ArrayList} object
-     * @param entrepot a {@link com.hexa17.pldagile.model.Intersection} object
-     * @param liensEntreNoeuds a {@link java.util.Map} object
+     * @param listeIntersection un {@link java.util.ArrayList} objet
+     * @param listeSegment un {@link java.util.ArrayList} objet
+     * @param entrepot un {@link com.hexa17.pldagile.model.Intersection} objet
+     * @param liensEntreNoeuds un {@link java.util.Map} objet
      */
     public Plan(ArrayList<Intersection> listeIntersection, ArrayList<Segment> listeSegment, Intersection entrepot, Map<Noeud, ArrayList<Segment>> liensEntreNoeuds) {
         super(liensEntreNoeuds);
@@ -34,45 +34,45 @@ public class Plan extends Graphe {
     }
 
     /**
-     * <p>obtenirEntrepot.</p>
+     * <p>Accesseur Entrepot.</p>
      *
-     * @return a {@link com.hexa17.pldagile.model.Intersection} object
+     * @return un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public Intersection obtenirEntrepot() {
         return entrepot;
     }
 
     /**
-     * <p>obtenirNombreIntersection.</p>
+     * <p>Accesseur NombreIntersection.</p>
      *
-     * @return a long
+     * @return un long
      */
     public long obtenirNombreIntersection() {
         return listeIntersection.size();
     }
 
     /**
-     * <p>obtenirNombreSegment.</p>
+     * <p>Accesseur NombreSegment.</p>
      *
-     * @return a long
+     * @return un long
      */
     public long obtenirNombreSegment() {
         return listeSegment.size();
     }
 
     /**
-     * <p>obtenirListeIntersection.</p>
+     * <p>Accesseur ListeIntersection.</p>
      *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Intersection> obtenirListeIntersection() {
         return listeIntersection;
     }
 
     /**
-     * <p>obtenirListeSegment.</p>
+     * <p>Accesseur ListeSegment.</p>
      *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;

@@ -1,7 +1,7 @@
 package com.hexa17.pldagile.model;
 
 /**
- * <p>Segment class.</p>
+ * <p>Segment classe.</p>
  *
  * @author Yannick
  * @version $Id: $Id
@@ -14,18 +14,18 @@ public class Segment {
     private double longueur; //Longueur du segment
 
     /**
-     * <p>Constructor for Segment.</p>
+     * <p>Constructeur pour Segment.</p>
      */
     public Segment() {
     }
 
     /**
-     * <p>Constructor for Segment.</p>
+     * <p>Constructeur pour Segment.</p>
      *
-     * @param n a {@link java.lang.String} object
-     * @param ori a {@link com.hexa17.pldagile.model.Intersection} object
-     * @param dest a {@link com.hexa17.pldagile.model.Intersection} object
-     * @param l a double
+     * @param n un {@link java.lang.String} objet
+     * @param ori un {@link com.hexa17.pldagile.model.Intersection} objet
+     * @param dest un {@link com.hexa17.pldagile.model.Intersection} objet
+     * @param l un double
      */
     public Segment(String n, Intersection ori, Intersection dest, double l) {
         this.nom = n;
@@ -35,72 +35,72 @@ public class Segment {
     }
 
     /**
-     * <p>obtenirNom.</p>
+     * <p>Accesseur Nom.</p>
      *
-     * @return a {@link java.lang.String} object
+     * @return un {@link java.lang.String} objet
      */
     public String obtenirNom() {
         return nom;
     }
 
     /**
-     * <p>obtenirOrigine.</p>
+     * <p>Accesseur Origine.</p>
      *
-     * @return a {@link com.hexa17.pldagile.model.Intersection} object
+     * @return un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public Intersection obtenirOrigine() {
         return origine;
     }
 
     /**
-     * <p>obtenirDestination.</p>
+     * <p>Accesseur Destination.</p>
      *
-     * @return a {@link com.hexa17.pldagile.model.Intersection} object
+     * @return un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public Intersection obtenirDestination() {
         return destination;
     }
 
     /**
-     * <p>obtenirLongueur.</p>
+     * <p>Accesseur Longueur.</p>
      *
-     * @return a double
+     * @return un double
      */
     public double obtenirLongueur() {
         return longueur;
     }
 
     /**
-     * <p>modifierLongueur.</p>
+     * <p>Modificateur Longueur.</p>
      *
-     * @param l a double
+     * @param l un double
      */
     public void modifierLongueur(double l) {
         this.longueur = l;
     }
 
     /**
-     * <p>modifierOrigine.</p>
+     * <p>Modificateur Origine.</p>
      *
-     * @param ori a {@link com.hexa17.pldagile.model.Intersection} object
+     * @param ori un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public void modifierOrigine(Intersection ori) {
         this.origine = ori;
     }
 
     /**
-     * <p>modifierDestination.</p>
+     * <p>Modificateur Destination.</p>
      *
-     * @param dest a {@link com.hexa17.pldagile.model.Intersection} object
+     * @param dest un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public void modifierDestination(Intersection dest) {
         this.destination = dest;
     }
 
     /**
-     * <p>modifierNom.</p>
+     * <p>Modificateur Nom.</p>
      *
-     * @param n a {@link java.lang.String} object
+     * @param n un {@link java.lang.String} objet
      */
     public void modifierNom(String n) {
         this.nom = n;
@@ -109,7 +109,7 @@ public class Segment {
     /**
      * <p>toString.</p>
      *
-     * @return a {@link java.lang.String} object
+     * @return un {@link java.lang.String} objet
      */
     public String toString() {
         String description = "Nom : " + this.nom + " longueur : " + this.longueur + " origine : "

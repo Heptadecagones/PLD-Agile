@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 import com.hexa17.pldagile.model.algo.Noeud;
 
 /**
- * <p>PlanUsine class.</p>
+ * <p>PlanUsine classe.</p>
  *
  * @author omi
  * @version $Id: $Id
@@ -32,36 +32,36 @@ public class PlanUsine {
     private Intersection entrepot; //Entrepôt généré par le fichier XML
 
     /**
-     * <p>modifierEntrepot.</p>
+     * <p>Modificateur Entrepot.</p>
      *
-     * @param entrepot a {@link com.hexa17.pldagile.model.Intersection} object
+     * @param entrepot un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public void modifierEntrepot(Intersection entrepot) {
         this.entrepot = entrepot;
     }
 
     /**
-     * <p>modifierListeIntersection.</p>
+     * <p>Modificateur ListeIntersection.</p>
      *
-     * @param listeIntersection a {@link java.util.ArrayList} object
+     * @param listeIntersection un {@link java.util.ArrayList} objet
      */
     public void modifierListeIntersection(ArrayList<Intersection> listeIntersection) {
         this.listeIntersection = listeIntersection;
     }
 
     /**
-     * <p>construirePlan.</p>
+     * <p>Construction du plan.</p>
      *
-     * @return a {@link com.hexa17.pldagile.model.Plan} object
+     * @return un {@link com.hexa17.pldagile.model.Plan} objet
      */
     public Plan construirePlan() {
         return new Plan(listeIntersection, listeSegment, entrepot, liensEntreNoeuds);
     }
 
     /**
-     * <p>modifierListeSegment.</p>
+     * <p>Modificateur ListeSegment.</p>
      *
-     * @param listeSegment a {@link java.util.ArrayList} object
+     * @param listeSegment un {@link java.util.ArrayList} objet
      */
     public void modifierListeSegment(ArrayList<Segment> listeSegment) {
         this.listeSegment = listeSegment;
@@ -81,8 +81,8 @@ public class PlanUsine {
     /**
      * <p>chargerXML.</p>
      *
-     * @param nomFichier a {@link java.lang.String} object
-     * @return a {@link java.util.ArrayList} object
+     * @param nomFichier un {@link java.lang.String} objet
+     * @return un {@link java.util.ArrayList} objet
      */
     //Retour d'une liste de livreur dans le cas où c'est un fichier sauvegardé,
     //la liste de livreur du planLivraison doit être celle du fichier.
@@ -264,27 +264,27 @@ public class PlanUsine {
     }
 
     /**
-     * <p>obtenirEntrepot.</p>
+     * <p>Accesseur Entrepot.</p>
      *
-     * @return a {@link com.hexa17.pldagile.model.Intersection} object
+     * @return un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public Intersection obtenirEntrepot() {
         return entrepot;
     }
 
     /**
-     * <p>obtenirListeIntersection.</p>
+     * <p>Accesseur ListeIntersection.</p>
      *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Intersection> obtenirListeIntersection() {
         return listeIntersection;
     }
 
     /**
-     * <p>obtenirListeSegment.</p>
+     * <p>Accesseur ListeSegment.</p>
      *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;

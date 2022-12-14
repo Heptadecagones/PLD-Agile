@@ -5,7 +5,7 @@ import com.hexa17.pldagile.model.algo.Noeud;
 //import java.util.ArrayList;
 
 /**
- * <p>Intersection class.</p>
+ * <p>Intersection classe.</p>
  *
  * @author Yannick, Hugo, Thibaut
  * @version $Id: $Id
@@ -34,9 +34,9 @@ public class Intersection extends Noeud {
     /**
      * <p>Constructeur pour Intersection.</p>
      *
-     * @param i a {@link java.lang.String} object
-     * @param longi a double
-     * @param lat a double
+     * @param i un {@link java.lang.String} objet
+     * @param longi un double
+     * @param lat un double
      */
     public Intersection(String i, double longi, double lat) {
         super(i);
@@ -45,36 +45,36 @@ public class Intersection extends Noeud {
     }
 
     /**
-     * <p>obtenirLongitude.</p>
-     *
-     * @return a double
+     * <p>Accesseur de longitude</p>
+     * 
+     * @return un double
      */
     public double obtenirLongitude() {
         return longitude;
     }
 
     /**
-     * <p>obtenirLatitude.</p>
+     * <p>Accesseur de latitude.</p>
      *
-     * @return a double
+     * @return un double
      */
     public double obtenirLatitude() {
         return latitude;
     }
 
     /**
-     * <p>modifierLongitude.</p>
+     * <p>Modificateur longitude.</p>
      *
-     * @param longi a double
+     * @param longi un double
      */
     public void modifierLongitude(double longi) {
         this.longitude = longi;
     }
 
     /**
-     * <p>modifierLatitude.</p>
+     * <p>Modificateur latitude.</p>
      *
-     * @param lat a double
+     * @param lat un double
      */
     public void modifierLatitude(double lat) {
         this.latitude = lat;

@@ -1,7 +1,7 @@
 package com.hexa17.pldagile.model;
 
 /**
- * <p>Livraison class.</p>
+ * <p>Livraison classe.</p>
  *
  * @author Yannick
  * @version $Id: $Id
@@ -24,15 +24,51 @@ public class Livraison {
     private Livreur livreur;
 
     /**
-     * <p>Constructor for Livraison.</p>
+     * <p>Constructeur pour Livraison.</p>
      */
     public Livraison() {
+
     }
+
+    /**
+     * <p>Constructeur pour Livraison.</p>
+     *
+     * @param horaire un int
+     * @param l un {@link com.hexa17.pldagile.model.Intersection} objet
+     * @param liv un {@link com.hexa17.pldagile.model.Livreur} objet
+     */
+    public Livraison(int horaire, Intersection l, Livreur liv) {
+
+        this.lieu = l;
+        this.livreur = liv;
+        this.heureLivraison = 0;
+        this.horaireLivraison = horaire;
+        this.valide = true;
+    }
+
+    /**
+     * <p>Constructeur pour Livraison.</p>
+     *
+     * @param heure un double
+     * @param horaire un int
+     * @param l un {@link com.hexa17.pldagile.model.Intersection} objet
+     * @param liv un {@link com.hexa17.pldagile.model.Livreur} objet
+     */
+    public Livraison(double heure,int horaire, Intersection l, Livreur liv) {
+
+        this.lieu = l;
+        this.livreur = liv;
+        this.heureLivraison = 0;
+        this.horaireLivraison = horaire;
+        this.heureLivraison=heure;
+        this.valide = (heureLivraison < horaireLivraison+1);
+    }
+
 
     /**
      * <p>toString.</p>
      *
-     * @return a {@link java.lang.String} object
+     * @return un {@link java.lang.String} objet
      */
     public String toString() {
         final long HH = (long)(this.heureLivraison);
@@ -48,87 +84,54 @@ public class Livraison {
     }
 
     /**
-     * <p>Constructor for Livraison.</p>
+     * <p>Accesseur lieu.</p>
      *
-     * @param horaire a int
-     * @param l a {@link com.hexa17.pldagile.model.Intersection} object
-     * @param liv a {@link com.hexa17.pldagile.model.Livreur} object
-     */
-    public Livraison(int horaire, Intersection l, Livreur liv) {
-
-        this.lieu = l;
-        this.livreur = liv;
-        this.heureLivraison = 0;
-        this.horaireLivraison = horaire;
-        this.valide = true;
-    }
-    /**
-     * <p>Constructor for Livraison.</p>
-     *
-     * @param heure a double
-     * @param horaire a int
-     * @param l a {@link com.hexa17.pldagile.model.Intersection} object
-     * @param liv a {@link com.hexa17.pldagile.model.Livreur} object
-     */
-    public Livraison(double heure,int horaire, Intersection l, Livreur liv) {
-
-        this.lieu = l;
-        this.livreur = liv;
-        this.heureLivraison = 0;
-        this.horaireLivraison = horaire;
-        this.heureLivraison=heure;
-        this.valide = (heureLivraison < horaireLivraison+1);
-    }
-
-    /**
-     * <p>obtenirLieu.</p>
-     *
-     * @return a {@link com.hexa17.pldagile.model.Intersection} object
+     * @return un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public Intersection obtenirLieu() {
         return lieu;
     }
 
     /**
-     * <p>obtenirLivreur.</p>
+     * <p>Accesseur livreur.</p>
      *
-     * @return a {@link com.hexa17.pldagile.model.Livreur} object
+     * @returnun{@link com.hexa17.pldagile.model.Livreur} objet
      */
     public Livreur obtenirLivreur() {
         return livreur;
     }
 
     /**
-     * <p>modifierLieu.</p>
+     * <p>Modificateur lieu.</p>
      *
-     * @param lieu a {@link com.hexa17.pldagile.model.Intersection} object
+     * @param lieu un {@link com.hexa17.pldagile.model.Intersection} objet
      */
     public void modifierLieu(Intersection lieu) {
         this.lieu = lieu;
     }
 
     /**
-     * <p>modifierLivreur.</p>
+     * <p>modificateru livreur.</p>
      *
-     * @param livreur a {@link com.hexa17.pldagile.model.Livreur} object
+     * @param livreur un {@link com.hexa17.pldagile.model.Livreur} objet
      */
     public void modifierLivreur(Livreur livreur) {
         this.livreur = livreur;
     }
 
     /**
-     * <p>obtenirHeureLivraison.</p>
+     * <p>Accesseur heure de livraison.</p>
      *
-     * @return a double
+     * @return un double
      */
     public double obtenirHeureLivraison() {
         return heureLivraison;
     }
 
     /**
-     * <p>modifierHeureLivraison.</p>
+     * <p>Modificateur heure de livraison.</p>
      *
-     * @param heureLivraison a double
+     * @param heureLivraison un double
      */
     public void modifierHeureLivraison(double heureLivraison) {
         this.valide = (heureLivraison < horaireLivraison+1);
@@ -136,36 +139,36 @@ public class Livraison {
     }
 
     /**
-     * <p>obtenirHoraireLivraison.</p>
+     * <p>Accesseur horaire de livraison.</p>
      *
-     * @return a int
+     * @return un int
      */
     public int obtenirHoraireLivraison() {
         return horaireLivraison;
     }
 
     /**
-     * <p>modifierHoraireLivraison.</p>
+     * <p>Modificateur horaire de livraison..</p>
      *
-     * @param horaireLivraison a int
+     * @param horaireLivraison un int
      */
     public void modifierHoraireLivraison(int horaireLivraison) {
         this.horaireLivraison = horaireLivraison;
     }
 
     /**
-     * <p>estValide.</p>
+     * <p>Accesseur validité.</p>
      *
-     * @return a boolean
+     * @returnunboolean
      */
     public boolean estValide() {
         return valide;
     }
 
     /**
-     * <p>modifierValide.</p>
+     * <p>Modificateur validité.</p>
      *
-     * @param valide a boolean
+     * @param valideunboolean
      */
     public void modifierValide(boolean valide) {
         this.valide = valide;

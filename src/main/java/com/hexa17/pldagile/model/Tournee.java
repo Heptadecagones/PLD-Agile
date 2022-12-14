@@ -3,7 +3,7 @@ package com.hexa17.pldagile.model;
 import java.util.ArrayList;
 
 /**
- * <p>Tournee class.</p>
+ * <p>Tournee classe.</p>
  *
  * @author Yannick
  * @version $Id: $Id
@@ -20,7 +20,7 @@ public class Tournee {
 
 
     /**
-     * <p>Constructor for Tournee.</p>
+     * <p>Constructeur pour Tournee.</p>
      */
     public Tournee() {
         this.listeSegment = new ArrayList<Segment>();
@@ -28,10 +28,10 @@ public class Tournee {
     }
 
     /**
-     * <p>Constructor for Tournee.</p>
+     * <p>Constructeur pour Tournee.</p>
      *
-     * @param listeSegment a {@link java.util.ArrayList} object
-     * @param listeLivraison a {@link java.util.ArrayList} object
+     * @param listeSegment un {@link java.util.ArrayList} objet
+     * @param listeLivraison un {@link java.util.ArrayList} objet
      */
     public Tournee(ArrayList<Segment> listeSegment, ArrayList<Livraison> listeLivraison) {
         this.listeSegment = listeSegment;
@@ -41,45 +41,36 @@ public class Tournee {
     
 
     /**
-     * <p>obtenirListeSegment.</p>
+     * <p>AccesseurListeSegment.</p>
      *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Segment> obtenirListeSegment() {
         return listeSegment;
     }
 
     /**
-     * <p>modifierListeSegment.</p>
+     * <p>Modificateur ListeSegment.</p>
      *
-     * @param listeSegment a {@link java.util.ArrayList} object
+     * @param listeSegment un {@link java.util.ArrayList} objet
      */
     public void modifierListeSegment(ArrayList<Segment> listeSegment) {
         this.listeSegment = listeSegment;
     }
 
     /**
-     * <p>ajouterSegment.</p>
+     * <p>Accesseur ListeLivraison.</p>
      *
-     * @param seg a {@link com.hexa17.pldagile.model.Segment} object
-     */
-    public void ajouterSegment(Segment seg) {
-        this.listeSegment.add(seg);
-    }
-
-    /**
-     * <p>obtenirListeLivraison.</p>
-     *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Livraison> obtenirListeLivraison() {
         return listeLivraison;
     }
 
     /**
-     * <p>modifierListeLivraison.</p>
+     * <p>Modificateur ListeLivraison.</p>
      *
-     * @param listeLivraison a {@link java.util.ArrayList} object
+     * @param listeLivraison un {@link java.util.ArrayList} objet
      */
     public void modifierListeLivraison(ArrayList<Livraison> listeLivraison) {
         this.listeLivraison = listeLivraison;
@@ -88,7 +79,7 @@ public class Tournee {
     /**
      * <p>toString.</p>
      *
-     * @return a {@link java.lang.String} object
+     * @return un {@link java.lang.String} objet
      */
     public String toString() {
         String description = "Liste des segments :\n";

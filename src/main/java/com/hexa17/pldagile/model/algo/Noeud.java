@@ -13,22 +13,22 @@ public class Noeud {
     protected String id;
 
     /*
-     * A chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
+     * un chaque Noeud correspond le plus court chemin (ArrayList<Segment>) et
      * le coût pour aller à ce noeud (Double) stockée dans Lien
      */
     protected Map<Noeud, Lien> arborescence;
 
     /**
-     * <p>Constructor for Noeud.</p>
+     * <p>Constructeur pour Noeud.</p>
      */
     public Noeud() {
 
     }
 
     /**
-     * <p>Constructor for Noeud.</p>
+     * <p>Constructeur pour Noeud.</p>
      *
-     * @param id a {@link java.lang.String} object
+     * @param id un {@link java.lang.String} objet
      */
     public Noeud(String id) {
         this.id = id;
@@ -37,9 +37,9 @@ public class Noeud {
 
     // Constructeur par copie
     /**
-     * <p>Constructor for Noeud.</p>
+     * <p>Constructeur pour Noeud.</p>
      *
-     * @param n a {@link com.hexa17.pldagile.model.algo.Noeud} object
+     * @param n un {@link com.hexa17.pldagile.model.algo.Noeud} objet
      */
     public Noeud(Noeud n) {
         this.id = n.obtenirId();
@@ -47,27 +47,27 @@ public class Noeud {
     }
 
     /**
-     * <p>obtenirId.</p>
+     * <p>Accesseur Id.</p>
      *
-     * @return a {@link java.lang.String} object
+     * @return un {@link java.lang.String} objet
      */
     public String obtenirId() {
         return id;
     }
 
     /**
-     * <p>obtenirArborescence.</p>
+     * <p>Accesseur Arborescence.</p>
      *
-     * @return a {@link java.util.Map} object
+     * @return un {@link java.util.Map} objet
      */
     public Map<Noeud, Lien> obtenirArborescence() {
         return arborescence;
     }
 
     /**
-     * <p>modifierArborescence.</p>
+     * <p>Modificateur Arborescence.</p>
      *
-     * @param arbo a {@link java.util.Map} object
+     * @param arbo un {@link java.util.Map} objet
      */
     public void modifierArborescence(Map<Noeud, Lien> arbo) {
         this.arborescence = arbo;

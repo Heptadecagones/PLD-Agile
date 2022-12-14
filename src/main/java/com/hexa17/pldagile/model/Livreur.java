@@ -3,7 +3,7 @@ package com.hexa17.pldagile.model;
 import java.util.ArrayList;
 
 /**
- * <p>Livreur class.</p>
+ * <p>Livreur classe.</p>
  *
  * @author Yannick
  * @version $Id: $Id
@@ -17,10 +17,10 @@ public class Livreur {
     private String nom;
 
     /**
-     * <p>Constructor for Livreur.</p>
+     * <p>Constructeur pour Livreur.</p>
      *
-     * @param id a int
-     * @param nom a {@link java.lang.String} object
+     * @param id un int
+     * @param nom un {@link java.lang.String} objet
      */
     public Livreur(int id,String nom) {
         this.id = id;
@@ -31,11 +31,11 @@ public class Livreur {
     }
 
     /**
-     * <p>Constructor for Livreur.</p>
+     * <p>Constructeur pour Livreur.</p>
      *
-     * @param id a int
-     * @param nom a {@link java.lang.String} object
-     * @param disponbilite a boolean
+     * @param id un int
+     * @param nom un {@link java.lang.String} objet
+     * @param disponbilite un boolean
      */
     public Livreur(int id,String nom, boolean disponibilite) {
         this.id = id;
@@ -46,78 +46,88 @@ public class Livreur {
     }
 
     /**
-     * <p>obtenirId.</p>
+     * <p>Accesseur Id.</p>
      *
-     * @return a int
+     * @return un int
      */
     public int obtenirId() {
         return id;
     }
     /**
-     * <p>obtenirNom.</p>
+     * <p>Accesseur nom.</p>
      *
-     * @return a {@link java.lang.String} object
+     * @return un {@link java.lang.String} objet
      */
     public String obtenirNom() {
         return nom;
     }
     /**
-     * <p>modifierNom.</p>
+     * <p>Modificateur nom.</p>
      *
-     * @param nom a {@link java.lang.String} object
+     * @param nom un {@link java.lang.String} objet
      */
     public void modifierNom(String nom) {
         this.nom=nom;
     }
     /**
-     * <p>modifierId.</p>
+     * <p>modificateur id.</p>
      *
-     * @param id a int
+     * @param id un int
      */
     public void modifierId(int id) {
         this.id = id;
     }
 
     /**
-     * <p>estDisponible.</p>
+     * <p>Accesseur disponibilité.</p>
      *
-     * @return a boolean
+     * @return un boolean
      */
     public boolean estDisponible() {
         return disponibilite;
     }
 
     /**
-     * <p>modifierDisponibilite.</p>
+     * <p>Modificateur disponibilité.</p>
      *
-     * @param disponbilite a boolean
+     * @param disponbilite un boolean
      */
     public void modifierDisponibilite(boolean disponbilite) {
         this.disponibilite = disponbilite;
     }
 
     /**
-     * <p>obtenirLivraisons.</p>
+     * <p>Accesseur livraisons.</p>
      *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Livraison> obtenirLivraisons() {
         return livraisons;
     }
 
     /**
-     * <p>modifierLivraisons.</p>
+     * <p>Modificateur livraisons.</p>
      *
-     * @param livraisons a {@link java.util.ArrayList} object
+     * @param livraisons un {@link java.util.ArrayList} objet
      */
     public void modifierLivraisons(ArrayList<Livraison> livraisons) {
         this.livraisons = livraisons;
     }
 
+    
     /**
-     * <p>modifierTournee.</p>
+     * <p>Accesseur tournée.</p>
      *
-     * @param tournee a {@link com.hexa17.pldagile.model.Tournee} object
+     * @return un {@link com.hexa17.pldagile.model.Tournee} objet
+     */
+    public Tournee obtenirTournee() {
+        return tournee;
+    }
+
+    /**
+     * <p>Modificateur tournée.</p>
+     *
+     * @param tournee un {@link com.hexa17.pldagile.model.Tournee} objet 
      */
     public void modifierTournee(Tournee tournee) {
         this.tournee = tournee;
@@ -126,7 +136,7 @@ public class Livreur {
     /**
      * <p>toString.</p>
      *
-     * @return a {@link java.lang.String} object
+     * @return un {@link java.lang.String} objet
      */
     public String toString() {
         String description = "id: " + this.id + " dispo: " + this.disponibilite + " ";
@@ -134,14 +144,5 @@ public class Livreur {
             description += " livraison: " + l;
         }
         return description;
-    }
-
-    /**
-     * <p>obtenirTournee.</p>
-     *
-     * @return a {@link com.hexa17.pldagile.model.Tournee} object
-     */
-    public Tournee obtenirTournee() {
-        return tournee;
     }
 }

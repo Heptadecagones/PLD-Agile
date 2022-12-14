@@ -15,12 +15,12 @@ public class Lien {
     private ArrayList<Segment> listeSegment;
     private double poids;
 
-    // On a un passage de référence pour listeSegment, pas de copie
+    // On un un passage de référence pour listeSegment, pas de copie
     /**
-     * <p>Constructor for Lien.</p>
+     * <p>Constructeur pour Lien.</p>
      *
-     * @param listeSegment a {@link java.util.ArrayList} object
-     * @param poids a double
+     * @param listeSegment un {@link java.util.ArrayList} objet
+     * @param poids un double
      */
     public Lien(ArrayList<Segment> listeSegment, double poids) {
         this.listeSegment = listeSegment;
@@ -29,9 +29,9 @@ public class Lien {
 
     // Equivalent de getFirst()
     /**
-     * <p>obtenirChemin.</p>
+     * <p>Accesseur Chemin.</p>
      *
-     * @return a {@link java.util.ArrayList} object
+     * @return un {@link java.util.ArrayList} objet
      */
     public ArrayList<Segment> obtenirChemin() {
         return listeSegment;
@@ -39,27 +39,27 @@ public class Lien {
 
     // Equivalent de getSecond()
     /**
-     * <p>obtenirPoids.</p>
+     * <p>Accesseur Poids.</p>
      *
-     * @return a double
+     * @return un double
      */
     public double obtenirPoids() {
         return poids;
     }
 
     /**
-     * <p>modifierChemin.</p>
+     * <p>Modificateur Chemin.</p>
      *
-     * @param listeSeg a {@link java.util.ArrayList} object
+     * @param listeSeg un {@link java.util.ArrayList} objet
      */
     public void modifierChemin(ArrayList<Segment> listeSeg) {
         this.listeSegment = listeSeg;
     }
 
     /**
-     * <p>modifierPoids.</p>
+     * <p>Modificateur Poids.</p>
      *
-     * @param poids a double
+     * @param poids un double
      */
     public void modifierPoids(double poids) {
         this.poids = poids;
