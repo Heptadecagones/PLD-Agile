@@ -10,6 +10,7 @@ import com.hexa17.pldagile.controller.PlanLivraison;
 import com.hexa17.pldagile.model.Intersection;
 import com.hexa17.pldagile.model.Livraison;
 import com.hexa17.pldagile.model.Livreur;
+import com.hexa17.pldagile.model.algo.Solveur;
 
 public class TabuTest {
     static PlanLivraison pl;
@@ -17,6 +18,8 @@ public class TabuTest {
     @BeforeAll
     public static void init() {
         TabuTest.pl = new PlanLivraison("data/mediumMap.xml");
+        Solveur s = new Solveur(pl.obtenirPlan());
+
     }
 
     // Test unitaire de la méthode invoquer()
@@ -55,5 +58,4 @@ public class TabuTest {
         TabuAlgo algo = new TabuAlgo(livraisons);
         algo.invoquer();
     }
-
 }
