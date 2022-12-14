@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import com.hexa17.pldagile.model.Intersection;
 
 import com.hexa17.pldagile.model.Plan;
-import com.hexa17.pldagile.model.PlanLivraison;
+import com.hexa17.pldagile.controller.PlanLivraison;
 
 
 public class SolveurTest {

@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.hexa17.pldagile.model.Livreur;
-import com.hexa17.pldagile.model.PlanLivraison;
 import com.hexa17.pldagile.view.IHM;
 
 import java.awt.event.MouseListener;

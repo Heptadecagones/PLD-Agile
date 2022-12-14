@@ -29,7 +29,7 @@ public class Barre extends JPanel {
     /**
      * <p>modifierSauvegarder.</p>
      *
-     * @param Sauvegarder a {@link javax.swing.JButton} object
+     * @param Sauvegarder objet {@link javax.swing.JButton} 
      */
     public void modifierSauvegarder(JButton Sauvegarder) {
         this.sauvegarder = Sauvegarder;
@@ -38,7 +38,7 @@ public class Barre extends JPanel {
     /**
      * <p>modifierCharger.</p>
      *
-     * @param Charger a {@link javax.swing.JButton} object
+     * @param Charger objet {@link javax.swing.JButton} 
      */
     public void modifierCharger(JButton Charger) {
         this.charger = Charger;
@@ -47,7 +47,7 @@ public class Barre extends JPanel {
     /**
      * <p>modifierChargerTournee.</p>
      *
-     * @param chargerTournee a {@link javax.swing.JButton} object
+     * @param chargerTournee objet {@link javax.swing.JButton} 
      */
     public void modifierChargerTournee(JButton chargerTournee) {
         this.chargerTournee = chargerTournee;
@@ -56,7 +56,7 @@ public class Barre extends JPanel {
     /**
      * <p>modifierAjouterLivreur.</p>
      *
-     * @param ajouterLivreur a {@link javax.swing.JButton} object
+     * @param ajouterLivreur objet {@link javax.swing.JButton} 
      */
     public void modifierAjouterLivreur(JButton ajouterLivreur) {
         this.ajouterLivreur = ajouterLivreur;
@@ -65,7 +65,7 @@ public class Barre extends JPanel {
     /**
      * <p>obtenirSauvegarder.</p>
      *
-     * @return a {@link javax.swing.JButton} object
+     * @return objet {@link javax.swing.JButton} object
      */
     public JButton obtenirSauvegarder() {
         return sauvegarder;
@@ -74,7 +74,7 @@ public class Barre extends JPanel {
     /**
      * <p>obtenirCharger.</p>
      *
-     * @return a {@link javax.swing.JButton} object
+     * @return objet {@link javax.swing.JButton} 
      */
     public JButton obtenirCharger() {
         return charger;
@@ -83,7 +83,7 @@ public class Barre extends JPanel {
     /**
      * <p>obtenirChargerTournee.</p>
      *
-     * @return a {@link javax.swing.JButton} object
+     * @return objet {@link javax.swing.JButton} 
      */
     public JButton obtenirChargerTournee() {
         return chargerTournee;
@@ -92,14 +92,14 @@ public class Barre extends JPanel {
     /**
      * <p>obtenirAjouterLivreur.</p>
      *
-     * @return a {@link javax.swing.JButton} object
+     * @returner objet {@link javax.swing.JButton} 
      */
     public JButton obtenirAjouterLivreur() {
         return ajouterLivreur;
     }
 
     /**
-     * <p>Constructor for Barre.</p>
+     * <p>Constructeur pour Barre.</p>
      */
     public Barre() {
     }
