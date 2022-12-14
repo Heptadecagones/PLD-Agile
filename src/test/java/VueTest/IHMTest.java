@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
@@ -20,9 +19,6 @@ public class IHMTest {
             AWTException, InterruptedException {
         System.out.println("testIHM");
         Controleur c = new Controleur();
-
-        int keyInput[] = { KeyEvent.VK_J, KeyEvent.VK_A, KeyEvent.VK_V,
-                KeyEvent.VK_A, KeyEvent.VK_SPACE };
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 

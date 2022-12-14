@@ -37,7 +37,7 @@ public class Livreur {
      * @param nom a {@link java.lang.String} object
      * @param disponbilite a boolean
      */
-    public Livreur(int id,String nom, boolean disponbilite) {
+    public Livreur(int id,String nom, boolean disponibilite) {
         this.id = id;
         this.disponibilite = disponibilite;
         this.livraisons = new ArrayList<Livraison>();

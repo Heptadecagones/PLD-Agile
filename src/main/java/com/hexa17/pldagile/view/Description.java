@@ -1,7 +1,6 @@
 package com.hexa17.pldagile.view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
