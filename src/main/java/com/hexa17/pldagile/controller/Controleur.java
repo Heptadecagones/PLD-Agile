@@ -13,22 +13,12 @@ import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.PlanLivraison;
 import com.hexa17.pldagile.view.IHM;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.Observer;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import com.hexa17.pldagile.model.Intersection;
 import com.hexa17.pldagile.model.Livraison;
-import com.hexa17.pldagile.model.Livreur;
-import com.hexa17.pldagile.model.PlanLivraison;
-import com.hexa17.pldagile.view.IHM;
 
 /**
  * <p>Controleur class.</p>
