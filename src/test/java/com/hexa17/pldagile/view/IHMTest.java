@@ -1,4 +1,4 @@
-package VueTest;
+package com.hexa17.pldagile.view;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

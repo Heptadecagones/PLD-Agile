@@ -16,14 +16,14 @@ import com.hexa17.pldagile.model.Livraison;
  * @author omi
  * @version $Id: $Id
  */
-public class TabuSearch {
+public class TabuAlgo {
 
     private TabuListe listeTabu; // Liste tabou
     private Matrice matrix; // Matrice d'adjacence
 
     int[] soluceActuelle; // Solution actuelle
     int numberOfIterations; // Nombre maximal d'itérations
-    int problemSize; // Taille du problème
+    int tailleProbleme; // Taille du problème
     int horaireMinimale;
 
     private Map<Livraison, Integer> places;
@@ -38,7 +38,7 @@ public class TabuSearch {
      *
      * @param livraisons a {@link java.util.ArrayList} object
      */
-    public TabuSearch(ArrayList<Livraison> livraisons) {
+    public TabuAlgo(ArrayList<Livraison> livraisons) {
 
         int minLiv = 24;
         for (Livraison liv : livraisons) {
@@ -49,10 +49,20 @@ public class TabuSearch {
         this.horaireMinimale = minLiv;
         this.places = new HashMap<>();
         this.matrix = livraisonsVersMatrice(livraisons);
-        this.problemSize = matrix.getNbAretes();
-        this.numberOfIterations = problemSize * 10; // ?
-        this.listeTabu = new TabuListe(problemSize);
+        this.tailleProbleme = matrix.obtenirNbAretes();
+        this.numberOfIterations = tailleProbleme * 10; // ?
+        this.listeTabu = new TabuListe(tailleProbleme);
 
+        initSolutionActuelle();
+        initMeilleureSolution();
+    }
+
+    public TabuAlgo(Matrice matrice) {
+        this.matrix = matrice;
+        this.tailleProbleme = matrice.obtenirNbAretes();
+        this.numberOfIterations = tailleProbleme * 10;
+
+        this.listeTabu = new TabuListe(tailleProbleme);
         initSolutionActuelle();
         initMeilleureSolution();
     }
@@ -122,7 +132,7 @@ public class TabuSearch {
      * </p>
      */
     private void initMeilleureSolution() {
-        meilleureSoluce = new int[problemSize + 1];
+        meilleureSoluce = new int[tailleProbleme + 1];
         System.arraycopy(soluceActuelle, 0, meilleureSoluce, 0, meilleureSoluce.length);
         meilleurCout = matrix.calculerDistance(meilleureSoluce);
     }
@@ -133,10 +143,10 @@ public class TabuSearch {
      * </p>
      */
     private void initSolutionActuelle() {
-        soluceActuelle = new int[problemSize + 1];
-        for (int i = 0; i < problemSize; i++)
+        soluceActuelle = new int[tailleProbleme + 1];
+        for (int i = 0; i < tailleProbleme; i++)
             soluceActuelle[i] = i;
-        soluceActuelle[problemSize] = 0;
+        soluceActuelle[tailleProbleme] = 0;
     }
 
     /**
@@ -172,8 +182,6 @@ public class TabuSearch {
                 listeTabu.tabuDeplacer(ville1, ville2);
             }
         }
-
-        System.out.println("[TABU] Meilleure solution: " + meilleurCout);
 
         return meilleureSoluce;
     }

@@ -40,7 +40,7 @@ public class Matrice {
      *
      * @return un int
      */
-    public int getNbAretes() {
+    public int obtenirNbAretes() {
         return nbAretes;
     }
 

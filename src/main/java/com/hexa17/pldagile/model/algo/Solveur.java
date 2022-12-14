@@ -13,7 +13,7 @@ import com.hexa17.pldagile.model.Livreur;
 import com.hexa17.pldagile.model.Plan;
 import com.hexa17.pldagile.model.Segment;
 import com.hexa17.pldagile.model.Tournee;
-import com.hexa17.pldagile.model.algo.tabu.TabuSearch;
+import com.hexa17.pldagile.model.algo.tabu.TabuAlgo;
 
 /**
  * <p>Classe Solveur
@@ -188,7 +188,7 @@ tôt possible </p>
 
         // Calcule le meilleur trajet
 
-        TabuSearch tabu = new TabuSearch(destinations);
+        TabuAlgo tabu = new TabuAlgo(destinations);
         Livraison[] ordreLivraison = tabu.soluceEnLivraisons();
 
         ArrayList<Segment> listeSegment = new ArrayList<Segment>();
