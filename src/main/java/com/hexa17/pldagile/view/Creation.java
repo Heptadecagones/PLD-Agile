@@ -25,7 +25,7 @@ import javax.swing.border.TitledBorder;
 
 import com.hexa17.pldagile.model.Intersection;
 import com.hexa17.pldagile.model.Livreur;
-import com.hexa17.pldagile.model.PlanLivraison;
+import com.hexa17.pldagile.controller.PlanLivraison;
 
 /**
  * <p>Creation class.</p>
