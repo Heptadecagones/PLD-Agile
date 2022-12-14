@@ -14,11 +14,11 @@ import com.hexa17.pldagile.model.algo.Solveur;
 
 public class TabuTest {
     static PlanLivraison pl;
-
+    static Solveur solveur;
     @BeforeAll
     public static void init() {
         TabuTest.pl = new PlanLivraison("data/mediumMap.xml");
-        Solveur s = new Solveur(pl.obtenirPlan());
+        TabuTest.solveur = new Solveur(pl.obtenirPlan());
 
     }
 
@@ -43,6 +43,7 @@ public class TabuTest {
         for (int i = 0; i < nbLivr; i++) {
             int horaire = (int) (Math.random() * nbLivr);
             Intersection lieu = obtenirInterAleatoire();
+            solveur.calculerArborescenceDepuisNoeud(lieu);
             livraisons.add(new Livraison(horaire, lieu, livreur));
         }
 
