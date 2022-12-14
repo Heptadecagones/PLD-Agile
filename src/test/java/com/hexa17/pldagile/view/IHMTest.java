@@ -17,7 +17,6 @@ public class IHMTest {
     @Test
     public void nouvelleLivraison() throws IOException,
             AWTException, InterruptedException {
-        System.out.println("testIHM");
         Controleur c = new Controleur();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

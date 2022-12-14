@@ -29,7 +29,7 @@ import com.hexa17.pldagile.model.*;
  * Carte class.
  * </p>
  *
- * @author omi
+ * @author equipe IHM
  * @version $Id: $Id
  */
 @SuppressWarnings("serial")
@@ -189,6 +189,15 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
     // MISE À JOUR AU CHANGEMENT DES DONNÉES DU MODÈLE
     /** {@inheritDoc} */
+     /**
+     * <p>
+     * update
+     * </p>
+     *
+     * @autor equipe IHM
+     * @description méthode appelée par lors du notifyObserver dans la parite modèle
+     * @param arg0 a {@link com.hexa17.pldagile.controleur.PlanLivraison} object
+     */
     @Override
     public void update(Observable arg0, Object arg1) {
         PlanLivraison planLivraison = (PlanLivraison) arg0;
@@ -309,6 +318,15 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
     // PAINT DE LA CARTE
     /** {@inheritDoc} */
+     /**
+     * <p>
+     * update
+     * </p>
+     *
+     * @autor equipe IHM
+     * @description méthode appelée à chaque fois qu'on a une modification a montrer sur la carte
+     * @param g a {Graphics} object
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -607,7 +625,7 @@ public class Carte extends JPanel implements Observer, MouseWheelListener, Mouse
 
     /**
      * <p>
-     * récuperre les cliques sur la carte.
+     * récuperre les paramètres des cliques sur la carte et cherche l'intersection la plus proche.
      * </p>
      *
      * @param e a {@link java.awt.event.MouseEvent} object

@@ -33,6 +33,14 @@ public class Controleur {
     /**
      * Constructeur qui initialise un plan et une vue
      */
+    /**
+     * <p>
+     * Controleur
+     * </p>
+     *
+     * @autor Henri
+     * @description constructeur du controleur
+    */
     public Controleur() {
         view = new IHM();
         view.init();
@@ -40,7 +48,14 @@ public class Controleur {
         planLivraison.addObserver((Observer) view.obtenirCarte());
         planLivraison.addObserver((Observer) view.obtenirDescription());
         ActionListener c = new ActionListener() {
-
+                /**
+                * <p>
+                * actionPerformed
+                * </p>
+                *
+                * @autor Henri
+                * @description actionPerformed pour les boutons de l'IHM
+                */
             public void actionPerformed(ActionEvent arg0) {
                 String command = arg0.getActionCommand();
                 
@@ -74,13 +89,13 @@ public class Controleur {
                     planLivraison.nouvelleLivraison(view.obtenirFenetreCreation().obtenirTextHoraire(),
                             view.obtenirFenetreCreation().obtenirIntersection(),
                             view.obtenirFenetreCreation().obtenirTextLivreur().split(";")[0]);
-                    System.out.println("Creer cliqué");
+                    //System.out.println("Creer cliqué");
                     view.obtenirDescription().modifierTitle("Fin");
                 }
                 if("Sauvegarder".equals(command)){
                     String nom = JOptionPane.showInputDialog(new JFrame(), "Nommer fichier", null);
                     planLivraison.sauvegarder(nom);
-                    System.out.println("sauvegarder cliqué");
+                    //System.out.println("sauvegarder cliqué");
                 }
 
 
@@ -127,6 +142,14 @@ public class Controleur {
         };
 
         MouseListener m = new MouseListener() {
+                            /**
+                * <p>
+                * mouseClicked
+                * </p>
+                *
+                * @autor Henri
+                * @description mouseClicked pour les actions sur la carte
+                */
             @Override
             public void mouseClicked(MouseEvent e) {
                 view.obtenirDescription().obtenirSupprimerLivraison().setVisible(false);   
@@ -164,7 +187,7 @@ public class Controleur {
             }
         };
 
-
+        //liaisons entre les composants de l'ihm et les actionPerformed
         this.view.obtenirBarre().obtenirCharger().addActionListener(c);
         this.view.obtenirFenetreCreation()
                 .obtenirBtnCreerLivraison().addActionListener(c);
@@ -174,15 +197,15 @@ public class Controleur {
         this.view.obtenirDescription().obtenirSupprimerLivraison().addActionListener(c);
         this.view.obtenirBarre().obtenirChargerTournee().addActionListener(c);
         this.view.obtenirBarre().obtenirAjouterLivreur().addActionListener(c);
-
+        //click sur une livraison dans la description
         this.view.obtenirDescription().obtenirBtnList().addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 JList list = (JList)evt.getSource();
                 view.obtenirDescription().obtenirSupprimerLivraison().setVisible(true);   
                 int index = list.locationToIndex(evt.getPoint());
-                System.out.println(index);
+                //System.out.println(index);
                 view.obtenirDescription().modifierChoixLivraison((Livraison)view.obtenirDescription().obtenirBtnList().getSelectedValue());
-                System.out.println("test+ "+view.obtenirDescription().obtenirBtnList().getSelectedValue());
+                //System.out.println("test+ "+view.obtenirDescription().obtenirBtnList().getSelectedValue());
                 view.obtenirCarte().modifierLivraisonClickee((Livraison)view.obtenirDescription().obtenirBtnList().getSelectedValue());
                 view.obtenirCarte().repaint();
             }
