@@ -210,7 +210,7 @@ public class TabuAlgo {
      * @param <K> a K class
      * @return a {@link java.util.Map} object
      */
-    public static <V, K> Map<V, K> inverser(Map<K, V> map) {
+    private static <V, K> Map<V, K> inverser(Map<K, V> map) {
         return map.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Entry::getValue, Entry::getKey));

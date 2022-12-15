@@ -45,32 +45,12 @@ public class Matrice {
     }
 
     /**
-     * <p>Getter pour le poids d'un déplacement.</p>
-     *
-     * @param from a int
-     * @param to a int
-     * @return a double
-     */
-    public double getWeight(int from, int to) {
-        return matrice[from][to];
-    }
-
-    /**
-     * <p>Getter pour le champ <code>matrice</code>.</p>
-     *
-     * @return une liste de {@link double} 
-     */
-    public double[][] getMatrice() {
-        return matrice;
-    }
-
-    /**
      * Calcule la distance totale d'une solution
      *
      * @param solution an array of {@link int} objects
      * @return la distance entière
      */
-    public int calculerDistance(int solution[]) {
+    int calculerDistance(int solution[]) {
         int cout = 0;
         for (int i = 0; i < solution.length - 1; i++) {
             cout += matrice[solution[i]][solution[i + 1]];
@@ -83,7 +63,7 @@ public class Matrice {
      *
      * @param taille, un int
      */
-    private void generateMatrix(int taille) {
+    void generateMatrix(int taille) {
         Random alea = new Random();
         for (int ligne = 0; ligne < taille; ligne++) {
             for (int col = 0; col < taille; col++) {

@@ -78,7 +78,7 @@ public class PlanUsine {
      * Init les données / Reinit les données de l'ancienne carte
      * Utilisée quand l'utilisateur charge une nouvelle carte
      */
-    public void init() {
+    void init() {
         entrepot = new Intersection();
         listeIntersection = new ArrayList<Intersection>();
         listeSegment = new ArrayList<Segment>();

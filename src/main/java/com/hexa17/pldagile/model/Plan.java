@@ -43,24 +43,6 @@ public class Plan extends Graphe {
     }
 
     /**
-     * <p>Accesseur NombreIntersection.</p>
-     *
-     * @return un long
-     */
-    public long obtenirNombreIntersection() {
-        return listeIntersection.size();
-    }
-
-    /**
-     * <p>Accesseur NombreSegment.</p>
-     *
-     * @return un long
-     */
-    public long obtenirNombreSegment() {
-        return listeSegment.size();
-    }
-
-    /**
      * <p>Accesseur ListeIntersection.</p>
      *
      * @return un {@link java.util.ArrayList} objet

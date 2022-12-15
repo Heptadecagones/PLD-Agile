@@ -30,7 +30,7 @@ public class SolveurTest {
     public Noeud obtenirNoeudAleatoire()
     {
         Plan plan = planLivraison.obtenirPlan();
-        int index = (int) (Math.random() * (plan.obtenirNombreIntersection()+1));
+        int index = (int) (Math.random() * (plan.obtenirListeIntersection().size()+1));
         return plan.obtenirListeIntersection().get(index);
     }
 
